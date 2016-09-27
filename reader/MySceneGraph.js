@@ -97,4 +97,17 @@ MySceneGraph.prototype.onXMLError=function (message) {
 	this.loadedOk=false;
 };
 
+MySceneGraph.prototype.getRGBA = function(element, required) {
+	var r = this.reader.getFloat(element, 'r', required);
+	var g = this.reader.getFloat(element, 'g', required);
+	var b = this.reader.getFloat(element, 'b', required);
+	var a = this.reader.getFloat(element, 'a', required);
+	return vec4.fromValues(r, g, b, a)
+}
 
+MySceneGraph.prototype.getXYZ = function(element, required) {
+	var x = this.reader.getFloat(element, 'x', required);
+	var y = this.reader.getFloat(element, 'y', required);
+	var z = this.reader.getFloat(element, 'z', required);
+	return vec3.fromValues(x, y, z);
+}
