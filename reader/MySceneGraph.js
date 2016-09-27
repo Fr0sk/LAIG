@@ -46,6 +46,7 @@ MySceneGraph.prototype.onXMLReady=function()
 MySceneGraph.prototype.parseData= function(rootElement) {
 	this.parseScene(rootElement);
 	this.parseViews(rootElement);
+	this.parseIllumination(rootElement);
 }
 
 /*
@@ -86,6 +87,23 @@ MySceneGraph.prototype.parseViews = function(rootElement) {
 		// TODO: orthographic cameras
 	}
 }
+
+/*
+ * Illumination
+ */
+MySceneGraph.prototype.parseIllumination = function(rootElement) {
+	var illumination = rootElement.getElementsByTagName("illumination")[0];
+	var i_ambient = illumination.getElementsByTagName('ambient')[0];
+	var i_background = illumination.getElementsByTagName('background')[0];
+	var i_ambientValue = this.getRGBA(i_ambient, true);
+	var i_backgroundValue = this.getRGBA(i_background, true);
+
+	// Setup
+	this.setGlobalAmbientLight = i_ambientValue;
+	this.background = i_backgroundValue;
+}
+
+/*
  * Example of method that parses elements of one block and stores information in a specific data structure
  */
 MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
