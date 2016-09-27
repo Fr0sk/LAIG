@@ -69,7 +69,6 @@ MySceneGraph.prototype.parseViews = function(rootElement) {
 	// Perspective
 	{
 		var perspCams = views.getElementsByTagName('perpective');
-		var cams = [];
 		for (var i = 0; i < perspCams.length; i++) {
 			var near = this.reader.getFloat(perspCams[i], 'near', true);
 			var far = this.reader.getFloat(perspCams[i], 'far', true);
