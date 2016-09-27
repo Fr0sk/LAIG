@@ -25,7 +25,7 @@ XMLscene.prototype.init = function (application) {
 };
 
 XMLscene.prototype.initLights = function () {
-
+	
 	this.lights[0].setPosition(2, 3, 3, 1);
     this.lights[0].setDiffuse(1.0,1.0,1.0,1.0);
     this.lights[0].update();
@@ -55,6 +55,14 @@ XMLscene.prototype.onGraphLoaded = function ()
 
 	this.lights[0].setVisible(true);
     this.lights[0].enable();
+
+	// TODO: Lights not working when adding to scene (Probably scene limit)
+	//this.lights[0].disable();
+	for (var i = 0; i < this.graph.omniLights.length; i++)
+		this.lights[i + 1] = this.graph.omniLights[i];
+	for (var i = 0; i < this.graph.spotLights.length; i++) 
+		this.lights[this.graph.omniLights.length + i + 1] = this.graph.spotLights[i];
+	this.lights[1] = this.graph.omniLights[0];
 };
 
 XMLscene.prototype.display = function () {
