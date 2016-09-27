@@ -44,8 +44,17 @@ MySceneGraph.prototype.onXMLReady=function()
  * Parse the data to the scene
  */
 MySceneGraph.prototype.parseData= function(rootElement) {
+	this.parseScene(rootElement);
 }
 
+/*
+ * Scene
+ */
+MySceneGraph.prototype.parseScene = function(rootElement) {
+	var scene = rootElement.getElementsByTagName('scene')[0];
+	var s_axisLength = this.reader.getFloat(scene, 'axis_length', true)
+	this.axis = new CGFaxis(this.scene, s_axisLength, 0.2);	
+}
 
 /*
  * Example of method that parses elements of one block and stores information in a specific data structure
