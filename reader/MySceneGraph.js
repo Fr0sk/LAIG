@@ -27,7 +27,7 @@ MySceneGraph.prototype.onXMLReady=function()
 	var rootElement = this.reader.xmlDoc.documentElement;
 	
 	// Here should go the calls for different functions to parse the various blocks
-	var error = this.parseGlobalsExample(rootElement);
+	var error = this.parseData(rootElement); //this.parseGlobalsExample(rootElement);
 
 	if (error != null) {
 		this.onXMLError(error);
@@ -40,6 +40,11 @@ MySceneGraph.prototype.onXMLReady=function()
 	this.scene.onGraphLoaded();
 };
 
+/*
+ * Parse the data to the scene
+ */
+MySceneGraph.prototype.parseData= function(rootElement) {
+}
 
 
 /*
@@ -82,13 +87,11 @@ MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
 		this.list[e.id]=e.attributes.getNamedItem("coords").value;
 		console.log("Read list item id "+ e.id+" with value "+this.list[e.id]);
 	};
-
 };
 	
 /*
  * Callback to be executed on any read error
  */
- 
 MySceneGraph.prototype.onXMLError=function (message) {
 	console.error("XML Loading Error: "+message);	
 	this.loadedOk=false;

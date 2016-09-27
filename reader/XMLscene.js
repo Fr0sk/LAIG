@@ -21,6 +21,7 @@ XMLscene.prototype.init = function (application) {
     this.gl.depthFunc(this.gl.LEQUAL);
 
 	this.axis=new CGFaxis(this);
+	
 };
 
 XMLscene.prototype.initLights = function () {
@@ -45,9 +46,17 @@ XMLscene.prototype.setDefaultAppearance = function () {
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function () 
 {
+	this.axis = this.graph.axis;
+
+	this.camera = this.graph.perspCams[0];
+	
 	this.gl.clearColor(this.graph.background[0],this.graph.background[1],this.graph.background[2],this.graph.background[3]);
+
 	this.lights[0].setVisible(true);
     this.lights[0].enable();
+
+	
+
 };
 
 XMLscene.prototype.display = function () {
