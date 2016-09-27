@@ -45,6 +45,7 @@ MySceneGraph.prototype.onXMLReady=function()
  */
 MySceneGraph.prototype.parseData= function(rootElement) {
 	this.parseScene(rootElement);
+	this.parseViews(rootElement);
 }
 
 /*
@@ -57,6 +58,34 @@ MySceneGraph.prototype.parseScene = function(rootElement) {
 }
 
 /*
+ * Views
+ */
+MySceneGraph.prototype.parseViews = function(rootElement) {
+	var views = rootElement.getElementsByTagName('views')[0];
+	this.perspCams = [ ];
+	this.orthoCams = [ ];
+	// Perspective
+	{
+		var perspCams = views.getElementsByTagName('perpective');
+		var cams = [];
+		for (var i = 0; i < perspCams.length; i++) {
+			var near = this.reader.getFloat(perspCams[i], 'near', true);
+			var far = this.reader.getFloat(perspCams[i], 'far', true);
+			var fov = this.reader.getFloat(perspCams[i], 'angle', true);
+			var fromElem = perspCams[i].getElementsByTagName('from')[0];
+			var toElem = perspCams[i].getElementsByTagName('to')[0];
+			var position = this.getXYZ(fromElem, true);
+			var target = this.getXYZ(toElem, true);
+			this.perspCams.push(new CGFcamera(fov, near, far, position, target));
+		}
+	}
+	
+	// Orthographic
+	{
+		var v_orthographic = views.getElementsByTagName('orthographic');
+		// TODO: orthographic cameras
+	}
+}
  * Example of method that parses elements of one block and stores information in a specific data structure
  */
 MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
