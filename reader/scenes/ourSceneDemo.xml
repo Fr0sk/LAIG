@@ -16,8 +16,8 @@
 
     <!-- Illumination parameters set -->
     <illumination doublesided="0" local="1">
-        <ambient r="0.1" g="0.1" b="0.1" a="1">
-        <background r="0" g="0" b="0" a="1">
+        <ambient r="0.1" g="0.1" b="0.1" a="1" />
+        <background r="0" g="0" b="0" a="1" />
     </illumination>
 
     <!-- Lights instances set -->
