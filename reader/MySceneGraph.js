@@ -15,7 +15,7 @@ function MySceneGraph(filename, scene) {
 	 * If any error occurs, the reader calls onXMLError on this object, with an error message
 	 */
 	 
-	this.reader.open('scenes/'+filename, this);  
+	this.reader.open('scenes/' + "ourSceneDemo.xml", this);  
 }
 
 /*
@@ -48,7 +48,8 @@ MySceneGraph.prototype.parseData= function(rootElement) {
 	this.parseViews(rootElement);
 	this.parseIllumination(rootElement);
 	this.parseLights(rootElement);
-}
+	this.parseMaterials(rootElement);
+};
 
 /*
  * Scene
@@ -57,7 +58,9 @@ MySceneGraph.prototype.parseScene = function(rootElement) {
 	var scene = rootElement.getElementsByTagName('scene')[0];
 	var s_axisLength = this.reader.getFloat(scene, 'axis_length', true)
 	this.axis = new CGFaxis(this.scene, s_axisLength, 0.2);	
-}
+
+	console.log("O meu axis: " + s_axisLength);
+};
 
 /*
  * Views
@@ -79,6 +82,8 @@ MySceneGraph.prototype.parseViews = function(rootElement) {
 			var position = this.getXYZ(fromElem, true);
 			var target = this.getXYZ(toElem, true);
 			this.perspCams.push(new CGFcamera(fov, near, far, position, target));
+
+			console.log("Posicao da minha " + (i + 1) + " camera: " + position);
 		}
 	}
 	
@@ -88,7 +93,7 @@ MySceneGraph.prototype.parseViews = function(rootElement) {
 		// TODO: orthographic cameras
 	}
 
-}
+};
 
 /*
  * Illumination
@@ -99,7 +104,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 	var background = illumination.getElementsByTagName('background')[0];
 	this.ambientLight = this.getRGBA(ambient, true);
 	this.background = this.getRGBA(background, true);
-}
+};
 
 /*
  * Lights
@@ -135,6 +140,8 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 			 enabled ? light.enable() : light.disable();
 			 
 			 this.omniLights.push(light);
+
+			 console.log("Ola");
 		 }
 	 }
 
@@ -170,38 +177,63 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 			 this.spotLights.push(light);
 		 }
 	 }
-}
+};
 	
+/**
+ * Textures
+ */
+MySceneGraph.prototype.parseTextures = function(rootElement) {
+	var textures = rootElement.getElementsByTagName('textures')[0];
 
-/*
+	for(var i = 0; i < textures.length; i++) {
+		var texture = texture[i];
+
+		var id = this.reader.getString(texture, 'id', true);
+		var file = this.reader.getString(texture, 'file', true);
+		var length_s = this.reader.getFloat(texture, 'length_s', true);
+		var length_t = this.reader.getFloat(texture, 'length_t', true);
+
+		var texture = new CGFappearance(this.scene);
+		texture.loadTexture(file);
+		textures.push(texture);
+	}
+};
+
+/**
  * Materials
  */
 MySceneGraph.prototype.parseMaterials = function(rootElement) {
-	var materials = rootElement.getElementsByTagName('materials')[0];
+	var materialsElem = rootElement.getElementsByTagName('materials')[0];
+	var materials = materialsElem.getElementsByTagName('material');
+
+	console.log("Tamanho: " + materials.length);
 
 	for(var i = 0; i < materials.length; i++) {
 		var id = this.reader.getString(materials[i], 'id', true);
-		var emissionElem = this.reader.getElementsByTagName('emission')[0];
-		var ambientElem = this.reader.getElementsByTagName('ambient')[0];
-		var diffuseElem = this.reader.getElementsByTagName('diffuse')[0];
-		var specularElem = this.reader.getElementsByTagName('specular')[0];
+		var emissionElem = materials[i].getElementsByTagName('emission')[0];
+		var ambientElem = materials[i].getElementsByTagName('ambient')[0];
+		var diffuseElem = materials[i].getElementsByTagName('diffuse')[0];
+		var specularElem = materials[i].getElementsByTagName('specular')[0];
+		var shininessElem = materials[i].getElementsByTagName('shininess')[0];
 
 		var emission = this.getRGBA(emissionElem, true);
 		var ambient = this.getRGBA(ambientElem, true);
 		var diffuse = this.getRGBA(diffuse, true);
 		var specular = this.getRGBA(specular, true);
-		var shininess = this.reader.getFloat(materials[i], 'shininess', true);
+		var shininess = this.reader.getFloat(shininessElem, 'value', true);
 
-		var material = new CGFappearance(this.scene);		//THERE'S NO ID????
+		/*var material = new CGFappearance(this.scene);		//THERE'S NO ID????
 		material.setEmission(emission);
 		material.setAmbient(ambient);
 		material.setDiffuse(diffuse);
 		material.setSpecular(specular);
 		material.setShininess(shininess);
 
-		materials.push(material);
+		materials.push(material);*/
+
+		console.log("Material " + id + ": emission = " + emission + ", ambient = " + ambient + ", diffuse = " + diffuse + ", shininess = " + shininess + "\n");	
 	}
-}
+};
 
 /**
  * Callback to be executed on any read error
@@ -220,11 +252,11 @@ MySceneGraph.prototype.getRGBA = function(element, required) {
 	var b = this.reader.getFloat(element, 'b', required);
 	var a = this.reader.getFloat(element, 'a', required);
 	return vec4.fromValues(r, g, b, a)
-}
+};
 
 MySceneGraph.prototype.getXYZ = function(element, required) {
 	var x = this.reader.getFloat(element, 'x', required);
 	var y = this.reader.getFloat(element, 'y', required);
 	var z = this.reader.getFloat(element, 'z', required);
 	return vec3.fromValues(x, y, z);
-}
+};
