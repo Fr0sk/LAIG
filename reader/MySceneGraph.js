@@ -172,7 +172,38 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 	 }
 }
 	
+
 /*
+ * Materials
+ */
+MySceneGraph.prototype.parseMaterials = function(rootElement) {
+	var materials = rootElement.getElementsByTagName('materials')[0];
+
+	for(var i = 0; i < materials.length; i++) {
+		var id = this.reader.getString(materials[i], 'id', true);
+		var emissionElem = this.reader.getElementsByTagName('emission')[0];
+		var ambientElem = this.reader.getElementsByTagName('ambient')[0];
+		var diffuseElem = this.reader.getElementsByTagName('diffuse')[0];
+		var specularElem = this.reader.getElementsByTagName('specular')[0];
+
+		var emission = this.getRGBA(emissionElem, true);
+		var ambient = this.getRGBA(ambientElem, true);
+		var diffuse = this.getRGBA(diffuse, true);
+		var specular = this.getRGBA(specular, true);
+		var shininess = this.reader.getFloat(materials[i], 'shininess', true);
+
+		var material = new CGFappearance(this.scene);		//THERE'S NO ID????
+		material.setEmission(emission);
+		material.setAmbient(ambient);
+		material.setDiffuse(diffuse);
+		material.setSpecular(specular);
+		material.setShininess(shininess);
+
+		materials.push(material);
+	}
+}
+
+/**
  * Callback to be executed on any read error
  */
 MySceneGraph.prototype.onXMLError=function (message) {
@@ -180,6 +211,9 @@ MySceneGraph.prototype.onXMLError=function (message) {
 	this.loadedOk=false;
 };
 
+/**
+ * Util functions
+ */
 MySceneGraph.prototype.getRGBA = function(element, required) {
 	var r = this.reader.getFloat(element, 'r', required);
 	var g = this.reader.getFloat(element, 'g', required);
