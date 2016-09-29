@@ -48,7 +48,10 @@ MySceneGraph.prototype.parseData= function(rootElement) {
 	this.parseViews(rootElement);
 	this.parseIllumination(rootElement);
 	this.parseLights(rootElement);
+	this.parseTextures(rootElement);
 	this.parseMaterials(rootElement);
+	this.parseTransformations(rootElement);
+	this.parsePrimitives(rootElement);
 };
 
 /*
@@ -183,19 +186,20 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
  * Textures
  */
 MySceneGraph.prototype.parseTextures = function(rootElement) {
-	var textures = rootElement.getElementsByTagName('textures')[0];
+	var texturesElem = rootElement.getElementsByTagName('textures')[0];
+	var textures = texturesElem.getElementsByTagName('texture');
 
 	for(var i = 0; i < textures.length; i++) {
-		var texture = texture[i];
+		var id = this.reader.getString(textures[i], 'id', true);
+		var file = this.reader.getString(textures[i], 'file', true);
+		var length_s = this.reader.getFloat(textures[i], 'length_s', true);
+		var length_t = this.reader.getFloat(textures[i], 'length_t', true);
 
-		var id = this.reader.getString(texture, 'id', true);
-		var file = this.reader.getString(texture, 'file', true);
-		var length_s = this.reader.getFloat(texture, 'length_s', true);
-		var length_t = this.reader.getFloat(texture, 'length_t', true);
+		console.log("Texture num " + (i + 1) + ": id = " + id + ", file = " + file + ", length_s = " + length_s + ", length_t = " + length_t);
 
-		var texture = new CGFappearance(this.scene);
+		/*var texture = new CGFappearance(this.scene);
 		texture.loadTexture(file);
-		textures.push(texture);
+		textures.push(texture);*/
 	}
 };
 
@@ -218,8 +222,8 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 
 		var emission = this.getRGBA(emissionElem, true);
 		var ambient = this.getRGBA(ambientElem, true);
-		var diffuse = this.getRGBA(diffuse, true);
-		var specular = this.getRGBA(specular, true);
+		var diffuse = this.getRGBA(diffuseElem, true);
+		var specular = this.getRGBA(specularElem, true);
 		var shininess = this.reader.getFloat(shininessElem, 'value', true);
 
 		/*var material = new CGFappearance(this.scene);		//THERE'S NO ID????
@@ -232,6 +236,79 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 		materials.push(material);*/
 
 		console.log("Material " + id + ": emission = " + emission + ", ambient = " + ambient + ", diffuse = " + diffuse + ", shininess = " + shininess + "\n");	
+	}
+};
+
+/**
+ * Transformations
+ */
+MySceneGraph.prototype.parseTransformations = function(rootElement) {
+	var transformationsElem = rootElement.getElementsByTagName('transformations')[0];
+	var transformations = transformationsElem.getElementsByTagName('transformation');
+
+	for(var i = 0; i < transformations.length; i++) {
+		var id = this.reader.getString(transformations[i], 'id', true);
+
+		var translateElem = transformations[i].getElementsByTagName('translate')[0];
+		var translate = this.getXYZ(translateElem, true);
+
+		console.log("Transformation num " + (i + 1) + ": id = " + id + ", translate = " + translate);
+	}
+};
+
+/**
+ * Primitives
+ */
+MySceneGraph.prototype.parsePrimitives = function(rootElement) {
+	var primitivesElem = rootElement.getElementsByTagName('primitives')[0];
+	var primitives = primitivesElem.getElementsByTagName('primitive');
+
+	for(var i = 0; i < primitives.length; i++) {
+		var id = this.reader.getString(primitives[i], 'id', true);
+
+		var typeElem = null;
+		if((typeElem = primitives[i].getElementsByTagName('rectangle')[0]) != null) {
+			var x1 = this.reader.getFloat(typeElem, 'x1', true);
+			var y1 = this.reader.getFloat(typeElem, 'y1', true);
+			var x2 = this.reader.getFloat(typeElem, 'x2', true);
+			var y2 = this.reader.getFloat(typeElem, 'y2', true);
+			console.log("Primitive num " + (i + 1) + ": id = " + id + ", x1 = " + x1 + ", y1 = " + y1 +
+				", x2 = " + x2 + ", y2 = " + y2);
+		} else if((typeElem = primitives[i].getElementsByTagName('triangle')[0]) != null) {
+			var x1 = this.reader.getFloat(typeElem, 'x1', true);
+			var y1 = this.reader.getFloat(typeElem, 'y1', true);
+			var z1 = this.reader.getFloat(typeElem, 'z1', true);
+			var x2 = this.reader.getFloat(typeElem, 'x2', true);
+			var y2 = this.reader.getFloat(typeElem, 'y2', true);
+			var z2 = this.reader.getFloat(typeElem, 'z2', true);
+			var x3 = this.reader.getFloat(typeElem, 'x3', true);
+			var y3 = this.reader.getFloat(typeElem, 'y3', true);
+			var z3 = this.reader.getFloat(typeElem, 'z3', true);
+			console.log("Primitive num " + (i + 1) + ": id = " + id + ", x1 = " + x1 + 
+				", y1 = " + y1 + ", z1 = " + z1 + ", x2 = " + x2 + ", y2 = " + y2 + 
+				", z2 = " + z2 + ", x3 = " + x3 + ", y3 = " + y3 + ", z3 = " + z3);
+		} else if((typeElem = primitives[i].getElementsByTagName('cylinder')[0]) != null) {
+			var base = this.reader.getFloat(typeElem, 'base', true);
+			var top = this.reader.getFloat(typeElem, 'top', true);
+			var height = this.reader.getFloat(typeElem, 'height', true);
+			var slices = this.reader.getFloat(typeElem, 'slices', true);
+			var stacks = this.reader.getFloat(typeElem, 'stacks', true);
+			console.log("Primitive num " + (i + 1) + ": id = " + id + ", base = " + base +
+				", top = " + top + ", height = " + height + ", slices = " + slices + ", stacks = " + stacks);
+		} else if((typeElem = primitives[i].getElementsByTagName('sphere')[0]) != null) {
+			var radius = this.reader.getFloat(typeElem, 'radius', true);
+			var slices = this.reader.getFloat(typeElem, 'slices', true);
+			var stacks = this.reader.getFloat(typeElem, 'stacks', true);
+			console.log("Primitive num " + (i + 1) + ": id = " + id + ", radius = " + radius +
+				", slices = " + slices + ", stacks = " + stacks);
+		} else if((typeElem = primitives[i].getElementsByTagName('torus')[0]) != null) {
+			var inner = this.reader.getFloat(typeElem, 'inner', true);
+			var outer = this.reader.getFloat(typeElem, 'outer', true);
+			var slices = this.reader.getFloat(typeElem, 'slices', true);
+			var loops = this.reader.getFloat(typeElem, 'loops', true);
+			console.log("Primitive num " + (i + 1) + ": id = " + id + ", inner = " + inner +
+				", outer = " + outer + ", slices = " + slices + ", loops = " + loops);
+		}
 	}
 };
 
@@ -259,4 +336,21 @@ MySceneGraph.prototype.getXYZ = function(element, required) {
 	var y = this.reader.getFloat(element, 'y', required);
 	var z = this.reader.getFloat(element, 'z', required);
 	return vec3.fromValues(x, y, z);
+};
+
+MySceneGraph.prototype.getRectSize = function(element, required) {
+	var x1 = this.reader.getFloat(element, 'x1', required);
+	var y1 = this.reader.getFloat(element, 'y1', required);
+	var x2 = this.reader.getFloat(element, 'x2', required);
+	var y2 = this.reader.getFloat(element, 'y2', required);
+	return vec4.fromValues(x1, y1, x2, y2);
+};
+
+MySceneGraph.prototype.getTriangleSize = function(element, required) {
+	var x1 = this.reader.getFloat(element, 'x1', required);
+	var y1 = this.reader.getFloat(element, 'y1', required);
+	var z1 = this.reader.getFloat(element, 'z1', required);
+	var x2 = this.reader.getFloat(element, 'x2', required);
+	var y2 = this.reader.getFloat(element, 'y2', required);
+	var z2 = this.reader.getFloat(element, 'z2', required);
 };
