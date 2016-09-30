@@ -322,14 +322,14 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
 	var componentsElem = rootElement.getElementsByTagName('components')[0];
 	var components = componentsElem.getElementsByTagName('component');
 
-console.log("NUMEHVUAHVEOEW: " + components.length);
+	console.log("NUMEHVUAHVEOEW: " + components.length);
 	for(var i = 0; i < components.length; i++) {
-		//Component
-		{
-			var component = components[i];
-			var componentID = this.reader.getString(component, 'id', true);
-			console.log("Component number " + (i + 1) + ", id = " + componentID);
-		}
+
+		//Component		
+		var component = components[i];
+		var componentID = this.reader.getString(component, 'id', true);
+		console.log("Component number " + (i + 1) + ", id = " + componentID);
+		
 
 		//Transformations
 		{
@@ -341,15 +341,13 @@ console.log("NUMEHVUAHVEOEW: " + components.length);
 				console.log("Translate number " + (j + 1) + ", " + xyz);
 			}
 
-			var rotate;
-			if(rotate = transformationElem.getElementsByTagName('rotate') != null)
+			var rotate = transformationElem.getElementsByTagName('rotate');
 			for(var j = 0; j < rotate.length; j++) {
 				var xyz = this.getXYZ(rotate[j], true);
 				console.log("Rotate number " + (j + 1) + ", " + xyz);
 			}
 
-			var scale;
-			if(scale = transformationElem.getElementsByTagName('scale') != null);
+			var scale = transformationElem.getElementsByTagName('scale');
 			for(var j = 0; j < scale.length; j++) {
 				var xyz = this.getXYZ(scale[j], true);
 				console.log("Scale number " + (j + 1) + ", " + xyz);

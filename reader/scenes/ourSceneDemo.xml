@@ -159,36 +159,36 @@
 
         <component id="leftRectTransform">
             <transformation>
-                <translate x="-5", y="0", z="0">
+                <translate x="-5", y="0", z="0" />
             </transformation>
 
             <materials>
                 <material id="materialDefault" />
             </materials>
 
-            <texture id="none">
+            <texture id="none" />
 
             <children>
-                <componentred id=="leftRect">
+                <componentred id=="leftRect" />
             </children>
         </component>
 
         <component id="rightRectTransform">
             <transformation>
-                <translate x="5", y="0", z="0">
+                <translate x="5", y="0", z="0" />
             </transformation>
 
             <materials>
-                <material id="materialDefault">
+                <material id="materialDefault" />
             </materials>
 
-            <texture id="none">
+            <texture id="none" />
 
             <children>
-                <componentred id=="rightRect">
+                <componentred id=="rightRect /">
             </children>
         </component>
-
+<!--
         <component id="cubeTransform">
             <transformation>
         </component>
@@ -222,7 +222,7 @@
                 <primitiveref id="unitSquare">
             </children>
         </component>
-
+-->
     </components>
 
 </dsx>
