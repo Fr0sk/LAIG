@@ -52,6 +52,7 @@ MySceneGraph.prototype.parseData= function(rootElement) {
 	this.parseMaterials(rootElement);
 	this.parseTransformations(rootElement);
 	this.parsePrimitives(rootElement);
+	this.parserComponents(rootElement);
 };
 
 /*
@@ -250,7 +251,9 @@ MySceneGraph.prototype.parseTransformations = function(rootElement) {
 		var id = this.reader.getString(transformations[i], 'id', true);
 
 		var translateElem = transformations[i].getElementsByTagName('translate')[0];
-		var translate = this.getXYZ(translateElem, true);
+		var translate;
+		if(transformationsElem != null)
+			var translate = this.getXYZ(translateElem, true);
 
 		console.log("Transformation num " + (i + 1) + ": id = " + id + ", translate = " + translate);
 	}
@@ -308,6 +311,83 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
 			var loops = this.reader.getFloat(typeElem, 'loops', true);
 			console.log("Primitive num " + (i + 1) + ": id = " + id + ", inner = " + inner +
 				", outer = " + outer + ", slices = " + slices + ", loops = " + loops);
+		}
+	}
+};
+
+/**
+ * Components
+ */
+MySceneGraph.prototype.parserComponents = function(rootElement) {
+	var componentsElem = rootElement.getElementsByTagName('components')[0];
+	var components = componentsElem.getElementsByTagName('component');
+
+console.log("NUMEHVUAHVEOEW: " + components.length);
+	for(var i = 0; i < components.length; i++) {
+		//Component
+		{
+			var component = components[i];
+			var componentID = this.reader.getString(component, 'id', true);
+			console.log("Component number " + (i + 1) + ", id = " + componentID);
+		}
+
+		//Transformations
+		{
+			var transformationElem = component.getElementsByTagName('transformation')[0];
+
+			var translate = transformationElem.getElementsByTagName('translate');
+			for(var j = 0; j < translate.length; j++) {
+				var xyz = this.getXYZ(translate[j], true);
+				console.log("Translate number " + (j + 1) + ", " + xyz);
+			}
+
+			var rotate;
+			if(rotate = transformationElem.getElementsByTagName('rotate') != null)
+			for(var j = 0; j < rotate.length; j++) {
+				var xyz = this.getXYZ(rotate[j], true);
+				console.log("Rotate number " + (j + 1) + ", " + xyz);
+			}
+
+			var scale;
+			if(scale = transformationElem.getElementsByTagName('scale') != null);
+			for(var j = 0; j < scale.length; j++) {
+				var xyz = this.getXYZ(scale[j], true);
+				console.log("Scale number " + (j + 1) + ", " + xyz);
+			}
+		}
+
+		//Materials
+		{
+			var materialsElem = component.getElementsByTagName('materials')[0];
+			var materials = materialsElem.getElementsByTagName('material');
+			for(var j = 0; j < materials.length; j++) {
+				var materialID = this.reader.getString(materials[j], 'id', true);
+				console.log("Material number " + (j + 1) + ", id = " + materialID);
+			}
+		}
+
+		//Textures
+		{
+			var texture = component.getElementsByTagName('texture')[0];
+			var textureID = this.reader.getString(texture, 'id', true);
+			console.log("Texture " + textureID);
+		}
+
+		//Children
+		{
+			var childrenElem = component.getElementsByTagName('children')[0];
+
+			var componentsRef = childrenElem.getElementsByTagName('componentref');
+			for(var j = 0; j < componentsRef.length; j++) {
+				var componentID = this.reader.getString(componentsRef[j], 'id', true);
+				console.log("ComponentRef number " + (j + 1) + ", id = " + componentID);
+			}
+
+			var primitiveref = childrenElem.getElementsByTagName('primitiveref');
+			for(var j = 0; j < primitiveref.length; j++) {
+				var primitiveID = this.reader.getString(primitiveref[j], 'id', true)
+				console.log("PrimitiveRef number " + (j + 1) + ", id = " + primitiveID);
+			}
 		}
 	}
 };

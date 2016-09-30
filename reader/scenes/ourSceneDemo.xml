@@ -111,7 +111,7 @@
         </primitive>
 
         <primitive id="unitTorus">
-            <torus inner="0.5" outer="0.5" slices="1" loops="1">
+            <torus inner="0.5" outer="0.5" slices="1" loops="1" />
         </primitive>
 
     </primitives>
@@ -125,6 +125,15 @@
                 <!-- Do a reference to one of the transformations -->
                 <!-- ex: transformationref id="transformation1" -->
                 <!-- or leave blank -->
+                <translate x="4" y="6" z="789" />
+                <scale x="435" y="32546" z="325" />
+                <translate x="435" y="32546" z="325" />
+                <scale x="435" y="32546" z="325" />
+                <scale x="435" y="32546" z="325" />
+                <rotate x="435" y="32546" z="325" />
+                <scale x="435" y="32546" z="325" />
+                <rotate x="435" y="32546" z="325" />
+                <scale x="435" y="32546" z="325" />
             </transformation>
 
             <!-- At least one material -->
@@ -133,16 +142,18 @@
             <!-- Can also apply to textures -->
             <materials>
                 <material id="materialDefault" />
+                <material id="materialWood" />
             </materials>
 
             <texture id="none" />
 
             <children>
-                <componentref id="leftRectTransform">
-                <componentref id="rightRectTransform">
-                <componentref id="cubeTransform">
+                <componentref id="leftRectTransform" />
+                <componentref id="rightRectTransform" />
+                <componentref id="cubeTransform" />
                 <!-- Since the root node doesn't have primitives, we don't use: -->
                 <!-- primitiveref id="" -->
+                <primitiveref id="joanatodaboa" />
             </children>
         </component>
 
@@ -152,7 +163,7 @@
             </transformation>
 
             <materials>
-                <material id="materialDefault">
+                <material id="materialDefault" />
             </materials>
 
             <texture id="none">
