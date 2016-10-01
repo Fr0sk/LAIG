@@ -1,30 +1,23 @@
 <dsx>
-
     <!-- Scene root definition and axis length -->
     <scene root="root" axis_length="20" />
-
     <!-- Cameras definition -->
     <!-- Pressing v/V changes between cameras -->
     <views default="MainCamera">
-
         <perpective id="CHANGE" near="0.1" far="500" angle="0.4">
             <from x="15" y="15" z="15" />
             <to x="0" y="0" z="0" />
         </perpective>
-
         <perpective id="CHANGE" near="0.1" far="500" angle="0.4">
             <from x="15" y="15" z="15" />
             <to x="0" y="0" z="0" />
         </perpective>
-
     </views>
-
     <!-- Illumination parameters set -->
     <illumination doublesided="0" local="1">
         <ambient r="0.1" g="0.1" b="0.1" a="1" />
         <background r="0" g="0" b="0" a="1" />
     </illumination>
-
     <!-- Lights instances set -->
     <lights>
         <!-- Must include at least 1 omni light and 1 spot light -->
@@ -34,28 +27,24 @@
             <diffuse r="255" g="125" b="0" a="1" />
             <specular r="0" g="125" b="125" a="1" />
         </omni>
-
         <spot id="spot1" enabled="1" angle="30" exponent="1">
-            <target x="0" y="0" z="0" />    <!-- What is target? -->
+            <target x="0" y="0" z="0" />
+            <!-- What is target? -->
             <location x="5" y="0" z="2" />
             <ambient r="255" g="125" b="0" a="1" />
             <diffuse r="255" g="125" b="0" a="1" />
             <specular r="0" g="125" b="125" a="1" />
         </spot>
-
     </lights>
-
     <!-- Textures set -->
     <!-- Must include at least one texture block -->
     <textures>
         <texture id="wood" file="../assets/wood.jpg" length_s="1" length_t="1" />
         <texture id="floor" file="../assets/floor.jpg" length_s="2" length_t="3" />
     </textures>
-
     <!-- Materials set -->
     <!-- Must include at least one material block -->
     <materials>
-
         <material id="materialDefault">
             <emission r="0" g="0" b="0" a="1" />
             <ambient r="0" g="0" b="0" a="1" />
@@ -63,7 +52,6 @@
             <specular r="0" g="0" b="0" a="1" />
             <shininess value="1" />
         </material>
-
         <material id="materialWood">
             <emission r="0" g="0" b="0" a="1" />
             <ambient r="0" g="0" b="0" a="1" />
@@ -71,54 +59,38 @@
             <specular r="0" g="0" b="0" a="1" />
             <shininess value="1" />
         </material>
-
     </materials>
-
     <!-- Transformations set -->
     <!-- Must include at least one transformation block -->
     <transformations>
-
         <transformation id="transformation1">
             <translate x="0" y="0" z="0" />
         </transformation>
-
         <transformation id="transformation2">
             <translate x="45" y="2354" z="2" />
         </transformation>
-
     </transformations>
-
     <!-- Primitives set -->
     <!-- Must include at least one primitive block -->
     <primitives>
-
         <primitive id="unitSquare">
             <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
         </primitive>
-
         <primitive id="unitTriangle">
-            <triangle x1="-0.5" y1="0" z1="0"
-                        x2="0.5" y2="0.5" z2="0"
-                        x3="0" y3="1" z3="0" />
+            <triangle x1="-0.5" y1="0" z1="0" x2="0.5" y2="0.5" z2="0" x3="0" y3="1" z3="0" />
         </primitive>
-
         <primitive id="unitCylinder">
             <cylinder base="1" top="1" height="1" slices="1" stacks="1" />
         </primitive>
-
         <primitive id="unitSphere">
             <sphere radius="1" slices="1" stacks="1" />
         </primitive>
-
         <primitive id="unitTorus">
             <torus inner="0.5" outer="0.5" slices="1" loops="1" />
         </primitive>
-
     </primitives>
-
     <!-- Components set -->
     <components>
-
         <component id="componentRoot">
             <!-- Declaration needs to he here, even if there's no applied transformation' -->
             <transformation>
@@ -135,7 +107,6 @@
                 <rotate x="435" y="32546" z="325" />
                 <scale x="435" y="32546" z="325" />
             </transformation>
-
             <!-- At least one material -->
             <!-- Use m/M to change between materials -->
             <!-- Set id="inherit" to inherit parent's material -->
@@ -146,83 +117,86 @@
             </materials>
 
             <texture id="none" />
-
             <children>
+            
                 <componentref id="leftRectTransform" />
                 <componentref id="rightRectTransform" />
                 <componentref id="cubeTransform" />
                 <!-- Since the root node doesn't have primitives, we don't use: -->
                 <!-- primitiveref id="" -->
-                <primitiveref id="joanatodaboa" />
+                <primitiveref id="rectangle" />
             </children>
         </component>
 
         <component id="leftRectTransform">
             <transformation>
-                <translate x="-5", y="0", z="0" />
+                <translate x="-5" y="0" z="0" />
+                <rotate x="5523" y="1" z="65758980" />
+                <scale x="0" y="1" z="1" />
             </transformation>
 
             <materials>
                 <material id="materialDefault" />
+                <material id="materialWood" />            
             </materials>
 
             <texture id="none" />
 
             <children>
-                <componentred id=="leftRect" />
+                <componentref id="leftRect" />
             </children>
         </component>
-
+        
         <component id="rightRectTransform">
             <transformation>
-                <translate x="5", y="0", z="0" />
+                <translate x="5" y="0" z="0" />
             </transformation>
-
             <materials>
                 <material id="materialDefault" />
             </materials>
-
             <texture id="none" />
-
             <children>
-                <componentred id=="rightRect /">
+                <componentref id="rightRect" />
             </children>
         </component>
-<!--
+        
         <component id="cubeTransform">
-            <transformation>
-        </component>
-
-        <component id="leftRect">
-            <transformation>
-            </transformation>
-
+            <transformation></transformation>
             <materials>
-                <material id="materialWood">
+                <material id="materialWood" />
             </materials>
-
-            <texture id="wood">
-
+            <texture id="wood" />
             <children>
-                <primitiveref id="unitSquare">
+                <primitiveref id="unitSquare" />
             </children>
         </component>
-
+        
+        <component id="leftRect">
+            <transformation></transformation>
+            <materials>
+                <material id="materialWood" />
+            </materials>
+            <texture id="wood" />
+            <children>
+                <primitiveref id="unitSquare" />
+            </children>
+        </component>
+       
         <component id="rightRect">
             <transformation>
             </transformation>
-
+            
             <materials>
-                <material id="materialWood">
+                <material id="materialWood" />
             </materials>
 
-            <texture id="wood">
+            <texture id="wood" />
 
             <children>
-                <primitiveref id="unitSquare">
+                <primitiveref id="unitSquare" />
             </children>
         </component>
--->
+
     </components>
 
 </dsx>

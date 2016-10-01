@@ -63,7 +63,7 @@ MySceneGraph.prototype.parseScene = function(rootElement) {
 	var s_axisLength = this.reader.getFloat(scene, 'axis_length', true)
 	this.axis = new CGFaxis(this.scene, s_axisLength, 0.2);	
 
-	console.log("O meu axis: " + s_axisLength);
+	console.log("Scene axis_length =" + s_axisLength);
 };
 
 /*
@@ -74,7 +74,6 @@ MySceneGraph.prototype.parseViews = function(rootElement) {
 	this.perspCams = [];
 	this.orthoCams = [];
 
-	// Perspective
 	{
 		var perspCams = views.getElementsByTagName('perpective');
 		for (var i = 0; i < perspCams.length; i++) {
@@ -87,16 +86,9 @@ MySceneGraph.prototype.parseViews = function(rootElement) {
 			var target = this.getXYZ(toElem, true);
 			this.perspCams.push(new CGFcamera(fov, near, far, position, target));
 
-			console.log("Posicao da minha " + (i + 1) + " camera: " + position);
+			console.log("View near = " + near + ", far = " + far);
 		}
 	}
-	
-	// Orthographic
-	{
-		var v_orthographic = views.getElementsByTagName('orthographic');
-		// TODO: orthographic cameras
-	}
-
 };
 
 /*
@@ -108,6 +100,8 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 	var background = illumination.getElementsByTagName('background')[0];
 	this.ambientLight = this.getRGBA(ambient, true);
 	this.background = this.getRGBA(background, true);
+
+	console.log("Illumination ambient = " + this.ambientLight + ", background = " + this.background);
 };
 
 /*
@@ -145,7 +139,7 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 			 
 			 this.omniLights.push(light);
 
-			 console.log("Ola");
+			 console.log("Omni light id = " + id);
 		 }
 	 }
 
@@ -153,32 +147,34 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 	 {
 		 var spotLights = lights.getElementsByTagName('spot');
 		 for (var i = 0; i < spotLights.length; i++) {
-			 var light = spotLights[i];
-			 var id = this.reader.getString(light, 'id', true);
-			 var enabled = this.reader.getBoolean(light, 'enabled', true);
-			 var angle = this.reader.getFloat(light, 'angle', true);
-			 var exponent = this.reader.getFloat(light, 'exponent', true);
-			 var targetElem = light.getElementsByTagName('target')[0];
-			 var locationElem = light.getElementsByTagName('location')[0];
-			 var ambientElem = light.getElementsByTagName('ambient')[0];
-			 var diffuseElem = light.getElementsByTagName('diffuse')[0];
-			 var specularElem = light.getElementsByTagName('specular')[0];
+			var light = spotLights[i];
+			var id = this.reader.getString(light, 'id', true);
+			var enabled = this.reader.getBoolean(light, 'enabled', true);
+			var angle = this.reader.getFloat(light, 'angle', true);
+			var exponent = this.reader.getFloat(light, 'exponent', true);
+			var targetElem = light.getElementsByTagName('target')[0];
+			var locationElem = light.getElementsByTagName('location')[0];
+			var ambientElem = light.getElementsByTagName('ambient')[0];
+			var diffuseElem = light.getElementsByTagName('diffuse')[0];
+			var specularElem = light.getElementsByTagName('specular')[0];
 			 
-			 var location = this.getXYZ(locationElem, true);
-			 var ambient = this.getRGBA(ambientElem, true);
-			 var diffuse = this.getRGBA(diffuseElem, true);
-			 var specular = this.getRGBA(specularElem, true);
+			var location = this.getXYZ(locationElem, true);
+			var ambient = this.getRGBA(ambientElem, true);
+			var diffuse = this.getRGBA(diffuseElem, true);
+			var specular = this.getRGBA(specularElem, true);
 
-			 var light = new CGFlight(this.scene, id);
-			 light.setSpotExponent(exponent);
-			 light.setSpotCutOff(angle);
-			 light.setPosition(location[0], location[1], location[2], 1);
-			 light.setAmbient(ambient[0], ambient[1], ambient[2], ambient[3]);
-			 light.setDiffuse(diffuse[0], diffuse[1], diffuse[2], diffuse[3]);
-			 light.setSpecular(specular[0], specular[1], specular[2], specular[3]);
-			 enabled ? light.enable() : light.disable();
+			var light = new CGFlight(this.scene, id);
+			light.setSpotExponent(exponent);
+			light.setSpotCutOff(angle);
+			light.setPosition(location[0], location[1], location[2], 1);
+			light.setAmbient(ambient[0], ambient[1], ambient[2], ambient[3]);
+			light.setDiffuse(diffuse[0], diffuse[1], diffuse[2], diffuse[3]);
+			light.setSpecular(specular[0], specular[1], specular[2], specular[3]);
+			enabled ? light.enable() : light.disable();
 			 
-			 this.spotLights.push(light);
+			this.spotLights.push(light);
+
+			console.log("Omni light id = " + id);
 		 }
 	 }
 };
@@ -322,14 +318,12 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
 	var componentsElem = rootElement.getElementsByTagName('components')[0];
 	var components = componentsElem.getElementsByTagName('component');
 
-	console.log("NUMEHVUAHVEOEW: " + components.length);
 	for(var i = 0; i < components.length; i++) {
 
 		//Component		
 		var component = components[i];
 		var componentID = this.reader.getString(component, 'id', true);
 		console.log("Component number " + (i + 1) + ", id = " + componentID);
-		
 
 		//Transformations
 		{
@@ -352,6 +346,8 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
 				var xyz = this.getXYZ(scale[j], true);
 				console.log("Scale number " + (j + 1) + ", " + xyz);
 			}
+
+			console.log("Tranlate length = " + translate.length + ", rotate length = " + rotate.length + ", scale length = " + scale.length);
 		}
 
 		//Materials
