@@ -44,14 +44,39 @@ MySceneGraph.prototype.onXMLReady=function()
  * Parse the data to the scene
  */
 MySceneGraph.prototype.parseData= function(rootElement) {
+	/*
+	 * The variables before each method are the variables
+	 * that method populates in his body
+	 */
+
+	this.axis;
 	this.parseScene(rootElement);
+
+	this.perspCams = [];
+	this.orthoCams = [];
 	this.parseViews(rootElement);
+
+	this.ambientLight;
+	this.background;
 	this.parseIllumination(rootElement);
+
+	this.omniLights = [];
+	this.spotLights = [];
 	this.parseLights(rootElement);
+
+	this.textures = [];
 	this.parseTextures(rootElement);
+
+	this.materials = [];
 	this.parseMaterials(rootElement);
+
+	
 	this.parseTransformations(rootElement);
+
+	this.primitives = [];
 	this.parsePrimitives(rootElement);
+
+
 	this.parserComponents(rootElement);
 };
 
@@ -71,12 +96,12 @@ MySceneGraph.prototype.parseScene = function(rootElement) {
  */
 MySceneGraph.prototype.parseViews = function(rootElement) {
 	var views = rootElement.getElementsByTagName('views')[0];
-	this.perspCams = [];
-	this.orthoCams = [];
 
+	// Perspective cameras
 	{
 		var perspCams = views.getElementsByTagName('perpective');
 		for (var i = 0; i < perspCams.length; i++) {
+			var id = this.reader.getString(perspCams[i], 'id', true);
 			var near = this.reader.getFloat(perspCams[i], 'near', true);
 			var far = this.reader.getFloat(perspCams[i], 'far', true);
 			var fov = this.reader.getFloat(perspCams[i], 'angle', true);
@@ -84,9 +109,11 @@ MySceneGraph.prototype.parseViews = function(rootElement) {
 			var toElem = perspCams[i].getElementsByTagName('to')[0];
 			var position = this.getXYZ(fromElem, true);
 			var target = this.getXYZ(toElem, true);
-			this.perspCams.push(new CGFcamera(fov, near, far, position, target));
+			var cam = new CGFcamera(fov, near, far, position, target);
+			cam.id = id;
+			this.perspCams.push(cam);
 
-			console.log("View near = " + near + ", far = " + far);
+			console.log("ID = " + id + " ,view = " + near + ", far = " + far);
 		}
 	}
 };
@@ -109,8 +136,6 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
  */
 MySceneGraph.prototype.parseLights = function(rootElement) {
 	 var lights = rootElement.getElementsByTagName('lights')[0];
-	 this.omniLights = [];
-	 this.spotLights = [];
 
 	 // OmniLights
 	 {
@@ -194,9 +219,12 @@ MySceneGraph.prototype.parseTextures = function(rootElement) {
 
 		console.log("Texture num " + (i + 1) + ": id = " + id + ", file = " + file + ", length_s = " + length_s + ", length_t = " + length_t);
 
-		/*var texture = new CGFappearance(this.scene);
+		var texture = new CGFappearance(this.scene);
 		texture.loadTexture(file);
-		textures.push(texture);*/
+		texture.id = id;
+		texture.length_s = length_s;
+		texture.length_t = length_t;
+		this.textures.push(texture);
 	}
 };
 
@@ -223,14 +251,15 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 		var specular = this.getRGBA(specularElem, true);
 		var shininess = this.reader.getFloat(shininessElem, 'value', true);
 
-		/*var material = new CGFappearance(this.scene);		//THERE'S NO ID????
+		var material = new CGFappearance(this.scene);		//THERE'S NO ID????
+		material.id = id;
 		material.setEmission(emission);
 		material.setAmbient(ambient);
 		material.setDiffuse(diffuse);
 		material.setSpecular(specular);
 		material.setShininess(shininess);
 
-		materials.push(material);*/
+		this.materials.push(material);
 
 		console.log("Material " + id + ": emission = " + emission + ", ambient = " + ambient + ", diffuse = " + diffuse + ", shininess = " + shininess + "\n");	
 	}
