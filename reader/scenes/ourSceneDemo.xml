@@ -40,7 +40,6 @@
     <!-- Must include at least one texture block -->
     <textures>
         <texture id="wood" file="../assets/wood.jpg" length_s="1" length_t="1" />
-        <texture id="floor" file="../assets/floor.jpg" length_s="2" length_t="3" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
