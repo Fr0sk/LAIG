@@ -300,6 +300,9 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
 			var y1 = this.reader.getFloat(typeElem, 'y1', true);
 			var x2 = this.reader.getFloat(typeElem, 'x2', true);
 			var y2 = this.reader.getFloat(typeElem, 'y2', true);
+			var rectangle = PrimitiveBuilder.buildRect(x1, y1, x2, y2);
+			rectangle.id = id;
+			this.primitives.push(rectangle)
 			console.log("Primitive num " + (i + 1) + ": id = " + id + ", x1 = " + x1 + ", y1 = " + y1 +
 				", x2 = " + x2 + ", y2 = " + y2);
 		} else if((typeElem = primitives[i].getElementsByTagName('triangle')[0]) != null) {
@@ -312,6 +315,9 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
 			var x3 = this.reader.getFloat(typeElem, 'x3', true);
 			var y3 = this.reader.getFloat(typeElem, 'y3', true);
 			var z3 = this.reader.getFloat(typeElem, 'z3', true);
+			var triangle = PrimitiveBuilder.buildTri(x1, y1, z1, x2, y2, z2, x3, y3, z3);
+			triangle.id = id;
+			this.primitives.push(triangle);
 			console.log("Primitive num " + (i + 1) + ": id = " + id + ", x1 = " + x1 + 
 				", y1 = " + y1 + ", z1 = " + z1 + ", x2 = " + x2 + ", y2 = " + y2 + 
 				", z2 = " + z2 + ", x3 = " + x3 + ", y3 = " + y3 + ", z3 = " + z3);
@@ -321,12 +327,18 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
 			var height = this.reader.getFloat(typeElem, 'height', true);
 			var slices = this.reader.getFloat(typeElem, 'slices', true);
 			var stacks = this.reader.getFloat(typeElem, 'stacks', true);
+			var cylinder = PrimitiveBuilder.buildCylinder(base, top, height, slices, stacks);
+			cylinder.id = id;
+			this.primitives.push(cylinder);
 			console.log("Primitive num " + (i + 1) + ": id = " + id + ", base = " + base +
 				", top = " + top + ", height = " + height + ", slices = " + slices + ", stacks = " + stacks);
 		} else if((typeElem = primitives[i].getElementsByTagName('sphere')[0]) != null) {
 			var radius = this.reader.getFloat(typeElem, 'radius', true);
 			var slices = this.reader.getFloat(typeElem, 'slices', true);
 			var stacks = this.reader.getFloat(typeElem, 'stacks', true);
+			var sphere = PrimitiveBuilder.buildSphere(radius, slices, stacks);
+			sphere.id = id;
+			this.primitives.push(sphere);
 			console.log("Primitive num " + (i + 1) + ": id = " + id + ", radius = " + radius +
 				", slices = " + slices + ", stacks = " + stacks);
 		} else if((typeElem = primitives[i].getElementsByTagName('torus')[0]) != null) {
@@ -334,6 +346,9 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
 			var outer = this.reader.getFloat(typeElem, 'outer', true);
 			var slices = this.reader.getFloat(typeElem, 'slices', true);
 			var loops = this.reader.getFloat(typeElem, 'loops', true);
+			var torus = PrimitiveBuilder.buildTorus(inner, outer, slices, loops);
+			torus.id = id;
+			this.primitives.push(torus);
 			console.log("Primitive num " + (i + 1) + ": id = " + id + ", inner = " + inner +
 				", outer = " + outer + ", slices = " + slices + ", loops = " + loops);
 		}
