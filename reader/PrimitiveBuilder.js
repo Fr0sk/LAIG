@@ -112,21 +112,21 @@ PrimitiveBuilder.buildTri = function(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3) 
 }
 
 // Builds a cylinder with given params
-PrimitiveBuilder.buildCylinder = function(base, top, height, slices, stacks) {
+PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stacks) {
     var cylinder = {};
     // TODO Build cylinder
     return cylinder;
 }
 
 // Builds a sphere with given params
-PrimitiveBuilder.buildSphere = function(radius, slices, stacks) {
+PrimitiveBuilder.buildSphere = function(scene, radius, slices, stacks) {
     var sphere = {};
     // TODO Build sphere
     return sphere;
 }
 
 // Builds a torus with given params
-PrimitiveBuilder.buildTorus = function(inner, outer, slices, loops) {
+PrimitiveBuilder.buildTorus = function(scene, inner, outer, slices, loops) {
     var torus = {};
     // TODO Build torus
     return torus;
