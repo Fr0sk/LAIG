@@ -64,6 +64,7 @@
     <transformations>
         <transformation id="transformation1">
             <translate x="0" y="0" z="0" />
+            <scale x="4" y="2" z="1" />
         </transformation>
         <transformation id="transformation2">
             <translate x="45" y="2354" z="2" />

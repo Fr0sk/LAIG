@@ -70,13 +70,13 @@ MySceneGraph.prototype.parseData= function(rootElement) {
 	this.materials = [];
 	this.parseMaterials(rootElement);
 
-	
+	this.transformation = [];
 	this.parseTransformations(rootElement);
 
 	this.primitives = [];
 	this.parsePrimitives(rootElement);
 
-
+	this.components = [];
 	this.parserComponents(rootElement);
 };
 
@@ -88,7 +88,7 @@ MySceneGraph.prototype.parseScene = function(rootElement) {
 	var s_axisLength = this.reader.getFloat(scene, 'axis_length', true)
 	this.axis = new CGFaxis(this.scene, s_axisLength, 0.2);	
 
-	console.log("Scene axis_length =" + s_axisLength);
+	//console.log("Scene axis_length =" + s_axisLength);
 };
 
 /*
@@ -113,7 +113,7 @@ MySceneGraph.prototype.parseViews = function(rootElement) {
 			cam.id = id;
 			this.perspCams.push(cam);
 
-			console.log("ID = " + id + " ,view = " + near + ", far = " + far);
+			//console.log("ID = " + id + " ,view = " + near + ", far = " + far);
 		}
 	}
 };
@@ -128,7 +128,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 	this.ambientLight = this.getRGBA(ambient, true);
 	this.background = this.getRGBA(background, true);
 
-	console.log("Illumination ambient = " + this.ambientLight + ", background = " + this.background);
+	//console.log("Illumination ambient = " + this.ambientLight + ", background = " + this.background);
 };
 
 /*
@@ -164,7 +164,7 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 			 
 			 this.omniLights.push(light);
 
-			 console.log("Omni light id = " + id);
+			 //console.log("Omni light id = " + id);
 		 }
 	 }
 
@@ -199,7 +199,7 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 			 
 			this.spotLights.push(light);
 
-			console.log("Omni light id = " + id);
+			//console.log("Omni light id = " + id);
 		 }
 	 }
 };
@@ -217,7 +217,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement) {
 		var length_s = this.reader.getFloat(textures[i], 'length_s', true);
 		var length_t = this.reader.getFloat(textures[i], 'length_t', true);
 
-		console.log("Texture num " + (i + 1) + ": id = " + id + ", file = " + file + ", length_s = " + length_s + ", length_t = " + length_t);
+		//console.log("Texture num " + (i + 1) + ": id = " + id + ", file = " + file + ", length_s = " + length_s + ", length_t = " + length_t);
 
 		var texture = new CGFappearance(this.scene);
 		texture.loadTexture(file);
@@ -234,8 +234,6 @@ MySceneGraph.prototype.parseTextures = function(rootElement) {
 MySceneGraph.prototype.parseMaterials = function(rootElement) {
 	var materialsElem = rootElement.getElementsByTagName('materials')[0];
 	var materials = materialsElem.getElementsByTagName('material');
-
-	console.log("Tamanho: " + materials.length);
 
 	for(var i = 0; i < materials.length; i++) {
 		var id = this.reader.getString(materials[i], 'id', true);
@@ -261,7 +259,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 
 		this.materials.push(material);
 
-		console.log("Material " + id + ": emission = " + emission + ", ambient = " + ambient + ", diffuse = " + diffuse + ", shininess = " + shininess + "\n");	
+		//console.log("Material " + id + ": emission = " + emission + ", ambient = " + ambient + ", diffuse = " + diffuse + ", shininess = " + shininess + "\n");	
 	}
 };
 
@@ -277,10 +275,24 @@ MySceneGraph.prototype.parseTransformations = function(rootElement) {
 
 		var translateElem = transformations[i].getElementsByTagName('translate')[0];
 		var translate;
-		if(transformationsElem != null)
-			var translate = this.getXYZ(translateElem, true);
+		if(transformationsElem != null) {
+			translate = this.getXYZ(translateElem, true);
+			//console.log("Transformation num " + (i + 1) + ": id = " + id + ", translate = " + translate);
+		}
 
-		console.log("Transformation num " + (i + 1) + ": id = " + id + ", translate = " + translate);
+		var rotateElem = transformations[i].getElementsByTagName('rotate')[0];
+		var rotate;
+		if(rotateElem != null) {
+			rotate = this.getXYZ(rotateElem, true);
+			//console.log("Rotate num " + (i + 1) + ": id = " + id + ", rotate = " + rotate);
+		}
+
+		var scaleElem = transformations[i].getElementsByTagName('scale')[0];
+		var scale;
+		if(scaleElem != null) {
+			scale = this.getXYZ(scaleElem, true);
+			//console.log("Scale num " + (i + 1) + ": id = " + id + ", scale = " + scale);
+		}
 	}
 };
 
@@ -303,8 +315,8 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
 			var rectangle = PrimitiveBuilder.buildRect(x1, y1, x2, y2);
 			rectangle.id = id;
 			this.primitives.push(rectangle)
-			console.log("Primitive num " + (i + 1) + ": id = " + id + ", x1 = " + x1 + ", y1 = " + y1 +
-				", x2 = " + x2 + ", y2 = " + y2);
+			//console.log("Primitive num " + (i + 1) + ": id = " + id + ", x1 = " + x1 + ", y1 = " + y1 +
+				//", x2 = " + x2 + ", y2 = " + y2);
 		} else if((typeElem = primitives[i].getElementsByTagName('triangle')[0]) != null) {
 			var x1 = this.reader.getFloat(typeElem, 'x1', true);
 			var y1 = this.reader.getFloat(typeElem, 'y1', true);
@@ -318,9 +330,9 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
 			var triangle = PrimitiveBuilder.buildTri(x1, y1, z1, x2, y2, z2, x3, y3, z3);
 			triangle.id = id;
 			this.primitives.push(triangle);
-			console.log("Primitive num " + (i + 1) + ": id = " + id + ", x1 = " + x1 + 
-				", y1 = " + y1 + ", z1 = " + z1 + ", x2 = " + x2 + ", y2 = " + y2 + 
-				", z2 = " + z2 + ", x3 = " + x3 + ", y3 = " + y3 + ", z3 = " + z3);
+			//console.log("Primitive num " + (i + 1) + ": id = " + id + ", x1 = " + x1 + 
+				//", y1 = " + y1 + ", z1 = " + z1 + ", x2 = " + x2 + ", y2 = " + y2 + 
+				//", z2 = " + z2 + ", x3 = " + x3 + ", y3 = " + y3 + ", z3 = " + z3);
 		} else if((typeElem = primitives[i].getElementsByTagName('cylinder')[0]) != null) {
 			var base = this.reader.getFloat(typeElem, 'base', true);
 			var top = this.reader.getFloat(typeElem, 'top', true);
@@ -330,8 +342,8 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
 			var cylinder = PrimitiveBuilder.buildCylinder(base, top, height, slices, stacks);
 			cylinder.id = id;
 			this.primitives.push(cylinder);
-			console.log("Primitive num " + (i + 1) + ": id = " + id + ", base = " + base +
-				", top = " + top + ", height = " + height + ", slices = " + slices + ", stacks = " + stacks);
+			//console.log("Primitive num " + (i + 1) + ": id = " + id + ", base = " + base +
+				//", top = " + top + ", height = " + height + ", slices = " + slices + ", stacks = " + stacks);
 		} else if((typeElem = primitives[i].getElementsByTagName('sphere')[0]) != null) {
 			var radius = this.reader.getFloat(typeElem, 'radius', true);
 			var slices = this.reader.getFloat(typeElem, 'slices', true);
@@ -339,8 +351,8 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
 			var sphere = PrimitiveBuilder.buildSphere(radius, slices, stacks);
 			sphere.id = id;
 			this.primitives.push(sphere);
-			console.log("Primitive num " + (i + 1) + ": id = " + id + ", radius = " + radius +
-				", slices = " + slices + ", stacks = " + stacks);
+			//console.log("Primitive num " + (i + 1) + ": id = " + id + ", radius = " + radius +
+				//", slices = " + slices + ", stacks = " + stacks);
 		} else if((typeElem = primitives[i].getElementsByTagName('torus')[0]) != null) {
 			var inner = this.reader.getFloat(typeElem, 'inner', true);
 			var outer = this.reader.getFloat(typeElem, 'outer', true);
@@ -349,8 +361,8 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
 			var torus = PrimitiveBuilder.buildTorus(inner, outer, slices, loops);
 			torus.id = id;
 			this.primitives.push(torus);
-			console.log("Primitive num " + (i + 1) + ": id = " + id + ", inner = " + inner +
-				", outer = " + outer + ", slices = " + slices + ", loops = " + loops);
+			//console.log("Primitive num " + (i + 1) + ": id = " + id + ", inner = " + inner +
+				//", outer = " + outer + ", slices = " + slices + ", loops = " + loops);
 		}
 	}
 };
@@ -363,12 +375,18 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
 	var components = componentsElem.getElementsByTagName('component');
 
 	for(var i = 0; i < components.length; i++) {
-
 		//Component		
 		var component = components[i];
 		var componentID = this.reader.getString(component, 'id', true);
-		console.log("Component number " + (i + 1) + ", id = " + componentID);
+		//console.log("Component number " + (i + 1) + ", id = " + componentID);
 
+		var componentToSend = {};
+		componentToSend.id = componentID;
+		componentToSend.transformations = [];
+		componentToSend.materials = [];
+		componentToSend.texture;
+		componentToSend.componentsRef = [];
+		componentToSend.primitivesRef = [];
 		//Transformations
 		{
 			var transformationElem = component.getElementsByTagName('transformation')[0];
@@ -376,39 +394,51 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
 			var translate = transformationElem.getElementsByTagName('translate');
 			for(var j = 0; j < translate.length; j++) {
 				var xyz = this.getXYZ(translate[j], true);
-				console.log("Translate number " + (j + 1) + ", " + xyz);
+				//console.log("Translate number " + (j + 1) + ", " + xyz);
 			}
 
 			var rotate = transformationElem.getElementsByTagName('rotate');
 			for(var j = 0; j < rotate.length; j++) {
 				var xyz = this.getXYZ(rotate[j], true);
-				console.log("Rotate number " + (j + 1) + ", " + xyz);
+				//console.log("Rotate number " + (j + 1) + ", " + xyz);
 			}
 
 			var scale = transformationElem.getElementsByTagName('scale');
 			for(var j = 0; j < scale.length; j++) {
 				var xyz = this.getXYZ(scale[j], true);
-				console.log("Scale number " + (j + 1) + ", " + xyz);
+				//console.log("Scale number " + (j + 1) + ", " + xyz);
 			}
-
-			console.log("Tranlate length = " + translate.length + ", rotate length = " + rotate.length + ", scale length = " + scale.length);
 		}
 
 		//Materials
 		{
 			var materialsElem = component.getElementsByTagName('materials')[0];
 			var materials = materialsElem.getElementsByTagName('material');
+
 			for(var j = 0; j < materials.length; j++) {
 				var materialID = this.reader.getString(materials[j], 'id', true);
-				console.log("Material number " + (j + 1) + ", id = " + materialID);
+				
+				//Add the material to the component
+				for(var j = 0; j < this.materials.length; j++) {
+					if(this.materials[j].id == materialID)
+						componentToSend.materials.push(this.materials[j]);
+				}
+
+				//console.log("Material number " + (j + 1) + ", id = " + materialID);
 			}
 		}
 
 		//Textures
 		{
-			var texture = component.getElementsByTagName('texture')[0];
-			var textureID = this.reader.getString(texture, 'id', true);
-			console.log("Texture " + textureID);
+			var textureElem = component.getElementsByTagName('texture')[0];
+			var textureID = this.reader.getString(textureElem, 'id', true);
+
+			for(var j = 0; j < this.textures.length; j++) {
+				if(this.textures[j].id = textureID)
+					componentToSend.texture = this.textures[j];
+			}
+
+			//console.log("Texture " + textureID);
 		}
 
 		//Children
@@ -418,15 +448,19 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
 			var componentsRef = childrenElem.getElementsByTagName('componentref');
 			for(var j = 0; j < componentsRef.length; j++) {
 				var componentID = this.reader.getString(componentsRef[j], 'id', true);
-				console.log("ComponentRef number " + (j + 1) + ", id = " + componentID);
+				componentToSend.componentsRef.push(componentID);
+				//console.log("ComponentRef number " + (j + 1) + ", id = " + componentID);
 			}
 
 			var primitiveref = childrenElem.getElementsByTagName('primitiveref');
 			for(var j = 0; j < primitiveref.length; j++) {
-				var primitiveID = this.reader.getString(primitiveref[j], 'id', true)
-				console.log("PrimitiveRef number " + (j + 1) + ", id = " + primitiveID);
+				var primitiveID = this.reader.getString(primitiveref[j], 'id', true);
+				componentToSend.primitivesRef.push(primitiveID);
+				//console.log("PrimitiveRef number " + (j + 1) + ", id = " + primitiveID);
 			}
 		}
+
+		this.components.push(componentToSend);
 	}
 };
 
