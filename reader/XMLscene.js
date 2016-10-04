@@ -93,5 +93,9 @@ XMLscene.prototype.display = function () {
 	{
 		this.lights[0].update();
 	};	
+	this.graph.primitives[0].display();
+
+	
+	
 };
 
