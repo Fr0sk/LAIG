@@ -312,7 +312,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
 			var y1 = this.reader.getFloat(typeElem, 'y1', true);
 			var x2 = this.reader.getFloat(typeElem, 'x2', true);
 			var y2 = this.reader.getFloat(typeElem, 'y2', true);
-			var rectangle = PrimitiveBuilder.buildRect(x1, y1, x2, y2);
+			var rectangle = PrimitiveBuilder.buildRect(this.scene, x1, y1, x2, y2);
 			rectangle.id = id;
 			this.primitives.push(rectangle)
 			//console.log("Primitive num " + (i + 1) + ": id = " + id + ", x1 = " + x1 + ", y1 = " + y1 +
