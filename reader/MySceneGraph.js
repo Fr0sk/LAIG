@@ -70,7 +70,7 @@ MySceneGraph.prototype.parseData= function(rootElement) {
 	this.materials = [];
 	this.parseMaterials(rootElement);
 
-	this.transformation = [];
+	this.transformations = [];
 	this.parseTransformations(rootElement);
 
 	this.primitives = [];
@@ -271,12 +271,17 @@ MySceneGraph.prototype.parseTransformations = function(rootElement) {
 	var transformations = transformationsElem.getElementsByTagName('transformation');
 
 	for(var i = 0; i < transformations.length; i++) {
-		var id = this.reader.getString(transformations[i], 'id', true);
+		var ID = this.reader.getString(transformations[i], 'id', true);
+		
+		var transformationToSend = {};
+		transformationToSend.id = ID;
+		transformationToSend.xyz = [];
 
 		var translateElem = transformations[i].getElementsByTagName('translate')[0];
 		var translate;
 		if(transformationsElem != null) {
 			translate = this.getXYZ(translateElem, true);
+			transformationToSend.xyz.push(translate);
 			//console.log("Transformation num " + (i + 1) + ": id = " + id + ", translate = " + translate);
 		}
 
@@ -284,6 +289,7 @@ MySceneGraph.prototype.parseTransformations = function(rootElement) {
 		var rotate;
 		if(rotateElem != null) {
 			rotate = this.getXYZ(rotateElem, true);
+			transformationToSend.xyz.push(rotate);
 			//console.log("Rotate num " + (i + 1) + ": id = " + id + ", rotate = " + rotate);
 		}
 
@@ -291,8 +297,11 @@ MySceneGraph.prototype.parseTransformations = function(rootElement) {
 		var scale;
 		if(scaleElem != null) {
 			scale = this.getXYZ(scaleElem, true);
+			transformationToSend.xyz.push(scale);
 			//console.log("Scale num " + (i + 1) + ": id = " + id + ", scale = " + scale);
 		}
+
+		this.transformations.push(transformationToSend);
 	}
 };
 
