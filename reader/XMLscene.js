@@ -64,6 +64,8 @@ XMLscene.prototype.onGraphLoaded = function () {
 
 	//this.rect = PrimitiveBuilder.buildRect(this, 0, 0, 2, 2);
 	//this.cylinder = PrimitiveBuilder.buildCylinder(this, 1, 1, 1, 1, 1);
+
+	this.numComponents = this.graph.components.length;
 };
 
 XMLscene.prototype.display = function () {
@@ -90,6 +92,13 @@ XMLscene.prototype.display = function () {
 	//this.rect.display();
 	//this.cylinder.display();
 
+	/*for(var i = 0; i < this.numComponents; i++) {
+		//If this component hasn't already been visited
+		if(!this.graph.components[i].visited) {
+			this.graph.components[i].visited = true;
+		}
+	}
+
 	for (var i = 0; i < this.graph.components.length; i++) {
 		for (var j = 0; j < this.graph.components[i].primitives.length; j++) {
 			this.pushMatrix();
@@ -100,7 +109,7 @@ XMLscene.prototype.display = function () {
 			this.graph.components[i].primitives[j].display();
 			this.popMatrix();
 		}
-	}
+	}*/
 
 	// it is important that things depending on the proper loading of the graph
 	// only get executed after the graph has loaded correctly.
