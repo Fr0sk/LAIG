@@ -99,15 +99,7 @@
         <primitive id="unitTriangle">
             <triangle x1="-0.5" y1="0" z1="0" x2="0.5" y2="0.5" z2="0" x3="0" y3="1" z3="0" />
         </primitive>
-        <!--primitive id="unitCylinder">
-            <cylinder base="1" top="1" height="1" slices="1" stacks="1" />
-        </primitive>
-        <primitive id="unitSphere">
-            <sphere radius="1" slices="1" stacks="1" />
-        </primitive>
-        <primitive id="unitTorus">
-            <torus inner="0.5" outer="0.5" slices="1" loops="1" />
-        </primitive-->
+        <!--primitive id="unitCylinder"><cylinder base="1" top="1" height="1" slices="1" stacks="1" /></primitive><primitive id="unitSphere"><sphere radius="1" slices="1" stacks="1" /></primitive><primitive id="unitTorus"><torus inner="0.5" outer="0.5" slices="1" loops="1" /></primitive-->
     </primitives>
     <!-- Components set -->
     <components>
@@ -126,87 +118,48 @@
                 <material id="materialDefault" />
                 <material id="materialWood" />
             </materials>
-
             <texture id="wood" />
-
             <children>
                 <componentref id="leftRectTransform" />
-                <componentref id="rightRectTransform" />
-                <componentref id="cubeTransform" />
                 <primitiveref id="rect" />
                 <primitiveref id="rect" />
             </children>
         </component>
-
         <component id="leftRectTransform">
-            <transformation>
-                <translate x="-1" y="0" z="0" />
-            </transformation>
-
+            <transformation></transformation>
             <materials>
                 <material id="materialDefault" />
-                <material id="materialWood" />            
+                <material id="materialWood" />
             </materials>
-
             <texture id="none" />
-
             <children>
                 <componentref id="leftRect" />
             </children>
         </component>
-        
-        <component id="rightRectTransform">
-            <transformation>
-                <translate x="1" y="0" z="0" />
-            </transformation>
-            <materials>
-                <material id="materialDefault" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <componentref id="rightRect" />
-            </children>
-        </component>
-        
-        <component id="cubeTransform">
-            <transformation>
-            </transformation>
-            <materials>
-                <material id="materialWood" />
-            </materials>
-            <texture id="wood" />
-            <children>
-                <primitiveref id="unitTriangle" />
-            </children>
-        </component>
-        
         <component id="leftRect">
             <transformation>
+                <translate x="0" y="0" z="6" />
             </transformation>
             <materials>
                 <material id="materialWood" />
             </materials>
             <texture id="wood" />
             <children>
+                <componentref id="hey" />
                 <primitiveref id="rect" />
             </children>
         </component>
-       
-        <component id="rightRect">
+        <component id="hey">
             <transformation>
+                <translate x="4" y="0" z="0" />
             </transformation>
-            
             <materials>
                 <material id="materialWood" />
             </materials>
-
             <texture id="wood" />
-
             <children>
                 <primitiveref id="rect" />
             </children>
         </component>
-
     </components>
-
 </dsx>

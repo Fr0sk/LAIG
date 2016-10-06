@@ -62,11 +62,17 @@ XMLscene.prototype.onGraphLoaded = function () {
 		this.lights[this.graph.omniLights.length + i + 1] = this.graph.spotLights[i];
 	this.lights[1] = this.graph.omniLights[0];
 
+	this.numDrawn = 0;
+
 	//this.rect = PrimitiveBuilder.buildRect(this, 0, 0, 2, 2);
 	//this.cylinder = PrimitiveBuilder.buildCylinder(this, 1, 1, 1, 1, 1);
 };
 
 XMLscene.prototype.display = function () {
+	for(var i = 0; i < this.graph.components.length; i++) {
+		this.graph.components[i].visited = false;
+	}
+
 	// ---- BEGIN Background, camera and axis setup
 
 	// Clear image and depth buffer everytime we update the scene
@@ -90,23 +96,15 @@ XMLscene.prototype.display = function () {
 	//this.rect.display();
 	//this.cylinder.display();
 
-	/*for (var i = 0; i < this.graph.components.length; i++) {
+	for (var i = 0; i < this.graph.components.length; i++) {
 		//If this component hasn't already been visited
-		if (!this.graph.components[i].visited)
+		if (!this.graph.components[i].visited) {
+			console.log("Ciclo main numero: " + i);
 			this.runGraph(this.graph.components[i]);
-	}*/
-
-	/*for (var i = 0; i < this.graph.components.length; i++) {
-		for (var j = 0; j < this.graph.components[i].primitives.length; j++) {
-			this.pushMatrix();
-			
-			if(this.graph.components[i].texture != null)
-				this.graph.components[i].texture.apply();
-
-			this.graph.components[i].primitives[j].display();
-			this.popMatrix();
 		}
-	}*/
+	}
+
+	console.log("Numero de primitivas desenhadas: " + this.numDrawn);
 
 	// it is important that things depending on the proper loading of the graph
 	// only get executed after the graph has loaded correctly.
@@ -119,7 +117,7 @@ XMLscene.prototype.display = function () {
 XMLscene.prototype.runGraph = function (component) {
 	component.visited = true;
 
-	this.pushMatrix();
+	//this.pushMatrix();
 
 	//Apply texture (if needed)
 	if (component.texture != null)
@@ -132,11 +130,14 @@ XMLscene.prototype.runGraph = function (component) {
 	for (var i = 0; i < component.scales.length; i++)
 		this.scale(component.scales[i].x, component.scales[i].y, component.scales[i].z);
 
-	for (var i = 0; i < component.primitives.length; i++)
+	for (var i = 0; i < component.primitives.length; i++) {
 		component.primitives[i].display();
+		this.numDrawn++;
+		console.log("Componente ID = " + component.id + ", desenhando primitiva = " + component.primitives[i].id);
+	}
 
 	for(var i = 0; i < component.innerComponents.length; i++)
 		this.runGraph(component.innerComponents[i]);
 
-	this.popMatrix();
+	//this.popMatrix();
 };
