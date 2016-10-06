@@ -256,7 +256,7 @@ MySceneGraph.prototype.parseMaterials = function (rootElement) {
 		var specular = this.getRGBA(specularElem, true);
 		var shininess = this.reader.getFloat(shininessElem, 'value', true);
 
-		var material = new CGFappearance(this.scene);		//THERE'S NO ID????
+		var material = new CGFappearance(this.scene);
 		material.id = id;
 		material.setEmission(emission);
 		material.setAmbient(ambient);
@@ -461,12 +461,10 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 			var textureElem = component.getElementsByTagName('texture')[0];
 			var textureID = this.reader.getString(textureElem, 'id', true);
 
-			for (var j = 0; j < this.textures.length; j++) {
-				if (this.textures[j].id = textureID)
+			componentToSend.texture = null;
+			for (var j = 0; j < this.textures.length; j++)
+				if (this.textures[j].id == textureID)
 					componentToSend.texture = this.textures[j];
-			}
-
-			//console.log("Texture " + textureID);
 		}
 
 		//Children

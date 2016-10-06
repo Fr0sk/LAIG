@@ -39,7 +39,7 @@
     <!-- Textures set -->
     <!-- Must include at least one texture block -->
     <textures>
-        <texture id="wood" file="../assets/wood.jpg" length_s="1" length_t="1" />
+        <texture id="wood" file="./assets/wood.jpg" length_s="1" length_t="1" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
@@ -130,7 +130,7 @@
                 <material id="materialWood" />
             </materials>
 
-            <texture id="none" />
+            <texture id="wood" />
 
             <children>
                 <componentref id="leftRectTransform" />

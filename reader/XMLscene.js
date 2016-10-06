@@ -92,7 +92,13 @@ XMLscene.prototype.display = function () {
 
 	for (var i = 0; i < this.graph.components.length; i++) {
 		for (var j = 0; j < this.graph.components[i].primitives.length; j++) {
+			this.pushMatrix();
+			
+			if(this.graph.components[i].texture != null)
+				this.graph.components[i].texture.apply();
+
 			this.graph.components[i].primitives[j].display();
+			this.popMatrix();
 		}
 	}
 
