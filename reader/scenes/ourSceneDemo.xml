@@ -117,7 +117,7 @@
                 <!-- Do a reference to one of the transformations -->
                 <!-- ex: transformationref id="transformation1" -->
                 <!-- or leave blank -->
-                <translate x="0" y="2" z="0" />
+                <translate x="0" y="0" z="0" />
             </transformation>
             <!-- At least one material -->
             <!-- Use m/M to change between materials -->
@@ -129,8 +129,8 @@
             </materials>
 
             <texture id="none" />
+
             <children>
-            
                 <componentref id="leftRectTransform" />
                 <componentref id="rightRectTransform" />
                 <componentref id="cubeTransform" />

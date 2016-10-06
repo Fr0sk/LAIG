@@ -69,7 +69,9 @@ MySceneGraph.prototype.parseData = function (rootElement) {
 	this.materials = [];
 	this.parseMaterials(rootElement);
 
-	this.transformations = [];
+	this.translates = [];
+	this.rotates = [];
+	this.scales = [];
 	this.parseTransformations(rootElement);
 
 	this.primitives = [];
@@ -77,6 +79,10 @@ MySceneGraph.prototype.parseData = function (rootElement) {
 
 	this.components = [];
 	this.parserComponents(rootElement);
+
+	for(var i = 0; i < this.translates.length; i++) {
+		console.log("Translate num " + (i + 1) + ": x = " + this.translates[i].x + ", y = " + this.translates[i].y + ", z = " + this.translates[i].z);
+	}
 };
 
 /*
@@ -272,35 +278,35 @@ MySceneGraph.prototype.parseTransformations = function (rootElement) {
 	for (var i = 0; i < transformations.length; i++) {
 		var ID = this.reader.getString(transformations[i], 'id', true);
 
-		var transformationToSend = {};
-		transformationToSend.id = ID;
-		transformationToSend.xyz = [];
-
 		var translateElem = transformations[i].getElementsByTagName('translate')[0];
-		var translate;
 		if (transformationsElem != null) {
-			translate = this.getXYZ(translateElem, true);
-			transformationToSend.xyz.push(translate);
-			//console.log("Transformation num " + (i + 1) + ": id = " + id + ", translate = " + translate);
+			var translateToSend = {};
+			translateToSend.id = ID;
+			translateToSend.x = this.reader.getFloat(translateElem, 'x', true);
+			translateToSend.y = this.reader.getFloat(translateElem, 'y', true);
+			translateToSend.z = this.reader.getFloat(translateElem, 'z', true);
+			this.translates.push(translateToSend);
 		}
 
 		var rotateElem = transformations[i].getElementsByTagName('rotate')[0];
-		var rotate;
 		if (rotateElem != null) {
-			rotate = this.getXYZ(rotateElem, true);
-			transformationToSend.xyz.push(rotate);
-			//console.log("Rotate num " + (i + 1) + ": id = " + id + ", rotate = " + rotate);
+			var rotationToSend = {};
+			rotationToSend.id = ID;
+			rotationToSend.x = this.reader.getFloat(rotateElem, 'x', true);
+			rotationToSend.y = this.reader.getFloat(rotateElem, 'y', true);
+			rotationToSend.z = this.reader.getFloat(rotateElem, 'z', true);
+			this.rotates.push(rotationToSend);
 		}
 
 		var scaleElem = transformations[i].getElementsByTagName('scale')[0];
-		var scale;
 		if (scaleElem != null) {
-			scale = this.getXYZ(scaleElem, true);
-			transformationToSend.xyz.push(scale);
-			//console.log("Scale num " + (i + 1) + ": id = " + id + ", scale = " + scale);
+			var scaleToSend = {};
+			scaleToSend.id = ID;
+			scaleToSend.x = this.reader.getFloat(scaleElem, 'x', true);
+			scaleToSend.y = this.reader.getFloat(scaleElem, 'y', true);
+			scaleToSend.z = this.reader.getFloat(scaleElem, 'z', true);
+			this.scales.push(scaleToSend);
 		}
-
-		this.transformations.push(transformationToSend);
 	}
 };
 
@@ -383,7 +389,6 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 	var components = componentsElem.getElementsByTagName('component');
 
 	for (var i = 0; i < components.length; i++) {
-		console.log("FDS");
 		//Component		
 		var component = components[i];
 		var componentID = this.reader.getString(component, 'id', true);
@@ -391,7 +396,9 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 
 		var componentToSend = {};
 		componentToSend.id = componentID;
-		componentToSend.transformations = [];
+		componentToSend.translates = [];
+		componentToSend.rotates = [];
+		componentToSend.scales = [];
 		componentToSend.materials = [];
 		componentToSend.texture;
 		componentToSend.componentsRef = [];
@@ -403,20 +410,29 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 
 			var translate = transformationElem.getElementsByTagName('translate');
 			for (var j = 0; j < translate.length; j++) {
-				var xyz = this.getXYZ(translate[j], true);
-				//console.log("Translate number " + (j + 1) + ", " + xyz);
+				var translateToSend = {};
+				translateToSend.x = this.reader.getFloat(translate[j], 'x', true);
+				translateToSend.y = this.reader.getFloat(translate[j], 'y', true);
+				translateToSend.z = this.reader.getFloat(translate[j], 'z', true);
+				componentToSend.translates.push(translateToSend);
 			}
 
 			var rotate = transformationElem.getElementsByTagName('rotate');
 			for (var j = 0; j < rotate.length; j++) {
-				var xyz = this.getXYZ(rotate[j], true);
-				//console.log("Rotate number " + (j + 1) + ", " + xyz);
+				var rotateToSend = {};
+				rotateToSend.x = this.reader.getFloat(rotate[j], 'x', true);
+				rotateToSend.y = this.reader.getFloat(rotate[j], 'y', true);
+				rotateToSend.z = this.reader.getFloat(rotate[j], 'z', true);
+				componentToSend.rotates.push(rotateToSend);
 			}
 
 			var scale = transformationElem.getElementsByTagName('scale');
 			for (var j = 0; j < scale.length; j++) {
-				var xyz = this.getXYZ(scale[j], true);
-				//console.log("Scale number " + (j + 1) + ", " + xyz);
+				var scaleToSend = {};
+				scaleToSend.x = this.reader.getFloat(scale[j], 'x', true);
+				scaleToSend.y = this.reader.getFloat(scale[j], 'y', true);
+				scaleToSend.z = this.reader.getFloat(scale[j], 'z', true);
+				componentToSend.scales.push(scaleToSend);
 			}
 		}
 
@@ -429,9 +445,9 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 				var materialID = this.reader.getString(materials[j], 'id', true);
 
 				//Add the material to the component
-				for (var j = 0; j < this.materials.length; j++) {
-					if (this.materials[j].id == materialID)
-						componentToSend.materials.push(this.materials[j]);
+				for (var k = 0; k < this.materials.length; k++) {
+					if (this.materials[k].id == materialID)
+						componentToSend.materials.push(this.materials[k]);
 				}
 
 				//console.log("Material number " + (j + 1) + ", id = " + materialID);
@@ -465,7 +481,7 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 			var primitiveref = childrenElem.getElementsByTagName('primitiveref');
 			for (var j = 0; j < primitiveref.length; j++) {
 				var primitiveID = this.reader.getString(primitiveref[j], 'id', true);
-				
+
 				for (var k = 0; k < this.primitives.length; k++) {
 					if (primitiveID == this.primitives[k].id) {
 						componentToSend.primitives.push(this.primitives[k]);
