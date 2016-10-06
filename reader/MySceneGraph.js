@@ -79,13 +79,18 @@ MySceneGraph.prototype.parseData = function (rootElement) {
 
 	this.components = [];
 	this.parserComponents(rootElement);
-
-	/*for(var i = 0; i < this.translates.length; i++) {
-		console.log("Translate com ID '" + this.translates[i].id + "': x = " + this.translates[i].x + ", y = " + this.translates[i].y + ", z = " + this.translates[i].z);
-	}*/
-
-	//console.log("x = " + this.components[0].translates[0].x, ", y = " + this.components[0].translates[0].y + ", z = " + this.components[0].translates[0].z);
+	this.getInnerComponents();
 };
+
+MySceneGraph.prototype.getInnerComponents = function () {
+	for (var i = 0; i < this.components.length; i++)
+		for (var j = 0; j < this.components[i].componentsRef.length; j++)
+			for (var k = 0; k < this.components.length; k++)
+				if (this.components[i].componentsRef[j] == this.components[k].id) {
+					this.components[i].innerComponents.push(this.components[k]);
+					break;
+				}
+}
 
 /*
  * Scene
@@ -404,6 +409,7 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 		componentToSend.materials = [];
 		componentToSend.texture;
 		componentToSend.componentsRef = [];
+		componentToSend.innerComponents = [];
 		componentToSend.primitives = [];
 		componentToSend.visited = false;
 

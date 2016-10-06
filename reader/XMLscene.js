@@ -64,8 +64,6 @@ XMLscene.prototype.onGraphLoaded = function () {
 
 	//this.rect = PrimitiveBuilder.buildRect(this, 0, 0, 2, 2);
 	//this.cylinder = PrimitiveBuilder.buildCylinder(this, 1, 1, 1, 1, 1);
-
-	this.numComponents = this.graph.components.length;
 };
 
 XMLscene.prototype.display = function () {
@@ -92,14 +90,13 @@ XMLscene.prototype.display = function () {
 	//this.rect.display();
 	//this.cylinder.display();
 
-	/*for(var i = 0; i < this.numComponents; i++) {
+	/*for (var i = 0; i < this.graph.components.length; i++) {
 		//If this component hasn't already been visited
-		if(!this.graph.components[i].visited) {
-			this.graph.components[i].visited = true;
-		}
-	}
+		if (!this.graph.components[i].visited)
+			this.runGraph(this.graph.components[i]);
+	}*/
 
-	for (var i = 0; i < this.graph.components.length; i++) {
+	/*for (var i = 0; i < this.graph.components.length; i++) {
 		for (var j = 0; j < this.graph.components[i].primitives.length; j++) {
 			this.pushMatrix();
 			
@@ -117,4 +114,29 @@ XMLscene.prototype.display = function () {
 	if (this.graph.loadedOk) {
 		this.lights[0].update();
 	};
+};
+
+XMLscene.prototype.runGraph = function (component) {
+	component.visited = true;
+
+	this.pushMatrix();
+
+	//Apply texture (if needed)
+	if (component.texture != null)
+		component.texture.apply();
+
+	for (var i = 0; i < component.translates.length; i++)
+		this.translate(component.translates[i].x, component.translates[i].y, component.translates[i].z);
+	for (var i = 0; i < component.rotates.length; i++)
+		this.rotate(component.rotates[i].x, component.rotates[i].y, component.rotates[i].z);
+	for (var i = 0; i < component.scales.length; i++)
+		this.scale(component.scales[i].x, component.scales[i].y, component.scales[i].z);
+
+	for (var i = 0; i < component.primitives.length; i++)
+		component.primitives[i].display();
+
+	for(var i = 0; i < component.innerComponents.length; i++)
+		this.runGraph(component.innerComponents[i]);
+
+	this.popMatrix();
 };
