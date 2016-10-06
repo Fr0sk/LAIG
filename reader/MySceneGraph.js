@@ -80,9 +80,11 @@ MySceneGraph.prototype.parseData = function (rootElement) {
 	this.components = [];
 	this.parserComponents(rootElement);
 
-	for(var i = 0; i < this.translates.length; i++) {
-		console.log("Translate num " + (i + 1) + ": x = " + this.translates[i].x + ", y = " + this.translates[i].y + ", z = " + this.translates[i].z);
-	}
+	/*for(var i = 0; i < this.translates.length; i++) {
+		console.log("Translate com ID '" + this.translates[i].id + "': x = " + this.translates[i].x + ", y = " + this.translates[i].y + ", z = " + this.translates[i].z);
+	}*/
+
+	//console.log("x = " + this.components[0].translates[0].x, ", y = " + this.components[0].translates[0].y + ", z = " + this.components[0].translates[0].z);
 };
 
 /*
@@ -279,7 +281,7 @@ MySceneGraph.prototype.parseTransformations = function (rootElement) {
 		var ID = this.reader.getString(transformations[i], 'id', true);
 
 		var translateElem = transformations[i].getElementsByTagName('translate')[0];
-		if (transformationsElem != null) {
+		if (translateElem != null) {
 			var translateToSend = {};
 			translateToSend.id = ID;
 			translateToSend.x = this.reader.getFloat(translateElem, 'x', true);

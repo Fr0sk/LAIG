@@ -118,6 +118,8 @@
                 <!-- ex: transformationref id="transformation1" -->
                 <!-- or leave blank -->
                 <translate x="0" y="0" z="0" />
+                <rotate x="1" y="1" z="1" />
+                <scale x="2" y="2" z="2" />
             </transformation>
             <!-- At least one material -->
             <!-- Use m/M to change between materials -->
