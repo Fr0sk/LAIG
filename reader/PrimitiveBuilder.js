@@ -135,17 +135,20 @@ PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, sta
         this.vertices = [];
         this.indices = [];
         this.normals = [];
+        
+        var transition = (this.base - this.top) / this.stacks;
 
         for (var lat = 0; lat <= this.stacks; lat++) {
             var theta = lat * (Math.PI / 2) / this.stacks;
-
+            var radius = top + transition * lat;
+            
             for (var long = 0; long <= this.slices; long++) {
-                var phi = long * 2 * Math.PI / this.slices;
-
-                var x = Math.cos(phi);
-                var y = Math.sin(phi);
-                var z = Math.cos(theta);
-
+                var phi = -1 * long * 2*Math.PI / this.slices;
+                
+                var x =  radius * Math.cos(phi);
+                var y =  this.height * Math.cos(theta);
+                var z =  radius * Math.sin(phi);
+                
                 this.vertices.push(x, y, z);
             }
         }
