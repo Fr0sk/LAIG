@@ -46,6 +46,7 @@ XMLscene.prototype.setDefaultAppearance = function () {
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function () 
 {
+	console.log("Please draw! 1\n");
 	this.setGlobalAmbientLight(this.graph.ambientLight[0],this.graph.ambientLight[1],this.graph.ambientLight[2],this.graph.ambientLight[3]);
 	this.gl.clearColor(this.graph.background[0],this.graph.background[1],this.graph.background[2],this.graph.background[3]);
 
@@ -63,6 +64,10 @@ XMLscene.prototype.onGraphLoaded = function ()
 	for (var i = 0; i < this.graph.spotLights.length; i++) 
 		this.lights[this.graph.omniLights.length + i + 1] = this.graph.spotLights[i];
 	this.lights[1] = this.graph.omniLights[0];
+
+	//this.rect = PrimitiveBuilder.buildRect(this, 0, 0, 2, 2);
+	this.cylinder = PrimitiveBuilder.buildCylinder(this, 1, 1, 1, 1, 1);
+	console.log(this.cylinder.base + " base\n");
 };
 
 XMLscene.prototype.display = function () {
@@ -85,6 +90,9 @@ XMLscene.prototype.display = function () {
 	this.setDefaultAppearance();
 	
 	// ---- END Background, camera and axis setup
+
+	//this.rect.display();
+	this.cylinder.display();
 
 	// it is important that things depending on the proper loading of the graph
 	// only get executed after the graph has loaded correctly.
