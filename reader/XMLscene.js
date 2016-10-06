@@ -21,7 +21,6 @@ XMLscene.prototype.init = function (application) {
     this.gl.depthFunc(this.gl.LEQUAL);
 
 	this.axis = new CGFaxis(this);
-
 };
 
 XMLscene.prototype.initLights = function () {
@@ -91,11 +90,15 @@ XMLscene.prototype.display = function () {
 	//this.rect.display();
 	//this.cylinder.display();
 
+	var desenhados = 0;
 	for (var i = 0; i < this.graph.components.length; i++) {
 		for (var j = 0; j < this.graph.components[i].primitives.length; j++) {
 			this.graph.components[i].primitives[j].display();
+			desenhados++;
 		}
 	}
+
+	console.log("Desenhados = " + desenhados);
 
 	// it is important that things depending on the proper loading of the graph
 	// only get executed after the graph has loaded correctly.
@@ -104,4 +107,3 @@ XMLscene.prototype.display = function () {
 		this.lights[0].update();
 	};
 };
-

@@ -383,10 +383,11 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 	var components = componentsElem.getElementsByTagName('component');
 
 	for (var i = 0; i < components.length; i++) {
+		console.log("FDS");
 		//Component		
 		var component = components[i];
 		var componentID = this.reader.getString(component, 'id', true);
-		console.log("Component number " + (i + 1) + ", id = " + componentID);
+		//console.log("Component number " + (i + 1) + ", id = " + componentID);
 
 		var componentToSend = {};
 		componentToSend.id = componentID;
@@ -465,9 +466,9 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 			for (var j = 0; j < primitiveref.length; j++) {
 				var primitiveID = this.reader.getString(primitiveref[j], 'id', true);
 				
-				for (var i = 0; i < this.primitives.length; i++) {
-					if (primitiveID == this.primitives[i].id) {
-						componentToSend.primitives.push(this.primitives[i]);
+				for (var k = 0; k < this.primitives.length; k++) {
+					if (primitiveID == this.primitives[k].id) {
+						componentToSend.primitives.push(this.primitives[k]);
 						break;
 					}
 				}

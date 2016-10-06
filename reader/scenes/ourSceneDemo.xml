@@ -93,16 +93,13 @@
     <!-- Primitives set -->
     <!-- Must include at least one primitive block -->
     <primitives>
-        <primitive id="unitSquare">
+        <primitive id="rect">
             <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
         </primitive>
-        <primitive id="rect">
-            <rectangle x1="1" y1="0" x2="2" y2="1" />
-        </primitive>
-        <!--primitive id="unitTriangle">
+        <primitive id="unitTriangle">
             <triangle x1="-0.5" y1="0" z1="0" x2="0.5" y2="0.5" z2="0" x3="0" y3="1" z3="0" />
         </primitive>
-        <primitive id="unitCylinder">
+        <!--primitive id="unitCylinder">
             <cylinder base="1" top="1" height="1" slices="1" stacks="1" />
         </primitive>
         <primitive id="unitSphere">
@@ -134,15 +131,15 @@
             <texture id="none" />
             <children>
             
-                <!--componentref id="leftRectTransform" />
+                <componentref id="leftRectTransform" />
                 <componentref id="rightRectTransform" />
-                <componentref id="cubeTransform" /-->
+                <componentref id="cubeTransform" />
                 <primitiveref id="rect" />
-                <primitiveref id="unitSquare" />
+                <primitiveref id="rect" />
             </children>
         </component>
 
-        <!--component id="leftRectTransform">
+        <component id="leftRectTransform">
             <transformation>
                 <translate x="-5" y="0" z="0" />
                 <rotate x="5523" y="1" z="65758980" />
@@ -181,7 +178,7 @@
             </materials>
             <texture id="wood" />
             <children>
-                <primitiveref id="unitSquare" />
+                <primitiveref id="unitTriangle" />
             </children>
         </component>
         
@@ -192,7 +189,7 @@
             </materials>
             <texture id="wood" />
             <children>
-                <primitiveref id="unitSquare" />
+                <primitiveref id="rect" />
             </children>
         </component>
        
@@ -207,9 +204,9 @@
             <texture id="wood" />
 
             <children>
-                <primitiveref id="unitSquare" />
+                <primitiveref id="rect" />
             </children>
-        </component-->
+        </component>
 
     </components>
 
