@@ -405,6 +405,7 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 		componentToSend.texture;
 		componentToSend.componentsRef = [];
 		componentToSend.primitives = [];
+		componentToSend.visited = false;
 
 		//Transformations
 		{

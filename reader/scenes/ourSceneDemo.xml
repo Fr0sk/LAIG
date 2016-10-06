@@ -39,7 +39,7 @@
     <!-- Textures set -->
     <!-- Must include at least one texture block -->
     <textures>
-        <texture id="wood" file="./assets/wood.jpg" length_s="1" length_t="1" />
+        <texture id="wood" file="../assets/wood.jpg" length_s="1" length_t="1" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
@@ -117,9 +117,6 @@
                 <!-- Do a reference to one of the transformations -->
                 <!-- ex: transformationref id="transformation1" -->
                 <!-- or leave blank -->
-                <translate x="0" y="0" z="0" />
-                <rotate x="1" y="1" z="1" />
-                <scale x="2" y="2" z="2" />
             </transformation>
             <!-- At least one material -->
             <!-- Use m/M to change between materials -->
