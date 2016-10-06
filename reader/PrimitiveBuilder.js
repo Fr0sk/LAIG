@@ -169,8 +169,58 @@ PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, sta
 
 // Builds a sphere with given params
 PrimitiveBuilder.buildSphere = function (scene, radius, slices, stacks) {
-    var sphere = {};
-    // TODO Build sphere
+    function Sphere(scene, radius, slices, stacks) {
+        this.scene = scene;
+        this.radius = radius;
+        this.slices = slices;
+        this.stacks = stacks;
+        CGFobject.call(this, scene);
+        this.initBuffers();
+    };
+
+    Sphere.prototype = Object.create(CGFobject.prototype);
+    Sphere.prototype.constructor = Sphere;
+
+    Sphere.prototype.initBuffers = function () {
+
+        // Only draws triangles
+        this.primitiveType = this.scene.gl.TRIANGLES;
+
+        this.vertices = [];
+        this.indices = [];
+        this.normals = [];
+        this.texCoords = [];
+            
+        for (var lat = 0; lat <= this.stacks; lat++) {
+        var theta = lat * Math.PI / this.stacks;
+
+            for (var long = 0; long <= this.slices; long++) {
+                var phi = long * 2 * Math.PI / this.slices;
+
+                var x = this.radius * Math.cos(phi) * Math.sin(theta);
+                var y = this.radius * Math.sin(phi) * Math.sin(theta);
+                var z = this.radius * Math.cos(theta);
+
+                this.vertices.push(x, y, z);
+                this.texCoords.push(long/this.slices,lat/this.stacks);
+            }
+        }
+        this.normals = this.vertices;
+
+        for (var lat = 0; lat < this.stacks; lat++) {
+            for (var long = 0; long < this.slices; long++) {
+                var first = (lat * (this.slices+1)) + long;
+                var second = first + this.slices + 1;
+                this.indices.push(first, second, first+1);
+                this.indices.push(second, second+1, first+1);
+            }
+        }
+
+        // Takes the data in vertices, indices and normals and puts in buffers to be used by WebGl.
+        this.initGLBuffers();
+    };
+
+    var sphere = new Sphere(scene, radius, slices, stacks);
     return sphere;
 }
 
