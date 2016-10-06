@@ -120,15 +120,7 @@
                 <!-- Do a reference to one of the transformations -->
                 <!-- ex: transformationref id="transformation1" -->
                 <!-- or leave blank -->
-                <translate x="4" y="6" z="789" />
-                <scale x="435" y="32546" z="325" />
-                <translate x="435" y="32546" z="325" />
-                <scale x="435" y="32546" z="325" />
-                <scale x="435" y="32546" z="325" />
-                <rotate x="435" y="32546" z="325" />
-                <scale x="435" y="32546" z="325" />
-                <rotate x="435" y="32546" z="325" />
-                <scale x="435" y="32546" z="325" />
+                <translate x="0" y="2" z="0" />
             </transformation>
             <!-- At least one material -->
             <!-- Use m/M to change between materials -->
@@ -142,16 +134,15 @@
             <texture id="none" />
             <children>
             
-                <componentref id="leftRectTransform" />
+                <!--componentref id="leftRectTransform" />
                 <componentref id="rightRectTransform" />
-                <componentref id="cubeTransform" />
-                <!-- Since the root node doesn't have primitives, we don't use: -->
-                <!-- primitiveref id="" -->
-                <primitiveref id="rectangle" />
+                <componentref id="cubeTransform" /-->
+                <primitiveref id="rect" />
+                <primitiveref id="unitSquare" />
             </children>
         </component>
 
-        <component id="leftRectTransform">
+        <!--component id="leftRectTransform">
             <transformation>
                 <translate x="-5" y="0" z="0" />
                 <rotate x="5523" y="1" z="65758980" />
@@ -218,7 +209,7 @@
             <children>
                 <primitiveref id="unitSquare" />
             </children>
-        </component>
+        </component-->
 
     </components>
 
