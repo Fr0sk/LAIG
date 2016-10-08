@@ -486,13 +486,14 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 			var textureID = this.reader.getString(textureElem, 'id', true);
 
 			if (textureID == 'inherit') {
-
-			} else if (textureID == "none") {
-				var myTexture = new CGFappearance(this.scene);
-				myTexture.setTexture(null);
-				componentToSend.texture = myTexture;
+				this.getInheritTexture(componentID, componentToSend);
+				console.log("ID: " + componentToSend.texture.id);
 			}
-			else
+			else if (textureID == "none") {
+				var nullTexture = new CGFappearance(this.scene);
+				nullTexture.setTexture(null);
+				componentToSend.texture = nullTexture;
+			} else
 				for (var j = 0; j < this.textures.length; j++)
 					if (this.textures[j].id == textureID)
 						componentToSend.texture = this.textures[j];
@@ -569,4 +570,14 @@ MySceneGraph.prototype.getTriangleSize = function (element, required) {
 	var x2 = this.reader.getFloat(element, 'x2', required);
 	var y2 = this.reader.getFloat(element, 'y2', required);
 	var z2 = this.reader.getFloat(element, 'z2', required);
+};
+
+MySceneGraph.prototype.getInheritTexture = function (childComponentID, childComponent) {
+	for (var i = 0; i < this.components.length; i++)
+		for (var j = 0; j < this.components[i].componentsRef.length; j++) {
+			if (this.components[i].componentsRef[j] == childComponentID) {
+				childComponent.texture = this.components[i].texture;
+				break;
+			}
+		}
 };

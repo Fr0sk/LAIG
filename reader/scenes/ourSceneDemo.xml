@@ -134,7 +134,7 @@
             <materials>
                 <material id="materialWood" />
             </materials>
-            <texture id="none" />
+            <texture id="wood" />
             <children>
                 <componentref id="topRect" />
                 <componentref id="bottomRect" />
@@ -190,7 +190,7 @@
             <materials>
                 <material id="materialWood" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="rect" />
             </children>
