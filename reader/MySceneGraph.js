@@ -87,8 +87,8 @@ MySceneGraph.prototype.parseData = function (rootElement) {
 /**
  * Debug purposes
  */
-MySceneGraph.prototype.myDebug = function() {
-	console.log("Numero de components = " + this.components[0].componentsRef.length);
+MySceneGraph.prototype.myDebug = function () {
+	//console.log("Numero de components = " + this.components[0].componentsRef.length);
 }
 
 /**
@@ -311,9 +311,8 @@ MySceneGraph.prototype.parseTransformations = function (rootElement) {
 		if (rotateElem != null) {
 			var rotationToSend = {};
 			rotationToSend.id = ID;
-			rotationToSend.x = this.reader.getFloat(rotateElem, 'x', true);
-			rotationToSend.y = this.reader.getFloat(rotateElem, 'y', true);
-			rotationToSend.z = this.reader.getFloat(rotateElem, 'z', true);
+			rotationToSend.axis = this.reader.getString(rotateElem, 'axis', true);
+			rotationToSend.angle = this.reader.getFloat(rotateElem, 'angle', true);
 			this.rotates.push(rotationToSend);
 		}
 
@@ -415,6 +414,7 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 
 		var componentToSend = {};
 		componentToSend.id = componentID;
+		componentToSend.transformationsRef = [];
 		componentToSend.translates = [];
 		componentToSend.rotates = [];
 		componentToSend.scales = [];
@@ -429,6 +429,12 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 		{
 			var transformationElem = component.getElementsByTagName('transformation')[0];
 
+			var transformationRef = transformationElem.getElementsByTagName('transformationref');
+			for (var j = 0; j < transformationRef.length; j++) {
+				var id = this.reader.getString(transformationRef[j], 'id', true);
+				componentToSend.transformationsRef.push(id);
+			}
+
 			var translate = transformationElem.getElementsByTagName('translate');
 			for (var j = 0; j < translate.length; j++) {
 				var translateToSend = {};
@@ -441,9 +447,8 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 			var rotate = transformationElem.getElementsByTagName('rotate');
 			for (var j = 0; j < rotate.length; j++) {
 				var rotateToSend = {};
-				rotateToSend.x = this.reader.getFloat(rotate[j], 'x', true);
-				rotateToSend.y = this.reader.getFloat(rotate[j], 'y', true);
-				rotateToSend.z = this.reader.getFloat(rotate[j], 'z', true);
+				rotateToSend.axis = this.reader.getString(rotate[j], 'axis', true);
+				rotateToSend.angle = this.reader.getFloat(rotate[j], 'angle', true);
 				componentToSend.rotates.push(rotateToSend);
 			}
 

@@ -72,13 +72,13 @@
             <translate x="0" y="0" z="1" />
         </transformation>
         <transformation id="rotateX90">
-            <rotate x="90" y="0" z="0" />
+            <rotate axis="x" angle="90" />
         </transformation>
         <transformation id="rotateY90">
-            <rotate x="0" y="90" z="0" />
+            <rotate axis="y" angle="90" />
         </transformation>
         <transformation id="rotateZ90">
-            <rotate x="0" y="0" z="90" />
+            <rotate axis="z" angle="90" />
         </transformation>
         <transformation id="scale2X">
             <scale x="2" y="1" z="1" />
@@ -109,7 +109,6 @@
                 <!-- Do a reference to one of the transformations -->
                 <!-- ex: transformationref id="transformation1" -->
                 <!-- or leave blank -->
-                <translate x="0" y="0" z="-3" />
             </transformation>
             <!-- At least one material -->
             <!-- Use m/M to change between materials -->
@@ -121,69 +120,72 @@
             </materials>
             <texture id="wood" />
             <children>
-                <componentref id="leftRectTransform" />
-                <componentref id="test" />
-                <primitiveref id="rect" />
+                <componentref id="cubeTransform" />
             </children>
         </component>
-        <component id="test">
+        <component id="cubeTransform">
             <transformation>
-                <translate x="0" y="1" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
                 <material id="materialWood" />
             </materials>
             <texture id="none" />
             <children>
-                <componentref id="testPrimitivive" />
-            </children>
-        </component>
-        <component id="testPrimitivive">
-            <transformation>
-                <translate x="0" y="0" z="3" />
-            </transformation>
-            <materials>
-                <material id="materialDefault" />
-                <material id="materialWood" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <primitiveref id="rect" />
-            </children>
-        </component>
-        <component id="leftRectTransform">
-            <transformation></transformation>
-            <materials>
-                <material id="materialDefault" />
-                <material id="materialWood" />
-            </materials>
-            <texture id="none" />
-            <children>
+                <componentref id="topRect" />
+                <componentref id="bottomRect" />
                 <componentref id="leftRect" />
+                <componentref id="rightRect" />
+                <componentref id="frontRect" />
+                <componentref id="backRect" />
             </children>
         </component>
-        <component id="leftRect">
+        <component id="topRect">
             <transformation>
-                <translate x="0" y="0" z="6" />
+                <rotate axis="x" angle="-90" />
+                <translate x="0" y="0" z="0.5" />
             </transformation>
             <materials>
                 <material id="materialWood" />
             </materials>
-            <texture id="wood" />
+            <texture id="none" />
             <children>
-                <componentref id="hey" />
                 <primitiveref id="rect" />
             </children>
         </component>
-        <component id="hey">
+        <component id="bottomRect">
             <transformation>
-                <translate x="4" y="0" z="0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0" y="0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="materialWood" />
             </materials>
-            <texture id="wood" />
+            <texture id="none" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="frontRect">
+            <transformation>
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="materialWood" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="rightRect">
+            <transformation>
+                <rotate axis="y" angle="90" />
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="materialWood" />
+            </materials>
+            <texture id="none" />
             <children>
                 <primitiveref id="rect" />
             </children>

@@ -1,4 +1,6 @@
 
+var degToRad = Math.PI / 180.0;
+
 function XMLscene() {
     CGFscene.call(this);
 }
@@ -61,15 +63,10 @@ XMLscene.prototype.onGraphLoaded = function () {
 	for (var i = 0; i < this.graph.spotLights.length; i++)
 		this.lights[this.graph.omniLights.length + i + 1] = this.graph.spotLights[i];
 	this.lights[1] = this.graph.omniLights[0];
-
-	this.numDrawn = 0;
-
-	//this.rect = PrimitiveBuilder.buildRect(this, 0, 0, 2, 2);
-	//this.cylinder = PrimitiveBuilder.buildCylinder(this, 1, 1, 1, 1, 1);
 };
 
 XMLscene.prototype.display = function () {
-	for(var i = 0; i < this.graph.components.length; i++) {
+	for (var i = 0; i < this.graph.components.length; i++) {
 		this.graph.components[i].visited = false;
 	}
 
@@ -93,16 +90,13 @@ XMLscene.prototype.display = function () {
 
 	// ---- END Background, camera and axis setup
 
-	//this.rect.display();
-	//this.cylinder.display();
-
-	for (var i = 0; i < this.graph.components.length; i++) {
+	/*for (var i = 0; i < this.graph.components.length; i++) {
 		//If this component hasn't already been visited
 		if (!this.graph.components[i].visited) {
-			//console.log("Ciclo main numero: " + i);
+			console.log("Ciclo main numero: " + i);
 			this.runGraph(this.graph.components[i]);
 		}
-	}
+	}*/
 
 	//console.log("Numero de primitivas desenhadas: " + this.numDrawn);
 
@@ -111,9 +105,10 @@ XMLscene.prototype.display = function () {
 	// This is one possible way to do it
 	if (this.graph.loadedOk) {
 		this.lights[0].update();
-	};
 
-	this.numDrawn = 0;
+		//Starts going through the graph
+		this.runGraph(this.graph.components[0]);
+	};
 };
 
 XMLscene.prototype.runGraph = function (component) {
@@ -125,20 +120,24 @@ XMLscene.prototype.runGraph = function (component) {
 	if (component.texture != null)
 		component.texture.apply();
 
+	for (var i = 0; i < component.rotates.length; i++)
+		switch (component.rotates[i].axis) {
+			case 'x': this.rotate(component.rotates[i].angle * degToRad, 1, 0, 0); break;
+			case 'y': this.rotate(component.rotates[i].angle * degToRad, 0, 1, 0); break;
+			case 'z': this.rotate(component.rotates[i].angle * degToRad, 0, 0, 1); break;
+			default: break;
+		}
 	for (var i = 0; i < component.translates.length; i++)
 		this.translate(component.translates[i].x, component.translates[i].y, component.translates[i].z);
-	for (var i = 0; i < component.rotates.length; i++)
-		this.rotate(component.rotates[i].x, component.rotates[i].y, component.rotates[i].z);
 	for (var i = 0; i < component.scales.length; i++)
 		this.scale(component.scales[i].x, component.scales[i].y, component.scales[i].z);
 
-	for (var i = 0; i < component.primitives.length; i++) {
+	//Draws the primitives
+	for (var i = 0; i < component.primitives.length; i++)
 		component.primitives[i].display();
-		this.numDrawn++;
-		//console.log("Componente ID = " + component.id + ", desenhando primitiva = " + component.primitives[i].id);
-	}
 
-	for(var i = 0; i < component.innerComponents.length; i++)
+	//Uses pesquisa em profundidade
+	for (var i = 0; i < component.innerComponents.length; i++)
 		this.runGraph(component.innerComponents[i]);
 
 	this.popMatrix();
