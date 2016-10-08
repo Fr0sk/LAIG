@@ -44,6 +44,13 @@ PrimitiveBuilder.buildRect = function (scene, x1, y1, x2, y2) {
             0, 0, 1
         ];
 
+        this.texCoords = [
+            this.x2, this.y1,
+            this.x1, this.y1,
+            this.x1, this.y2,
+            this.x2, this.y2
+        ];
+
         // Takes the data in vertices, indices and normals and puts in buffers to be used by WebGl.
         this.initGLBuffers();
     };
@@ -135,20 +142,20 @@ PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, sta
         this.vertices = [];
         this.indices = [];
         this.normals = [];
-        
+
         var transition = (this.base - this.top) / this.stacks;
 
         for (var lat = 0; lat <= this.stacks; lat++) {
             var theta = lat * (Math.PI / 2) / this.stacks;
             var radius = top + transition * lat;
-            
+
             for (var long = 0; long <= this.slices; long++) {
-                var phi = -1 * long * 2*Math.PI / this.slices;
-                
-                var x =  radius * Math.cos(phi);
-                var y =  this.height * Math.cos(theta);
-                var z =  radius * Math.sin(phi);
-                
+                var phi = -1 * long * 2 * Math.PI / this.slices;
+
+                var x = radius * Math.cos(phi);
+                var y = this.height * Math.cos(theta);
+                var z = radius * Math.sin(phi);
+
                 this.vertices.push(x, y, z);
             }
         }
@@ -193,9 +200,9 @@ PrimitiveBuilder.buildSphere = function (scene, radius, slices, stacks) {
         this.indices = [];
         this.normals = [];
         this.texCoords = [];
-            
+
         for (var lat = 0; lat <= this.stacks; lat++) {
-        var theta = lat * Math.PI / this.stacks;
+            var theta = lat * Math.PI / this.stacks;
 
             for (var long = 0; long <= this.slices; long++) {
                 var phi = long * 2 * Math.PI / this.slices;
@@ -205,17 +212,17 @@ PrimitiveBuilder.buildSphere = function (scene, radius, slices, stacks) {
                 var z = this.radius * Math.cos(theta);
 
                 this.vertices.push(x, y, z);
-                this.texCoords.push(long/this.slices,lat/this.stacks);
+                this.texCoords.push(long / this.slices, lat / this.stacks);
             }
         }
         this.normals = this.vertices;
 
         for (var lat = 0; lat < this.stacks; lat++) {
             for (var long = 0; long < this.slices; long++) {
-                var first = (lat * (this.slices+1)) + long;
+                var first = (lat * (this.slices + 1)) + long;
                 var second = first + this.slices + 1;
-                this.indices.push(first, second, first+1);
-                this.indices.push(second, second+1, first+1);
+                this.indices.push(first, second, first + 1);
+                this.indices.push(second, second + 1, first + 1);
             }
         }
 

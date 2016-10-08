@@ -23,6 +23,9 @@ XMLscene.prototype.init = function (application) {
     this.gl.depthFunc(this.gl.LEQUAL);
 
 	this.axis = new CGFaxis(this);
+
+	//We need to enable textures
+	this.enableTextures(true);
 };
 
 XMLscene.prototype.initLights = function () {
@@ -120,6 +123,7 @@ XMLscene.prototype.runGraph = function (component) {
 	if (component.texture != null)
 		component.texture.apply();
 
+	//Rotates scene
 	for (var i = 0; i < component.rotates.length; i++)
 		switch (component.rotates[i].axis) {
 			case 'x': this.rotate(component.rotates[i].angle * degToRad, 1, 0, 0); break;
@@ -127,8 +131,12 @@ XMLscene.prototype.runGraph = function (component) {
 			case 'z': this.rotate(component.rotates[i].angle * degToRad, 0, 0, 1); break;
 			default: break;
 		}
+
+	//Translates scene
 	for (var i = 0; i < component.translates.length; i++)
 		this.translate(component.translates[i].x, component.translates[i].y, component.translates[i].z);
+	
+	//Scales scene
 	for (var i = 0; i < component.scales.length; i++)
 		this.scale(component.scales[i].x, component.scales[i].y, component.scales[i].z);
 
