@@ -110,6 +110,12 @@ PrimitiveBuilder.buildTri = function (scene, x1, y1, z1, x2, y2, z2, x3, y3, z3)
             xp, yp, zp,
         ];
 
+        this.texCoords = [
+            0, 0,
+            1, 0,
+            1, 1
+        ];
+
         // Takes the data in vertices, indices and normals and puts in buffers to be used by WebGl.
         this.initGLBuffers();
     };

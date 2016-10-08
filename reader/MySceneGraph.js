@@ -485,10 +485,17 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 			var textureElem = component.getElementsByTagName('texture')[0];
 			var textureID = this.reader.getString(textureElem, 'id', true);
 
-			componentToSend.texture = null;
-			for (var j = 0; j < this.textures.length; j++)
-				if (this.textures[j].id == textureID)
-					componentToSend.texture = this.textures[j];
+			if (textureID == 'inherit') {
+
+			} else if (textureID == "none") {
+				var myTexture = new CGFappearance(this.scene);
+				myTexture.setTexture(null);
+				componentToSend.texture = myTexture;
+			}
+			else
+				for (var j = 0; j < this.textures.length; j++)
+					if (this.textures[j].id == textureID)
+						componentToSend.texture = this.textures[j];
 		}
 
 		//Children

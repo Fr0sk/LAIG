@@ -96,8 +96,8 @@
         <primitive id="rect">
             <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
         </primitive>
-        <primitive id="unitTriangle">
-            <triangle x1="-0.5" y1="0" z1="0" x2="0.5" y2="0.5" z2="0" x3="0" y3="1" z3="0" />
+        <primitive id="triangle">
+            <triangle x1="0" y1="0" z1="0" x2="3" y2="0" z2="0" x3="3" y3="3" z3="0" />
         </primitive>
         <!--primitive id="unitCylinder"><cylinder base="1" top="1" height="1" slices="1" stacks="1" /></primitive><primitive id="unitSphere"><sphere radius="1" slices="1" stacks="1" /></primitive><primitive id="unitTorus"><torus inner="0.5" outer="0.5" slices="1" loops="1" /></primitive-->
     </primitives>
@@ -118,6 +118,11 @@
                 <material id="materialDefault" />
                 <material id="materialWood" />
             </materials>
+            <!-- declaracao obrigatoria de texture -->
+            <!-- id="inherit" mantem (herda) a textura do objecto "pai" -->
+            <!-- id="none" remove a textura recebida do pai -->
+            <!-- a textura declarada sobrepoe a textura recebida do -->
+            <!-- objecto "pai" -->
             <texture id="none" />
             <children>
                 <componentref id="cubeTransform" />

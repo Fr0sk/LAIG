@@ -119,9 +119,8 @@ XMLscene.prototype.runGraph = function (component) {
 
 	this.pushMatrix();
 
-	//Apply texture (if needed)
-	if (component.texture != null)
-		component.texture.apply();
+	//Apply texture (if it doesn't have one, applies a null texture)
+	component.texture.apply();
 
 	//Rotates scene
 	for (var i = 0; i < component.rotates.length; i++)
