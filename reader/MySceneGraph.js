@@ -80,8 +80,20 @@ MySceneGraph.prototype.parseData = function (rootElement) {
 	this.components = [];
 	this.parserComponents(rootElement);
 	this.getInnerComponents();
+
+	this.myDebug();
 };
 
+/**
+ * Debug purposes
+ */
+MySceneGraph.prototype.myDebug = function() {
+	console.log("Numero de components = " + this.components[0].componentsRef.length);
+}
+
+/**
+ * Puts the actual components in the respective variable using their reference
+ */
 MySceneGraph.prototype.getInnerComponents = function () {
 	for (var i = 0; i < this.components.length; i++)
 		for (var j = 0; j < this.components[i].componentsRef.length; j++)

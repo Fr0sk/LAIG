@@ -99,12 +99,12 @@ XMLscene.prototype.display = function () {
 	for (var i = 0; i < this.graph.components.length; i++) {
 		//If this component hasn't already been visited
 		if (!this.graph.components[i].visited) {
-			console.log("Ciclo main numero: " + i);
+			//console.log("Ciclo main numero: " + i);
 			this.runGraph(this.graph.components[i]);
 		}
 	}
 
-	console.log("Numero de primitivas desenhadas: " + this.numDrawn);
+	//console.log("Numero de primitivas desenhadas: " + this.numDrawn);
 
 	// it is important that things depending on the proper loading of the graph
 	// only get executed after the graph has loaded correctly.
@@ -112,12 +112,14 @@ XMLscene.prototype.display = function () {
 	if (this.graph.loadedOk) {
 		this.lights[0].update();
 	};
+
+	this.numDrawn = 0;
 };
 
 XMLscene.prototype.runGraph = function (component) {
 	component.visited = true;
 
-	//this.pushMatrix();
+	this.pushMatrix();
 
 	//Apply texture (if needed)
 	if (component.texture != null)
@@ -133,11 +135,11 @@ XMLscene.prototype.runGraph = function (component) {
 	for (var i = 0; i < component.primitives.length; i++) {
 		component.primitives[i].display();
 		this.numDrawn++;
-		console.log("Componente ID = " + component.id + ", desenhando primitiva = " + component.primitives[i].id);
+		//console.log("Componente ID = " + component.id + ", desenhando primitiva = " + component.primitives[i].id);
 	}
 
 	for(var i = 0; i < component.innerComponents.length; i++)
 		this.runGraph(component.innerComponents[i]);
 
-	//this.popMatrix();
+	this.popMatrix();
 };
