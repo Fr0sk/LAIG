@@ -148,6 +148,7 @@ PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, sta
         this.vertices = [];
         this.indices = [];
         this.normals = [];
+        this.texCoords = [];
 
         var transition = (this.base - this.top) / this.stacks;
 
@@ -163,6 +164,7 @@ PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, sta
                 var z = radius * Math.sin(phi);
 
                 this.vertices.push(x, y, z);
+                this.texCoords.push(lat/this.stacks,long/this.slices);
             }
         }
         this.normals = this.vertices;
