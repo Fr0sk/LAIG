@@ -75,6 +75,7 @@ MySceneGraph.prototype.parseData = function (rootElement) {
 	this.primitives = [];
 	this.parsePrimitives(rootElement);
 
+	this.nodes = [];
 	this.components = [];
 	this.parserComponents(rootElement);
 	this.getInnerComponents();
@@ -415,10 +416,6 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 
 		var componentToSend = {};
 		componentToSend.id = componentID;
-		componentToSend.transformationsRef = [];
-		componentToSend.translates = [];
-		componentToSend.rotates = [];
-		componentToSend.scales = [];
 		componentToSend.transformations = [];
 		componentToSend.materials = [];
 		componentToSend.texture;
@@ -527,6 +524,15 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 		}
 
 		this.components.push(componentToSend);
+
+		var node = new Node();
+		node.setMaterials(componentToSend.materials);
+		node.setTexture(componentToSend.texture);
+		//node.setMat();
+		node.setChildren(componentToSend.innerComponents);
+
+		if(componentToSend.primitives.length > 0)
+			node.setPrimitive(componentToSend.primitives[0]);
 	}
 };
 
