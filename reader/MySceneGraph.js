@@ -52,7 +52,6 @@ MySceneGraph.prototype.parseData = function (rootElement) {
 	this.parseScene(rootElement);
 
 	this.perspCams = [];
-	this.orthoCams = [];
 	this.parseViews(rootElement);
 
 	this.ambientLight;
@@ -217,7 +216,7 @@ MySceneGraph.prototype.parseLights = function (rootElement) {
 			var direction = [target[0] - location[0],
 				target[1] - location[1],
 				target[2] - location[2]];
-			
+
 			var lightObj = {
 				id: id,
 				type: 'spot',
@@ -501,12 +500,16 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 			}
 			else if (textureID == "none") {
 				//Removes the texture from all it's materials
-				for(var j = 0; j < componentToSend.materials.length; j++)
-					componentToSend.materials[i].setTexture(null);
+				for (var j = 0; j < componentToSend.materials.length; j++)
+					componentToSend.materials[j].setTexture(null);
 			} else
 				for (var j = 0; j < this.textures.length; j++)
-					if (this.textures[j].id == textureID)
+					if (this.textures[j].id == textureID) {
+						//console.log("Component: " + componentID + ", textureID = " + textureID);
 						componentToSend.texture = this.textures[j];
+						componentToSend.materials[0].setTexture(componentToSend.texture);
+						break;
+					}
 		}
 
 		//Children
@@ -543,7 +546,7 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 		//node.setMat();
 		node.setChildren(componentToSend.innerComponents);
 
-		if(componentToSend.primitives.length > 0)
+		if (componentToSend.primitives.length > 0)
 			node.setPrimitive(componentToSend.primitives[0]);
 	}
 };
