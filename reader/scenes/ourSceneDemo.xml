@@ -23,17 +23,17 @@
         <!-- Must include at least 1 omni light and 1 spot light -->
         <omni id="omni1" enabled="1">
             <location x="5" y="5" z="5" w="0" />
-            <ambient r="255" g="125" b="0" a="1" />
-            <diffuse r="255" g="125" b="0" a="1" />
-            <specular r="0" g="125" b="125" a="1" />
+            <ambient r="1" g="0.5" b="0" a="1" />
+            <diffuse r="1" g=".05" b="0" a="1" />
+            <specular r="0" g="0.5" b="0.5" a="1" />
         </omni>
         <spot id="spot1" enabled="1" angle="30" exponent="1">
             <target x="0" y="0" z="0" />
             <!-- What is target? -->
             <location x="5" y="0" z="2" />
-            <ambient r="255" g="125" b="0" a="1" />
-            <diffuse r="255" g="125" b="0" a="1" />
-            <specular r="0" g="125" b="125" a="1" />
+            <ambient r="1" g="0.5" b="0" a="1" />
+            <diffuse r="1" g="0.5" b="0" a="1" />
+            <specular r="0" g="0.5" b="0.5" a="1" />
         </spot>
     </lights>
     <!-- Textures set -->
