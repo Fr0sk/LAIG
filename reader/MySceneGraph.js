@@ -255,7 +255,6 @@ MySceneGraph.prototype.parseTextures = function (rootElement) {
 		//console.log("Texture num " + (i + 1) + ": id = " + id + ", file = " + file + ", length_s = " + length_s + ", length_t = " + length_t);
 
 		var texture = new CGFtexture(this.scene, file);
-		//texture.loadTexture(file);
 		texture.id = id;
 		texture.length_s = length_s;
 		texture.length_t = length_t;
@@ -278,10 +277,10 @@ MySceneGraph.prototype.parseMaterials = function (rootElement) {
 		var specularElem = materials[i].getElementsByTagName('specular')[0];
 		var shininessElem = materials[i].getElementsByTagName('shininess')[0];
 
-		var emission = this.getRGBA(emissionElem, true);
-		var ambient = this.getRGBA(ambientElem, true);
-		var diffuse = this.getRGBA(diffuseElem, true);
-		var specular = this.getRGBA(specularElem, true);
+		var emission = this.getColorFromRGBA(emissionElem, true);
+		var ambient = this.getColorFromRGBA(ambientElem, true);
+		var diffuse = this.getColorFromRGBA(diffuseElem, true);
+		var specular = this.getColorFromRGBA(specularElem, true);
 		var shininess = this.reader.getFloat(shininessElem, 'value', true);
 
 		var material = new CGFappearance(this.scene);
@@ -293,6 +292,7 @@ MySceneGraph.prototype.parseMaterials = function (rootElement) {
 		material.setShininess(shininess);
 
 		this.materials.push(material);
+
 		//console.log("Material " + id + ": emission = " + emission + ", ambient = " + ambient + ", diffuse = " + diffuse + ", shininess = " + shininess + "\n");	
 	}
 };
@@ -497,7 +497,7 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 
 			if (textureID == 'inherit') {
 				this.getInheritTexture(componentID, componentToSend);
-				//componentToSend.materials[0].setTexture(componentToSend.texture);
+				componentToSend.materials[0].setTexture(componentToSend.texture);
 			}
 			else if (textureID == "none") {
 				//Removes the texture from all it's materials
@@ -560,7 +560,15 @@ MySceneGraph.prototype.onXMLError = function (message) {
  * Util functions
  */
 MySceneGraph.prototype.getRGBA = function (element, required) {
-	color = {};
+	var r = this.reader.getFloat(element, 'r', required);
+	var g = this.reader.getFloat(element, 'g', required);
+	var b = this.reader.getFloat(element, 'b', required);
+	var a = this.reader.getFloat(element, 'a', required);
+	return vec4.fromValues(r, g, b, a);
+};
+
+MySceneGraph.prototype.getColorFromRGBA = function (element, required) {
+	var color = {};
 	color.r = this.reader.getFloat(element, 'r', required);
 	color.g = this.reader.getFloat(element, 'g', required);
 	color.b = this.reader.getFloat(element, 'b', required);

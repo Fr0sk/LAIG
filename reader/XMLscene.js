@@ -104,7 +104,7 @@ XMLscene.prototype.runGraph = function (component) {
 	this.pushMatrix();
 
 	//Apply material
-	//component.materials[0].apply();
+	component.materials[0].apply();
 
 	//console.log("Component id: '" + component.id + "' usou o material com id: '" + component.materials[0].id + "' e que tem emission = " + component.materials[0].emission);
 
