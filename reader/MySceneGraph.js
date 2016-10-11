@@ -254,8 +254,7 @@ MySceneGraph.prototype.parseTextures = function (rootElement) {
 
 		//console.log("Texture num " + (i + 1) + ": id = " + id + ", file = " + file + ", length_s = " + length_s + ", length_t = " + length_t);
 
-		var texture = new CGFappearance(this.scene);
-		texture.loadTexture(file);
+		var texture = new CGFtexture(this.scene, file);
 		texture.id = id;
 		texture.length_s = length_s;
 		texture.length_t = length_t;
@@ -278,18 +277,18 @@ MySceneGraph.prototype.parseMaterials = function (rootElement) {
 		var specularElem = materials[i].getElementsByTagName('specular')[0];
 		var shininessElem = materials[i].getElementsByTagName('shininess')[0];
 
-		var emission = this.getRGBA(emissionElem, true);
-		var ambient = this.getRGBA(ambientElem, true);
-		var diffuse = this.getRGBA(diffuseElem, true);
-		var specular = this.getRGBA(specularElem, true);
+		var emission = this.getColorFromRGBA(emissionElem, true);
+		var ambient = this.getColorFromRGBA(ambientElem, true);
+		var diffuse = this.getColorFromRGBA(diffuseElem, true);
+		var specular = this.getColorFromRGBA(specularElem, true);
 		var shininess = this.reader.getFloat(shininessElem, 'value', true);
 
 		var material = new CGFappearance(this.scene);
 		material.id = id;
-		material.setEmission(emission);
-		material.setAmbient(ambient);
-		material.setDiffuse(diffuse);
-		material.setSpecular(specular);
+		material.setEmission(emission.r, emission.g, emission.b, emission.a);
+		material.setAmbient(ambient.r, ambient.g, ambient.b, ambient.a);
+		material.setDiffuse(diffuse.r, diffuse.g, diffuse.b, diffuse.a);
+		material.setSpecular(specular.r, specular.g, specular.b, specular.a);
 		material.setShininess(shininess);
 
 		this.materials.push(material);
@@ -434,7 +433,6 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 		componentToSend.componentsRef = [];
 		componentToSend.innerComponents = [];
 		componentToSend.primitives = [];
-		componentToSend.visited = false;
 
 		//Transformations
 		{
@@ -497,12 +495,14 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 			var textureElem = component.getElementsByTagName('texture')[0];
 			var textureID = this.reader.getString(textureElem, 'id', true);
 
-			if (textureID == 'inherit')
+			if (textureID == 'inherit') {
 				this.getInheritTexture(componentID, componentToSend);
+				componentToSend.materials[0].setTexture(componentToSend.texture);
+			}
 			else if (textureID == "none") {
-				var nullTexture = new CGFappearance(this.scene);
-				nullTexture.setTexture(null);
-				componentToSend.texture = nullTexture;
+				//Removes the texture from all it's materials
+				for(var j = 0; j < componentToSend.materials.length; j++)
+					componentToSend.materials[i].setTexture(null);
 			} else
 				for (var j = 0; j < this.textures.length; j++)
 					if (this.textures[j].id == textureID)
@@ -564,7 +564,16 @@ MySceneGraph.prototype.getRGBA = function (element, required) {
 	var g = this.reader.getFloat(element, 'g', required);
 	var b = this.reader.getFloat(element, 'b', required);
 	var a = this.reader.getFloat(element, 'a', required);
-	return vec4.fromValues(r, g, b, a)
+	return vec4.fromValues(r, g, b, a);
+};
+
+MySceneGraph.prototype.getColorFromRGBA = function (element, required) {
+	var color = {};
+	color.r = this.reader.getFloat(element, 'r', required);
+	color.g = this.reader.getFloat(element, 'g', required);
+	color.b = this.reader.getFloat(element, 'b', required);
+	color.a = this.reader.getFloat(element, 'a', required);
+	return color;
 };
 
 MySceneGraph.prototype.getXYZ = function (element, required) {

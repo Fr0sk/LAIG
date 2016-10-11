@@ -89,24 +89,11 @@ XMLscene.prototype.display = function () {
 
 	// ---- END Background, camera and axis setup
 
-	/*for (var i = 0; i < this.graph.components.length; i++) {
-		//If this component hasn't already been visited
-		if (!this.graph.components[i].visited) {
-			console.log("Ciclo main numero: " + i);
-			this.runGraph(this.graph.components[i]);
-		}
-	}*/
-
-	//console.log("Numero de primitivas desenhadas: " + this.numDrawn);
-
 	// it is important that things depending on the proper loading of the graph
 	// only get executed after the graph has loaded correctly.
 	// This is one possible way to do it
 	if (this.graph.loadedOk) {
 		this.lights[0].update();
-
-		for (var i = 0; i < this.graph.components.length; i++)
-			this.graph.components[i].visited = false;
 
 		//Starts going through the graph
 		this.runGraph(this.graph.components[0]);
@@ -114,15 +101,10 @@ XMLscene.prototype.display = function () {
 };
 
 XMLscene.prototype.runGraph = function (component) {
-	component.visited = true;
-
 	this.pushMatrix();
 
 	//Apply material
-	//component.materials[0].apply();
-
-	//Apply texture (if it doesn't have one, applies a null texture)
-	component.texture.apply();
+	component.materials[0].apply();
 
 	//console.log("Component id: '" + component.id + "' usou o material com id: '" + component.materials[0].id + "' e que tem emission = " + component.materials[0].emission);
 
