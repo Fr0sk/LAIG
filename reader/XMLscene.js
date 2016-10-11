@@ -56,16 +56,16 @@ XMLscene.prototype.onGraphLoaded = function () {
 
 	//this.camera = this.graph.perspCams[0];
 
-	this.lights[0].setVisible(true);
-    this.lights[0].enable();
-
-	// TODO: Lights not working when adding to scene (Probably scene limit)
-	//this.lights[0].disable();
-	for (var i = 0; i < this.graph.omniLights.length; i++)
-		this.lights[i + 1] = this.graph.omniLights[i];
-	for (var i = 0; i < this.graph.spotLights.length; i++)
-		this.lights[this.graph.omniLights.length + i + 1] = this.graph.spotLights[i];
-	this.lights[1] = this.graph.omniLights[0];
+	// Lights
+	var count = 0;
+	for (var i = 0; i < this.graph.omniLights.length  && count < 8; i++) 
+		this.copyLight(this.lights[count++], this.graph.omniLights[i]);
+	for (var i = 0; i < this.graph.spotLights.length && count < 8; i++)
+		this.copyLight(this.lights[count++], this.graph.spotLights[i]);
+	for (var i = 0; i < count; i++) {
+		console.info("Updating light: " + i + " - " + this.lights[i].customId);
+		this.lights[i].update();
+	}
 };
 
 XMLscene.prototype.display = function () {
@@ -152,3 +152,19 @@ XMLscene.prototype.runGraph = function (component) {
 
 	this.popMatrix();
 };
+
+XMLscene.prototype.copyLight = function (sceneLight, newLight) {
+	sceneLight.customId = newLight.id;
+	sceneLight.setPosition(newLight.position[0], newLight.position[1], newLight.position[2], newLight.homogeneous);
+	sceneLight.setAmbient(newLight.ambient[0], newLight.ambient[1], newLight.ambient[2], newLight.ambient[3]);
+	sceneLight.setDiffuse(newLight.diffuse[0], newLight.diffuse[1], newLight.diffuse[2], newLight.diffuse[3]);
+	sceneLight.setSpecular(newLight.specular[0], newLight.specular[1], newLight.specular[2], newLight.specular[3]);
+	newLight.enabled ? sceneLight.enable() : sceneLight.disable();
+
+	// Check if it's spotlight
+	if (newLight.type == 'spot') {
+		sceneLight.setSpotExponent(newLight.exponent);
+		sceneLight.setSpotCutOff(newLight.cutOff);
+		sceneLight.setSpotDirection(newLight.direction[0], newLight.direction[1], newLight.direction[2]);
+	}
+}

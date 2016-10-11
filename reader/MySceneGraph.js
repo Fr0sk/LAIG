@@ -178,16 +178,18 @@ MySceneGraph.prototype.parseLights = function (rootElement) {
 			var specular = this.getRGBA(specularElem, true);
 			var homogeneous = this.reader.getFloat(locationElem, 'w', true);
 
-			var light = new CGFlight(this.scene, id);
-			light.setPosition(location[0], location[1], location[2], homogeneous);
-			light.setAmbient(ambient[0], ambient[1], ambient[2], ambient[3]);
-			light.setDiffuse(diffuse[0], diffuse[1], diffuse[2], diffuse[3]);
-			light.setSpecular(specular[0], specular[1], specular[2], specular[3]);
-			enabled ? light.enable() : light.disable();
+			var lightObj = {
+				id: id,
+				type: 'omni',
+				enabled: enabled,
+				position: location,
+				ambient: ambient,
+				diffuse: diffuse,
+				specular: specular,
+				homogeneous: homogeneous
+			};
 
-			this.omniLights.push(light);
-
-			//console.log("Omni light id = " + id);
+			this.omniLights.push(lightObj);
 		}
 	}
 
@@ -198,7 +200,7 @@ MySceneGraph.prototype.parseLights = function (rootElement) {
 			var light = spotLights[i];
 			var id = this.reader.getString(light, 'id', true);
 			var enabled = this.reader.getBoolean(light, 'enabled', true);
-			var angle = this.reader.getFloat(light, 'angle', true);
+			var angle = this.reader.getFloat(light, 'angle', true) * Math.PI / 180;
 			var exponent = this.reader.getFloat(light, 'exponent', true);
 			var targetElem = light.getElementsByTagName('target')[0];
 			var locationElem = light.getElementsByTagName('location')[0];
@@ -210,17 +212,27 @@ MySceneGraph.prototype.parseLights = function (rootElement) {
 			var ambient = this.getRGBA(ambientElem, true);
 			var diffuse = this.getRGBA(diffuseElem, true);
 			var specular = this.getRGBA(specularElem, true);
+			var target = this.getXYZ(targetElem, true);
 
-			var light = new CGFlight(this.scene, id);
-			light.setSpotExponent(exponent);
-			light.setSpotCutOff(angle);
-			light.setPosition(location[0], location[1], location[2], 1);
-			light.setAmbient(ambient[0], ambient[1], ambient[2], ambient[3]);
-			light.setDiffuse(diffuse[0], diffuse[1], diffuse[2], diffuse[3]);
-			light.setSpecular(specular[0], specular[1], specular[2], specular[3]);
-			enabled ? light.enable() : light.disable();
+			var direction = [target[0] - location[0],
+				target[1] - location[1],
+				target[2] - location[2]];
+			
+			var lightObj = {
+				id: id,
+				type: 'spot',
+				enabled: enabled,
+				position: location,
+				ambient: ambient,
+				diffuse: diffuse,
+				specular: specular,
+				homogeneous: 1,
+				exponent: exponent,
+				cutOff: angle,
+				direction: direction
+			};
 
-			this.spotLights.push(light);
+			this.spotLights.push(lightObj);
 
 			//console.log("Omni light id = " + id);
 		}
