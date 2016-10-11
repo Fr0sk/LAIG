@@ -1,5 +1,6 @@
 
 var degToRad = Math.PI / 180.0;
+var cameraIndex = 0;
 
 function XMLscene() {
     CGFscene.call(this);
@@ -54,11 +55,11 @@ XMLscene.prototype.onGraphLoaded = function () {
 
 	this.axis = this.graph.axis;
 
-	//this.camera = this.graph.perspCams[0];
+	this.camera = this.graph.perspCams[cameraIndex];
 
 	// Lights
 	var count = 0;
-	for (var i = 0; i < this.graph.omniLights.length  && count < 8; i++) 
+	for (var i = 0; i < this.graph.omniLights.length && count < 8; i++)
 		this.copyLight(this.lights[count++], this.graph.omniLights[i]);
 	for (var i = 0; i < this.graph.spotLights.length && count < 8; i++)
 		this.copyLight(this.lights[count++], this.graph.spotLights[i]);
@@ -149,4 +150,14 @@ XMLscene.prototype.copyLight = function (sceneLight, newLight) {
 		sceneLight.setSpotCutOff(newLight.cutOff);
 		sceneLight.setSpotDirection(newLight.direction[0], newLight.direction[1], newLight.direction[2]);
 	}
+}
+
+XMLscene.prototype.changeCamera = function() {
+	console.log(this.graph.perspCams.length);
+	if(cameraIndex >= this.graph.perspCams.length - 1)
+		cameraIndex = 0;
+	else
+		cameraIndex++;
+
+	this.camera = this.graph.perspCams[cameraIndex];
 }

@@ -9,7 +9,11 @@
             <to x="0" y="0" z="0" />
         </perpective>
         <perpective id="persp2" near="0.1" far="500" angle="0.4">
-            <from x="15" y="15" z="15" />
+            <from x="15" y="0" z="15" />
+            <to x="0" y="0" z="0" />
+        </perpective>
+        <perpective id="persp3" near="0.1" far="500" angle="0.4">
+            <from x="-4" y="5" z="15" />
             <to x="0" y="0" z="0" />
         </perpective>
     </views>
@@ -142,6 +146,19 @@
                 <componentref id="rightRect" />
                 <componentref id="frontRect" />
                 <componentref id="backRect" />
+                <componentref id="test1" />
+            </children>
+        </component>
+        <component id="test1">
+            <transformation>
+                <translate x="1" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="frontRect" />
             </children>
         </component>
         <component id="topRect">
@@ -203,7 +220,7 @@
             <materials>
                 <material id="materialDefault" />
             </materials>
-            <texture id="inherit" />
+            <texture id="none" />
             <children>
                 <primitiveref id="rect" />
             </children>
