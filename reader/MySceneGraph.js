@@ -69,9 +69,7 @@ MySceneGraph.prototype.parseData = function (rootElement) {
 	this.materials = [];
 	this.parseMaterials(rootElement);
 
-	this.translates = [];
-	this.rotates = [];
-	this.scales = [];
+	this.transformations = [];
 	this.parseTransformations(rootElement);
 
 	this.primitives = [];
@@ -301,29 +299,32 @@ MySceneGraph.prototype.parseTransformations = function (rootElement) {
 		if (translateElem != null) {
 			var translateToSend = {};
 			translateToSend.id = ID;
+			translateToSend.type = "translate";
 			translateToSend.x = this.reader.getFloat(translateElem, 'x', true);
 			translateToSend.y = this.reader.getFloat(translateElem, 'y', true);
 			translateToSend.z = this.reader.getFloat(translateElem, 'z', true);
-			this.translates.push(translateToSend);
+			this.transformations.push(translateToSend);
 		}
 
 		var rotateElem = transformations[i].getElementsByTagName('rotate')[0];
 		if (rotateElem != null) {
 			var rotationToSend = {};
 			rotationToSend.id = ID;
+			rotationToSend.type = "rotate";
 			rotationToSend.axis = this.reader.getString(rotateElem, 'axis', true);
 			rotationToSend.angle = this.reader.getFloat(rotateElem, 'angle', true);
-			this.rotates.push(rotationToSend);
+			this.transformations.push(rotationToSend);
 		}
 
 		var scaleElem = transformations[i].getElementsByTagName('scale')[0];
 		if (scaleElem != null) {
 			var scaleToSend = {};
 			scaleToSend.id = ID;
+			scaleToSend.type = "scale;"
 			scaleToSend.x = this.reader.getFloat(scaleElem, 'x', true);
 			scaleToSend.y = this.reader.getFloat(scaleElem, 'y', true);
 			scaleToSend.z = this.reader.getFloat(scaleElem, 'z', true);
-			this.scales.push(scaleToSend);
+			this.transformations.push(scaleToSend);
 		}
 	}
 };
@@ -418,6 +419,7 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 		componentToSend.translates = [];
 		componentToSend.rotates = [];
 		componentToSend.scales = [];
+		componentToSend.transformations = [];
 		componentToSend.materials = [];
 		componentToSend.texture;
 		componentToSend.componentsRef = [];
@@ -427,38 +429,39 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 
 		//Transformations
 		{
-			var transformationElem = component.getElementsByTagName('transformation')[0];
+			var transformationElem = component.getElementsByTagName('transformation')[0].childNodes;
 
-			var transformationRef = transformationElem.getElementsByTagName('transformationref');
-			for (var j = 0; j < transformationRef.length; j++) {
-				var id = this.reader.getString(transformationRef[j], 'id', true);
-				componentToSend.transformationsRef.push(id);
-			}
-
-			var translate = transformationElem.getElementsByTagName('translate');
-			for (var j = 0; j < translate.length; j++) {
-				var translateToSend = {};
-				translateToSend.x = this.reader.getFloat(translate[j], 'x', true);
-				translateToSend.y = this.reader.getFloat(translate[j], 'y', true);
-				translateToSend.z = this.reader.getFloat(translate[j], 'z', true);
-				componentToSend.translates.push(translateToSend);
-			}
-
-			var rotate = transformationElem.getElementsByTagName('rotate');
-			for (var j = 0; j < rotate.length; j++) {
-				var rotateToSend = {};
-				rotateToSend.axis = this.reader.getString(rotate[j], 'axis', true);
-				rotateToSend.angle = this.reader.getFloat(rotate[j], 'angle', true);
-				componentToSend.rotates.push(rotateToSend);
-			}
-
-			var scale = transformationElem.getElementsByTagName('scale');
-			for (var j = 0; j < scale.length; j++) {
-				var scaleToSend = {};
-				scaleToSend.x = this.reader.getFloat(scale[j], 'x', true);
-				scaleToSend.y = this.reader.getFloat(scale[j], 'y', true);
-				scaleToSend.z = this.reader.getFloat(scale[j], 'z', true);
-				componentToSend.scales.push(scaleToSend);
+			for (var j = 0; j < transformationElem.length; j++) {
+				//console.log(transformationElem[i].nodeName + ":" + transformationElem[i].nodeValue);
+				if (transformationElem[j].nodeName == "translate") {
+					var translateToSend = {};
+					translateToSend.type = "translate";
+					translateToSend.x = this.reader.getFloat(transformationElem[j], 'x', true);
+					translateToSend.y = this.reader.getFloat(transformationElem[j], 'y', true);
+					translateToSend.z = this.reader.getFloat(transformationElem[j], 'z', true);
+					componentToSend.transformations.push(translateToSend);
+				} else if (transformationElem[j].nodeName == "rotate") {
+					var rotateToSend = {};
+					rotateToSend.type = "rotate";
+					rotateToSend.axis = this.reader.getString(transformationElem[j], 'axis', true);
+					rotateToSend.angle = this.reader.getFloat(transformationElem[j], 'angle', true);
+					componentToSend.transformations.push(rotateToSend);
+				} else if (transformationElem[j].nodeName == "scale") {
+					var scaleToSend = {};
+					scaleToSend.type = "scale";
+					scaleToSend.x = this.reader.getFloat(transformationElem[j], 'x', true);
+					scaleToSend.y = this.reader.getFloat(transformationElem[j], 'y', true);
+					scaleToSend.z = this.reader.getFloat(transformationElem[j], 'z', true);
+					componentToSend.transformations.push(scaleToSend);
+				} else if (transformationElem[j].nodeName == "transformationref") {
+					var id = this.reader.getString(transformationElem[j], 'id', true);
+					for (var k = 0; k < this.transformations.length; k++) {
+						if (this.transformations[k].id == id) {
+							componentToSend.transformations.push(this.transformations[k]);
+							break;
+						}
+					}
+				}
 			}
 		}
 

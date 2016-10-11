@@ -54,7 +54,7 @@ XMLscene.prototype.onGraphLoaded = function () {
 
 	this.axis = this.graph.axis;
 
-	this.camera = this.graph.perspCams[0];
+	//this.camera = this.graph.perspCams[0];
 
 	this.lights[0].setVisible(true);
     this.lights[0].enable();
@@ -69,10 +69,6 @@ XMLscene.prototype.onGraphLoaded = function () {
 };
 
 XMLscene.prototype.display = function () {
-	for (var i = 0; i < this.graph.components.length; i++) {
-		this.graph.components[i].visited = false;
-	}
-
 	// ---- BEGIN Background, camera and axis setup
 
 	// Clear image and depth buffer everytime we update the scene
@@ -109,6 +105,9 @@ XMLscene.prototype.display = function () {
 	if (this.graph.loadedOk) {
 		this.lights[0].update();
 
+		for (var i = 0; i < this.graph.components.length; i++)
+			this.graph.components[i].visited = false;
+
 		//Starts going through the graph
 		this.runGraph(this.graph.components[0]);
 	};
@@ -124,25 +123,24 @@ XMLscene.prototype.runGraph = function (component) {
 
 	//Apply texture (if it doesn't have one, applies a null texture)
 	component.texture.apply();
-	
+
 	//console.log("Component id: '" + component.id + "' usou o material com id: '" + component.materials[0].id + "' e que tem emission = " + component.materials[0].emission);
 
-	//Rotates scene
-	for (var i = 0; i < component.rotates.length; i++)
-		switch (component.rotates[i].axis) {
-			case 'x': this.rotate(component.rotates[i].angle * degToRad, 1, 0, 0); break;
-			case 'y': this.rotate(component.rotates[i].angle * degToRad, 0, 1, 0); break;
-			case 'z': this.rotate(component.rotates[i].angle * degToRad, 0, 0, 1); break;
-			default: break;
+	//Do all the transformations
+	for (var i = 0; i < component.transformations.length; i++) {
+		if (component.transformations[i].type == "translate")
+			this.translate(component.transformations[i].x, component.transformations[i].y, component.transformations[i].z);
+		else if (component.transformations[i].type == "rotate") {
+			switch (component.transformations[i].axis) {
+				case 'x': this.rotate(component.transformations[i].angle * degToRad, 1, 0, 0); break;
+				case 'y': this.rotate(component.transformations[i].angle * degToRad, 0, 1, 0); break;
+				case 'z': this.rotate(component.transformations[i].angle * degToRad, 0, 0, 1); break;
+				default: break;
+			}
 		}
-
-	//Translates scene
-	for (var i = 0; i < component.translates.length; i++)
-		this.translate(component.translates[i].x, component.translates[i].y, component.translates[i].z);
-
-	//Scales scene
-	for (var i = 0; i < component.scales.length; i++)
-		this.scale(component.scales[i].x, component.scales[i].y, component.scales[i].z);
+		else if (component.transformations[i].type == "scale")
+			this.scale(component.transformations[i].x, component.transformations[i].y, component.transformations[i].z);
+	}
 
 	//Draws the primitives
 	for (var i = 0; i < component.primitives.length; i++)

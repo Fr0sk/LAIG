@@ -3,6 +3,7 @@ function Node() {
     this.texture = null;
     this.mat = null;        //transformation matrix
     this.children = [];
+    this.primitive = null;
 }
 
 Node.prototype.push = function(nodeName) {

@@ -125,11 +125,11 @@
             <texture id="none" />
             <children>
                 <componentref id="cubeTransform" />
+                <componentref id="test" />
             </children>
         </component>
         <component id="cubeTransform">
-            <transformation>
-            </transformation>
+            <transformation></transformation>
             <materials>
                 <material id="materialDefault" />
             </materials>
@@ -159,7 +159,33 @@
         <component id="bottomRect">
             <transformation>
                 <rotate axis="x" angle="90" />
-                <translate x="0" y="0" z="-0.5" />
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="leftRect">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="rightRect">
+            <transformation>
+                <rotate axis="y" angle="90" />
+                <translate x="0" y="0" z="0.5" />
             </transformation>
             <materials>
                 <material id="materialDefault" />
@@ -181,15 +207,63 @@
                 <primitiveref id="rect" />
             </children>
         </component>
-        <component id="rightRect">
+        <component id="backRect">
             <transformation>
-                <rotate axis="y" angle="90" />
+                <rotate axis="y" angle="180" />
                 <translate x="0" y="0" z="0.5" />
             </transformation>
             <materials>
                 <material id="materialDefault" />
             </materials>
             <texture id="inherit" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="test">
+            <transformation>
+                <translate x="0" y="0" z="3" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="test1" />
+                <componentref id="test2" />
+                <componentref id="test3" />
+            </children>
+        </component>
+        <component id="test1">
+            <transformation></transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="test2">
+            <transformation>
+                <translate x="1" y="2" z="0" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="test3">
+            <transformation>
+                <translate x="1" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="wood" />
             <children>
                 <primitiveref id="rect" />
             </children>
