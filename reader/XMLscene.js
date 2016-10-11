@@ -119,8 +119,13 @@ XMLscene.prototype.runGraph = function (component) {
 
 	this.pushMatrix();
 
+	//Apply material
+	//component.materials[0].apply();
+
 	//Apply texture (if it doesn't have one, applies a null texture)
 	component.texture.apply();
+	
+	//console.log("Component id: '" + component.id + "' usou o material com id: '" + component.materials[0].id + "' e que tem emission = " + component.materials[0].emission);
 
 	//Rotates scene
 	for (var i = 0; i < component.rotates.length; i++)
@@ -134,7 +139,7 @@ XMLscene.prototype.runGraph = function (component) {
 	//Translates scene
 	for (var i = 0; i < component.translates.length; i++)
 		this.translate(component.translates[i].x, component.translates[i].y, component.translates[i].z);
-	
+
 	//Scales scene
 	for (var i = 0; i < component.scales.length; i++)
 		this.scale(component.scales[i].x, component.scales[i].y, component.scales[i].z);

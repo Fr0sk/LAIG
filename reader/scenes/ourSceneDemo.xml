@@ -45,18 +45,18 @@
     <!-- Must include at least one material block -->
     <materials>
         <material id="materialDefault">
-            <emission r="0" g="0" b="0" a="1" />
-            <ambient r="0" g="0" b="0" a="1" />
-            <diffuse r="0" g="0" b="0" a="1" />
-            <specular r="0" g="0" b="0" a="1" />
-            <shininess value="1" />
+            <emission r="0" g="0" b="0.1" a="0.1" />
+            <ambient r="0.8" g="0.4" b="0.1" a="0.1" />
+            <diffuse r="0.8" g="0.4" b="0.1" a="0.1" />
+            <specular r="0.8" g="0.04" b="0.01" a="0.1" />
+            <shininess value="0.1" />
         </material>
-        <material id="materialWood">
-            <emission r="0" g="0" b="0" a="1" />
-            <ambient r="0" g="0" b="0" a="1" />
-            <diffuse r="0" g="0" b="0" a="1" />
-            <specular r="0" g="0" b="0" a="1" />
-            <shininess value="1" />
+        <material id="materialGlow">
+            <emission r="0.8" g="0" b="0" a="0" />
+            <ambient r="0.8" g="0" b="0" a="1" />
+            <diffuse r="0.8" g="0" b="0" a="1" />
+            <specular r="0.8" g="0" b="0" a="1" />
+            <shininess value="50" />
         </material>
     </materials>
     <!-- Transformations set -->
@@ -116,7 +116,6 @@
             <!-- Can also apply to textures -->
             <materials>
                 <material id="materialDefault" />
-                <material id="materialWood" />
             </materials>
             <!-- declaracao obrigatoria de texture -->
             <!-- id="inherit" mantem (herda) a textura do objecto "pai" -->
@@ -132,7 +131,7 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="materialWood" />
+                <material id="materialDefault" />
             </materials>
             <texture id="wood" />
             <children>
@@ -150,9 +149,9 @@
                 <translate x="0" y="0" z="0.5" />
             </transformation>
             <materials>
-                <material id="materialWood" />
+                <material id="materialDefault" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="rect" />
             </children>
@@ -163,9 +162,9 @@
                 <translate x="0" y="0" z="-0.5" />
             </transformation>
             <materials>
-                <material id="materialWood" />
+                <material id="materialDefault" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="rect" />
             </children>
@@ -175,9 +174,9 @@
                 <translate x="0" y="0" z="0.5" />
             </transformation>
             <materials>
-                <material id="materialWood" />
+                <material id="materialDefault" />
             </materials>
-            <texture id="wood" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="rect" />
             </children>
@@ -188,7 +187,7 @@
                 <translate x="0" y="0" z="0.5" />
             </transformation>
             <materials>
-                <material id="materialWood" />
+                <material id="materialDefault" />
             </materials>
             <texture id="inherit" />
             <children>

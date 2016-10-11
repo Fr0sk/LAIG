@@ -485,10 +485,8 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 			var textureElem = component.getElementsByTagName('texture')[0];
 			var textureID = this.reader.getString(textureElem, 'id', true);
 
-			if (textureID == 'inherit') {
+			if (textureID == 'inherit')
 				this.getInheritTexture(componentID, componentToSend);
-				console.log("ID: " + componentToSend.texture.id);
-			}
 			else if (textureID == "none") {
 				var nullTexture = new CGFappearance(this.scene);
 				nullTexture.setTexture(null);
