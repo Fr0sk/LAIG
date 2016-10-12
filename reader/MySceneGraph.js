@@ -26,7 +26,12 @@ MySceneGraph.prototype.onXMLReady = function () {
 	var rootElement = this.reader.xmlDoc.documentElement;
 
 	// Here should go the calls for different functions to parse the various blocks
-	var error = this.parseData(rootElement); //this.parseGlobalsExample(rootElement);
+	var valid = this.validateOrder(rootElement);
+	var error;
+	if (valid) 
+		error = this.parseData(rootElement); //this.parseGlobalsExample(rootElement);
+	else 
+		error = "XML file isn't valid. Please check specifications."
 
 	if (error != null) {
 		this.onXMLError(error);
@@ -38,6 +43,49 @@ MySceneGraph.prototype.onXMLReady = function () {
 	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
 	this.scene.onGraphLoaded();
 };
+
+MySceneGraph.prototype.validateOrder = function(rootElement) {
+	var nodes = rootElement.childNodes;
+	var types = [];
+	var names = ['scene', 'views', 'illumination', 'lights', 'textures', 
+		'materials', 'transformations', 'primitives', 'components'];
+
+		console.log ("CALLED")
+	for (var i = 0; i < nodes.length; i++) {
+		if (nodes[i].nodeType == 1)
+			types.push(nodes[i]);
+	}
+
+	if (types.length > 9) {
+		console.warn("Unexpected number of nodes, trying to parse anyway");
+	} else if (types.length < 9) {
+		console.error("There are missing nodes, aborting!")
+		return false;
+	}
+
+	for (var i = 0; i < names.length; i++) {
+		if (names[i] != types[i].nodeName) {
+			var found = false;
+			for(var j = 0; j < types.length; j++) {
+				if (names[i] == types[j].nodeName) {
+					found = true;
+					break;
+				}
+			}
+
+			if (found) {
+				console.warn(names[i] + " node found but in wrong place, trying to parse anyway");
+			} else {
+				console.error(names[i] + " node not found, aborting!");
+				return false;
+			}
+		} else {
+			console.debug(names[i] + " node found");
+		}
+	}
+
+	return true;
+}
 
 /*
  * Parse the data to the scene
