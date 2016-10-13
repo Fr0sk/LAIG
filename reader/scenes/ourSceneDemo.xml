@@ -130,7 +130,6 @@
             <texture id="none" />
             <children>
                 <componentref id="cubeTransform" />
-                <componentref id="test1" />
             </children>
         </component>
         <component id="cubeTransform">
@@ -147,31 +146,6 @@
                 <componentref id="frontRect" />
                 <componentref id="backRect" />
                 <componentref id="test1" />
-            </children>
-        </component>
-        <component id="test1">
-            <transformation>
-                <translate x="1" y="0" z="0" />
-            </transformation>
-            <materials>
-                <material id="materialDefault" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <componentref id="q" />
-            </children>
-        </component>
-        <component id="q">
-            <transformation>
-                <rotate axis="x" angle="-90" />
-                <translate x="0" y="0" z="0.5" />
-            </transformation>
-            <materials>
-                <material id="materialDefault" />
-            </materials>
-            <texture id="wood" />
-            <children>
-                <primitiveref id="rect" />
             </children>
         </component>
         <component id="topRect">
@@ -221,7 +195,7 @@
             <materials>
                 <material id="materialDefault" />
             </materials>
-            <texture id="inherit" />
+            <texture id="none" />
             <children>
                 <primitiveref id="rect" />
             </children>

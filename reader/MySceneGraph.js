@@ -324,19 +324,13 @@ MySceneGraph.prototype.parseMaterials = function (rootElement) {
 		var specularElem = materials[i].getElementsByTagName('specular')[0];
 		var shininessElem = materials[i].getElementsByTagName('shininess')[0];
 
-		var emission = this.getColorFromRGBA(emissionElem, true);
-		var ambient = this.getColorFromRGBA(ambientElem, true);
-		var diffuse = this.getColorFromRGBA(diffuseElem, true);
-		var specular = this.getColorFromRGBA(specularElem, true);
-		var shininess = this.reader.getFloat(shininessElem, 'value', true);
-
-		var material = new CGFappearance(this.scene);
+		var material = {};
 		material.id = id;
-		material.setEmission(emission.r, emission.g, emission.b, emission.a);
-		material.setAmbient(ambient.r, ambient.g, ambient.b, ambient.a);
-		material.setDiffuse(diffuse.r, diffuse.g, diffuse.b, diffuse.a);
-		material.setSpecular(specular.r, specular.g, specular.b, specular.a);
-		material.setShininess(shininess);
+		material.emission = this.getColorFromRGBA(emissionElem, true);
+		material.ambient = this.getColorFromRGBA(ambientElem, true);
+		material.diffuse = this.getColorFromRGBA(diffuseElem, true);
+		material.specular = this.getColorFromRGBA(specularElem, true);
+		material.shininess = this.reader.getFloat(shininessElem, 'value', true);
 
 		this.materials.push(material);
 
@@ -530,7 +524,14 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 				//Add the material to the component
 				for (var k = 0; k < this.materials.length; k++)
 					if (this.materials[k].id == materialID) {
-						componentToSend.materials.push(this.materials[k]);
+						var materialRef = this.materials[k];
+						var material = new CGFappearance(this.scene);
+						material.setEmission(materialRef.emission.r, materialRef.emission.g, materialRef.emission.b, materialRef.emission.a);
+						material.setAmbient(materialRef.ambient.r, materialRef.ambient.g, materialRef.ambient.b, materialRef.ambient.a);
+						material.setDiffuse(materialRef.diffuse.r, materialRef.diffuse.g, materialRef.diffuse.b, materialRef.diffuse.a);
+						material.setSpecular(materialRef.specular.r, materialRef.specular.g, materialRef.specular.b, materialRef.specular.a);
+						material.setShininess(materialRef.shininess);
+						componentToSend.materials.push(material);
 					}
 
 				//console.log("Material number " + (j + 1) + ", id = " + materialID);
@@ -542,24 +543,19 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 			var textureElem = component.getElementsByTagName('texture')[0];
 			var textureID = this.reader.getString(textureElem, 'id', true);
 
+			//There's no need to process if the texture is set to 'none'
 			if (textureID == 'inherit') {
-				this.getInheritTexture(componentID, componentToSend);
+				componentToSend.texture = this.getInheritTexture(componentID);
 				componentToSend.materials[0].setTexture(componentToSend.texture);
-			}
-			else if (textureID == "none") {
-				//Removes the texture from all it's materials
-				for(var j = 0; j < this.textures.length; j++) {
-					if(this.textures[j].id == textureID)
-						this.textures[j].unbind(0);
-				}
-			} else
+			} else if (textureID == "none")
+				componentToSend.texture = null;
+			else {
 				for (var j = 0; j < this.textures.length; j++)
 					if (this.textures[j].id == textureID) {
-						//console.log("Component: " + componentID + ", textureID = " + textureID);
-						componentToSend.texture = this.textures[j];
 						componentToSend.materials[0].setTexture(componentToSend.texture);
 						break;
 					}
+			}
 		}
 
 		//Children
@@ -653,12 +649,16 @@ MySceneGraph.prototype.getTriangleSize = function (element, required) {
 	var z2 = this.reader.getFloat(element, 'z2', required);
 };
 
-MySceneGraph.prototype.getInheritTexture = function (childComponentID, childComponent) {
+MySceneGraph.prototype.getInheritTexture = function (childComponentID) {
 	for (var i = 0; i < this.components.length; i++)
 		for (var j = 0; j < this.components[i].componentsRef.length; j++) {
 			if (this.components[i].componentsRef[j] == childComponentID) {
-				childComponent.texture = this.components[i].texture;
-				break;
+				console.log("Pai = " + this.components[i].id + ", " + this.components[i].componentsRef[j] + " == " + childComponentID + " ?");
+				console.log("A enviar: " + this.components[i].texture);
+				return this.components[i].texture;
 			}
 		}
+
+	//HANDLE THIS NULL RETURN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	return null;
 };
