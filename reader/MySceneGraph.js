@@ -28,9 +28,9 @@ MySceneGraph.prototype.onXMLReady = function () {
 	// Here should go the calls for different functions to parse the various blocks
 	var valid = this.validateOrder(rootElement);
 	var error;
-	if (valid) 
+	if (valid)
 		error = this.parseData(rootElement); //this.parseGlobalsExample(rootElement);
-	else 
+	else
 		error = "XML file isn't valid. Please check specifications."
 
 	if (error != null) {
@@ -44,13 +44,13 @@ MySceneGraph.prototype.onXMLReady = function () {
 	this.scene.onGraphLoaded();
 };
 
-MySceneGraph.prototype.validateOrder = function(rootElement) {
+MySceneGraph.prototype.validateOrder = function (rootElement) {
 	var nodes = rootElement.childNodes;
 	var types = [];
-	var names = ['scene', 'views', 'illumination', 'lights', 'textures', 
+	var names = ['scene', 'views', 'illumination', 'lights', 'textures',
 		'materials', 'transformations', 'primitives', 'components'];
 
-		console.log ("CALLED")
+	console.log("CALLED")
 	for (var i = 0; i < nodes.length; i++) {
 		if (nodes[i].nodeType == 1)
 			types.push(nodes[i]);
@@ -66,7 +66,7 @@ MySceneGraph.prototype.validateOrder = function(rootElement) {
 	for (var i = 0; i < names.length; i++) {
 		if (names[i] != types[i].nodeName) {
 			var found = false;
-			for(var j = 0; j < types.length; j++) {
+			for (var j = 0; j < types.length; j++) {
 				if (names[i] == types[j].nodeName) {
 					found = true;
 					break;
@@ -528,10 +528,10 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 				var materialID = this.reader.getString(materials[j], 'id', true);
 
 				//Add the material to the component
-				for (var k = 0; k < this.materials.length; k++) {
-					if (this.materials[k].id == materialID)
+				for (var k = 0; k < this.materials.length; k++)
+					if (this.materials[k].id == materialID) {
 						componentToSend.materials.push(this.materials[k]);
-				}
+					}
 
 				//console.log("Material number " + (j + 1) + ", id = " + materialID);
 			}
@@ -548,8 +548,10 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 			}
 			else if (textureID == "none") {
 				//Removes the texture from all it's materials
-				for (var j = 0; j < componentToSend.materials.length; j++)
-					componentToSend.materials[j].setTexture(null);
+				for(var j = 0; j < this.textures.length; j++) {
+					if(this.textures[j].id == textureID)
+						this.textures[j].unbind(0);
+				}
 			} else
 				for (var j = 0; j < this.textures.length; j++)
 					if (this.textures[j].id == textureID) {
@@ -588,14 +590,14 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 
 		this.components.push(componentToSend);
 
-		var node = new Node();
+		/*var node = new Node();
 		node.setMaterials(componentToSend.materials);
 		node.setTexture(componentToSend.texture);
 		//node.setMat();
 		node.setChildren(componentToSend.innerComponents);
 
 		if (componentToSend.primitives.length > 0)
-			node.setPrimitive(componentToSend.primitives[0]);
+			node.setPrimitive(componentToSend.primitives[0]);*/
 	}
 };
 

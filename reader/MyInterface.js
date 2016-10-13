@@ -50,9 +50,9 @@ MyInterface.prototype.processKeyDown = function (event) {
 	CGFinterface.prototype.processKeyDown.call(this, event);
 	
 	switch (event.keyCode) {
-        case 77:
-        case 109:
-            console.log("'M' was pressed");
+        case 86:
+        case 118:
+            console.log("'V' was pressed");
             this.scene.changeCamera();
             break;    
 	};
