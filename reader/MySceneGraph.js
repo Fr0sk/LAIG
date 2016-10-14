@@ -48,8 +48,10 @@ MySceneGraph.prototype.validateOrder = function (rootElement) {
 		'materials', 'transformations', 'primitives', 'components'];
 	
 	for (var i = 0; i < nodes.length; i++) {
-		if (nodes[i].nodeType == 1)
+		if (nodes[i].nodeType == 1) {
 			types.push(nodes[i]);
+			console.info(nodes[i]);
+		}
 	}
 
 	if (types.length < 9) {
