@@ -26,12 +26,9 @@ MySceneGraph.prototype.onXMLReady = function () {
 	var rootElement = this.reader.xmlDoc.documentElement;
 
 	// Here should go the calls for different functions to parse the various blocks
-	var valid = this.validateOrder(rootElement);
-	var error;
-	if (valid)
-		error = this.parseData(rootElement); //this.parseGlobalsExample(rootElement);
-	else
-		error = "XML file isn't valid. Please check specifications."
+	if (!this.validateOrder(rootElement)) return;
+	
+	var error = this.parseData(rootElement); 
 
 	if (error != null) {
 		this.onXMLError(error);
@@ -49,19 +46,36 @@ MySceneGraph.prototype.validateOrder = function (rootElement) {
 	var types = [];
 	var names = ['scene', 'views', 'illumination', 'lights', 'textures',
 		'materials', 'transformations', 'primitives', 'components'];
-
-	console.log("CALLED")
+	
 	for (var i = 0; i < nodes.length; i++) {
 		if (nodes[i].nodeType == 1)
 			types.push(nodes[i]);
 	}
 
-	if (types.length > 9) {
-		console.warn("Unexpected number of nodes, trying to parse anyway");
-	} else if (types.length < 9) {
-		console.error("There are missing nodes, aborting!")
+	if (types.length < 9) {
+		// Missing nodes, checking which ones are missing
+		var missingNodes = [];
+		for (var name = 0; name < names.length; name++) {
+			var found = false;
+			for (var type = 0; type < types.length; type++) {
+
+				if (names[name] == types[type].nodeName) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				missingNodes.push([names[name]]);
+			}
+		}
+		var errorText = "XML is missing the following nodes:\n";
+		for (var i = 0; i < missingNodes.length; i++)
+			errorText += "\t" + missingNodes[i] + ";\n";
+		this.onXMLError(errorText +  "Aborting!");
 		return false;
-	}
+	} else if (types.length > 9) 
+		console.warn("Unexpected number of nodes, trying to parse anyway");
+
 
 	for (var i = 0; i < names.length; i++) {
 		if (names[i] != types[i].nodeName) {
@@ -76,7 +90,7 @@ MySceneGraph.prototype.validateOrder = function (rootElement) {
 			if (found) {
 				console.warn(names[i] + " node found but in wrong place, trying to parse anyway");
 			} else {
-				console.error(names[i] + " node not found, aborting!");
+				this.onXMLError(names[i] + " node not found, aborting!");
 				return false;
 			}
 		} else {
