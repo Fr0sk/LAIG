@@ -46,6 +46,11 @@
         <texture id="crate" file="../assets/crate.png" length_s="1" length_t="1" />
         <texture id="wood" file="../assets/wood.jpg" length_s="1" length_t="1" />
         <texture id="earth" file="../assets/earth.jpg" length_s="1" length_t="1" />
+        <texture id="sidewalk" file="../assets/sidewalk.jpg" length_s="1" length_t="1" />
+        <texture id="building" file="../assets/building.jpg" length_s="1" length_t="1" />
+        <texture id="topBuilding" file="../assets/topBuilding.jpg" length_s="1" length_t="1" />
+        <texture id="treeLeafes" file="../assets/treeLeafes.png" length_s="1" length_t="1" />
+        <texture id="treeWood" file="../assets/treeWood.jpg" length_s="1" length_t="1" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
@@ -80,11 +85,20 @@
         <transformation id="rotateX90">
             <rotate axis="x" angle="90" />
         </transformation>
+        <transformation id="rotateX-90">
+            <rotate axis="x" angle="-90" />
+        </transformation>
         <transformation id="rotateY90">
             <rotate axis="y" angle="90" />
         </transformation>
+        <transformation id="rotateY-90">
+            <rotate axis="y" angle="-90" />
+        </transformation>
         <transformation id="rotateZ90">
             <rotate axis="z" angle="90" />
+        </transformation>
+        <transformation id="rotateZ-90">
+            <rotate axis="z" angle="-90" />
         </transformation>
         <transformation id="scale2X">
             <scale x="2" y="1" z="1" />
@@ -106,12 +120,11 @@
             <triangle x1="0" y1="0" z1="0" x2="3" y2="0" z2="0" x3="3" y3="3" z3="0" />
         </primitive>
         <primitive id="sphere1">
-            <sphere radius="2" slices="20" stacks="20" />
+            <sphere radius="2" slices="5" stacks="10" />
         </primitive>
-        <primitive id="sphere2">
-            <sphere radius="2" slices="3" stacks="3" />
+        <primitive id="cylinder1">
+            <cylinder base="0.5" top="0.8" height="5" slices="15" stacks="5" />
         </primitive>
-
         <!--primitive id="unitCylinder"><cylinder base="1" top="1" height="1" slices="1" stacks="1" /></primitive><primitive id="unitSphere"><sphere radius="1" slices="1" stacks="1" /></primitive><primitive id="unitTorus"><torus inner="0.5" outer="0.5" slices="1" loops="1" /></primitive-->
     </primitives>
     <!-- Components set -->
@@ -137,34 +150,352 @@
             <!-- objecto "pai" -->
             <texture id="none" />
             <children>
-                <componentref id="earth1" />
-                <componentref id="earth2" />
+                <!--componentref id="earth1" /><componentref id="earth2" /-->
+                <componentref id="floorTransform" />
+                <componentref id="buildings" />
+                <componentref id="trees" />
             </children>
         </component>
-        <component id="earth1">
+        <component id="trees">
             <transformation>
-                <rotate axis="x" angle="-90" />
-                <translate x="3" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="materialDefault" />
             </materials>
-            <texture id="earth" />
+            <texture id="none" />
             <children>
-                <primitiveref id="sphere1" />
+                <componentref id="treePosition1" />
+                <componentref id="treePosition2" />
+                <componentref id="treePosition3" />
+                <componentref id="treePosition4" />
+                <componentref id="treePosition5" />
+                <componentref id="treePosition6" />
+                <componentref id="treePosition7" />
+                <componentref id="treePosition8" />
+                <componentref id="treePosition9" />
+                <componentref id="treePosition10" />
+                <componentref id="treePosition11" />
+                <componentref id="treePosition12" />
+                <componentref id="treePosition13" />
+                <componentref id="treePosition14" />
+                <componentref id="treePosition15" />
+                <componentref id="treePosition16" />
             </children>
         </component>
-        <component id="earth2">
+        <component id="treePosition1">
             <transformation>
-                <rotate axis="x" angle="-90" />
-                <translate x="0" y="0" z="0" />
+                <translate x="0" y="0" z="20" />
             </transformation>
             <materials>
                 <material id="materialDefault" />
             </materials>
-            <texture id="earth" />
+            <texture id="none" />
             <children>
-                <primitiveref id="sphere2" />
+                <componentref id="treeBody" />
+                <componentref id="treeLeafes" />
+            </children>
+        </component>
+        <component id="treePosition2">
+            <transformation>
+                <translate x="10" y="0" z="20" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="treeBody" />
+                <componentref id="treeLeafes" />
+            </children>
+        </component>
+        <component id="treePosition3">
+            <transformation>
+                <translate x="20" y="0" z="20" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="treeBody" />
+                <componentref id="treeLeafes" />
+            </children>
+        </component>
+        <component id="treePosition4">
+            <transformation>
+                <translate x="20" y="0" z="10" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="treeBody" />
+                <componentref id="treeLeafes" />
+            </children>
+        </component>
+        <component id="treePosition5">
+            <transformation>
+                <translate x="20" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="treeBody" />
+                <componentref id="treeLeafes" />
+            </children>
+        </component>
+        <component id="treePosition6">
+            <transformation>
+                <translate x="20" y="0" z="-10" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="treeBody" />
+                <componentref id="treeLeafes" />
+            </children>
+        </component>
+        <component id="treePosition7">
+            <transformation>
+                <translate x="20" y="0" z="-20" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="treeBody" />
+                <componentref id="treeLeafes" />
+            </children>
+        </component>
+        <component id="treePosition8">
+            <transformation>
+                <translate x="10" y="0" z="-20" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="treeBody" />
+                <componentref id="treeLeafes" />
+            </children>
+        </component>
+        <component id="treePosition9">
+            <transformation>
+                <translate x="0" y="0" z="-20" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="treeBody" />
+                <componentref id="treeLeafes" />
+            </children>
+        </component>
+        <component id="treePosition10">
+            <transformation>
+                <translate x="-10" y="0" z="-20" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="treeBody" />
+                <componentref id="treeLeafes" />
+            </children>
+        </component>
+        <component id="treePosition11">
+            <transformation>
+                <translate x="-20" y="0" z="-20" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="treeBody" />
+                <componentref id="treeLeafes" />
+            </children>
+        </component>
+        <component id="treePosition12">
+            <transformation>
+                <translate x="-20" y="0" z="-10" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="treeBody" />
+                <componentref id="treeLeafes" />
+            </children>
+        </component>
+        <component id="treePosition13">
+            <transformation>
+                <translate x="-20" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="treeBody" />
+                <componentref id="treeLeafes" />
+            </children>
+        </component>
+        <component id="treePosition14">
+            <transformation>
+                <translate x="-20" y="0" z="10" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="treeBody" />
+                <componentref id="treeLeafes" />
+            </children>
+        </component>
+        <component id="treePosition15">
+            <transformation>
+                <translate x="-20" y="0" z="20" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="treeBody" />
+                <componentref id="treeLeafes" />
+            </children>
+        </component>
+        <component id="treePosition16">
+            <transformation>
+                <translate x="-10" y="0" z="20" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="treeBody" />
+                <componentref id="treeLeafes" />
+            </children>
+        </component>
+
+        <component id="buildings">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="building" />
+            <children>
+                <componentref id="buildingPosition1" />
+                <componentref id="buildingPosition2" />
+            </children>
+        </component>
+        <component id="floorTransform">
+            <transformation>
+                <scale x="40" y="1" z="40" />
+                <transformationref id="rotateX-90" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="sidewalk" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="buildingPosition1">
+            <transformation>
+                <translate x="0" y="0" z="-30" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="building" />
+            <children>
+                <componentref id="firstLevelBuildingBlockTransform" />
+                <componentref id="secondLevelBuildingBlockTransform" />
+                <componentref id="thirdLevelBuildingBlockTransform" />
+                <componentref id="forthLevelBuildingBlockTransform" />
+            </children>
+        </component>
+        <component id="buildingPosition2">
+            <transformation>
+                <translate x="0" y="0" z="30" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="building" />
+            <children>
+                <componentref id="firstLevelBuildingBlockTransform" />
+                <componentref id="secondLevelBuildingBlockTransform" />
+                <componentref id="thirdLevelBuildingBlockTransform" />
+                <componentref id="forthLevelBuildingBlockTransform" />
+            </children>
+        </component>
+        <component id="firstLevelBuildingBlockTransform">
+            <transformation>
+                <translate x="0" y="10" z="0" />
+                <scale x="15" y="20" z="15" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="cubeTransform" />
+            </children>
+        </component>
+        <component id="secondLevelBuildingBlockTransform">
+            <transformation>
+                <translate x="0" y="25" z="0" />
+                <scale x="13" y="10" z="11" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="cubeTransform" />
+            </children>
+        </component>
+        <component id="thirdLevelBuildingBlockTransform">
+            <transformation>
+                <translate x="0" y="36" z="0" />
+                <scale x="8" y="12" z="8" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="cubeTransform" />
+            </children>
+        </component>
+        <component id="forthLevelBuildingBlockTransform">
+            <transformation>
+                <translate x="0" y="49" z="0" />
+                <scale x="4" y="15" z="4" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="cubeTransform" />
             </children>
         </component>
         <component id="cubeTransform">
@@ -172,20 +503,29 @@
             <materials>
                 <material id="materialDefault" />
             </materials>
-            <texture id="crate" />
+            <texture id="inherit" />
             <children>
-                <componentref id="topRect" />
-                <componentref id="bottomRect" />
+                <componentref id="topRectChangedTexture" />
                 <componentref id="leftRect" />
                 <componentref id="rightRect" />
                 <componentref id="frontRect" />
                 <componentref id="backRect" />
-                <componentref id="test1" />
+            </children>
+        </component>
+        <component id="topRectChangedTexture">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="topBuilding" />
+            <children>
+                <componentref id="topRect" />
             </children>
         </component>
         <component id="topRect">
             <transformation>
-                <translate x="5" y="0" z="0.5" />
+                <translate x="0" y="0.5" z="0" />
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
@@ -230,7 +570,7 @@
             <materials>
                 <material id="materialDefault" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="rect" />
             </children>
@@ -258,6 +598,29 @@
             <texture id="inherit" />
             <children>
                 <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="treeBody">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="treeWood" />
+            <children>
+                <primitiveref id="cylinder1" />
+            </children>
+        </component>
+        <component id="treeLeafes">
+            <transformation>
+                <translate x="0" y="5" z="0" />
+            </transformation>
+            <materials>
+                <material id="materialDefault" />
+            </materials>
+            <texture id="treeLeafes" />
+            <children>
+                <primitiveref id="sphere1" />
             </children>
         </component>
     </components>

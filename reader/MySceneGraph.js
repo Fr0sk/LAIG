@@ -27,8 +27,8 @@ MySceneGraph.prototype.onXMLReady = function () {
 
 	// Here should go the calls for different functions to parse the various blocks
 	if (!this.validateOrder(rootElement)) return;
-	
-	var error = this.parseData(rootElement); 
+
+	var error = this.parseData(rootElement);
 
 	if (error != null) {
 		this.onXMLError(error);
@@ -46,7 +46,7 @@ MySceneGraph.prototype.validateOrder = function (rootElement) {
 	var types = [];
 	var names = ['scene', 'views', 'illumination', 'lights', 'textures',
 		'materials', 'transformations', 'primitives', 'components'];
-	
+
 	for (var i = 0; i < nodes.length; i++) {
 		if (nodes[i].nodeType == 1) {
 			types.push(nodes[i]);
@@ -73,9 +73,9 @@ MySceneGraph.prototype.validateOrder = function (rootElement) {
 		var errorText = "XML is missing the following nodes:\n";
 		for (var i = 0; i < missingNodes.length; i++)
 			errorText += "\t" + missingNodes[i] + ";\n";
-		this.onXMLError(errorText +  "Aborting!");
+		this.onXMLError(errorText + "Aborting!");
 		return false;
-	} else if (types.length > 9) 
+	} else if (types.length > 9)
 		console.warn("Unexpected number of nodes, trying to parse anyway");
 
 
