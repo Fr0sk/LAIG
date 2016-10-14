@@ -552,6 +552,7 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 			else {
 				for (var j = 0; j < this.textures.length; j++)
 					if (this.textures[j].id == textureID) {
+						componentToSend.texture = this.textures[j];
 						componentToSend.materials[0].setTexture(componentToSend.texture);
 						break;
 					}
@@ -651,13 +652,9 @@ MySceneGraph.prototype.getTriangleSize = function (element, required) {
 
 MySceneGraph.prototype.getInheritTexture = function (childComponentID) {
 	for (var i = 0; i < this.components.length; i++)
-		for (var j = 0; j < this.components[i].componentsRef.length; j++) {
-			if (this.components[i].componentsRef[j] == childComponentID) {
-				console.log("Pai = " + this.components[i].id + ", " + this.components[i].componentsRef[j] + " == " + childComponentID + " ?");
-				console.log("A enviar: " + this.components[i].texture);
+		for (var j = 0; j < this.components[i].componentsRef.length; j++)
+			if (this.components[i].componentsRef[j] == childComponentID)
 				return this.components[i].texture;
-			}
-		}
 
 	//HANDLE THIS NULL RETURN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	return null;

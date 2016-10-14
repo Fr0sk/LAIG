@@ -54,6 +54,10 @@ MyInterface.prototype.processKeyDown = function (event) {
         case 118:
             console.log("'V' was pressed");
             this.scene.changeCamera();
-            break;    
+            break; 
+		case 82:
+		case 114:
+			console.log("'R' was pressed");
+			this.scene.resetCamera();   
 	};
 }

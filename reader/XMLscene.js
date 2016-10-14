@@ -1,6 +1,7 @@
 
 var degToRad = Math.PI / 180.0;
 var cameraIndex = 0;
+var freeCam;
 
 function XMLscene() {
     CGFscene.call(this);
@@ -37,7 +38,8 @@ XMLscene.prototype.initLights = function () {
 };
 
 XMLscene.prototype.initCameras = function () {
-    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+	freeCam = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+	this.camera = freeCam;
 };
 
 XMLscene.prototype.setDefaultAppearance = function () {
@@ -160,4 +162,8 @@ XMLscene.prototype.changeCamera = function() {
 		cameraIndex++;
 
 	this.camera = this.graph.perspCams[cameraIndex];
+}
+
+XMLscene.prototype.resetCamera = function() {
+	this.camera = freeCam;
 }
