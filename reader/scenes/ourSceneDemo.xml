@@ -49,44 +49,51 @@
     <!-- Textures set -->
     <!-- Must include at least one texture block -->
     <textures>
-        <texture id="crate" file="./assets/crate.png" length_s="1" length_t="1" />
-        <texture id="wood" file="./assets/wood.jpg" length_s="1" length_t="1" />
-        <texture id="earth" file="./assets/earth.jpg" length_s="1" length_t="1" />
-        <texture id="sidewalk" file="./assets/sidewalk.jpg" length_s="1" length_t="1" />
-        <texture id="building" file="./assets/building.jpg" length_s="1" length_t="1" />
-        <texture id="topBuilding" file="./assets/topBuilding.jpg" length_s="1" length_t="1" />
-        <texture id="treeLeafes" file="./assets/treeLeafes.png" length_s="1" length_t="1" />
-        <texture id="treeWood" file="./assets/treeWood.jpg" length_s="1" length_t="1" />
+        <texture id="t_sidewalk" file="./assets/sidewalk.jpg" length_s="1" length_t="1" />
+        <texture id="t_building" file="./assets/building.jpg" length_s="1" length_t="1" />
+        <texture id="t_topBuilding" file="./assets/topBuilding.jpg" length_s="1" length_t="1" />
+        <texture id="t_treeLeafes" file="./assets/treeLeafes.png" length_s="1" length_t="1" />
+        <texture id="t_treeWood" file="./assets/treeWood.jpg" length_s="1" length_t="1" />
+        <texture id="t_grass" file="./assets/grass.png" length_s="1" length_t="1" />
+        <texture id="t_whiteGrass" file="./assets/whiteGrass.png" length_s="1" length_t="1" />
+        <texture id="t_rope" file="./assets/rope.png" length_s="1" length_t="1" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
     <materials>
-        <material id="materialDefault">
+        <material id="m_Default">
             <emission r="0" g="0" b="0.1" a="1" />
             <ambient r="0.1" g="0.4" b="0.8" a="1" />
             <diffuse r="0.1" g="0.4" b="0.8" a="1" />
             <specular r="0.1" g="0.04" b="0.01" a="1" />
             <shininess value="50" />
         </material>
-        <material id="materialGlow">
+        <material id="m_Glow">
             <emission r="0.8" g="0" b="0" a="0" />
             <ambient r="0.8" g="0" b="0" a="1" />
             <diffuse r="0.8" g="0" b="0" a="1" />
             <specular r="0.8" g="0" b="0" a="1" />
             <shininess value="50" />
         </material>
-        <material id="materialGrass">
-            <emission r="0" g="0" b="0.1" a="1" />
-            <ambient r="0.1" g="0.8" b="0.1" a="1" />
-            <diffuse r="0.1" g="0.8" b="0.1" a="1" />
-            <specular r="0.01" g="0.01" b="0.01" a="1" />
+        <material id="m_Grass">
+            <emission r="0" g="0.2" b="0" a="1" />
+            <ambient r="0.1" g="0.4" b="0.1" a="1" />
+            <diffuse r="0.1" g="0.4" b="0.1" a="1" />
+            <specular r="0.1" g="0.04" b="0.01" a="1" />
             <shininess value="50" />
         </material>
-        <material id="materialWhiteGrass">
+        <material id="m_WhiteGrass">
             <emission r="0" g="0" b="0.1" a="1" />
             <ambient r="1" g="1" b="1" a="1" />
             <diffuse r="1" g="1" b="1" a="1" />
             <specular r="0.01" g="0.01" b="0.01" a="1" />
+            <shininess value="50" />
+        </material>
+        <material id="m_metal">
+            <emission r="0" g="0" b="0.1" a="1" />
+            <ambient r="1" g="1" b="1" a="1" />
+            <diffuse r="0.6" g="0.6" b="0.6" a="1" />
+            <specular r="0.9" g="0.9" b="0.9" a="1" />
             <shininess value="50" />
         </material>
     </materials>
@@ -167,7 +174,7 @@
             <!-- Set id="inherit" to inherit parent's material -->
             <!-- Can also apply to textures -->
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <!-- declaracao obrigatoria de texture -->
             <!-- id="inherit" mantem (herda) a textura do objecto "pai" -->
@@ -187,7 +194,7 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -199,7 +206,7 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -226,7 +233,7 @@
                 <translate x="0" y="0" z="20" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -239,7 +246,7 @@
                 <translate x="10" y="0" z="20" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -252,7 +259,7 @@
                 <translate x="20" y="0" z="20" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -265,7 +272,7 @@
                 <translate x="20" y="0" z="10" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -278,7 +285,7 @@
                 <translate x="20" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -291,7 +298,7 @@
                 <translate x="20" y="0" z="-10" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -304,7 +311,7 @@
                 <translate x="20" y="0" z="-20" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -317,7 +324,7 @@
                 <translate x="10" y="0" z="-20" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -330,7 +337,7 @@
                 <translate x="0" y="0" z="-20" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -343,7 +350,7 @@
                 <translate x="-10" y="0" z="-20" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -356,7 +363,7 @@
                 <translate x="-20" y="0" z="-20" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -369,7 +376,7 @@
                 <translate x="-20" y="0" z="-10" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -382,7 +389,7 @@
                 <translate x="-20" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -395,7 +402,7 @@
                 <translate x="-20" y="0" z="10" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -408,7 +415,7 @@
                 <translate x="-20" y="0" z="20" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -421,7 +428,7 @@
                 <translate x="-10" y="0" z="20" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -434,9 +441,9 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
-            <texture id="building" />
+            <texture id="t_building" />
             <children>
                 <componentref id="buildingPosition1" />
                 <componentref id="buildingPosition2" />
@@ -444,13 +451,13 @@
         </component>
         <component id="floorTransform">
             <transformation>
-                <scale x="40" y="1" z="40" />
+                <scale x="160" y="1" z="160" />
                 <transformationref id="rotateX-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
-            <texture id="sidewalk" />
+            <texture id="t_sidewalk" />
             <children>
                 <primitiveref id="rect" />
             </children>
@@ -460,9 +467,9 @@
                 <translate x="0" y="0" z="-30" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
-            <texture id="building" />
+            <texture id="t_building" />
             <children>
                 <componentref id="firstLevelBuildingBlockTransform" />
                 <componentref id="secondLevelBuildingBlockTransform" />
@@ -475,9 +482,9 @@
                 <translate x="0" y="0" z="30" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
-            <texture id="building" />
+            <texture id="t_building" />
             <children>
                 <componentref id="firstLevelBuildingBlockTransform" />
                 <componentref id="secondLevelBuildingBlockTransform" />
@@ -491,7 +498,7 @@
                 <scale x="15" y="20" z="15" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -504,7 +511,7 @@
                 <scale x="13" y="10" z="11" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -517,7 +524,7 @@
                 <scale x="8" y="12" z="8" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -530,7 +537,7 @@
                 <scale x="4" y="15" z="4" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -542,9 +549,9 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
-            <texture id="treeWood" />
+            <texture id="t_treeWood" />
             <children>
                 <primitiveref id="cylinder1" />
             </children>
@@ -554,9 +561,9 @@
                 <translate x="0" y="5" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
-            <texture id="treeLeafes" />
+            <texture id="t_treeLeafes" />
             <children>
                 <primitiveref id="sphere1" />
             </children>
@@ -567,7 +574,7 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -584,7 +591,7 @@
                 <transformationref id="rotateY180" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -601,7 +608,7 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -614,7 +621,7 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -627,7 +634,7 @@
             <translate x="0" y="0" z="-10.5" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -639,7 +646,7 @@
             <translate x="0" y="0" z="10.5" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -652,7 +659,7 @@
                 <scale x="18" y="1" z="1" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -665,7 +672,7 @@
                 <scale x="18" y="1" z="1" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -678,7 +685,7 @@
                 <scale x="1.5" y="1" z="22" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -691,7 +698,7 @@
                 <translate x="16" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -707,7 +714,7 @@
                 <translate x="0" y="0" z="3" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -742,7 +749,7 @@
                 <translate x="0" y="0" z="-3" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -778,7 +785,7 @@
                 <translate x="0.2" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -790,7 +797,7 @@
                 <translate x="0.4" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -802,7 +809,7 @@
                 <translate x="0.6" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -814,7 +821,7 @@
                 <translate x="0.8" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -826,7 +833,7 @@
                 <translate x="1" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -838,7 +845,7 @@
                 <translate x="1.2" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -850,7 +857,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -863,7 +870,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -876,7 +883,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -889,7 +896,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -902,7 +909,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -915,7 +922,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -928,7 +935,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -941,7 +948,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -954,7 +961,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -967,7 +974,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -980,7 +987,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -993,7 +1000,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1006,7 +1013,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1019,7 +1026,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1032,7 +1039,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1044,7 +1051,7 @@
         <component id="fbGoalTop">
             <transformation />
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1093,7 +1100,7 @@
                 <translate x="0.2" y="3" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1105,7 +1112,7 @@
                 <translate x="0.4" y="3" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1117,7 +1124,7 @@
                 <translate x="0.6" y="3" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1129,7 +1136,7 @@
                 <translate x="0.8" y="3" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1141,7 +1148,7 @@
                 <translate x="1.0" y="3" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1153,7 +1160,7 @@
                 <translate x="1.2" y="3" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1165,7 +1172,7 @@
                 <translate x="1.4" y="3" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1179,7 +1186,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1192,7 +1199,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1205,7 +1212,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1218,7 +1225,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1231,7 +1238,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1244,7 +1251,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1257,7 +1264,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1270,7 +1277,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1283,7 +1290,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1296,7 +1303,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1309,7 +1316,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1322,7 +1329,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1335,7 +1342,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1348,7 +1355,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1361,7 +1368,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1374,7 +1381,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1387,7 +1394,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1400,7 +1407,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1413,7 +1420,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1426,7 +1433,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1439,7 +1446,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1452,7 +1459,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1465,7 +1472,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1478,7 +1485,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1491,7 +1498,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1504,7 +1511,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1517,7 +1524,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1530,7 +1537,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1543,7 +1550,7 @@
                 <transformationref id="rotateZ-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1555,7 +1562,7 @@
         <component id="fbGoalBack">
             <transformation />
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1611,7 +1618,7 @@
                 <translate x="1.4" y="2.8" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1623,7 +1630,7 @@
                 <translate x="1.4" y="2.6" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1635,7 +1642,7 @@
                 <translate x="1.4" y="2.4" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1647,7 +1654,7 @@
                 <translate x="1.4" y="2.2" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1659,7 +1666,7 @@
                 <translate x="1.4" y="2" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1671,7 +1678,7 @@
                 <translate x="1.4" y="1.8" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1683,7 +1690,7 @@
                 <translate x="1.4" y="1.6" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1695,7 +1702,7 @@
                 <translate x="1.4" y="1.4" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1707,7 +1714,7 @@
                 <translate x="1.4" y="1.2" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1719,7 +1726,7 @@
                 <translate x="1.4" y="1" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1731,7 +1738,7 @@
                 <translate x="1.4" y="0.8" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1743,7 +1750,7 @@
                 <translate x="1.4" y="0.6" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1755,7 +1762,7 @@
                 <translate x="1.4" y="0.4" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1767,7 +1774,7 @@
                 <translate x="1.4" y="0.2" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1779,7 +1786,7 @@
                 <translate x="1.4" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1792,7 +1799,7 @@
                 <translate x="1.4" y="0" z="2.8" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1804,7 +1811,7 @@
                 <translate x="1.4" y="0" z="2.6" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1816,7 +1823,7 @@
                 <translate x="1.4" y="0" z="2.4" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1828,7 +1835,7 @@
                 <translate x="1.4" y="0" z="2.2" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1840,7 +1847,7 @@
                 <translate x="1.4" y="0" z="2" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1852,7 +1859,7 @@
                 <translate x="1.4" y="0" z="1.8" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1864,7 +1871,7 @@
                 <translate x="1.4" y="0" z="1.6" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1876,7 +1883,7 @@
                 <translate x="1.4" y="0" z="1.4" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1888,7 +1895,7 @@
                 <translate x="1.4" y="0" z="1.2" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1900,7 +1907,7 @@
                 <translate x="1.4" y="0" z="1" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1912,7 +1919,7 @@
                 <translate x="1.4" y="0" z="0.8" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1924,7 +1931,7 @@
                 <translate x="1.4" y="0" z="0.6" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1936,7 +1943,7 @@
                 <translate x="1.4" y="0" z="0.4" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1948,7 +1955,7 @@
                 <translate x="1.4" y="0" z="0.2" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1960,7 +1967,7 @@
                 <translate x="1.4" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1972,7 +1979,7 @@
                 <translate x="1.4" y="0" z="-0.2" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1984,7 +1991,7 @@
                 <translate x="1.4" y="0" z="-0.4" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -1996,7 +2003,7 @@
                 <translate x="1.4" y="0" z="-0.6" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -2008,7 +2015,7 @@
                 <translate x="1.4" y="0" z="-0.8" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -2020,7 +2027,7 @@
                 <translate x="1.4" y="0" z="-1" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -2032,7 +2039,7 @@
                 <translate x="1.4" y="0" z="-1.2" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -2044,7 +2051,7 @@
                 <translate x="1.4" y="0" z="-1.4" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -2056,7 +2063,7 @@
                 <translate x="1.4" y="0" z="-1.6" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -2068,7 +2075,7 @@
                 <translate x="1.4" y="0" z="-1.8" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -2080,7 +2087,7 @@
                 <translate x="1.4" y="0" z="-2" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -2092,7 +2099,7 @@
                 <translate x="1.4" y="0" z="-2.2" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -2104,7 +2111,7 @@
                 <translate x="1.4" y="0" z="-2.4" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -2116,7 +2123,7 @@
                 <translate x="1.4" y="0" z="-2.6" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -2128,7 +2135,7 @@
                 <translate x="1.4" y="0" z="-2.8" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
@@ -2144,9 +2151,9 @@
                 <transformationref id="rotateX-90" />
             </transformation>
             <materials>
-                <material id="materialGrass" />
+                <material id="m_Grass" />
             </materials>
-            <texture id="none" />
+            <texture id="t_grass" />
             <children>
                 <primitiveref id="rect" />
             </children>
@@ -2157,9 +2164,9 @@
                 <transformationref id="rotateX-90" />
             </transformation>
             <materials>
-                <material id="materialGrass" />
+                <material id="m_Grass" />
             </materials>
-            <texture id="none" />
+            <texture id="t_grass" />
             <children>
                 <primitiveref id="rect" />
             </children>
@@ -2171,9 +2178,9 @@
                 <transformationref id="rotateX-90" />
             </transformation>
             <materials>
-                <material id="materialWhiteGrass" />
+                <material id="m_WhiteGrass" />
             </materials>
-            <texture id="none" />
+            <texture id="t_whiteGrass" />
             <children>
                 <primitiveref id="rect" />
             </children>
@@ -2185,9 +2192,9 @@
                 <transformationref id="rotateX-90" />
             </transformation>
             <materials>
-                <material id="materialWhiteGrass" />
+                <material id="m_WhiteGrass" />
             </materials>
-            <texture id="none" />
+            <texture id="t_whiteGrass" />
             <children>
                 <primitiveref id="rect" />
             </children>
@@ -2199,21 +2206,22 @@
                 <transformationref id="rotateX-90" />
             </transformation>
             <materials>
-                <material id="materialWhiteGrass" />
+                <material id="m_WhiteGrass" />
             </materials>
-            <texture id="none" />
+            <texture id="t_whiteGrass" />
             <children>
                 <primitiveref id="rect" />
             </children>
         </component>
         <component id="fbGoalPost">
             <transformation>
-                <scale x="0.1" y="6" z="0.1" />
+                <translate x="0" y="1.5" z="0" />
+                <scale x="0.1" y="3" z="0.1" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_metal" />
             </materials>
-                <texture id="none" />
+                <texture id="t_goalPost" />
             <children>
                 <componentref id="cubeTransform" />
             </children>
@@ -2223,7 +2231,7 @@
                 <translate x="1.4" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_metal" />
             </materials>
             <texture id="none" />
             <children>
@@ -2236,7 +2244,7 @@
                 <scale x="0.1" y="0.1" z="6" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_metal" />
             </materials>
                 <texture id="none" />
             <children>
@@ -2249,7 +2257,7 @@
                 <scale x="1.5" y="0.1" z="0.1" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_metal" />
             </materials>
                 <texture id="none" />
             <children>
@@ -2261,9 +2269,9 @@
                 <scale x="0.05" y="3" z="0.05" />
             </transformation>
             <materials>
-                <material id="materialWhiteGrass" />
+                <material id="m_WhiteGrass" />
             </materials>
-            <texture id="none" />
+            <texture id="t_rope" />
             <children>
                 <primitiveref id="cylinderNet" />
             </children>
@@ -2273,9 +2281,9 @@
                 <scale x="0.05" y="1.4" z="0.05" />
             </transformation>
             <materials>
-                <material id="materialWhiteGrass" />
+                <material id="m_WhiteGrass" />
             </materials>
-            <texture id="none" />
+            <texture id="t_rope" />
             <children>
                 <primitiveref id="cylinderNet" />
             </children>
@@ -2288,9 +2296,9 @@
                 
             </transformation>
             <materials>
-                <material id="materialWhiteGrass" />
+                <material id="m_WhiteGrass" />
             </materials>
-            <texture id="none" />
+            <texture id="t_rope" />
             <children>
                 <primitiveref id="cylinderNet" />
             </children>
@@ -2299,7 +2307,7 @@
         <component id="cubeTransform">
             <transformation></transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -2314,9 +2322,9 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
-            <texture id="topBuilding" />
+            <texture id="t_topBuilding" />
             <children>
                 <componentref id="topRect" />
             </children>
@@ -2327,7 +2335,7 @@
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -2340,7 +2348,7 @@
                 <translate x="0" y="0" z="0.5" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -2353,7 +2361,7 @@
                 <translate x="0" y="0" z="0.5" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -2366,7 +2374,7 @@
                 <translate x="0" y="0" z="0.5" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -2378,7 +2386,7 @@
                 <translate x="0" y="0" z="0.5" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -2391,7 +2399,7 @@
                 <translate x="0" y="0" z="0.5" />
             </transformation>
             <materials>
-                <material id="materialDefault" />
+                <material id="m_Default" />
             </materials>
             <texture id="inherit" />
             <children>
