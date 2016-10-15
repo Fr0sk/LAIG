@@ -56,7 +56,12 @@
         <texture id="t_treeWood" file="./assets/treeWood.jpg" length_s="1" length_t="1" />
         <texture id="t_grass" file="./assets/grass.png" length_s="1" length_t="1" />
         <texture id="t_whiteGrass" file="./assets/whiteGrass.png" length_s="1" length_t="1" />
-        <texture id="t_rope" file="./assets/rope.png" length_s="1" length_t="1" />
+        <texture id="t_sbSide1" file="./assets/sbSide1.png" length_s="200" length_t="200" />
+        <texture id="t_sbSide2" file="./assets/sbSide2.png" length_s="200" length_t="200" />
+        <texture id="t_sbSide3" file="./assets/sbSide3.png" length_s="200" length_t="200" />
+        <texture id="t_sbSide4" file="./assets/sbSide4.png" length_s="200" length_t="200" />
+        <texture id="t_sbTop" file="./assets/sbTop.png" length_s="200" length_t="200" />
+        <texture id="t_sbBot" file="./assets/sbBot.png" length_s="200" length_t="200" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
@@ -94,6 +99,13 @@
             <ambient r="1" g="1" b="1" a="1" />
             <diffuse r="0.6" g="0.6" b="0.6" a="1" />
             <specular r="0.9" g="0.9" b="0.9" a="1" />
+            <shininess value="50" />
+        </material>
+        <material id="m_skybox">
+            <emission r="0" g="0" b="0" a="1" />
+            <ambient r="1" g="1" b="1" a="1" />
+            <diffuse r="0" g="0" b="0" a="0" />
+            <specular r="0" g="0" b="0" a="1" />
             <shininess value="50" />
         </material>
     </materials>
@@ -188,6 +200,7 @@
                 <componentref id="buildings" />
                 <componentref id="trees" />
                 <componentref id="footballField" />
+                <componentref id="skybox" />
             </children>
         </component>
         <component id="footballField">
@@ -202,6 +215,114 @@
                 <componentref id="fbSide2" />
             </children>
         </component>
+
+        <component id="skybox">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_skybox" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="sbSide1" />
+                <componentref id="sbSide2" />
+                <componentref id="sbSide3" />
+                <componentref id="sbSide4" />
+                <componentref id="sbTop" />
+                <componentref id="sbBot" />
+            </children>
+        </component>
+        <component id="sbSide1">
+            <transformation>
+                <translate x="0" y="0" z="-100" />
+                <rotate axis="z" angle="180" />
+                <scale x="200" y="200" z="1" />
+            </transformation>
+            <materials>
+                <material id="m_skybox" />
+            </materials>
+            <texture id="t_sbSide1" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="sbSide2">
+            <transformation>
+                <translate x="100" y="0" z="0" />
+                <rotate axis="x" angle="180" />
+                <rotate axis="y" angle="-90" />
+                <scale x="200" y="200" z="1" />
+            </transformation>
+            <materials>
+                <material id="m_skybox" />
+            </materials>
+            <texture id="t_sbSide2" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="sbSide3">
+            <transformation>
+                <translate x="0" y="0" z="100" />
+                <rotate axis="z" angle="180" />
+                <rotate axis="y" angle="180" />
+                <scale x="200" y="200" z="1" />
+            </transformation>
+            <materials>
+                <material id="m_skybox" />
+            </materials>
+            <texture id="t_sbSide3" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="sbSide4">
+            <transformation>
+                <translate x="-100" y="0" z="0" />
+                <rotate axis="x" angle="180" />
+                <rotate axis="y" angle="90" />
+                <scale x="200" y="200" z="1" />
+            </transformation>
+            <materials>
+                <material id="m_skybox" />
+            </materials>
+            <texture id="t_sbSide4" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="sbTop">
+            <transformation>
+                <translate x="0" y="100" z="0" />
+                <rotate axis="y" angle="-90" />
+                <rotate axis="x" angle="90" />
+                <scale x="200" y="200" z="1" />
+            </transformation>
+            <materials>
+                <material id="m_skybox" />
+            </materials>
+            <texture id="t_sbTop" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="sbBot">
+            <transformation>
+                <translate x="0" y="-100" z="0" />
+                <rotate axis="y" angle="-90" />
+                <rotate axis="x" angle="-90" />
+                <scale x="200" y="200" z="1" />
+            </transformation>
+            <materials>
+                <material id="m_skybox" />
+            </materials>
+            <texture id="t_sbBot" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        
+
         <component id="trees">
             <transformation>
             </transformation>
