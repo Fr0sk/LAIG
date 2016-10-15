@@ -49,14 +49,14 @@
     <!-- Textures set -->
     <!-- Must include at least one texture block -->
     <textures>
-        <texture id="crate" file="../assets/crate.png" length_s="1" length_t="1" />
-        <texture id="wood" file="../assets/wood.jpg" length_s="1" length_t="1" />
-        <texture id="earth" file="../assets/earth.jpg" length_s="1" length_t="1" />
-        <texture id="sidewalk" file="../assets/sidewalk.jpg" length_s="1" length_t="1" />
-        <texture id="building" file="../assets/building.jpg" length_s="1" length_t="1" />
-        <texture id="topBuilding" file="../assets/topBuilding.jpg" length_s="1" length_t="1" />
-        <texture id="treeLeafes" file="../assets/treeLeafes.png" length_s="1" length_t="1" />
-        <texture id="treeWood" file="../assets/treeWood.jpg" length_s="1" length_t="1" />
+        <texture id="crate" file="./assets/crate.png" length_s="1" length_t="1" />
+        <texture id="wood" file="./assets/wood.jpg" length_s="1" length_t="1" />
+        <texture id="earth" file="./assets/earth.jpg" length_s="1" length_t="1" />
+        <texture id="sidewalk" file="./assets/sidewalk.jpg" length_s="1" length_t="1" />
+        <texture id="building" file="./assets/building.jpg" length_s="1" length_t="1" />
+        <texture id="topBuilding" file="./assets/topBuilding.jpg" length_s="1" length_t="1" />
+        <texture id="treeLeafes" file="./assets/treeLeafes.png" length_s="1" length_t="1" />
+        <texture id="treeWood" file="./assets/treeWood.jpg" length_s="1" length_t="1" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->

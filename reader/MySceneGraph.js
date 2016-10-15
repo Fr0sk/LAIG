@@ -311,7 +311,7 @@ MySceneGraph.prototype.parseTextures = function (rootElement) {
 
 	for (var i = 0; i < textures.length; i++) {
 		var id = this.reader.getString(textures[i], 'id', true);
-		var file = this.reader.getString(textures[i], 'file', true);
+		var file = "./scenes" + this.reader.getString(textures[i], 'file', true);
 		var length_s = this.reader.getFloat(textures[i], 'length_s', true);
 		var length_t = this.reader.getFloat(textures[i], 'length_t', true);
 
