@@ -174,7 +174,7 @@
     </primitives>
     <!-- Components set -->
     <components>
-        <component id="componentRoot">
+        <component id="root">
             <!-- Declaration needs to he here, even if there's no applied transformation' -->
             <transformation>
                 <!-- Do a reference to one of the transformations -->

@@ -111,37 +111,48 @@ MySceneGraph.prototype.parseData = function (rootElement) {
 	 * The variables before each method are the variables
 	 * that method populates in his body
 	 */
+	var err;
 
 	this.axis;
-	this.parseScene(rootElement);
+	this.rootNodeId;
+	err = this.parseScene(rootElement);
+	if (err != null) return err;
 
 	this.perspCams = [];
-	this.parseViews(rootElement);
+	err = this.parseViews(rootElement);
+	if (err != null) return err;
 
 	this.ambientLight;
 	this.background;
-	this.parseIllumination(rootElement);
+	err = this.parseIllumination(rootElement);
+	if (err != null) return err;
 
 	this.omniLights = [];
 	this.spotLights = [];
-	this.parseLights(rootElement);
+	err = this.parseLights(rootElement);
+	if (err != null) return err;
 
 	this.textures = [];
-	this.parseTextures(rootElement);
+	err = this.parseTextures(rootElement);
+	if (err != null) return err;
 
 	this.materials = [];
-	this.parseMaterials(rootElement);
+	err = this.parseMaterials(rootElement);
+	if (err != null) return err;
 
 	this.transformations = [];
-	this.parseTransformations(rootElement);
+	err = this.parseTransformations(rootElement);
+	if (err != null) return err;
 
 	this.primitives = [];
-	this.parsePrimitives(rootElement);
+	err = this.parsePrimitives(rootElement);
+	if (err != null) return err;
 
-	this.nodes = [];
-	this.components = [];
-	this.parserComponents(rootElement);
-	this.getInnerComponents();
+	this.rootNode;
+	err = this.parseNodes(rootElement);
+	if (err != null) return err;
+	err = this.getInnerComponents();
+	if (err != null) return err;
 
 	this.myDebug();
 };
@@ -171,8 +182,9 @@ MySceneGraph.prototype.getInnerComponents = function () {
  */
 MySceneGraph.prototype.parseScene = function (rootElement) {
 	var scene = rootElement.getElementsByTagName('scene')[0];
-	var s_axisLength = this.reader.getFloat(scene, 'axis_length', true)
-	this.axis = new CGFaxis(this.scene, s_axisLength, 0.2);
+	var axisLength = this.reader.getFloat(scene, 'axis_length', true);
+	this.rootNodeId = this.reader.getString(scene, 'root', true);
+	this.axis = new CGFaxis(this.scene, axisLength, 0.2);
 
 	//console.log("Scene axis_length =" + s_axisLength);
 };
@@ -278,8 +290,8 @@ MySceneGraph.prototype.parseLights = function (rootElement) {
 			var target = this.getXYZ(targetElem, true);
 
 			var direction = [target[0] - location[0],
-				target[1] - location[1],
-				target[2] - location[2]];
+			target[1] - location[1],
+			target[2] - location[2]];
 
 			var lightObj = {
 				id: id,
@@ -472,9 +484,18 @@ MySceneGraph.prototype.parsePrimitives = function (rootElement) {
 /**
  * Components
  */
-MySceneGraph.prototype.parserComponents = function (rootElement) {
+MySceneGraph.prototype.parseNodes = function (rootElement) {
 	var componentsElem = rootElement.getElementsByTagName('components')[0];
 	var components = componentsElem.getElementsByTagName('component');
+	var rootComponent = this.getComponentFromId(components, this.rootNodeId);
+	rootComponent.id = this.rootNodeId;
+
+	if (rootNode == null) return "Root node not found!";
+	this.rootNode = this.parseNode(components, rootComponent, null)
+
+
+	/*
+	
 
 	for (var i = 0; i < components.length; i++) {
 		//Component		
@@ -491,115 +512,9 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 		componentToSend.innerComponents = [];
 		componentToSend.primitives = [];
 
-		//Transformations
-		{
-			var transformationElem = component.getElementsByTagName('transformation')[0].childNodes;
+		
 
-			for (var j = 0; j < transformationElem.length; j++) {
-				//console.log(transformationElem[i].nodeName + ":" + transformationElem[i].nodeValue);
-				if (transformationElem[j].nodeName == "translate") {
-					var translateToSend = {};
-					translateToSend.type = "translate";
-					translateToSend.x = this.reader.getFloat(transformationElem[j], 'x', true);
-					translateToSend.y = this.reader.getFloat(transformationElem[j], 'y', true);
-					translateToSend.z = this.reader.getFloat(transformationElem[j], 'z', true);
-					componentToSend.transformations.push(translateToSend);
-				} else if (transformationElem[j].nodeName == "rotate") {
-					var rotateToSend = {};
-					rotateToSend.type = "rotate";
-					rotateToSend.axis = this.reader.getString(transformationElem[j], 'axis', true);
-					rotateToSend.angle = this.reader.getFloat(transformationElem[j], 'angle', true);
-					componentToSend.transformations.push(rotateToSend);
-				} else if (transformationElem[j].nodeName == "scale") {
-					var scaleToSend = {};
-					scaleToSend.type = "scale";
-					scaleToSend.x = this.reader.getFloat(transformationElem[j], 'x', true);
-					scaleToSend.y = this.reader.getFloat(transformationElem[j], 'y', true);
-					scaleToSend.z = this.reader.getFloat(transformationElem[j], 'z', true);
-					componentToSend.transformations.push(scaleToSend);
-				} else if (transformationElem[j].nodeName == "transformationref") {
-					var id = this.reader.getString(transformationElem[j], 'id', true);
-					for (var k = 0; k < this.transformations.length; k++) {
-						if (this.transformations[k].id == id) {
-							componentToSend.transformations.push(this.transformations[k]);
-							break;
-						}
-					}
-				}
-			}
-		}
-
-		//Materials
-		{
-			var materialsElem = component.getElementsByTagName('materials')[0];
-			var materials = materialsElem.getElementsByTagName('material');
-
-			for (var j = 0; j < materials.length; j++) {
-				var materialID = this.reader.getString(materials[j], 'id', true);
-
-				//Add the material to the component
-				for (var k = 0; k < this.materials.length; k++)
-					if (this.materials[k].id == materialID) {
-						var materialRef = this.materials[k];
-						var material = new CGFappearance(this.scene);
-						material.setEmission(materialRef.emission.r, materialRef.emission.g, materialRef.emission.b, materialRef.emission.a);
-						material.setAmbient(materialRef.ambient.r, materialRef.ambient.g, materialRef.ambient.b, materialRef.ambient.a);
-						material.setDiffuse(materialRef.diffuse.r, materialRef.diffuse.g, materialRef.diffuse.b, materialRef.diffuse.a);
-						material.setSpecular(materialRef.specular.r, materialRef.specular.g, materialRef.specular.b, materialRef.specular.a);
-						material.setShininess(materialRef.shininess);
-						componentToSend.materials.push(material);
-					}
-
-				//console.log("Material number " + (j + 1) + ", id = " + materialID);
-			}
-		}
-
-		//Textures
-		{
-			var textureElem = component.getElementsByTagName('texture')[0];
-			var textureID = this.reader.getString(textureElem, 'id', true);
-
-			//There's no need to process if the texture is set to 'none'
-			if (textureID == 'inherit') {
-				componentToSend.texture = this.getInheritTexture(componentID);
-				componentToSend.materials[0].setTexture(componentToSend.texture);
-			} else if (textureID == "none")
-				componentToSend.texture = null;
-			else {
-				for (var j = 0; j < this.textures.length; j++)
-					if (this.textures[j].id == textureID) {
-						componentToSend.texture = this.textures[j];
-						componentToSend.materials[0].setTexture(componentToSend.texture);
-						break;
-					}
-			}
-		}
-
-		//Children
-		{
-			var childrenElem = component.getElementsByTagName('children')[0];
-
-			var componentsRef = childrenElem.getElementsByTagName('componentref');
-			for (var j = 0; j < componentsRef.length; j++) {
-				var componentID = this.reader.getString(componentsRef[j], 'id', true);
-				componentToSend.componentsRef.push(componentID);
-				//console.log("ComponentRef number " + (j + 1) + ", id = " + componentID);
-			}
-
-			var primitiveref = childrenElem.getElementsByTagName('primitiveref');
-			for (var j = 0; j < primitiveref.length; j++) {
-				var primitiveID = this.reader.getString(primitiveref[j], 'id', true);
-
-				for (var k = 0; k < this.primitives.length; k++) {
-					if (primitiveID == this.primitives[k].id) {
-						componentToSend.primitives.push(this.primitives[k]);
-						break;
-					}
-				}
-
-				//console.log("PrimitiveRef number " + (j + 1) + ", id = " + primitiveID);
-			}
-		}
+		
 
 		this.components.push(componentToSend);
 
@@ -611,8 +526,134 @@ MySceneGraph.prototype.parserComponents = function (rootElement) {
 
 		if (componentToSend.primitives.length > 0)
 			node.setPrimitive(componentToSend.primitives[0]);*/
-	}
+	//}
 };
+MySceneGraph.prototype.parseNode = function (componentsList, component, parentNode) {
+	var node = new Node(component.id);
+
+	//Transformations
+	{
+		var transformationElem = component.getElementsByTagName('transformation')[0].childNodes;
+		var transforms = [];
+		for (var j = 0; j < transformationElem.length; j++) {
+			//console.log(transformationElem[i].nodeName + ":" + transformationElem[i].nodeValue);
+			if (transformationElem[j].nodeName == "translate") {
+				var translateToSend = {};
+				translateToSend.type = "translate";
+				translateToSend.x = this.reader.getFloat(transformationElem[j], 'x', true);
+				translateToSend.y = this.reader.getFloat(transformationElem[j], 'y', true);
+				translateToSend.z = this.reader.getFloat(transformationElem[j], 'z', true);
+				transforms.push(translateToSend);
+			} else if (transformationElem[j].nodeName == "rotate") {
+				var rotateToSend = {};
+				rotateToSend.type = "rotate";
+				rotateToSend.axis = this.reader.getString(transformationElem[j], 'axis', true);
+				rotateToSend.angle = this.reader.getFloat(transformationElem[j], 'angle', true);
+				transforms.push(rotateToSend);
+			} else if (transformationElem[j].nodeName == "scale") {
+				var scaleToSend = {};
+				scaleToSend.type = "scale";
+				scaleToSend.x = this.reader.getFloat(transformationElem[j], 'x', true);
+				scaleToSend.y = this.reader.getFloat(transformationElem[j], 'y', true);
+				scaleToSend.z = this.reader.getFloat(transformationElem[j], 'z', true);
+				transforms.push(scaleToSend);
+			} else if (transformationElem[j].nodeName == "transformationref") {
+				var id = this.reader.getString(transformationElem[j], 'id', true);
+				for (var k = 0; k < this.transformations.length; k++) {
+					if (this.transformations[k].id == id) {
+						transforms.push(this.transformations[k]);
+						break;
+					}
+				}
+			}
+		}
+
+		node.setMat(transforms);
+	}
+
+	//Materials
+	{
+		var materialsElem = component.getElementsByTagName('materials')[0];
+		var materials = materialsElem.getElementsByTagName('material');
+		for (var i = 0; i < materials.length; i++) {
+			var materialId = this.reader.getString(materials[i], 'id', true);
+			if (materialId == 'inherit') {
+				if (parent == null) return "Root can't have inherit materials";
+
+				var parentMaterials = parentNode.getMaterials();
+				for (var j = 0; j < parentMaterials.length; j++) {
+
+					for (var k = 0; k < this.materials.length; k++)
+						if (this.materials[k].id == parentMaterials[j].id) {
+							var materialRef = this.materials[k];
+							var material = new CGFappearance(this.scene);
+							material.id = parentMaterials[j].id;
+							material.setEmission(materialRef.emission.r, materialRef.emission.g, materialRef.emission.b, materialRef.emission.a);
+							material.setAmbient(materialRef.ambient.r, materialRef.ambient.g, materialRef.ambient.b, materialRef.ambient.a);
+							material.setDiffuse(materialRef.diffuse.r, materialRef.diffuse.g, materialRef.diffuse.b, materialRef.diffuse.a);
+							material.setSpecular(materialRef.specular.r, materialRef.specular.g, materialRef.specular.b, materialRef.specular.a);
+							material.setShininess(materialRef.shininess);
+							node.pushMaterial(material);
+						}
+				}
+			} else {
+				//Add the material to the component
+				for (var j = 0; j < this.materials.length; j++)
+					if (this.materials[j].id == materialId) {
+						var materialRef = this.materials[j];
+						var material = new CGFappearance(this.scene);
+						material.id = materialId;
+						material.setEmission(materialRef.emission.r, materialRef.emission.g, materialRef.emission.b, materialRef.emission.a);
+						material.setAmbient(materialRef.ambient.r, materialRef.ambient.g, materialRef.ambient.b, materialRef.ambient.a);
+						material.setDiffuse(materialRef.diffuse.r, materialRef.diffuse.g, materialRef.diffuse.b, materialRef.diffuse.a);
+						material.setSpecular(materialRef.specular.r, materialRef.specular.g, materialRef.specular.b, materialRef.specular.a);
+						material.setShininess(materialRef.shininess);
+						node.pushMaterial(material);
+					}
+			}
+		}
+	}
+
+	//Textures
+	{
+		var textureElem = component.getElementsByTagName('texture')[0];
+		var textureId = this.reader.getString(textureElem, 'id', true);
+		for (var i = 0; i < this.textures.length; i++){
+			if (this.textures[i].id == textureId) {
+				node.setTexture(this.textures[i]);
+				break;
+			}
+		} 
+	}
+
+	//Children
+	{
+		var childrenElem = component.getElementsByTagName('children')[0];
+		
+		var componentsRef = childrenElem.getElementsByTagName('componentref');
+		for (var i = 0; i < componentsRef.length; i++) {
+			var componentId = this.reader.getString(componentsRef[i], 'id', true);
+			var newComponent = this.getComponentFromId(componentsList, componentId);
+			newComponent.id = componentId;
+			node.pushChild(this.parseNode(componentsList, newComponent, node));
+		}
+
+		var primitiveref = childrenElem.getElementsByTagName('primitiveref');
+		var primitives = [];
+		for (var i = 0; i < primitiveref.length; i++) {
+			var primitiveId = this.reader.getString(primitiveref[i], 'id', true);
+
+			for (var j = 0; j < this.primitives.length; j++) {
+				if (primitiveId == this.primitives[j].id) {
+					node.setPrimitive(this.primitives[k]);
+					break;
+				}
+			}
+		}
+	}
+
+	return node;
+}
 
 /**
  * Callback to be executed on any read error
@@ -625,6 +666,15 @@ MySceneGraph.prototype.onXMLError = function (message) {
 /**
  * Util functions
  */
+MySceneGraph.prototype.getComponentFromId = function (list, id) {
+	for (var i = 0; i < list.length; i++) {
+		var component = list[i];
+		var componentId = this.reader.getString(component, 'id', true);
+		if (componentId == id)
+			return component;
+	}
+}
+
 MySceneGraph.prototype.getRGBA = function (element, required) {
 	var r = this.reader.getFloat(element, 'r', required);
 	var g = this.reader.getFloat(element, 'g', required);
