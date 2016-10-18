@@ -159,7 +159,7 @@
             <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
         </primitive>
         <primitive id="triangle">
-            <triangle x1="0" y1="0" z1="0" x2="3" y2="0" z2="0" x3="1.5" y3="3" z3="0" />
+            <triangle x1="0" y1="0" z1="0" x2="3" y2="0" z2="0" x3="1" y3="3" z3="0" />
         </primitive>
         <primitive id="sphere1">
             <sphere radius="2" slices="5" stacks="10" />
