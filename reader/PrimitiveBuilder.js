@@ -163,11 +163,11 @@ PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, sta
             var radius = top + transition * lat;
 
             for (var long = 0; long <= this.slices; long++) {
-                var phi = -1 * long * 2 * Math.PI / this.slices;
+                var phi = long * 2 * Math.PI / this.slices;
 
                 var x = radius * Math.cos(phi);
-                var y = this.height * Math.cos(theta);
-                var z = radius * Math.sin(phi);
+                var y = radius * Math.sin(phi);
+                var z = this.height * Math.cos(theta);
 
                 this.vertices.push(x, y, z);
                 this.texCoords.push(lat / this.stacks, long / this.slices);
@@ -183,6 +183,30 @@ PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, sta
                 this.indices.push(second, second + 1, first + 1);
             }
         }
+
+        // Faces
+        /*var centerIndex = this.vertices.length;
+        
+        this.vertices.push(0, 0, 0);
+        
+        this.normals.push(0, 0, -1);
+        for (var long = 0; long <= this.slices; long++) {
+            var phi = long * 2 * Math.PI / this.slices;
+            var x = radius * Math.cos(phi);
+            var y = radius * Math.sin(phi);
+            this.vertices.push(x, y, 0);
+            this.normals.push(0, 0, -1);
+        }
+        console.info("center index: " + centerIndex);
+        console.info("vertices length: " + this.vertices.length);
+        console.info("slices: " + this.slices);
+        var i;
+        for (i = 1; i < this.slices; i++) {
+            this.indices.push(centerIndex, centerIndex + i , centerIndex + i + 1);
+            console.log("RANGE: " + centerIndex + i + 1);
+        }
+        this.indices.push(centerIndex, centerIndex + i, centerIndex + 1);*/
+
 
         this.initGLBuffers();
     };
