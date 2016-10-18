@@ -170,5 +170,5 @@ XMLscene.prototype.resetCamera = function () {
 }
 
 XMLscene.prototype.changeMaterials = function () {
-	this.graph.changeNodesMaterialIndex();
+	this.graph.changeNodesMaterialIndex(this.graph.rootNode);
 }

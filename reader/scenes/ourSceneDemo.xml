@@ -2520,7 +2520,9 @@
                 <translate x="0" y="0" z="0.5" />
             </transformation>
             <materials>
+                <material id="m_Glow" />
                 <material id="m_Default" />
+                <material id="m_Grass" />
             </materials>
             <texture id="inherit" />
             <children>

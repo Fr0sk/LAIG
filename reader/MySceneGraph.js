@@ -165,8 +165,14 @@ MySceneGraph.prototype.myDebug = function () {
 /**
  * 
  */
-MySceneGraph.prototype.changeNodesMaterialIndex = function () {
+MySceneGraph.prototype.changeNodesMaterialIndex = function (node) {
+	if(node.indexActiveMaterial >= node.materials.length - 1)
+		node.indexActiveMaterial = 0;
+	else
+		node.indexActiveMaterial++;
 
+	for(var i = 0; i < node.children.length; i++)
+		this.changeNodesMaterialIndex(node.children[i]);
 }
 
 /*
@@ -681,14 +687,4 @@ MySceneGraph.prototype.getTriangleSize = function (element, required) {
 	var x2 = this.reader.getFloat(element, 'x2', required);
 	var y2 = this.reader.getFloat(element, 'y2', required);
 	var z2 = this.reader.getFloat(element, 'z2', required);
-};
-
-MySceneGraph.prototype.getInheritTexture = function (childComponentID) {
-	for (var i = 0; i < this.components.length; i++)
-		for (var j = 0; j < this.components[i].componentsRef.length; j++)
-			if (this.components[i].componentsRef[j] == childComponentID)
-				return this.components[i].texture;
-
-	//HANDLE THIS NULL RETURN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	return null;
 };
