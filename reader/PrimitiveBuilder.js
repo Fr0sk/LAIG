@@ -3,13 +3,15 @@ function PrimitiveBuilder() {
 }
 
 // Builds a rectangle with the diagonal vertices
-PrimitiveBuilder.buildRect = function (scene, x1, y1, x2, y2) {
-    function Rect(scene, x1, y1, x2, y2) {
+PrimitiveBuilder.buildRect = function (scene, x1, y1, x2, y2, length_s, length_t) {
+    function Rect(scene, x1, y1, x2, y2, length_s, length_t) {
         this.scene = scene;
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
+        this.length_s = length_s;
+        this.length_t = length_t;
         CGFobject.call(this, scene);
         this.initBuffers();
     };
@@ -43,25 +45,25 @@ PrimitiveBuilder.buildRect = function (scene, x1, y1, x2, y2) {
             0, 0, 1,
             0, 0, 1
         ];
-        
+
         this.texCoords = [
-            1, 0,
+            this.length_s, 0,
             0, 0,
-            0, 1,
-            1, 1
+            0, this.length_s,
+            this.length_s, this.length_s
         ];
 
         // Takes the data in vertices, indices and normals and puts in buffers to be used by WebGl.
         this.initGLBuffers();
     };
 
-    var rect = new Rect(scene, x1, y1, x2, y2);
+    var rect = new Rect(scene, x1, y1, x2, y2, length_s, length_t);
     return rect;
 }
 
 // Builds a triangle with the given verices
-PrimitiveBuilder.buildTri = function (scene, x1, y1, z1, x2, y2, z2, x3, y3, z3) {
-    function Tri(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3) {
+PrimitiveBuilder.buildTri = function (scene, x1, y1, z1, x2, y2, z2, x3, y3, z3, length_s, length_t) {
+    function Tri(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3, length_s, length_t) {
         this.scene = scene;
         this.x1 = x1;
         this.y1 = y1;
@@ -72,6 +74,8 @@ PrimitiveBuilder.buildTri = function (scene, x1, y1, z1, x2, y2, z2, x3, y3, z3)
         this.x3 = x3;
         this.y3 = y3;
         this.z3 = z3;
+        this.length_s = length_s;
+        this.length_t = length_t;
         CGFobject.call(this, scene);
         this.initBuffers();
     };
@@ -120,19 +124,21 @@ PrimitiveBuilder.buildTri = function (scene, x1, y1, z1, x2, y2, z2, x3, y3, z3)
         this.initGLBuffers();
     };
 
-    var tri = new Tri(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3);
+    var tri = new Tri(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3, length_s, length_t);
     return tri;
 }
 
 // Builds a cylinder with given params
-PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, stacks) {
-    function Cylinder(scene, base, top, height, slices, stacks) {
+PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, stacks, length_s, length_t) {
+    function Cylinder(scene, base, top, height, slices, stacks, length_s, length_t) {
         this.scene = scene;
         this.base = base;
         this.top = top;
         this.height = height;
         this.slices = slices;
         this.stacks = stacks;
+        this.length_s = length_s;
+        this.length_t = length_t;
         CGFobject.call(this, scene);
         this.initBuffers();
     };
@@ -164,7 +170,7 @@ PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, sta
                 var z = radius * Math.sin(phi);
 
                 this.vertices.push(x, y, z);
-                this.texCoords.push(lat/this.stacks,long/this.slices);
+                this.texCoords.push(lat / this.stacks, long / this.slices);
             }
         }
         this.normals = this.vertices;
@@ -181,17 +187,19 @@ PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, sta
         this.initGLBuffers();
     };
 
-    var cylinder = new Cylinder(scene, base, top, height, slices, stacks);
+    var cylinder = new Cylinder(scene, base, top, height, slices, stacks, length_s, length_t);
     return cylinder;
 }
 
 // Builds a sphere with given params
-PrimitiveBuilder.buildSphere = function (scene, radius, slices, stacks) {
-    function Sphere(scene, radius, slices, stacks) {
+PrimitiveBuilder.buildSphere = function (scene, radius, slices, stacks, length_s, length_t) {
+    function Sphere(scene, radius, slices, stacks, length_s, length_t) {
         this.scene = scene;
         this.radius = radius;
         this.slices = slices;
         this.stacks = stacks;
+        this.length_s = length_s;
+        this.length_t = length_t;
         CGFobject.call(this, scene);
         this.initBuffers();
     };
@@ -238,12 +246,12 @@ PrimitiveBuilder.buildSphere = function (scene, radius, slices, stacks) {
         this.initGLBuffers();
     };
 
-    var sphere = new Sphere(scene, radius, slices, stacks);
+    var sphere = new Sphere(scene, radius, slices, stacks, length_s, length_t);
     return sphere;
 }
 
 // Builds a torus with given params
-PrimitiveBuilder.buildTorus = function (scene, inner, outer, slices, loops) {
+PrimitiveBuilder.buildTorus = function (scene, inner, outer, slices, loops, length_s, length_t) {
     var torus = {};
     // TODO Build torus
     return torus;

@@ -49,19 +49,19 @@
     <!-- Textures set -->
     <!-- Must include at least one texture block -->
     <textures>
-        <texture id="t_sidewalk" file="./assets/sidewalk.jpg" length_s="200" length_t="200" />
+        <texture id="t_sidewalk" file="./assets/sidewalk.jpg" length_s="5" length_t="5" />
         <texture id="t_building" file="./assets/building.jpg" length_s="1" length_t="1" />
         <texture id="t_topBuilding" file="./assets/topBuilding.jpg" length_s="1" length_t="1" />
         <texture id="t_treeLeafes" file="./assets/treeLeafes.png" length_s="1" length_t="1" />
         <texture id="t_treeWood" file="./assets/treeWood.jpg" length_s="1" length_t="1" />
         <texture id="t_grass" file="./assets/grass.png" length_s="1" length_t="1" />
         <texture id="t_whiteGrass" file="./assets/whiteGrass.png" length_s="1" length_t="1" />
-        <texture id="t_sbSide1" file="./assets/sbSide1.png" length_s="200" length_t="200" />
-        <texture id="t_sbSide2" file="./assets/sbSide2.png" length_s="200" length_t="200" />
-        <texture id="t_sbSide3" file="./assets/sbSide3.png" length_s="200" length_t="200" />
-        <texture id="t_sbSide4" file="./assets/sbSide4.png" length_s="200" length_t="200" />
-        <texture id="t_sbTop" file="./assets/sbTop.png" length_s="200" length_t="200" />
-        <texture id="t_sbBot" file="./assets/sbBot.png" length_s="200" length_t="200" />
+        <texture id="t_sbSide1" file="./assets/sbSide1.png" length_s="1" length_t="1" />
+        <texture id="t_sbSide2" file="./assets/sbSide2.png" length_s="1" length_t="1" />
+        <texture id="t_sbSide3" file="./assets/sbSide3.png" length_s="1" length_t="1" />
+        <texture id="t_sbSide4" file="./assets/sbSide4.png" length_s="1" length_t="1" />
+        <texture id="t_sbTop" file="./assets/sbTop.png" length_s="1" length_t="1" />
+        <texture id="t_sbBot" file="./assets/sbBot.png" length_s="1" length_t="1" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->

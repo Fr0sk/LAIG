@@ -166,12 +166,12 @@ MySceneGraph.prototype.myDebug = function () {
  * 
  */
 MySceneGraph.prototype.changeNodesMaterialIndex = function (node) {
-	if(node.indexActiveMaterial >= node.materials.length - 1)
+	if (node.indexActiveMaterial >= node.materials.length - 1)
 		node.indexActiveMaterial = 0;
 	else
 		node.indexActiveMaterial++;
 
-	for(var i = 0; i < node.children.length; i++)
+	for (var i = 0; i < node.children.length; i++)
 		this.changeNodesMaterialIndex(node.children[i]);
 }
 
@@ -422,58 +422,63 @@ MySceneGraph.prototype.parsePrimitives = function (rootElement) {
 
 		var typeElem = null;
 		if ((typeElem = primitives[i].getElementsByTagName('rectangle')[0]) != null) {
-			var x1 = this.reader.getFloat(typeElem, 'x1', true);
-			var y1 = this.reader.getFloat(typeElem, 'y1', true);
-			var x2 = this.reader.getFloat(typeElem, 'x2', true);
-			var y2 = this.reader.getFloat(typeElem, 'y2', true);
-			var rectangle = PrimitiveBuilder.buildRect(this.scene, x1, y1, x2, y2);
+			var rectangle = {};
 			rectangle.id = id;
-			this.primitives.push(rectangle)
+			rectangle.type = "rectangle";
+			rectangle.x1 = this.reader.getFloat(typeElem, 'x1', true);
+			rectangle.y1 = this.reader.getFloat(typeElem, 'y1', true);
+			rectangle.x2 = this.reader.getFloat(typeElem, 'x2', true);
+			rectangle.y2 = this.reader.getFloat(typeElem, 'y2', true);
+			this.primitives.push(rectangle);
 			//console.log("Primitive num " + (i + 1) + ": id = " + id + ", x1 = " + x1 + ", y1 = " + y1 +
 			//", x2 = " + x2 + ", y2 = " + y2);
 		} else if ((typeElem = primitives[i].getElementsByTagName('triangle')[0]) != null) {
-			var x1 = this.reader.getFloat(typeElem, 'x1', true);
-			var y1 = this.reader.getFloat(typeElem, 'y1', true);
-			var z1 = this.reader.getFloat(typeElem, 'z1', true);
-			var x2 = this.reader.getFloat(typeElem, 'x2', true);
-			var y2 = this.reader.getFloat(typeElem, 'y2', true);
-			var z2 = this.reader.getFloat(typeElem, 'z2', true);
-			var x3 = this.reader.getFloat(typeElem, 'x3', true);
-			var y3 = this.reader.getFloat(typeElem, 'y3', true);
-			var z3 = this.reader.getFloat(typeElem, 'z3', true);
-			var triangle = PrimitiveBuilder.buildTri(this.scene, x1, y1, z1, x2, y2, z2, x3, y3, z3);
+			var triangle = {};
 			triangle.id = id;
+			triangle.type = "triangle";
+			triangle.x1 = this.reader.getFloat(typeElem, 'x1', true);
+			triangle.y1 = this.reader.getFloat(typeElem, 'y1', true);
+			triangle.z1 = this.reader.getFloat(typeElem, 'z1', true);
+			triangle.x2 = this.reader.getFloat(typeElem, 'x2', true);
+			triangle.y2 = this.reader.getFloat(typeElem, 'y2', true);
+			triangle.z2 = this.reader.getFloat(typeElem, 'z2', true);
+			triangle.x3 = this.reader.getFloat(typeElem, 'x3', true);
+			triangle.y3 = this.reader.getFloat(typeElem, 'y3', true);
+			triangle.z3 = this.reader.getFloat(typeElem, 'z3', true);
 			this.primitives.push(triangle);
 			//console.log("Primitive num " + (i + 1) + ": id = " + id + ", x1 = " + x1 + 
 			//", y1 = " + y1 + ", z1 = " + z1 + ", x2 = " + x2 + ", y2 = " + y2 + 
 			//", z2 = " + z2 + ", x3 = " + x3 + ", y3 = " + y3 + ", z3 = " + z3);
 		} else if ((typeElem = primitives[i].getElementsByTagName('cylinder')[0]) != null) {
-			var base = this.reader.getFloat(typeElem, 'base', true);
-			var top = this.reader.getFloat(typeElem, 'top', true);
-			var height = this.reader.getFloat(typeElem, 'height', true);
-			var slices = this.reader.getFloat(typeElem, 'slices', true);
-			var stacks = this.reader.getFloat(typeElem, 'stacks', true);
-			var cylinder = PrimitiveBuilder.buildCylinder(this.scene, base, top, height, slices, stacks);
+			var cylinder = {};
 			cylinder.id = id;
+			cylinder.type = "cylinder";
+			cylinder.base = this.reader.getFloat(typeElem, 'base', true);
+			cylinder.top = this.reader.getFloat(typeElem, 'top', true);
+			cylinder.height = this.reader.getFloat(typeElem, 'height', true);
+			cylinder.slices = this.reader.getFloat(typeElem, 'slices', true);
+			cylinder.stacks = this.reader.getFloat(typeElem, 'stacks', true);
 			this.primitives.push(cylinder);
 			//console.log("Primitive num " + (i + 1) + ": id = " + id + ", base = " + base +
 			//", top = " + top + ", height = " + height + ", slices = " + slices + ", stacks = " + stacks);
 		} else if ((typeElem = primitives[i].getElementsByTagName('sphere')[0]) != null) {
-			var radius = this.reader.getFloat(typeElem, 'radius', true);
-			var slices = this.reader.getFloat(typeElem, 'slices', true);
-			var stacks = this.reader.getFloat(typeElem, 'stacks', true);
-			var sphere = PrimitiveBuilder.buildSphere(this.scene, radius, slices, stacks);
+			var sphere = {};
 			sphere.id = id;
+			sphere.type = "sphere";
+			sphere.radius = this.reader.getFloat(typeElem, 'radius', true);
+			sphere.slices = this.reader.getFloat(typeElem, 'slices', true);
+			sphere.stacks = this.reader.getFloat(typeElem, 'stacks', true);
 			this.primitives.push(sphere);
 			//console.log("Primitive num " + (i + 1) + ": id = " + id + ", radius = " + radius +
 			//", slices = " + slices + ", stacks = " + stacks);
 		} else if ((typeElem = primitives[i].getElementsByTagName('torus')[0]) != null) {
-			var inner = this.reader.getFloat(typeElem, 'inner', true);
-			var outer = this.reader.getFloat(typeElem, 'outer', true);
-			var slices = this.reader.getFloat(typeElem, 'slices', true);
-			var loops = this.reader.getFloat(typeElem, 'loops', true);
-			var torus = PrimitiveBuilder.buildTorus(this.scene, inner, outer, slices, loops);
+			var torus = {};
 			torus.id = id;
+			torus.type = "torus";
+			torus.inner = this.reader.getFloat(typeElem, 'inner', true);
+			torus.outer = this.reader.getFloat(typeElem, 'outer', true);
+			torus.slices = this.reader.getFloat(typeElem, 'slices', true);
+			torus.loops = this.reader.getFloat(typeElem, 'loops', true);
 			this.primitives.push(torus);
 			//console.log("Primitive num " + (i + 1) + ": id = " + id + ", inner = " + inner +
 			//", outer = " + outer + ", slices = " + slices + ", loops = " + loops);
@@ -616,12 +621,14 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 		for (var i = 0; i < primitiveref.length; i++) {
 			var primitiveId = this.reader.getString(primitiveref[i], 'id', true);
 
-			for (var j = 0; j < this.primitives.length; j++) {
+			for (var j = 0; j < this.primitives.length; j++)
 				if (primitiveId == this.primitives[j].id) {
-					node.setPrimitive(this.primitives[j]);
+					if (node.texture != null)
+						node.setPrimitive(this.generatePrimitive(this.primitives[j], node.texture.length_s, node.texture.length_t));
+					else
+						node.setPrimitive(this.generatePrimitive(this.primitives[j], 1, 1));
 					break;
 				}
-			}
 		}
 	}
 
@@ -672,19 +679,20 @@ MySceneGraph.prototype.getXYZ = function (element, required) {
 	return vec3.fromValues(x, y, z);
 };
 
-MySceneGraph.prototype.getRectSize = function (element, required) {
-	var x1 = this.reader.getFloat(element, 'x1', required);
-	var y1 = this.reader.getFloat(element, 'y1', required);
-	var x2 = this.reader.getFloat(element, 'x2', required);
-	var y2 = this.reader.getFloat(element, 'y2', required);
-	return vec4.fromValues(x1, y1, x2, y2);
-};
-
-MySceneGraph.prototype.getTriangleSize = function (element, required) {
-	var x1 = this.reader.getFloat(element, 'x1', required);
-	var y1 = this.reader.getFloat(element, 'y1', required);
-	var z1 = this.reader.getFloat(element, 'z1', required);
-	var x2 = this.reader.getFloat(element, 'x2', required);
-	var y2 = this.reader.getFloat(element, 'y2', required);
-	var z2 = this.reader.getFloat(element, 'z2', required);
+MySceneGraph.prototype.generatePrimitive = function (primitiveInfo, length_s, length_t) {
+	if (primitiveInfo.type == "rectangle")
+		return PrimitiveBuilder.buildRect(this.scene, primitiveInfo.x1, primitiveInfo.y1, primitiveInfo.x2, primitiveInfo.y2, length_s, length_t);
+	else if (primitiveInfo.type == "triangle")
+		return PrimitiveBuilder.buildTri(this.scene, primitiveInfo.x1, primitiveInfo.y1, primitiveInfo.z1,
+			primitiveInfo.x2, primitiveInfo.y2, primitiveInfo.z2, primitiveInfo.x3, primitiveInfo.y3, primitiveInfo.z3,
+			length_s, length_t);
+	else if (primitiveInfo.type == "cylinder")
+		return PrimitiveBuilder.buildCylinder(this.scene, primitiveInfo.base, primitiveInfo.top, primitiveInfo.height,
+			primitiveInfo.slices, primitiveInfo.stacks, length_s, length_t);
+	else if (primitiveInfo.type == "sphere")
+		return PrimitiveBuilder.buildSphere(this.scene, primitiveInfo.radius, primitiveInfo.slices, primitiveInfo.stacks,
+			length_s, length_t);
+	else if (primitiveInfo.type == "torus")
+		return PrimitiveBuilder.buildTorus(this.scene, primitiveInfo.inner, primitiveInfo.outer, primitiveInfo.slices,
+			primitiveInfo.loops, length_s, length_t);
 };
