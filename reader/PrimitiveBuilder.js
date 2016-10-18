@@ -114,10 +114,18 @@ PrimitiveBuilder.buildTri = function (scene, x1, y1, z1, x2, y2, z2, x3, y3, z3,
             xp, yp, zp,
         ];
 
+        var ab = Math.sqrt((this.x2 - this.x1) * (this.x2 - this.x1) + (this.y2 - this.y1) * (this.y2 - this.y1) + (this.z2 - this.z1) * (this.z2 - this.z1));
+        var bc = Math.sqrt((this.x3 - this.x2) * (this.x3 - this.x2) + (this.y3 - this.y2) * (this.y3 - this.y2) + (this.z3 - this.z2) * (this.z3 - this.z2));
+        var ca = Math.sqrt((this.x1 - this.x3) * (this.x1 - this.x3) + (this.y1 - this.y3) * (this.y1 - this.y3) + (this.z1 - this.z3) * (this.z1 - this.z3));
+
+        var aAng = ((ca * ca + ab * ab - ca * ca) / (2 * ca * ab));
+        var bAng = ((- ca * ca + ab * ab + bc * bc) / (2 * ab * bc));
+        var cAng = ((ca * ca - ab * ab + bc * bc) / (2 * ca * bc));
+
         this.texCoords = [
             0, 0,
-            1, 0,
-            1, 1
+            bc, 0,
+            bc - ca * cAng, ca * 1
         ];
 
         // Takes the data in vertices, indices and normals and puts in buffers to be used by WebGl.
