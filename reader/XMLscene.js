@@ -101,41 +101,39 @@ XMLscene.prototype.display = function () {
 		this.lights[0].update();
 
 		//Starts going through the graph
-		this.runGraph(this.graph.components[0]);
+		this.runGraph(this.graph.rootNode);
 	};
 };
 
-XMLscene.prototype.runGraph = function (component) {
+XMLscene.prototype.runGraph = function (node) {
 	this.pushMatrix();
 
 	//Apply material
-	component.materials[0].apply();
-
-	//console.log("Component id: '" + component.id + "' usou o material com id: '" + component.materials[0].id + "' e que tem emission = " + component.materials[0].emission);
+	node.materials[node.indexActiveMaterial].apply();
 
 	//Do all the transformations
-	for (var i = 0; i < component.transformations.length; i++) {
-		if (component.transformations[i].type == "translate")
-			this.translate(component.transformations[i].x, component.transformations[i].y, component.transformations[i].z);
-		else if (component.transformations[i].type == "rotate") {
-			switch (component.transformations[i].axis) {
-				case 'x': this.rotate(component.transformations[i].angle * degToRad, 1, 0, 0); break;
-				case 'y': this.rotate(component.transformations[i].angle * degToRad, 0, 1, 0); break;
-				case 'z': this.rotate(component.transformations[i].angle * degToRad, 0, 0, 1); break;
+	for (var i = 0; i < node.mat.length; i++) {
+		if (node.mat[i].type == "translate")
+			this.translate(node.mat[i].x, node.mat[i].y, node.mat[i].z);
+		else if (node.mat[i].type == "rotate") {
+			switch (node.mat[i].axis) {
+				case 'x': this.rotate(node.mat[i].angle * degToRad, 1, 0, 0); break;
+				case 'y': this.rotate(node.mat[i].angle * degToRad, 0, 1, 0); break;
+				case 'z': this.rotate(node.mat[i].angle * degToRad, 0, 0, 1); break;
 				default: break;
 			}
 		}
-		else if (component.transformations[i].type == "scale")
-			this.scale(component.transformations[i].x, component.transformations[i].y, component.transformations[i].z);
+		else if (node.mat[i].type == "scale")
+			this.scale(node.mat[i].x, node.mat[i].y, node.mat[i].z);
 	}
 
-	//Draws the primitives
-	for (var i = 0; i < component.primitives.length; i++)
-		component.primitives[i].display();
+	//Draws primitive (if it has one)
+	if (node.primitive != null)
+		node.primitive.display();
 
 	//Uses pesquisa em profundidade
-	for (var i = 0; i < component.innerComponents.length; i++)
-		this.runGraph(component.innerComponents[i]);
+	for (var i = 0; i < node.children.length; i++)
+		this.runGraph(node.children[i]);
 
 	this.popMatrix();
 };
@@ -172,5 +170,5 @@ XMLscene.prototype.resetCamera = function () {
 }
 
 XMLscene.prototype.changeMaterials = function () {
-
+	this.graph.changeNodesMaterialIndex();
 }

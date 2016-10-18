@@ -45,10 +45,10 @@ PrimitiveBuilder.buildRect = function (scene, x1, y1, x2, y2) {
         ];
         
         this.texCoords = [
-            5, 0,
+            1, 0,
             0, 0,
-            0, 5,
-            5, 5
+            0, 1,
+            1, 1
         ];
 
         // Takes the data in vertices, indices and normals and puts in buffers to be used by WebGl.

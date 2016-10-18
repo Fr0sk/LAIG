@@ -14,7 +14,7 @@ Node.prototype.pushMaterial = function(material) {
 
 Node.prototype.setTexture = function(texture) {
     this.texture = texture;
-    for (var i = 0; i < materials.length; i++)
+    for (var i = 0; i < this.materials.length; i++)
         this.materials[i].setTexture(texture);
 }
 

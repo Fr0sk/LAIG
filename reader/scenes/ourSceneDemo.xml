@@ -564,7 +564,7 @@
             <materials>
                 <material id="m_Default" />
             </materials>
-            <texture id="t_building" />
+            <texture id="none" />
             <children>
                 <componentref id="buildingPosition1" />
                 <componentref id="buildingPosition2" />

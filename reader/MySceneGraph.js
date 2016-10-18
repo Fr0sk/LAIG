@@ -111,7 +111,7 @@ MySceneGraph.prototype.parseData = function (rootElement) {
 	 * The variables before each method are the variables
 	 * that method populates in his body
 	 */
-	var err;
+	var err = null;
 
 	this.axis;
 	this.rootNodeId;
@@ -151,8 +151,6 @@ MySceneGraph.prototype.parseData = function (rootElement) {
 	this.rootNode;
 	err = this.parseNodes(rootElement);
 	if (err != null) return err;
-	err = this.getInnerComponents();
-	if (err != null) return err;
 
 	this.myDebug();
 };
@@ -165,16 +163,10 @@ MySceneGraph.prototype.myDebug = function () {
 }
 
 /**
- * Puts the actual components in the respective variable using their reference
+ * 
  */
-MySceneGraph.prototype.getInnerComponents = function () {
-	for (var i = 0; i < this.components.length; i++)
-		for (var j = 0; j < this.components[i].componentsRef.length; j++)
-			for (var k = 0; k < this.components.length; k++)
-				if (this.components[i].componentsRef[j] == this.components[k].id) {
-					this.components[i].innerComponents.push(this.components[k]);
-					break;
-				}
+MySceneGraph.prototype.changeNodesMaterialIndex = function () {
+
 }
 
 /*
@@ -185,6 +177,8 @@ MySceneGraph.prototype.parseScene = function (rootElement) {
 	var axisLength = this.reader.getFloat(scene, 'axis_length', true);
 	this.rootNodeId = this.reader.getString(scene, 'root', true);
 	this.axis = new CGFaxis(this.scene, axisLength, 0.2);
+
+	return null;
 
 	//console.log("Scene axis_length =" + s_axisLength);
 };
@@ -490,44 +484,13 @@ MySceneGraph.prototype.parseNodes = function (rootElement) {
 	var rootComponent = this.getComponentFromId(components, this.rootNodeId);
 	rootComponent.id = this.rootNodeId;
 
-	if (rootNode == null) return "Root node not found!";
-	this.rootNode = this.parseNode(components, rootComponent, null)
-
-
-	/*
-	
-
-	for (var i = 0; i < components.length; i++) {
-		//Component		
-		var component = components[i];
-		var componentID = this.reader.getString(component, 'id', true);
-		//console.log("Component number " + (i + 1) + ", id = " + componentID);
-
-		var componentToSend = {};
-		componentToSend.id = componentID;
-		componentToSend.transformations = [];
-		componentToSend.materials = [];
-		componentToSend.texture;
-		componentToSend.componentsRef = [];
-		componentToSend.innerComponents = [];
-		componentToSend.primitives = [];
-
-		
-
-		
-
-		this.components.push(componentToSend);
-
-		/*var node = new Node();
-		node.setMaterials(componentToSend.materials);
-		node.setTexture(componentToSend.texture);
-		//node.setMat();
-		node.setChildren(componentToSend.innerComponents);
-
-		if (componentToSend.primitives.length > 0)
-			node.setPrimitive(componentToSend.primitives[0]);*/
-	//}
+	if (this.rootNodeId == null) return "Root node not found!";		//Mudei de rootNode
+	this.rootNode = this.parseNode(components, rootComponent, null);
 };
+
+/**
+ * Recursive function to get all the individual components
+ */
 MySceneGraph.prototype.parseNode = function (componentsList, component, parentNode) {
 	var node = new Node(component.id);
 
@@ -618,18 +581,22 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 	{
 		var textureElem = component.getElementsByTagName('texture')[0];
 		var textureId = this.reader.getString(textureElem, 'id', true);
-		for (var i = 0; i < this.textures.length; i++){
-			if (this.textures[i].id == textureId) {
-				node.setTexture(this.textures[i]);
-				break;
+
+		if (textureId == "inherit")
+			node.setTexture(parentNode.texture);
+		else if (textureId != "none")
+			for (var i = 0; i < this.textures.length; i++) {
+				if (this.textures[i].id == textureId) {
+					node.setTexture(this.textures[i]);
+					break;
+				}
 			}
-		} 
 	}
 
 	//Children
 	{
 		var childrenElem = component.getElementsByTagName('children')[0];
-		
+
 		var componentsRef = childrenElem.getElementsByTagName('componentref');
 		for (var i = 0; i < componentsRef.length; i++) {
 			var componentId = this.reader.getString(componentsRef[i], 'id', true);
@@ -645,7 +612,7 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 
 			for (var j = 0; j < this.primitives.length; j++) {
 				if (primitiveId == this.primitives[j].id) {
-					node.setPrimitive(this.primitives[k]);
+					node.setPrimitive(this.primitives[j]);
 					break;
 				}
 			}
