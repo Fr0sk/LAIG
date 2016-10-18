@@ -50,6 +50,7 @@
     <!-- Must include at least one texture block -->
     <textures>
         <texture id="t_sidewalk" file="./assets/sidewalk.jpg" length_s="5" length_t="5" />
+        <texture id="t_building" file="./assets/building.jpg" length_s="1" length_t="1" />
         <texture id="t_topBuilding" file="./assets/topBuilding.jpg" length_s="1" length_t="1" />
         <texture id="t_treeLeafes" file="./assets/treeLeafes.png" length_s="1" length_t="1" />
         <texture id="t_treeWood" file="./assets/treeWood.jpg" length_s="1" length_t="1" />

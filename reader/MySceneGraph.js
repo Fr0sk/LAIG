@@ -495,14 +495,19 @@ MySceneGraph.prototype.parseNodes = function (rootElement) {
 	var rootComponent = this.getComponentFromId(components, this.rootNodeId);
 	rootComponent.id = this.rootNodeId;
 
-	if (this.rootNodeId == null) return "Root node not found!";		//Mudei de rootNode
-	this.rootNode = this.parseNode(components, rootComponent, null);
+	if (this.rootNodeId == null) return "Root node not found!";
+
+	var err;
+	this.rootNode = this.parseNode(components, rootComponent, err);
+
+	if(err != null)
+		return err;
 };
 
 /**
  * Recursive function to get all the individual components
  */
-MySceneGraph.prototype.parseNode = function (componentsList, component, parentNode) {
+MySceneGraph.prototype.parseNode = function (componentsList, component, parentNode, err) {
 	var node = new Node(component.id);
 
 	//Transformations
@@ -552,7 +557,11 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 		for (var i = 0; i < materials.length; i++) {
 			var materialId = this.reader.getString(materials[i], 'id', true);
 			if (materialId == 'inherit') {
-				if (parent == null) return "Root can't have inherit materials";
+				if (parentNode == null) {
+					console.error("Passou por aqui")
+					err = "Root can't inherit materials";
+					return;
+				}
 
 				var parentMaterials = parentNode.getMaterials();
 				for (var j = 0; j < parentMaterials.length; j++) {
@@ -593,8 +602,10 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 		var textureElem = component.getElementsByTagName('texture')[0];
 		var textureId = this.reader.getString(textureElem, 'id', true);
 
-		if (textureId == "inherit")
+		if (textureId == "inherit") {
+			if (parentNode == null) return "Root node can't inherit a texture";
 			node.setTexture(parentNode.texture);
+		}
 		else if (textureId != "none")
 			for (var i = 0; i < this.textures.length; i++) {
 				if (this.textures[i].id == textureId) {
