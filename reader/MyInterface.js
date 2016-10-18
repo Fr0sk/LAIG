@@ -52,12 +52,19 @@ MyInterface.prototype.processKeyDown = function (event) {
 	switch (event.keyCode) {
         case 86:
         case 118:
-            console.log("'V' was pressed");
+            console.log("'V' was pressed --> Changed active camera...");
             this.scene.changeCamera();
             break; 
 		case 82:
 		case 114:
-			console.log("'R' was pressed");
-			this.scene.resetCamera();   
+			console.log("'R' was pressed --> Back to free camera...");
+			this.scene.resetCamera();
+			break;
+		case 77:
+		case 109:
+			console.log("'M' was pressed --> Changing materials...");
+			this.scene.changeMaterials();
+			break;
+		default: break;
 	};
 }

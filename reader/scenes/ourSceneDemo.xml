@@ -49,7 +49,7 @@
     <!-- Textures set -->
     <!-- Must include at least one texture block -->
     <textures>
-        <texture id="t_sidewalk" file="./assets/sidewalk.jpg" length_s="1" length_t="1" />
+        <texture id="t_sidewalk" file="./assets/sidewalk.jpg" length_s="200" length_t="200" />
         <texture id="t_building" file="./assets/building.jpg" length_s="1" length_t="1" />
         <texture id="t_topBuilding" file="./assets/topBuilding.jpg" length_s="1" length_t="1" />
         <texture id="t_treeLeafes" file="./assets/treeLeafes.png" length_s="1" length_t="1" />
@@ -605,7 +605,7 @@
             <materials>
                 <material id="m_Default" />
             </materials>
-            <texture id="t_building" />
+            <texture id="t_grass" />
             <children>
                 <componentref id="firstLevelBuildingBlockTransform" />
                 <componentref id="secondLevelBuildingBlockTransform" />
