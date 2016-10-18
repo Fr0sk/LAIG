@@ -47,10 +47,10 @@ PrimitiveBuilder.buildRect = function (scene, x1, y1, x2, y2, length_s, length_t
         ];
 
         this.texCoords = [
-            this.length_s, 0,
             0, 0,
-            0, this.length_s,
-            this.length_s, this.length_s
+            this.length_s, 0,
+            this.length_s, this.length_t,
+            0, this.length_t
         ];
 
         // Takes the data in vertices, indices and normals and puts in buffers to be used by WebGl.
