@@ -114,10 +114,32 @@ PrimitiveBuilder.buildTri = function (scene, x1, y1, z1, x2, y2, z2, x3, y3, z3,
             xp, yp, zp,
         ];
 
+        /*var ab = Math.sqrt((this.x2 - this.x1) * (this.x2 - this.x1) + (this.y2 - this.y1) * (this.y2 - this.y1) + (this.z2 - this.z1) * (this.z2 - this.z1));
+        var bc = Math.sqrt((this.x3 - this.x2) * (this.x3 - this.x2) + (this.y3 - this.y2) * (this.y3 - this.y2) + (this.z3 - this.z2) * (this.z3 - this.z2));
+        var ca = Math.sqrt((this.x1 - this.x3) * (this.x1 - this.x3) + (this.y1 - this.y3) * (this.y1 - this.y3) + (this.z1 - this.z3) * (this.z1 - this.z3));
+
+        var aAng = ((ca * ca + ab * ab - ca * ca) / (2 * ca * ab));
+        var bAng = ((- ca * ca + ab * ab + bc * bc) / (2 * ab * bc));
+        var cAng = ((ca * ca - ab * ab + bc * bc) / (2 * ca * bc));
+
         this.texCoords = [
             0, 0,
-            1, 0,
-            1, 1
+            bc, 0,
+            bc - ca * cAng, ca * 1
+        ];*/
+
+        var a = Math.sqrt((this.x1 - this.x3) * (this.x1 - this.x3) + (this.y1 - this.y3) * (this.y1 - this.y3) + (this.z1 - this.z3) * (this.z1 - this.z3));
+        var b = Math.sqrt((this.x2 - this.x1) * (this.x2 - this.x1) + (this.y2 - this.y1) * (this.y2 - this.y1) + (this.z2 - this.z1) * (this.z2 - this.z1));
+        var c = Math.sqrt((this.x3 - this.x2) * (this.x3 - this.x2) + (this.y3 - this.y2) * (this.y3 - this.y2) + (this.z3 - this.z2) * (this.z3 - this.z2));
+
+        var Y = (a * a + b * b - c * c) / (2 * a * b);
+        var A = (- a * a + b * b + c * c) / (2 * b * c);
+        var B = (a * a - b * b + c * c) / (2 * a * c);
+
+        this.texCoords = [
+            0, 0,
+            c, 0,
+            c - a * B, a * 1
         ];
 
         // Takes the data in vertices, indices and normals and puts in buffers to be used by WebGl.
@@ -183,6 +205,24 @@ PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, sta
                 this.indices.push(second, second + 1, first + 1);
             }
         }
+
+        //MEU
+        this.vertices.push(0, 0, 0);
+        this.vertices.push(0, 0, this.height);
+
+        //Como os primeiros vertices sao os vertices que estao onde z = height, usamos esses vertices para os replicar
+        for (var i = 0; i < this.slices; i++) {
+            this.vertices.push(this.vertices[i]);
+            this.normals.push(0, 0, 1);
+        }
+
+        //E depois comecamos a fazer push aos indices, seguindo a regra da mao direita
+        for (var i = 0; i < this.slices; i++)
+            this.indices.push(0, i + 1, i + 2);
+
+
+
+
 
         // Faces
         /*var centerIndex = this.vertices.length;

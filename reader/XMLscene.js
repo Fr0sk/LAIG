@@ -28,6 +28,9 @@ XMLscene.prototype.init = function (application) {
 
 	//We need to enable textures
 	this.enableTextures(true);
+
+		//PrimitiveBuilder.buildCylinder(this, 1, 1, 5, 10, 1, 1, 1);
+
 };
 
 XMLscene.prototype.initLights = function () {
@@ -92,6 +95,8 @@ XMLscene.prototype.display = function () {
 
 	this.setDefaultAppearance();
 
+	PrimitiveBuilder.buildCylinder(this, 1, 1, 5, 10, 1, 1, 1).display();
+
 	// ---- END Background, camera and axis setup
 
 	// it is important that things depending on the proper loading of the graph
@@ -101,7 +106,7 @@ XMLscene.prototype.display = function () {
 		this.lights[0].update();
 
 		//Starts going through the graph
-		this.runGraph(this.graph.rootNode);
+		//this.runGraph(this.graph.rootNode);
 	};
 };
 
