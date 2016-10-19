@@ -39,7 +39,6 @@
         </omni>
         <spot id="spot1" enabled="0" angle="30" exponent="1">
             <target x="0" y="0" z="0" />
-            <!-- What is target? -->
             <location x="5" y="0" z="2" />
             <ambient r="1" g="0.5" b="0" a="1" />
             <diffuse r="1" g="0.5" b="0" a="1" />
@@ -194,6 +193,7 @@
             <!-- a textura declarada sobrepoe a textura recebida do -->
             <!-- objecto "pai" -->
             <texture id="none" />
+            <texture id="t_building" />
             <children>
                 <!--componentref id="earth1" /><componentref id="earth2" /-->
                 <componentref id="floorTransform" />
@@ -201,30 +201,6 @@
                 <componentref id="trees" />
                 <componentref id="footballField" />
                 <componentref id="skybox" />
-                <componentref id="triTest" />
-            </children>
-        </component>
-        <component id="triTest">
-            <transformation>
-                <transformationref id="rotateY90" />
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="t_building" />
-            <children>
-                <componentref id="triTest1" />
-            </children>
-        </component>
-        <component id="triTest1">
-            <transformation>
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="t_building" />
-            <children>
-                <primitiveref id="triangle" />
             </children>
         </component>
         <component id="footballField">

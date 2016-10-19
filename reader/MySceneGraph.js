@@ -164,7 +164,7 @@ MySceneGraph.prototype.myDebug = function () {
 }
 
 /**
- * 
+ * Changes the current active material of all the components
  */
 MySceneGraph.prototype.changeNodesMaterialIndex = function (node) {
 	if (node.indexActiveMaterial >= node.materials.length - 1)
@@ -488,23 +488,8 @@ MySceneGraph.prototype.parsePrimitives = function (rootElement) {
 };
 
 /**
- * Components
+ * Applies transformations to only one variable
  */
-MySceneGraph.prototype.parseNodes = function (rootElement) {
-	var componentsElem = rootElement.getElementsByTagName('components')[0];
-	var components = componentsElem.getElementsByTagName('component');
-	var rootComponent = this.getComponentFromId(components, this.rootNodeId);
-	rootComponent.id = this.rootNodeId;
-
-	if (this.rootNodeId == null) return "Root node not found!";
-
-	var err;
-	this.rootNode = this.parseNode(components, rootComponent, err);
-
-	if (err != null)
-		return err;
-};
-
 MySceneGraph.prototype.applyTransform = function (type, transformations, x, y, z, axis, angle) {
 	switch (type) {
 		case "translate":
@@ -528,6 +513,24 @@ MySceneGraph.prototype.applyTransform = function (type, transformations, x, y, z
 			break;
 	}
 }
+
+/**
+ * Components
+ */
+MySceneGraph.prototype.parseNodes = function (rootElement) {
+	var componentsElem = rootElement.getElementsByTagName('components')[0];
+	var components = componentsElem.getElementsByTagName('component');
+	var rootComponent = this.getComponentFromId(components, this.rootNodeId);
+	rootComponent.id = this.rootNodeId;
+
+	if (this.rootNodeId == null) return "Root node not found!";
+
+	var err;
+	this.rootNode = this.parseNode(components, rootComponent, err);
+
+	if (err != null)
+		return err;
+};
 
 /**
  * Recursive function to get all the individual components
@@ -564,9 +567,9 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 				var id = this.reader.getString(transformationElem[j], 'id', true);
 				for (var k = 0; k < this.transformations.length; k++)
 					if (this.transformations[k].id == id) {
-						this.applyTransform(this.transformations[k].type, transformations, 
-						this.transformations[k].x, this.transformations[k].y, this.transformations[k].z, 
-						this.transformations[k].axis, this.transformations[k].angle);
+						this.applyTransform(this.transformations[k].type, transformations,
+							this.transformations[k].x, this.transformations[k].y, this.transformations[k].z,
+							this.transformations[k].axis, this.transformations[k].angle);
 						break;
 					}
 			}
@@ -583,7 +586,6 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 			var materialId = this.reader.getString(materials[i], 'id', true);
 			if (materialId == 'inherit') {
 				if (parentNode == null) {
-					console.error("Passou por aqui")
 					err = "Root can't inherit materials";
 					return;
 				}
