@@ -1,3 +1,4 @@
+var degToRad = Math.PI / 180.0;
 
 function MySceneGraph(filename, scene) {
 	this.loadedOk = null;
@@ -504,6 +505,30 @@ MySceneGraph.prototype.parseNodes = function (rootElement) {
 		return err;
 };
 
+MySceneGraph.prototype.applyTransform = function (type, transformations, x, y, z, axis, angle) {
+	switch (type) {
+		case "translate":
+			mat4.translate(transformations, transformations, [x, y, z]);
+			break;
+		case "rotate":
+			switch (axis) {
+				case "x":
+					mat4.rotate(transformations, transformations, angle * degToRad, [1, 0, 0]);
+					break;
+				case "y":
+					mat4.rotate(transformations, transformations, angle * degToRad, [0, 1, 0]);
+					break;
+				case "z":
+					mat4.rotate(transformations, transformations, angle * degToRad, [0, 0, 1]);
+					break;
+			}
+			break;
+		case "scale":
+			mat4.scale(transformations, transformations, [x, y, z]);
+			break;
+	}
+}
+
 /**
  * Recursive function to get all the individual components
  */
@@ -512,7 +537,6 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 
 	//Transformations
 	{
-		var degToRad = Math.PI / 180.0;
 		var transformations = [
 			1.0, 0.0, 0.0, 0.0,
 			0.0, 1.0, 0.0, 0.0,
@@ -522,56 +546,27 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 
 		var transformationElem = component.getElementsByTagName('transformation')[0].childNodes;
 		for (var j = 0; j < transformationElem.length; j++) {
-			//console.log(transformationElem[i].nodeName + ":" + transformationElem[i].nodeValue);
 			if (transformationElem[j].nodeName == "translate") {
 				var x = this.reader.getFloat(transformationElem[j], 'x', true);
 				var y = this.reader.getFloat(transformationElem[j], 'y', true);
 				var z = this.reader.getFloat(transformationElem[j], 'z', true);
-				mat4.translate(transformations, transformations, [x, y, z]);
+				this.applyTransform("translate", transformations, x, y, z, null, null);
 			} else if (transformationElem[j].nodeName == "rotate") {
 				var axis = this.reader.getString(transformationElem[j], 'axis', true);
 				var angle = this.reader.getFloat(transformationElem[j], 'angle', true);
-				switch (axis) {
-					case "x":
-						mat4.rotate(transformations, transformations, angle * degToRad, [1, 0, 0]);
-						break;
-					case "y":
-						mat4.rotate(transformations, transformations, angle * degToRad, [0, 1, 0]);
-						break;
-					case "z":
-						mat4.rotate(transformations, transformations, angle * degToRad, [0, 0, 1]);
-						break;
-				}
+				this.applyTransform("rotate", transformations, null, null, null, axis, angle);
 			} else if (transformationElem[j].nodeName == "scale") {
 				var x = this.reader.getFloat(transformationElem[j], 'x', true);
 				var y = this.reader.getFloat(transformationElem[j], 'y', true);
 				var z = this.reader.getFloat(transformationElem[j], 'z', true);
-				mat4.scale(transformations, transformations, [x, y, z]);
+				this.applyTransform("scale", transformations, x, y, z, null, null);
 			} else if (transformationElem[j].nodeName == "transformationref") {
 				var id = this.reader.getString(transformationElem[j], 'id', true);
 				for (var k = 0; k < this.transformations.length; k++)
 					if (this.transformations[k].id == id) {
-						switch (this.transformations[k].type) {
-							case "translate":
-								mat4.translate(transformations, transformations, [this.transformations[k].x, this.transformations[k].y, this.transformations[k].z]);
-								break;
-							case "rotate":
-								switch (this.transformations[k].axis) {
-									case "x":
-										mat4.rotate(transformations, transformations, this.transformations[k].angle * degToRad, [1, 0, 0]);
-										break;
-									case "y":
-										mat4.rotate(transformations, transformations, this.transformations[k].angle * degToRad, [0, 1, 0]);
-										break;
-									case "z":
-										mat4.rotate(transformations, transformations, this.transformations[k].angle * degToRad, [0, 0, 1]);
-										break;
-								}
-								break;
-							case "scale":
-								mat4.scale(transformations, transformations, [this.transformations[k].x, this.transformations[k].y, this.transformations[k].z]);
-								break;
-						}
+						this.applyTransform(this.transformations[k].type, transformations, 
+						this.transformations[k].x, this.transformations[k].y, this.transformations[k].z, 
+						this.transformations[k].axis, this.transformations[k].angle);
 						break;
 					}
 			}
