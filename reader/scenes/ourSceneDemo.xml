@@ -294,7 +294,7 @@
         <component id="sbTop">
             <transformation>
                 <translate x="0" y="100" z="0" />
-                <rotate axis="y" angle="-90" />
+                <rotate axis="y" angle="180" />
                 <rotate axis="x" angle="90" />
                 <scale x="200" y="200" z="1" />
             </transformation>
