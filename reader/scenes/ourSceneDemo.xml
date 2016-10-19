@@ -61,6 +61,7 @@
         <texture id="t_sbSide4" file="./assets/sbSide4.png" length_s="1" length_t="1" />
         <texture id="t_sbTop" file="./assets/sbTop.png" length_s="1" length_t="1" />
         <texture id="t_sbBot" file="./assets/sbBot.png" length_s="1" length_t="1" />
+        <texture id="t_goalPost" file="./assets/goalPost.png" length_s="1" length_t="1" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
@@ -820,9 +821,9 @@
                 <translate x="16" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="m_Default" />
+                <material id="m_metal" />
             </materials>
-            <texture id="none" />
+            <texture id="t_goalPost" />
             <children>
                 <componentref id="fbGoalBarSide1" />
                 <componentref id="fbGoalBarSide2" />
@@ -836,9 +837,9 @@
                 <translate x="0" y="0" z="3" />
             </transformation>
             <materials>
-                <material id="m_Default" />
+                <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="fbGoalPost" />
                 <componentref id="fbGoalBackPost" />
@@ -871,9 +872,9 @@
                 <translate x="0" y="0" z="-3" />
             </transformation>
             <materials>
-                <material id="m_Default" />
+                <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="fbGoalPost" />
                 <componentref id="fbGoalBackPost" />
@@ -1173,9 +1174,9 @@
         <component id="fbGoalTop">
             <transformation />
             <materials>
-                <material id="m_Default" />
+                <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="fbGoalPostTop" />
                 <componentref id="fbGoalBarWideTopPos1" />
@@ -2355,7 +2356,7 @@
             <materials>
                 <material id="m_metal" />
             </materials>
-            <texture id="none" />
+            <texture id="t_goalPost" />
             <children>
                 <componentref id="fbGoalPost" />
             </children>
@@ -2368,7 +2369,7 @@
             <materials>
                 <material id="m_metal" />
             </materials>
-                <texture id="none" />
+                <texture id="t_goalPost" />
             <children>
                 <componentref id="cubeTransform" />
             </children>
@@ -2381,7 +2382,7 @@
             <materials>
                 <material id="m_metal" />
             </materials>
-                <texture id="none" />
+                <texture id="t_goalPost" />
             <children>
                 <componentref id="cubeTransform" />
             </children>
@@ -2442,7 +2443,7 @@
         <component id="cubeTransform">
             <transformation></transformation>
             <materials>
-                <material id="m_Default" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -2457,9 +2458,9 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="m_Default" />
+                <material id="inherit" />
             </materials>
-            <texture id="t_topBuilding" />
+            <texture id="inherit" />
             <children>
                 <componentref id="topRect" />
             </children>
@@ -2470,7 +2471,7 @@
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
-                <material id="m_Default" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -2483,7 +2484,7 @@
                 <translate x="0" y="0" z="0.5" />
             </transformation>
             <materials>
-                <material id="m_Default" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -2496,7 +2497,7 @@
                 <translate x="0" y="0" z="0.5" />
             </transformation>
             <materials>
-                <material id="m_Default" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -2509,7 +2510,7 @@
                 <translate x="0" y="0" z="0.5" />
             </transformation>
             <materials>
-                <material id="m_Default" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -2521,7 +2522,7 @@
                 <translate x="0" y="0" z="0.5" />
             </transformation>
             <materials>
-                <material id="m_Default" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -2534,9 +2535,7 @@
                 <translate x="0" y="0" z="0.5" />
             </transformation>
             <materials>
-                <material id="m_Glow" />
-                <material id="m_Default" />
-                <material id="m_Grass" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
