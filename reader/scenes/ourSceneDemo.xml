@@ -167,7 +167,7 @@
         <primitive id="cylinder1">
             <cylinder base="0.5" top="0.8" height="5" slices="15" stacks="5" />
         </primitive>
-        <primitive id="cylinderNet">
+        <primitive id="cylinderNetPrim">
             <cylinder base="0.5" top="0.5" height="1" slices="5" stacks="5" />
         </primitive>
         <!--primitive id="unitCylinder"><cylinder base="1" top="1" height="1" slices="1" stacks="1" /></primitive><primitive id="unitSphere"><sphere radius="1" slices="1" stacks="1" /></primitive><primitive id="unitTorus"><torus inner="0.5" outer="0.5" slices="1" loops="1" /></primitive-->
@@ -692,6 +692,7 @@
         
         <component id="treeBody">
             <transformation>
+                <transformationref id="rotateX-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -2418,7 +2419,7 @@
             </materials>
             <texture id="t_rope" />
             <children>
-                <primitiveref id="cylinderNet" />
+                <componentref id="cylinderNet" />
             </children>
         </component>
         <component id="fbGoalBarHorz">
@@ -2430,7 +2431,7 @@
             </materials>
             <texture id="t_rope" />
             <children>
-                <primitiveref id="cylinderNet" />
+                <componentref id="cylinderNet" />
             </children>
         </component>
         <component id="fbGoalBarWide">
@@ -2445,7 +2446,20 @@
             </materials>
             <texture id="t_rope" />
             <children>
-                <primitiveref id="cylinderNet" />
+                <componentref id="cylinderNet" />
+            </children>
+        </component>
+
+        <component id="cylinderNet">
+            <transformation>
+                <transformationref id="rotateX-90" />
+            </transformation>
+            <materials>
+                <material id="m_WhiteGrass" />
+            </materials>
+            <texture id="t_rope" />
+            <children>
+                <primitiveref id="cylinderNetPrim" />
             </children>
         </component>
 
