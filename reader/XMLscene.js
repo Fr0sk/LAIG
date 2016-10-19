@@ -1,5 +1,3 @@
-
-var degToRad = Math.PI / 180.0;
 var cameraIndex = 0;
 var freeCam;
 
@@ -95,8 +93,6 @@ XMLscene.prototype.display = function () {
 
 	this.setDefaultAppearance();
 
-	PrimitiveBuilder.buildCylinder(this, 1, 1, 5, 10, 1, 1, 1).display();
-
 	// ---- END Background, camera and axis setup
 
 	// it is important that things depending on the proper loading of the graph
@@ -106,7 +102,7 @@ XMLscene.prototype.display = function () {
 		this.lights[0].update();
 
 		//Starts going through the graph
-		//this.runGraph(this.graph.rootNode);
+		this.runGraph(this.graph.rootNode);
 	};
 };
 
@@ -117,7 +113,7 @@ XMLscene.prototype.runGraph = function (node) {
 	node.materials[node.indexActiveMaterial].apply();
 
 	//Do all the transformations
-	for (var i = 0; i < node.mat.length; i++) {
+	/*for (var i = 0; i < node.mat.length; i++) {
 		if (node.mat[i].type == "translate")
 			this.translate(node.mat[i].x, node.mat[i].y, node.mat[i].z);
 		else if (node.mat[i].type == "rotate") {
@@ -130,7 +126,9 @@ XMLscene.prototype.runGraph = function (node) {
 		}
 		else if (node.mat[i].type == "scale")
 			this.scale(node.mat[i].x, node.mat[i].y, node.mat[i].z);
-	}
+	}*/
+
+	this.multMatrix(node.mat);
 
 	//Draws primitive (if it has one)
 	if (node.primitive != null)

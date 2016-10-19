@@ -206,6 +206,18 @@
         </component>
         <component id="triTest">
             <transformation>
+                <transformationref id="rotateY90" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="t_building" />
+            <children>
+                <componentref id="triTest1" />
+            </children>
+        </component>
+        <component id="triTest1">
+            <transformation>
             </transformation>
             <materials>
                 <material id="m_Default" />

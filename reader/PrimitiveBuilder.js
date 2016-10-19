@@ -207,7 +207,6 @@ PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, sta
         }
 
         //MEU
-        this.vertices.push(0, 0, 0);
         this.vertices.push(0, 0, this.height);
 
         //Como os primeiros vertices sao os vertices que estao onde z = height, usamos esses vertices para os replicar
@@ -219,6 +218,28 @@ PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, sta
         //E depois comecamos a fazer push aos indices, seguindo a regra da mao direita
         for (var i = 0; i < this.slices; i++)
             this.indices.push(0, i + 1, i + 2);
+
+        /*var centerIndex = this.vertices.length;
+        this.vertices.push(0, 0, 0);
+
+        for (var i = 0; i < this.slices; i++) {
+            var phi = i * 2 * Math.PI / slices;
+            var x = Math.cos(phi);
+            var y = Math.sin(phi);
+            this.vertices.push(x, y, 0);
+            this.normals.push(0, 0, -1);
+        }
+
+        for (var i = 1; i < this.slices; i++)
+            this.indices.push(this.vertices[centerIndex],
+                this.vertices[centerIndex + i],
+                this.vertices[centerIndex + (i + 1)]);*/
+
+
+
+
+
+
 
 
 

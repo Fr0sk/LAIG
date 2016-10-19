@@ -500,7 +500,7 @@ MySceneGraph.prototype.parseNodes = function (rootElement) {
 	var err;
 	this.rootNode = this.parseNode(components, rootComponent, err);
 
-	if(err != null)
+	if (err != null)
 		return err;
 };
 
@@ -512,42 +512,72 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 
 	//Transformations
 	{
+		var degToRad = Math.PI / 180.0;
+		var transformations = [
+			1.0, 0.0, 0.0, 0.0,
+			0.0, 1.0, 0.0, 0.0,
+			0.0, 0.0, 1.0, 0.0,
+			0.0, 0.0, 0.0, 1.0
+		];
+
 		var transformationElem = component.getElementsByTagName('transformation')[0].childNodes;
-		var transforms = [];
 		for (var j = 0; j < transformationElem.length; j++) {
 			//console.log(transformationElem[i].nodeName + ":" + transformationElem[i].nodeValue);
 			if (transformationElem[j].nodeName == "translate") {
-				var translateToSend = {};
-				translateToSend.type = "translate";
-				translateToSend.x = this.reader.getFloat(transformationElem[j], 'x', true);
-				translateToSend.y = this.reader.getFloat(transformationElem[j], 'y', true);
-				translateToSend.z = this.reader.getFloat(transformationElem[j], 'z', true);
-				transforms.push(translateToSend);
+				var x = this.reader.getFloat(transformationElem[j], 'x', true);
+				var y = this.reader.getFloat(transformationElem[j], 'y', true);
+				var z = this.reader.getFloat(transformationElem[j], 'z', true);
+				mat4.translate(transformations, transformations, [x, y, z]);
 			} else if (transformationElem[j].nodeName == "rotate") {
-				var rotateToSend = {};
-				rotateToSend.type = "rotate";
-				rotateToSend.axis = this.reader.getString(transformationElem[j], 'axis', true);
-				rotateToSend.angle = this.reader.getFloat(transformationElem[j], 'angle', true);
-				transforms.push(rotateToSend);
+				var axis = this.reader.getString(transformationElem[j], 'axis', true);
+				var angle = this.reader.getFloat(transformationElem[j], 'angle', true);
+				switch (axis) {
+					case "x":
+						mat4.rotate(transformations, transformations, angle * degToRad, [1, 0, 0]);
+						break;
+					case "y":
+						mat4.rotate(transformations, transformations, angle * degToRad, [0, 1, 0]);
+						break;
+					case "z":
+						mat4.rotate(transformations, transformations, angle * degToRad, [0, 0, 1]);
+						break;
+				}
 			} else if (transformationElem[j].nodeName == "scale") {
-				var scaleToSend = {};
-				scaleToSend.type = "scale";
-				scaleToSend.x = this.reader.getFloat(transformationElem[j], 'x', true);
-				scaleToSend.y = this.reader.getFloat(transformationElem[j], 'y', true);
-				scaleToSend.z = this.reader.getFloat(transformationElem[j], 'z', true);
-				transforms.push(scaleToSend);
+				var x = this.reader.getFloat(transformationElem[j], 'x', true);
+				var y = this.reader.getFloat(transformationElem[j], 'y', true);
+				var z = this.reader.getFloat(transformationElem[j], 'z', true);
+				mat4.scale(transformations, transformations, [x, y, z]);
 			} else if (transformationElem[j].nodeName == "transformationref") {
 				var id = this.reader.getString(transformationElem[j], 'id', true);
-				for (var k = 0; k < this.transformations.length; k++) {
+				for (var k = 0; k < this.transformations.length; k++)
 					if (this.transformations[k].id == id) {
-						transforms.push(this.transformations[k]);
+						switch (this.transformations[k].type) {
+							case "translate":
+								mat4.translate(transformations, transformations, [this.transformations[k].x, this.transformations[k].y, this.transformations[k].z]);
+								break;
+							case "rotate":
+								switch (this.transformations[k].axis) {
+									case "x":
+										mat4.rotate(transformations, transformations, this.transformations[k].angle * degToRad, [1, 0, 0]);
+										break;
+									case "y":
+										mat4.rotate(transformations, transformations, this.transformations[k].angle * degToRad, [0, 1, 0]);
+										break;
+									case "z":
+										mat4.rotate(transformations, transformations, this.transformations[k].angle * degToRad, [0, 0, 1]);
+										break;
+								}
+								break;
+							case "scale":
+								mat4.scale(transformations, transformations, [this.transformations[k].x, this.transformations[k].y, this.transformations[k].z]);
+								break;
+						}
 						break;
 					}
-				}
 			}
 		}
 
-		node.setMat(transforms);
+		node.setMat(transformations);
 	}
 
 	//Materials
