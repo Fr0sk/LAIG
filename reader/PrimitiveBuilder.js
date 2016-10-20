@@ -356,21 +356,59 @@ PrimitiveBuilder.buildTorus = function (scene, inner, outer, slices, loops, leng
 
         this.primitiveType = this.scene.gl.TRIANGLES;
 
+        var radius = this.outer - (this.outer - this.inner) / 2;
         var ang = (2 * Math.PI) / this.slices;
         this.vertices = [];
         this.indices = [];
         this.normals = [];
         this.texCoords = [];
 
-        for(var i = 0; i < this.loops; i++) {
-            for(var j = 0; j < this.slices; j++) {
-                var phi = i * 2 * Math.PI / this.slices;
-                var centro = this.outer - (this.outer - this.inner) / 2;
-                var radius = (this.outer - this.inner) / 2;
+        var latitudeBands = 30;
+        var longitudeBands = 30;
+        var radius = 0.5;
 
-                var x = centro + radius * Math.cos(phi);
-                var y = centro + radius * Math.sin(phi);
-                this.vertices.push(x, y, z);
+        var vertexPositionData = [];
+        var normalData = [];
+        var textureCoordData = [];
+        var indexData = [];
+
+        for (var latNumber = 0; latNumber <= latitudeBands; latNumber++) {
+            var theta = latNumber * 2 * Math.PI / latitudeBands;
+            var sinTheta = Math.sin(theta);
+            var cosTheta = Math.cos(theta);
+
+            for (var longNumber = 0; longNumber <= longitudeBands; longNumber++) {
+                var phi = longNumber * 2 * Math.PI / longitudeBands;
+                var sinPhi = Math.sin(phi);
+                var cosPhi = Math.cos(phi);
+
+                var x = (1 + radius * Math.cos(phi)) * Math.cos(theta);
+                var y = (1 + radius * Math.cos(phi)) * Math.sin(theta);
+                var z = radius * Math.sin(phi);
+                var u = 1 - (longNumber / longitudeBands);
+                var v = 1 - (latNumber / latitudeBands);
+
+                this.normals.push(x);
+                this.normals.push(y);
+                this.normals.push(z);
+                this.texCoords.push(u);
+                this.texCoords.push(v);
+                this.vertices.push(radius * x);
+                this.vertices.push(radius * y);
+                this.vertices.push(radius * z)
+            }
+        }
+
+        for (var latNumber = 0; latNumber < latitudeBands; latNumber++) {
+            for (var longNumber = 0; longNumber < longitudeBands; longNumber++) {
+                var first = (latNumber * (longitudeBands + 1)) + longNumber;
+                var second = first + longitudeBands + 1;
+                this.indices.push(first);
+                this.indices.push(second);
+                this.indices.push(first + 1);
+                this.indices.push(second);
+                this.indices.push(second + 1);
+                this.indices.push(first + 1);
             }
         }
 
