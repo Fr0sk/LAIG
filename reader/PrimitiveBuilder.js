@@ -337,7 +337,46 @@ PrimitiveBuilder.buildSphere = function (scene, radius, slices, stacks, length_s
 
 // Builds a torus with given params
 PrimitiveBuilder.buildTorus = function (scene, inner, outer, slices, loops, length_s, length_t) {
-    var torus = {};
-    // TODO Build torus
+    function Torus(scene, inner, outer, slices, loops, length_s, length_t) {
+        this.scene = scene;
+        this.inner = inner;
+        this.outer = outer;
+        this.slices = slices;
+        this.loops = loops;
+        this.length_s = length_s;
+        this.length_t = length_t;
+        CGFobject.call(this, scene);
+        this.initBuffers();
+    }
+
+    Torus.prototype = Object.create(CGFobject.prototype);
+    Torus.prototype.constructor = Torus;
+
+    Torus.prototype.initBuffers = function () {
+
+        this.primitiveType = this.scene.gl.TRIANGLES;
+
+        var ang = (2 * Math.PI) / this.slices;
+        this.vertices = [];
+        this.indices = [];
+        this.normals = [];
+        this.texCoords = [];
+
+        for(var i = 0; i < this.loops; i++) {
+            for(var j = 0; j < this.slices; j++) {
+                var phi = i * 2 * Math.PI / this.slices;
+                var centro = this.outer - (this.outer - this.inner) / 2;
+                var radius = (this.outer - this.inner) / 2;
+
+                var x = centro + radius * Math.cos(phi);
+                var y = centro + radius * Math.sin(phi);
+                this.vertices.push(x, y, z);
+            }
+        }
+
+        this.initGLBuffers();
+    }
+
+    var torus = new Torus(scene, inner, outer, slices, loops, length_s, length_t);
     return torus;
 }
