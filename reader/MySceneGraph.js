@@ -630,10 +630,12 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 		var textureId = this.reader.getString(textureElem, 'id', true);
 
 		if (textureId == "inherit") {
-			if (parentNode == null) return "Root node can't inherit a texture";
+			if (parentNode == null) {
+				err = "Root node can't inherit a texture";
+				return;
+			}
 			node.setTexture(parentNode.texture);
-		}
-		else if (textureId != "none")
+		} else if (textureId != "none")
 			for (var i = 0; i < this.textures.length; i++) {
 				if (this.textures[i].id == textureId) {
 					node.setTexture(this.textures[i]);
@@ -651,7 +653,13 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 			var componentId = this.reader.getString(componentsRef[i], 'id', true);
 			var newComponent = this.getComponentFromId(componentsList, componentId);
 			newComponent.id = componentId;
-			node.pushChild(this.parseNode(componentsList, newComponent, node));
+			var childErr;
+			var child = this.parseNode(componentsList, newComponent, node, childErr);
+			if (childErr == null && child == null) {
+				err = childErr;
+				return;
+			}
+			node.pushChild(child);
 		}
 
 		var primitiveref = childrenElem.getElementsByTagName('primitiveref');
@@ -659,7 +667,7 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 		for (var i = 0; i < primitiveref.length; i++) {
 			var primitiveId = this.reader.getString(primitiveref[i], 'id', true);
 
-			for (var j = 0; j < this.primitives.length; j++)
+			for (var j = 0; j < this.primitives.length; j++) {
 				if (primitiveId == this.primitives[j].id) {
 					if (node.texture != null)
 						node.setPrimitive(this.generatePrimitive(this.primitives[j], node.texture.length_s, node.texture.length_t));
@@ -667,6 +675,7 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 						node.setPrimitive(this.generatePrimitive(this.primitives[j], 1, 1));
 					break;
 				}
+			}
 		}
 	}
 
