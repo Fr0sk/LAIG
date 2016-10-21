@@ -31,6 +31,10 @@ MyInterface.prototype.init = function (application) {
 	// e.g. LightingScene.prototype.doSomething = function () { console.log("Doing something..."); }; 
 
 	//this.gui.add(this.scene, 'doSomething');	
+	var lightsGroup = this.gui.addFolder("Lights");
+	lightsGroup.add(this.scene, 'Light1');
+	lightsGroup.add(this.scene, 'Light2');
+	lightsGroup.add(this.scene, 'Light3');
 
 	// add a group of controls (and open/expand by defult)
 
@@ -48,13 +52,13 @@ MyInterface.prototype.init = function (application) {
 MyInterface.prototype.processKeyDown = function (event) {
 	// call CGFinterface default code (omit if you want to override)
 	CGFinterface.prototype.processKeyDown.call(this, event);
-	
+
 	switch (event.keyCode) {
-        case 86:
-        case 118:
-            console.log("'V' was pressed --> Changed active camera...");
-            this.scene.changeCamera();
-            break; 
+		case 86:
+		case 118:
+			console.log("'V' was pressed --> Changed active camera...");
+			this.scene.changeCamera();
+			break;
 		case 82:
 		case 114:
 			console.log("'R' was pressed --> Back to free camera...");

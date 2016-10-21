@@ -27,15 +27,18 @@ XMLscene.prototype.init = function (application) {
 	//We need to enable textures
 	this.enableTextures(true);
 
-		//PrimitiveBuilder.buildCylinder(this, 1, 1, 5, 10, 1, 1, 1);
+	//PrimitiveBuilder.buildCylinder(this, 1, 1, 5, 10, 1, 1, 1);
 
 };
 
 XMLscene.prototype.initLights = function () {
-
 	this.lights[0].setPosition(2, 3, 3, 1);
 	this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
 	this.lights[0].update();
+
+	this.Light1 = true;
+	this.Light2 = true;
+	this.Light3 = true;
 };
 
 XMLscene.prototype.initCameras = function () {
@@ -49,6 +52,19 @@ XMLscene.prototype.setDefaultAppearance = function () {
 	this.setSpecular(0.2, 0.4, 0.8, 1.0);
 	this.setShininess(10.0);
 };
+
+XMLscene.prototype.updateLights = function () {
+	for (var i = 0; i < count; i++) {
+		if (this.Lights[i])
+			this.lights[i].enable();
+		else
+			this.lights[i].disable();
+	}
+
+	for (var i = 0; i < this.lights.length; i++) {
+		this.lights[i].update();
+	}
+}
 
 // Handler called when the graph is finally loaded. 
 // As loading is asynchronous, this may be called already after the application has started the run loop
@@ -67,12 +83,10 @@ XMLscene.prototype.onGraphLoaded = function () {
 	for (var i = 0; i < this.graph.spotLights.length && count < 8; i++)
 		this.copyLight(this.lights[count++], this.graph.spotLights[i]);
 	for (var i = 0; i < count; i++) {
-		console.info("Updating light: " + i + " - " + this.lights[i].customId);
+		//console.info("Updating light: " + i + " - " + this.lights[i].customId);
 		this.lights[i].update();
 	}
 };
-
-var x = 0;
 
 XMLscene.prototype.display = function () {
 	// ---- BEGIN Background, camera and axis setup
