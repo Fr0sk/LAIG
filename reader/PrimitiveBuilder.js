@@ -3,7 +3,7 @@ function PrimitiveBuilder() {
 }
 
 // Builds a rectangle with the diagonal vertices
-PrimitiveBuilder.buildRect = function (scene, x1, y1, x2, y2, length_s, length_t) {
+PrimitiveBuilder.buildRect = function(scene, x1, y1, x2, y2, length_s, length_t) {
     function Rect(scene, x1, y1, x2, y2, length_s, length_t) {
         this.scene = scene;
         this.x1 = x1;
@@ -19,7 +19,7 @@ PrimitiveBuilder.buildRect = function (scene, x1, y1, x2, y2, length_s, length_t
     Rect.prototype = Object.create(CGFobject.prototype);
     Rect.prototype.constructor = Rect;
 
-    Rect.prototype.initBuffers = function () {
+    Rect.prototype.initBuffers = function() {
 
         // Only draws triangles
         this.primitiveType = this.scene.gl.TRIANGLES;
@@ -62,7 +62,7 @@ PrimitiveBuilder.buildRect = function (scene, x1, y1, x2, y2, length_s, length_t
 }
 
 // Builds a triangle with the given verices
-PrimitiveBuilder.buildTri = function (scene, x1, y1, z1, x2, y2, z2, x3, y3, z3, length_s, length_t) {
+PrimitiveBuilder.buildTri = function(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3, length_s, length_t) {
     function Tri(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3, length_s, length_t) {
         this.scene = scene;
         this.x1 = x1;
@@ -83,7 +83,7 @@ PrimitiveBuilder.buildTri = function (scene, x1, y1, z1, x2, y2, z2, x3, y3, z3,
     Tri.prototype = Object.create(CGFobject.prototype);
     Tri.prototype.constructor = Tri;
 
-    Tri.prototype.initBuffers = function () {
+    Tri.prototype.initBuffers = function() {
 
         // Only draws triangles
         this.primitiveType = this.scene.gl.TRIANGLES;
@@ -133,7 +133,7 @@ PrimitiveBuilder.buildTri = function (scene, x1, y1, z1, x2, y2, z2, x3, y3, z3,
         var c = Math.sqrt((this.x3 - this.x2) * (this.x3 - this.x2) + (this.y3 - this.y2) * (this.y3 - this.y2) + (this.z3 - this.z2) * (this.z3 - this.z2));
 
         var Y = (a * a + b * b - c * c) / (2 * a * b);
-        var A = (- a * a + b * b + c * c) / (2 * b * c);
+        var A = (-a * a + b * b + c * c) / (2 * b * c);
         var B = (a * a - b * b + c * c) / (2 * a * c);
 
         this.texCoords = [
@@ -151,7 +151,7 @@ PrimitiveBuilder.buildTri = function (scene, x1, y1, z1, x2, y2, z2, x3, y3, z3,
 }
 
 // Builds a cylinder with given params
-PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, stacks, length_s, length_t) {
+PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stacks, length_s, length_t) {
     function Cylinder(scene, base, top, height, slices, stacks, length_s, length_t) {
         this.scene = scene;
         this.base = base;
@@ -168,7 +168,7 @@ PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, sta
     Cylinder.prototype = Object.create(CGFobject.prototype);
     Cylinder.prototype.constructor = Cylinder;
 
-    Cylinder.prototype.initBuffers = function () {
+    Cylinder.prototype.initBuffers = function() {
 
         this.primitiveType = this.scene.gl.TRIANGLES;
 
@@ -277,7 +277,7 @@ PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, sta
 }
 
 // Builds a sphere with given params
-PrimitiveBuilder.buildSphere = function (scene, radius, slices, stacks, length_s, length_t) {
+PrimitiveBuilder.buildSphere = function(scene, radius, slices, stacks, length_s, length_t) {
     function Sphere(scene, radius, slices, stacks, length_s, length_t) {
         this.scene = scene;
         this.radius = radius;
@@ -292,7 +292,7 @@ PrimitiveBuilder.buildSphere = function (scene, radius, slices, stacks, length_s
     Sphere.prototype = Object.create(CGFobject.prototype);
     Sphere.prototype.constructor = Sphere;
 
-    Sphere.prototype.initBuffers = function () {
+    Sphere.prototype.initBuffers = function() {
 
         // Only draws triangles
         this.primitiveType = this.scene.gl.TRIANGLES;
@@ -336,7 +336,7 @@ PrimitiveBuilder.buildSphere = function (scene, radius, slices, stacks, length_s
 }
 
 // Builds a torus with given params
-PrimitiveBuilder.buildTorus = function (scene, inner, outer, slices, loops, length_s, length_t) {
+PrimitiveBuilder.buildTorus = function(scene, inner, outer, slices, loops, length_s, length_t) {
     function Torus(scene, inner, outer, slices, loops, length_s, length_t) {
         this.scene = scene;
         this.inner = inner;
@@ -352,57 +352,52 @@ PrimitiveBuilder.buildTorus = function (scene, inner, outer, slices, loops, leng
     Torus.prototype = Object.create(CGFobject.prototype);
     Torus.prototype.constructor = Torus;
 
-    Torus.prototype.initBuffers = function () {
+    Torus.prototype.initBuffers = function() {
 
         this.primitiveType = this.scene.gl.TRIANGLES;
 
-        var radius = this.outer - (this.outer - this.inner) / 2;
-        var ang = (2 * Math.PI) / this.slices;
+        var radius = (this.outer - this.inner) / 2;
         this.vertices = [];
         this.indices = [];
         this.normals = [];
         this.texCoords = [];
-
-        var latitudeBands = 30;
-        var longitudeBands = 30;
-        var radius = 0.5;
 
         var vertexPositionData = [];
         var normalData = [];
         var textureCoordData = [];
         var indexData = [];
 
-        for (var latNumber = 0; latNumber <= latitudeBands; latNumber++) {
-            var theta = latNumber * 2 * Math.PI / latitudeBands;
+        for (var latNumber = 0; latNumber <= this.slices; latNumber++) {
+            var theta = latNumber * 2 * Math.PI / this.slices;
             var sinTheta = Math.sin(theta);
             var cosTheta = Math.cos(theta);
 
-            for (var longNumber = 0; longNumber <= longitudeBands; longNumber++) {
-                var phi = longNumber * 2 * Math.PI / longitudeBands;
+            for (var longNumber = 0; longNumber <= this.loops; longNumber++) {
+                var phi = longNumber * 2 * Math.PI / this.loops;
                 var sinPhi = Math.sin(phi);
                 var cosPhi = Math.cos(phi);
 
                 var x = (1 + radius * Math.cos(phi)) * Math.cos(theta);
                 var y = (1 + radius * Math.cos(phi)) * Math.sin(theta);
                 var z = radius * Math.sin(phi);
-                var u = 1 - (longNumber / longitudeBands);
-                var v = 1 - (latNumber / latitudeBands);
+                var u = 1 - (longNumber / this.loops);
+                var v = 1 - (latNumber / this.slices);
 
                 this.normals.push(x);
                 this.normals.push(y);
                 this.normals.push(z);
                 this.texCoords.push(u);
                 this.texCoords.push(v);
-                this.vertices.push(radius * x);
-                this.vertices.push(radius * y);
-                this.vertices.push(radius * z)
+                this.vertices.push(this.inner * x);
+                this.vertices.push(this.inner * y);
+                this.vertices.push(this.inner * z)
             }
         }
 
-        for (var latNumber = 0; latNumber < latitudeBands; latNumber++) {
-            for (var longNumber = 0; longNumber < longitudeBands; longNumber++) {
-                var first = (latNumber * (longitudeBands + 1)) + longNumber;
-                var second = first + longitudeBands + 1;
+        for (var latNumber = 0; latNumber < this.slices; latNumber++) {
+            for (var longNumber = 0; longNumber < this.loops; longNumber++) {
+                var first = (latNumber * (this.loops + 1)) + longNumber;
+                var second = first + this.loops + 1;
                 this.indices.push(first);
                 this.indices.push(second);
                 this.indices.push(first + 1);
