@@ -32,9 +32,6 @@ MyInterface.prototype.init = function (application) {
 
 	//this.gui.add(this.scene, 'doSomething');	
 	var lightsGroup = this.gui.addFolder("Lights");
-	lightsGroup.add(this.scene, 'Light1');
-	lightsGroup.add(this.scene, 'Light2');
-	lightsGroup.add(this.scene, 'Light3');
 
 	// add a group of controls (and open/expand by defult)
 
