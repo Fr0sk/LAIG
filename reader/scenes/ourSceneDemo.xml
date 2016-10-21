@@ -63,6 +63,7 @@
         <texture id="t_sbBot" file="./assets/sbBot.png" length_s="1" length_t="1" />
         <texture id="t_goalPost" file="./assets/goalPost.png" length_s="1" length_t="1" />
         <texture id="t_football" file="./assets/football.png" length_s="1" length_t="1" />
+        <texture id="t_eye" file="./assets/eye.jpg" length_s="1" length_t="1" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
@@ -174,7 +175,7 @@
             <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
         </primitive>
         <primitive id="triangle">
-            <triangle x1="0" y1="0" z1="0" x2="3" y2="0" z2="0" x3="1" y3="3" z3="0" />
+            <triangle x1="0" y1="0" z1="0" x2="3" y2="0" z2="0" x3="5" y3="3" z3="0" />
         </primitive>
         <primitive id="cylinder1">
             <cylinder base="0.5" top="0.8" height="5" slices="15" stacks="5" />
@@ -221,7 +222,19 @@
                 <componentref id="footballField" />
                 <componentref id="skybox" />
                 <componentref id="ball" />
+                <componentref id="test" />
                 <!--componentref id="torusT" /-->
+            </children>
+        </component>
+        <component id="test">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="t_eye" />
+            <children>
+                <primitiveref id="triangle" />
             </children>
         </component>
         <component id="torusT">

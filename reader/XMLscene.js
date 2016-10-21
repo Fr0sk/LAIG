@@ -46,6 +46,8 @@ XMLscene.prototype.setDefaultAppearance = function () {
 	this.setShininess(10.0);
 };
 
+var cil;
+
 // Handler called when the graph is finally loaded. 
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function () {
@@ -54,7 +56,7 @@ XMLscene.prototype.onGraphLoaded = function () {
 
 	this.axis = this.graph.axis;
 
-	this.camera = this.graph.perspCams[cameraIndex];
+	//this.camera = this.graph.perspCams[cameraIndex];
 
 	// Lights
 	var count = 0;
@@ -63,11 +65,11 @@ XMLscene.prototype.onGraphLoaded = function () {
 	for (var i = 0; i < this.graph.spotLights.length && count < 8; i++)
 		this.copyLight(this.lights[count++], this.graph.spotLights[i]);
 
-	
 	for (var i = 0; i < count; i++)
 		this.lights[i].update();
-};
 
+	cil = PrimitiveBuilder.buildCylinder(this, 2, 2, 4, 5, 5);
+};
 
 XMLscene.prototype.display = function () {
 	// ---- BEGIN Background, camera and axis setup
@@ -94,7 +96,11 @@ XMLscene.prototype.display = function () {
 	// only get executed after the graph has loaded correctly.
 	// This is one possible way to do it
 	if (this.graph.loadedOk) {
-		this.lights[0].update();
+		for(var i = 0; i < this.lights.length; i++)
+			this.lights[i].update();
+		
+		//cil.display();
+
 
 		//Starts going through the graph
 		this.runGraph(this.graph.rootNode);
