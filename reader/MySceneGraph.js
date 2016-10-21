@@ -149,6 +149,8 @@ MySceneGraph.prototype.parseData = function (rootElement) {
 	err = this.parsePrimitives(rootElement);
 	if (err != null) return err;
 
+	console.info("If you have more than 1 texture per component, all but the first one will be ignored");
+
 	this.rootNode;
 	err = this.parseNodes(rootElement);
 	if (err != null) return err;
@@ -514,6 +516,20 @@ MySceneGraph.prototype.applyTransform = function (type, transformations, x, y, z
 	}
 }
 
+MySceneGraph.prototype.checkForDoubleId = function (components) {
+	var idCollection = [];
+
+	for (var i = 0; i < components.length; i++)
+		idCollection.push(this.reader.getString(components[i], 'id', true));
+
+	for (var i = 0; i < idCollection.length; i++)
+		for (var j = i + 1; j < idCollection.length; j++)
+			if (idCollection[i] == idCollection[j])
+				return "there are components with the same id: '" + idCollection[i] + "'!";
+
+	return null;
+}
+
 /**
  * Components
  */
@@ -522,8 +538,11 @@ MySceneGraph.prototype.parseNodes = function (rootElement) {
 	var components = componentsElem.getElementsByTagName('component');
 	var rootComponent = this.getComponentFromId(components, this.rootNodeId);
 	rootComponent.id = this.rootNodeId;
-
 	if (this.rootNodeId == null) return "Root node not found!";
+
+	var doubleId = this.checkForDoubleId(components);
+	if (doubleId != null)
+		return doubleId;
 
 	this.rootNode = this.parseNode(components, rootComponent, null);
 
@@ -580,10 +599,19 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 
 	//Materials
 	{
-		var materialsElem = component.getElementsByTagName('materials')[0];
-		var materials = materialsElem.getElementsByTagName('material');
-		for (var i = 0; i < materials.length; i++) {
-			var materialId = this.reader.getString(materials[i], 'id', true);
+		var materialsElem = component.getElementsByTagName('materials')[0].childNodes;
+
+		if (materialsElem == null)
+			return "Can't"
+
+		if (materialsElem.length < 2)
+			return "component '" + component.id + "' needs to have at least one material!";
+
+		for (var i = 0; i < materialsElem.length; i++) {
+			if (materialsElem[i].nodeName != "material")
+				continue;
+
+			var materialId = this.reader.getString(materialsElem[i], 'id', true);
 			if (materialId == 'inherit') {
 				if (parentNode == null)
 					return "Root can't inherit materials";
