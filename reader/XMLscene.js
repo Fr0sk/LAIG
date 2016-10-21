@@ -54,7 +54,7 @@ XMLscene.prototype.onGraphLoaded = function () {
 
 	this.axis = this.graph.axis;
 
-	//this.camera = this.graph.perspCams[cameraIndex];
+	this.camera = this.graph.perspCams[cameraIndex];
 
 	// Lights
 	var count = 0;
@@ -68,8 +68,6 @@ XMLscene.prototype.onGraphLoaded = function () {
 		this.lights[i].update();
 };
 
-	this.Light = [];
-	this.Light[0] = true;
 
 XMLscene.prototype.display = function () {
 	// ---- BEGIN Background, camera and axis setup

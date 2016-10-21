@@ -151,16 +151,14 @@ PrimitiveBuilder.buildTri = function(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3, 
 }
 
 // Builds a cylinder with given params
-PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stacks, length_s, length_t) {
-    function Cylinder(scene, base, top, height, slices, stacks, length_s, length_t) {
+PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stacks) {
+    function Cylinder(scene, base, top, height, slices, stacks) {
         this.scene = scene;
         this.base = base;
         this.top = top;
         this.height = height;
         this.slices = slices;
         this.stacks = stacks;
-        this.length_s = length_s;
-        this.length_t = length_t;
         CGFobject.call(this, scene);
         this.initBuffers();
     };
@@ -272,19 +270,17 @@ PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stac
         this.initGLBuffers();
     };
 
-    var cylinder = new Cylinder(scene, base, top, height, slices, stacks, length_s, length_t);
+    var cylinder = new Cylinder(scene, base, top, height, slices, stacks);
     return cylinder;
 }
 
 // Builds a sphere with given params
-PrimitiveBuilder.buildSphere = function(scene, radius, slices, stacks, length_s, length_t) {
-    function Sphere(scene, radius, slices, stacks, length_s, length_t) {
+PrimitiveBuilder.buildSphere = function(scene, radius, slices, stacks) {
+    function Sphere(scene, radius, slices, stacks) {
         this.scene = scene;
         this.radius = radius;
         this.slices = slices;
         this.stacks = stacks;
-        this.length_s = length_s;
-        this.length_t = length_t;
         CGFobject.call(this, scene);
         this.initBuffers();
     };
@@ -331,20 +327,18 @@ PrimitiveBuilder.buildSphere = function(scene, radius, slices, stacks, length_s,
         this.initGLBuffers();
     };
 
-    var sphere = new Sphere(scene, radius, slices, stacks, length_s, length_t);
+    var sphere = new Sphere(scene, radius, slices, stacks);
     return sphere;
 }
 
 // Builds a torus with given params
-PrimitiveBuilder.buildTorus = function(scene, inner, outer, slices, loops, length_s, length_t) {
-    function Torus(scene, inner, outer, slices, loops, length_s, length_t) {
+PrimitiveBuilder.buildTorus = function(scene, inner, outer, slices, loops) {
+    function Torus(scene, inner, outer, slices, loops) {
         this.scene = scene;
         this.inner = inner;
         this.outer = outer;
         this.slices = slices;
         this.loops = loops;
-        this.length_s = length_s;
-        this.length_t = length_t;
         CGFobject.call(this, scene);
         this.initBuffers();
     }
@@ -410,6 +404,6 @@ PrimitiveBuilder.buildTorus = function(scene, inner, outer, slices, loops, lengt
         this.initGLBuffers();
     }
 
-    var torus = new Torus(scene, inner, outer, slices, loops, length_s, length_t);
+    var torus = new Torus(scene, inner, outer, slices, loops);
     return torus;
 }

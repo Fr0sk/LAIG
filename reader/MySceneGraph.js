@@ -490,47 +490,6 @@ MySceneGraph.prototype.parsePrimitives = function (rootElement) {
 };
 
 /**
- * Applies transformations to only one variable
- */
-MySceneGraph.prototype.applyTransform = function (type, transformations, x, y, z, axis, angle) {
-	switch (type) {
-		case "translate":
-			mat4.translate(transformations, transformations, [x, y, z]);
-			break;
-		case "rotate":
-			switch (axis) {
-				case "x":
-					mat4.rotate(transformations, transformations, angle * degToRad, [1, 0, 0]);
-					break;
-				case "y":
-					mat4.rotate(transformations, transformations, angle * degToRad, [0, 1, 0]);
-					break;
-				case "z":
-					mat4.rotate(transformations, transformations, angle * degToRad, [0, 0, 1]);
-					break;
-			}
-			break;
-		case "scale":
-			mat4.scale(transformations, transformations, [x, y, z]);
-			break;
-	}
-}
-
-MySceneGraph.prototype.checkForDoubleId = function (components) {
-	var idCollection = [];
-
-	for (var i = 0; i < components.length; i++)
-		idCollection.push(this.reader.getString(components[i], 'id', true));
-
-	for (var i = 0; i < idCollection.length; i++)
-		for (var j = i + 1; j < idCollection.length; j++)
-			if (idCollection[i] == idCollection[j])
-				return "there are components with the same id: '" + idCollection[i] + "'!";
-
-	return null;
-}
-
-/**
  * Components
  */
 MySceneGraph.prototype.parseNodes = function (rootElement) {
@@ -716,6 +675,7 @@ MySceneGraph.prototype.onXMLError = function (message) {
 /**
  * Util functions
  */
+
 MySceneGraph.prototype.getComponentFromId = function (list, id) {
 	for (var i = 0; i < list.length; i++) {
 		var component = list[i];
@@ -749,6 +709,9 @@ MySceneGraph.prototype.getXYZ = function (element, required) {
 	return vec3.fromValues(x, y, z);
 };
 
+/**
+ * Generates the apropriate primitive
+ */
 MySceneGraph.prototype.generatePrimitive = function (primitiveInfo, length_s, length_t) {
 	if (primitiveInfo.type == "rectangle")
 		return PrimitiveBuilder.buildRect(this.scene, primitiveInfo.x1, primitiveInfo.y1, primitiveInfo.x2, primitiveInfo.y2, length_s, length_t);
@@ -766,3 +729,47 @@ MySceneGraph.prototype.generatePrimitive = function (primitiveInfo, length_s, le
 		return PrimitiveBuilder.buildTorus(this.scene, primitiveInfo.inner, primitiveInfo.outer, primitiveInfo.slices,
 			primitiveInfo.loops, length_s, length_t);
 };
+
+/**
+ * Checks if there's more than one components with the same id
+ */
+MySceneGraph.prototype.checkForDoubleId = function (components) {
+	var idCollection = [];
+
+	for (var i = 0; i < components.length; i++)
+		idCollection.push(this.reader.getString(components[i], 'id', true));
+
+	for (var i = 0; i < idCollection.length; i++)
+		for (var j = i + 1; j < idCollection.length; j++)
+			if (idCollection[i] == idCollection[j])
+				return "there are components with the same id: '" + idCollection[i] + "'!";
+
+	return null;
+}
+
+/**
+ * Applies transformations to only one variable
+ */
+MySceneGraph.prototype.applyTransform = function (type, transformations, x, y, z, axis, angle) {
+	switch (type) {
+		case "translate":
+			mat4.translate(transformations, transformations, [x, y, z]);
+			break;
+		case "rotate":
+			switch (axis) {
+				case "x":
+					mat4.rotate(transformations, transformations, angle * degToRad, [1, 0, 0]);
+					break;
+				case "y":
+					mat4.rotate(transformations, transformations, angle * degToRad, [0, 1, 0]);
+					break;
+				case "z":
+					mat4.rotate(transformations, transformations, angle * degToRad, [0, 0, 1]);
+					break;
+			}
+			break;
+		case "scale":
+			mat4.scale(transformations, transformations, [x, y, z]);
+			break;
+	}
+}

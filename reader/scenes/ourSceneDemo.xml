@@ -3,24 +3,24 @@
     <scene root="root" axis_length="20" />
     <!-- Cameras definition -->
     <!-- Pressing v/V changes between cameras -->
-    <views default="MainCamera">
+    <views default="MainCameras">
         <perpective id="persp1" near="0.1" far="500" angle="0.4">
-            <from x="15" y="15" z="15" />
+            <from x="10" y="60" z="35" />
             <to x="0" y="0" z="0" />
         </perpective>
         <perpective id="persp2" near="0.1" far="500" angle="0.4">
-            <from x="15" y="0" z="15" />
+            <from x="20" y="1" z="4" />
             <to x="0" y="0" z="0" />
         </perpective>
         <perpective id="persp3" near="0.1" far="500" angle="0.4">
-            <from x="-4" y="5" z="15" />
-            <to x="0" y="0" z="0" />
+            <from x="40" y="20" z="-50" />
+            <to x="0" y="0" z="10" />
         </perpective>
     </views>
     <!-- Illumination parameters set -->
     <illumination doublesided="0" local="1">
-        <ambient r="0.1" g="0.1" b="0.1" a="1" />
-        <background r="0" g="0" b="0" a="1" />
+        <ambient r="1" g="0.5" b="0.1" a="1" />
+        <background r="1" g="0.5" b="0.1" a="1" />
     </illumination>
     <!-- Lights instances set -->
     <lights>
@@ -32,14 +32,14 @@
             <specular r="0" g="0" b="0" a="1" />
         </omni>
         <omni id="omni2" enabled="1">
-            <location x="-2" y="3" z="-3" w="0" />
-            <ambient r="0.2" g="0.4" b="0.8" a="1" />
-            <diffuse r="1" g="1" b="1" a="1" />
-            <specular r="0" g="0" b="0" a="1" />
+            <location x="-2" y="3" z="13" w="0" />
+            <ambient r="1" g="0.5" b="0" a="1" />
+            <diffuse r="1" g="0.5" b="0" a="1" />
+            <specular r="1" g="0.5" b="0" a="1" />
         </omni>
         <spot id="spot1" enabled="0" angle="30" exponent="1">
             <target x="0" y="0" z="0" />
-            <location x="5" y="0" z="2" />
+            <location x="5" y="5" z="2" />
             <ambient r="1" g="0.5" b="0" a="1" />
             <diffuse r="1" g="0.5" b="0" a="1" />
             <specular r="0" g="0.5" b="0.5" a="1" />
@@ -62,11 +62,19 @@
         <texture id="t_sbTop" file="./assets/sbTop.png" length_s="1" length_t="1" />
         <texture id="t_sbBot" file="./assets/sbBot.png" length_s="1" length_t="1" />
         <texture id="t_goalPost" file="./assets/goalPost.png" length_s="1" length_t="1" />
+        <texture id="t_football" file="./assets/football.png" length_s="1" length_t="1" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
     <materials>
         <material id="m_Default">
+            <emission r="0" g="0" b="0" a="1" />
+            <ambient r="1" g="1" b="1" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="1" g="1" b="1" a="1" />
+            <shininess value="50" />
+        </material>
+        <material id="m_Bluewish">
             <emission r="0" g="0" b="0.1" a="1" />
             <ambient r="0.1" g="0.4" b="0.8" a="1" />
             <diffuse r="0.1" g="0.4" b="0.8" a="1" />
@@ -78,6 +86,13 @@
             <ambient r="0.8" g="0" b="0" a="1" />
             <diffuse r="0.8" g="0" b="0" a="1" />
             <specular r="0.8" g="0" b="0" a="1" />
+            <shininess value="50" />
+        </material>
+        <material id="m_Glow_Orange">
+            <emission r="1" g="0.5" b="0" a="1" />
+            <ambient r="1" g="0.5" b="0" a="1" />
+            <diffuse r="1" g="0.5" b="0" a="1" />
+            <specular r="1" g="0.5" b="0" a="1" />
             <shininess value="50" />
         </material>
         <material id="m_Grass">
@@ -161,16 +176,21 @@
         <primitive id="triangle">
             <triangle x1="0" y1="0" z1="0" x2="3" y2="0" z2="0" x3="1" y3="3" z3="0" />
         </primitive>
-        <primitive id="sphere1">
-            <sphere radius="2" slices="5" stacks="10" />
-        </primitive>
         <primitive id="cylinder1">
             <cylinder base="0.5" top="0.8" height="5" slices="15" stacks="5" />
         </primitive>
         <primitive id="cylinderNetPrim">
             <cylinder base="0.5" top="0.5" height="1" slices="5" stacks="5" />
         </primitive>
-        <!--primitive id="unitCylinder"><cylinder base="1" top="1" height="1" slices="1" stacks="1" /></primitive><primitive id="unitSphere"><sphere radius="1" slices="1" stacks="1" /></primitive><primitive id="unitTorus"><torus inner="0.5" outer="0.5" slices="1" loops="1" /></primitive-->
+        <primitive id="sphere1">
+            <sphere radius="2" slices="5" stacks="10" />
+        </primitive>
+        <primitive id="sphere2">
+            <sphere radius="1" slices="20" stacks="10" />
+        </primitive>
+        <primitive id="torus1">
+            <torus inner="30" outer="31" slices="50" loops="50" />
+        </primitive>
     </primitives>
     <!-- Components set -->
     <components>
@@ -194,13 +214,40 @@
             <!-- a textura declarada sobrepoe a textura recebida do -->
             <!-- objecto "pai" -->
             <texture id="none" />
-            <texture id="none" />
             <children>
                 <componentref id="floorTransform" />
                 <componentref id="buildings" />
                 <componentref id="trees" />
                 <componentref id="footballField" />
                 <componentref id="skybox" />
+                <componentref id="ball" />
+                <!--componentref id="torusT" /-->
+            </children>
+        </component>
+        <component id="torusT">
+            <transformation>
+                <transformationref id="rotateX90" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="torus1" />
+            </children>
+        </component>
+        <component id="ball">
+            <transformation>
+                <transformationref id="rotateX90" />
+                <scale x="0.5" y="0.5" z="0.5" />
+                <translate x="0" y="0" z="-1" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="t_football" />
+            <children>
+                <primitiveref id="sphere2" />
             </children>
         </component>
         <component id="footballField">
@@ -562,7 +609,9 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="m_Default" />
+                <material id="m_Glow_Orange" />
+                <material id="m_Bluewish" />
+                <material id="m_metal" />
             </materials>
             <texture id="none" />
             <children>
@@ -576,6 +625,7 @@
                 <transformationref id="rotateX-90" />
             </transformation>
             <materials>
+                <material id="m_Bluewish" />
                 <material id="m_Default" />
             </materials>
             <texture id="t_sidewalk" />
@@ -588,7 +638,7 @@
                 <translate x="0" y="0" z="-30" />
             </transformation>
             <materials>
-                <material id="m_Default" />
+                <material id="inherit" />
             </materials>
             <texture id="t_building" />
             <children>
@@ -603,9 +653,9 @@
                 <translate x="0" y="0" z="30" />
             </transformation>
             <materials>
-                <material id="m_Default" />
+                <material id="inherit" />
             </materials>
-            <texture id="t_grass" />
+            <texture id="t_building" />
             <children>
                 <componentref id="firstLevelBuildingBlockTransform" />
                 <componentref id="secondLevelBuildingBlockTransform" />
@@ -619,7 +669,7 @@
                 <scale x="15" y="20" z="15" />
             </transformation>
             <materials>
-                <material id="m_Default" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -632,7 +682,7 @@
                 <scale x="13" y="10" z="11" />
             </transformation>
             <materials>
-                <material id="m_Default" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -645,7 +695,7 @@
                 <scale x="8" y="12" z="8" />
             </transformation>
             <materials>
-                <material id="m_Default" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -658,7 +708,7 @@
                 <scale x="4" y="15" z="4" />
             </transformation>
             <materials>
-                <material id="m_Default" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -2459,7 +2509,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" />
+            <texture id="t_topBuilding" />
             <children>
                 <componentref id="topRect" />
             </children>
