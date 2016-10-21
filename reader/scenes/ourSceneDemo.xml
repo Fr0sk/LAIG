@@ -194,7 +194,6 @@
             <!-- a textura declarada sobrepoe a textura recebida do -->
             <!-- objecto "pai" -->
             <texture id="none" />
-            <texture id="t_building" />
             <children>
                 <!--componentref id="earth1" /><componentref id="earth2" /-->
                 <componentref id="floorTransform" />

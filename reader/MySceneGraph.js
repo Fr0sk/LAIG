@@ -525,17 +525,17 @@ MySceneGraph.prototype.parseNodes = function (rootElement) {
 
 	if (this.rootNodeId == null) return "Root node not found!";
 
-	var err;
-	this.rootNode = this.parseNode(components, rootComponent, err);
+	this.rootNode = this.parseNode(components, rootComponent, null);
 
-	if (err != null)
-		return err;
+	//If rootNode is a string, that means it countains an error
+	if (typeof this.rootNode === 'string' || this.rootNode instanceof String)
+		return this.rootNode;
 };
 
 /**
  * Recursive function to get all the individual components
  */
-MySceneGraph.prototype.parseNode = function (componentsList, component, parentNode, err) {
+MySceneGraph.prototype.parseNode = function (componentsList, component, parentNode) {
 	var node = new Node(component.id);
 
 	//Transformations
@@ -585,10 +585,8 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 		for (var i = 0; i < materials.length; i++) {
 			var materialId = this.reader.getString(materials[i], 'id', true);
 			if (materialId == 'inherit') {
-				if (parentNode == null) {
-					err = "Root can't inherit materials";
-					return;
-				}
+				if (parentNode == null)
+					return "Root can't inherit materials";
 
 				var parentMaterials = parentNode.getMaterials();
 				for (var j = 0; j < parentMaterials.length; j++) {
@@ -630,10 +628,8 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 		var textureId = this.reader.getString(textureElem, 'id', true);
 
 		if (textureId == "inherit") {
-			if (parentNode == null) {
-				err = "Root node can't inherit a texture";
-				return;
-			}
+			if (parentNode == null)
+				return "Root node can't inherit a texture";
 			node.setTexture(parentNode.texture);
 		} else if (textureId != "none")
 			for (var i = 0; i < this.textures.length; i++) {
@@ -653,12 +649,11 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 			var componentId = this.reader.getString(componentsRef[i], 'id', true);
 			var newComponent = this.getComponentFromId(componentsList, componentId);
 			newComponent.id = componentId;
-			var childErr;
-			var child = this.parseNode(componentsList, newComponent, node, childErr);
-			if (childErr == null && child == null) {
-				err = childErr;
-				return;
-			}
+			var child = this.parseNode(componentsList, newComponent, node);
+			//If the child is a string, that means it countains an error
+			if (typeof child === 'string' || child instanceof String)
+				return child;
+
 			node.pushChild(child);
 		}
 
