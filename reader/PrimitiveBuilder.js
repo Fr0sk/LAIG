@@ -158,116 +158,69 @@ PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stac
 
         this.primitiveType = this.scene.gl.TRIANGLES;
 
-        var ang = (2 * Math.PI) / this.slices;
+
         this.vertices = [];
         this.indices = [];
         this.normals = [];
         this.texCoords = [];
 
-        var transition = (this.base - this.top) / this.stacks;
+        var index = 0;
 
-        for (var lat = 0; lat <= this.stacks; lat++) {
-            var theta = lat * (Math.PI / 2) / this.stacks;
-            var radius = top + transition * lat;
-
-            for (var long = 0; long <= this.slices; long++) {
-                var phi = long * 2 * Math.PI / this.slices;
-
-                var x = radius * Math.cos(phi);
-                var y = radius * Math.sin(phi);
-                var z = this.height * Math.cos(theta);
-
+        for (var j = 0; j <= this.stacks; j++) {
+            for (var i = 0; i <= this.slices; i++) {
+                var r = this.base + (this.top - this.base) * j / this.stacks;
+                var x = r * Math.cos(i / this.slices * Math.PI * 2);
+                var y = r * Math.sin(i / this.slices * Math.PI * 2);
+                var z = this.height * j / this.stacks;
                 this.vertices.push(x, y, z);
-                this.texCoords.push(long / this.slices, lat / this.stacks);
+                this.normals.push(x, y, 0);
+                this.texCoords.push(i / this.slices, j / this.stacks);
+
+                if (i < this.slices && j < this.stacks) {
+                    var first = (j * (this.slices + 1)) + i;
+                    var second = first + this.slices + 1;
+                    this.indices.push(first + 1, second + 1, second);
+                    this.indices.push(first + 1, second, first);
+                }
+                index++;
             }
         }
-        this.normals = this.vertices;
 
-        for (var lat = 0; lat < this.stacks; lat++) {
-            for (var long = 0; long < this.slices; long++) {
-                var first = (lat * (this.slices + 1)) + long;
-                var second = first + this.slices + 1;
-                this.indices.push(first, second, first + 1);
-                this.indices.push(second, second + 1, first + 1);
-            }
-        }
-
-        console.info(this.vertices.length, this.indices.length);
-
-        //Base top
-        this.vertices.push(0, 0, this.height);
-        for (var i = 0; i < this.slices; i++) {
-            //this.vertices.push(this.vertices[i]);
-            this.normals.push(0, 0, 1);
-        }
-        for (var i = 0; i < this.slices; i++)
-            this.indices.push(0, i + 1, i + 2);
-
-        /*for (var i = 0; i < tmpBaseVert.length / 3; i++) {
-
-        }*/
-
-
-        //MEU
-        //this.vertices.push(0, 0, this.height)
-        //Como os primeiros vertices sao os vertices que estao onde z = height, usamos esses vertices para os replicar
-        /*for (var i = 0; i < this.slices; i++) {
-            this.vertices.push(this.vertices[i]);
-            if ()
-            this.normals.push(0, 0, 1);
-        }*/
-
-        //E depois comecamos a fazer push aos indices, seguindo a regra da mao direita
-        /*for (var i = 0; i < this.slices; i++)
-            this.indices.push(0, i + 1, i + 2);*/
-
-        /*var centerIndex = this.vertices.length;
         this.vertices.push(0, 0, 0);
-        for (var i = 0; i < this.slices; i++) {
-            var phi = i * 2 * Math.PI / slices;
-            var x = Math.cos(phi);
-            var y = Math.sin(phi);
-            this.vertices.push(x, y, 0);
-            this.normals.push(0, 0, -1);
-        }
-        for (var i = 1; i < this.slices; i++)
-            this.indices.push(this.vertices[centerIndex],
-                this.vertices[centerIndex + i],
-                this.vertices[centerIndex + (i + 1)]);*/
-
-
-
-
-
-
-
-
-
-
-
-        // Faces
-        /*var centerIndex = this.vertices.length;
-        
-        this.vertices.push(0, 0, 0);
-        
         this.normals.push(0, 0, -1);
-        for (var long = 0; long <= this.slices; long++) {
-            var phi = long * 2 * Math.PI / this.slices;
-            var x = radius * Math.cos(phi);
-            var y = radius * Math.sin(phi);
-            this.vertices.push(x, y, 0);
+        this.texCoords.push(0, 0);
+        var centerIndex = index;
+        index++;
+        for (var i = 0; i <= this.slices; i++) {
+            var x = this.base * Math.cos(i / this.slices * Math.PI * 2);
+            var y = this.base * Math.sin(i / this.slices * Math.PI * 2);;
+            var z = 0;
+            this.vertices.push(x, y, z);
+            if (i < this.slices) {
+                this.indices.push(centerIndex, index + 1, index);
+            }
             this.normals.push(0, 0, -1);
+            this.texCoords.push(0, 0);
+            index++;
         }
-        console.info("center index: " + centerIndex);
-        console.info("vertices length: " + this.vertices.length);
-        console.info("slices: " + this.slices);
-        var i;
-        for (i = 1; i < this.slices; i++) {
-            this.indices.push(centerIndex, centerIndex + i , centerIndex + i + 1);
-            console.log("RANGE: " + centerIndex + i + 1);
-        }
-        this.indices.push(centerIndex, centerIndex + i, centerIndex + 1);*/
 
+        this.vertices.push(0, 0, height);
+        this.normals.push(0, 0, 1);
+        this.texCoords.push(0, 0);
+        var centerIndex = index;
+        index++;
+        for (var i = 0; i <= this.slices; i++) {
+            var x = this.top * Math.cos(i / this.slices * Math.PI * 2);
+            var y = this.top * Math.sin(i / this.slices * Math.PI * 2);
+            var z = height;
+            this.vertices.push(x, y, z);
+            if (i < this.slices) {
+                this.indices.push(centerIndex, index, index + 1);
+            }
+            this.normals.push(0, 0, 1);
+            this.texCoords.push(1, 1);
+            index++;
+        }
 
         this.initGLBuffers();
     };
