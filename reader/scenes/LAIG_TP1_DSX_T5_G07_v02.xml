@@ -44,6 +44,13 @@
             <diffuse r="0" g="1" b="0" a="1" />
             <specular r="0" g="0.5" b="0.5" a="1" />
         </spot>
+        <spot id="spot2" enabled="1" angle="30" exponent="1">
+            <target x="0" y="0" z="-10" />
+            <location x="2" y="3" z="-5" />
+            <ambient r="0.4" g="1" b="0.1" a="1" />
+            <diffuse r="0.6" g="0.2" b="0.6" a="1" />
+            <specular r="0" g="0.4" b="0.8" a="1" />
+        </spot>
     </lights>
     <!-- Textures set -->
     <!-- Must include at least one texture block -->

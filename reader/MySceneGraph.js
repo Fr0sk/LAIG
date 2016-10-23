@@ -105,6 +105,15 @@ MySceneGraph.prototype.validateOrder = function (rootElement) {
     return true;
 }
 
+MySceneGraph.prototype.checkDoubleId = function (list, where) {
+    var lastElementIndex = list.length - 1;
+
+    for (var i = 0; i < list.length - 1; i++) {
+        if (list[i].id == list[lastElementIndex].id)
+            return "detected the same id '" + list[i].id + "' under " + where + "!";
+    }
+}
+
 /*
  * Parse the data to the scene
  */
@@ -124,6 +133,7 @@ MySceneGraph.prototype.parseData = function (rootElement) {
     this.cameraIndex;
     err = this.parseViews(rootElement);
     if (err != null) return err;
+    this.checkDoubleId(this.perspCams);
 
     this.ambientLight;
     this.background;
@@ -189,6 +199,7 @@ MySceneGraph.prototype.parseScene = function (rootElement) {
  */
 MySceneGraph.prototype.parseViews = function (rootElement) {
     var views = rootElement.getElementsByTagName('views')[0];
+    var err;
 
     // Perspective cameras
     {
@@ -205,6 +216,10 @@ MySceneGraph.prototype.parseViews = function (rootElement) {
             var cam = new CGFcamera(fov, near, far, position, target);
             cam.id = id;
             this.perspCams.push(cam);
+
+            err = this.checkDoubleId(this.perspCams, "perspective cameras");
+            if (err != null)
+                return err;
 
             //console.log("ID = " + id + " ,view = " + near + ", far = " + far);
         }
@@ -239,6 +254,7 @@ MySceneGraph.prototype.parseIllumination = function (rootElement) {
  */
 MySceneGraph.prototype.parseLights = function (rootElement) {
     var lights = rootElement.getElementsByTagName('lights')[0];
+    var err;
 
     // OmniLights
     {
@@ -270,6 +286,10 @@ MySceneGraph.prototype.parseLights = function (rootElement) {
             };
 
             this.omniLights.push(lightObj);
+
+            err = this.checkDoubleId(this.omniLights, "omni lights");
+            if (err != null)
+                return err;
         }
     }
 
@@ -315,6 +335,10 @@ MySceneGraph.prototype.parseLights = function (rootElement) {
 
             this.spotLights.push(lightObj);
 
+            err = this.checkDoubleId(this.spotLights, "spot lights");
+            if (err != null)
+                return err;
+
             //console.log("Omni light id = " + id);
         }
     }
@@ -340,6 +364,10 @@ MySceneGraph.prototype.parseTextures = function (rootElement) {
         texture.length_s = length_s;
         texture.length_t = length_t;
         this.textures.push(texture);
+
+        err = this.checkDoubleId(this.textures, "textures");
+        if (err != null)
+            return err;
     }
 };
 
@@ -368,6 +396,10 @@ MySceneGraph.prototype.parseMaterials = function (rootElement) {
 
         this.materials.push(material);
 
+        err = this.checkDoubleId(this.materials, "materials");
+        if (err != null)
+            return err;
+
         //console.log("Material " + id + ": emission = " + emission + ", ambient = " + ambient + ", diffuse = " + diffuse + ", shininess = " + shininess + "\n");	
     }
 };
@@ -391,6 +423,10 @@ MySceneGraph.prototype.parseTransformations = function (rootElement) {
             translateToSend.y = this.reader.getFloat(translateElem, 'y', true);
             translateToSend.z = this.reader.getFloat(translateElem, 'z', true);
             this.transformations.push(translateToSend);
+
+            err = this.checkDoubleId(this.transformations, "transformations (specifically translates)");
+            if (err != null)
+                return err;
         }
 
         var rotateElem = transformations[i].getElementsByTagName('rotate')[0];
@@ -401,6 +437,10 @@ MySceneGraph.prototype.parseTransformations = function (rootElement) {
             rotationToSend.axis = this.reader.getString(rotateElem, 'axis', true);
             rotationToSend.angle = this.reader.getFloat(rotateElem, 'angle', true);
             this.transformations.push(rotationToSend);
+
+            err = this.checkDoubleId(this.transformations, "transformations (specifically rotates)");
+            if (err != null)
+                return err;
         }
 
         var scaleElem = transformations[i].getElementsByTagName('scale')[0];
@@ -412,6 +452,10 @@ MySceneGraph.prototype.parseTransformations = function (rootElement) {
             scaleToSend.y = this.reader.getFloat(scaleElem, 'y', true);
             scaleToSend.z = this.reader.getFloat(scaleElem, 'z', true);
             this.transformations.push(scaleToSend);
+
+            err = this.checkDoubleId(this.transformations, "transformations (specifically scales)");
+            if (err != null)
+                return err;
         }
     }
 };
@@ -489,6 +533,10 @@ MySceneGraph.prototype.parsePrimitives = function (rootElement) {
             //console.log("Primitive num " + (i + 1) + ": id = " + id + ", inner = " + inner +
             //", outer = " + outer + ", slices = " + slices + ", loops = " + loops);
         }
+
+        err = this.checkDoubleId(this.primitives, "primitives");
+        if (err != null)
+            return err;
     }
 };
 
@@ -502,7 +550,7 @@ MySceneGraph.prototype.parseNodes = function (rootElement) {
     if (rootComponent == null) return "root node '" + this.rootNodeId + "' not found in the components!";
     rootComponent.id = this.rootNodeId;
 
-    var doubleId = this.checkForDoubleId(components);
+    var doubleId = this.checkForDoubleIdInComponents(components);
     if (doubleId != null)
         return doubleId;
 
@@ -761,7 +809,7 @@ MySceneGraph.prototype.generatePrimitive = function (primitiveInfo, length_s, le
 /**
  * Checks if there's more than one components with the same id
  */
-MySceneGraph.prototype.checkForDoubleId = function (components) {
+MySceneGraph.prototype.checkForDoubleIdInComponents = function (components) {
     var idCollection = [];
 
     for (var i = 0; i < components.length; i++)
