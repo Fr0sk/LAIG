@@ -35,8 +35,6 @@ XMLscene.prototype.initLights = function() {
     this.lights[0].setPosition(2, 3, 3, 1);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[0].update();
-
-    this.lightStatus = [];
 };
 
 XMLscene.prototype.initCameras = function() {
@@ -152,7 +150,7 @@ XMLscene.prototype.setLightsFromXML = function() {
             this.lightStatus[this.numLight] = false;
         }
 
-        this.interface.addLight(this.numLight, currentLight.id);
+        this.interface.addOmniLight(this.numLight, currentLight.id);
     }
 
     for (var i = 0; i < this.graph.spotLights.length && this.numLight < 8; i++, this.numLight++) {
@@ -175,7 +173,7 @@ XMLscene.prototype.setLightsFromXML = function() {
             this.lightStatus[this.numLight] = false;
         }
 
-        this.interface.addLight(this.numLight, currentLight.id);
+        this.interface.addSpotLight(this.numLight, currentLight.id);
     }
 };
 

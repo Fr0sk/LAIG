@@ -4,18 +4,18 @@
     <!-- Cameras definition -->
     <!-- Pressing v/V changes between cameras -->
     <views default="above">
-        <perpsective id="above" near="0.1" far="500" angle="1.5">
+        <perspective id="above" near="0.1" far="500" angle="1.5">
             <from x="10" y="60" z="35" />
             <to x="0" y="0" z="0" />
-        </perpsective>
-        <perpsective id="nearField" near="0.1" far="500" angle="0.4">
+        </perspective>
+        <perspective id="nearField" near="0.1" far="500" angle="0.4">
             <from x="20" y="1" z="4" />
             <to x="0" y="0" z="0" />
-        </perpsective>
-        <perpsective id="awayField" near="0.1" far="500" angle="0.4">
+        </perspective>
+        <perspective id="awayField" near="0.1" far="500" angle="0.4">
             <from x="40" y="20" z="-50" />
             <to x="0" y="0" z="10" />
-        </perpsective>
+        </perspective>
     </views>
     <!-- Illumination parameters set -->
     <illumination doublesided="0" local="1">
@@ -48,22 +48,21 @@
     <!-- Textures set -->
     <!-- Must include at least one texture block -->
     <textures>
-        <texture id="t_sidewalk" file="./assets/sidewalk.jpg" length_s="5" length_t="5" />
-        <texture id="t_building" file="./assets/building.jpg" length_s="1" length_t="1" />
-        <texture id="t_topBuilding" file="./assets/topBuilding.jpg" length_s="1" length_t="1" />
-        <texture id="t_treeLeafes" file="./assets/treeLeafes.png" length_s="1" length_t="1" />
-        <texture id="t_treeWood" file="./assets/treeWood.jpg" length_s="1" length_t="1" />
-        <texture id="t_grass" file="./assets/grass.png" length_s="1" length_t="1" />
-        <texture id="t_whiteGrass" file="./assets/whiteGrass.png" length_s="1" length_t="1" />
-        <texture id="t_sbSide1" file="./assets/sbSide1.png" length_s="1" length_t="1" />
-        <texture id="t_sbSide2" file="./assets/sbSide2.png" length_s="1" length_t="1" />
-        <texture id="t_sbSide3" file="./assets/sbSide3.png" length_s="1" length_t="1" />
-        <texture id="t_sbSide4" file="./assets/sbSide4.png" length_s="1" length_t="1" />
-        <texture id="t_sbTop" file="./assets/sbTop.png" length_s="1" length_t="1" />
-        <texture id="t_sbBot" file="./assets/sbBot.png" length_s="1" length_t="1" />
-        <texture id="t_goalPost" file="./assets/goalPost.png" length_s="1" length_t="1" />
-        <texture id="t_football" file="./assets/football.png" length_s="1" length_t="1" />
-        <texture id="t_eye" file="./assets/eye.jpg" length_s="1" length_t="1" />
+        <texture id="t_sidewalk" file="resources/sidewalk.jpg" length_s="5" length_t="5" />
+        <texture id="t_building" file="resources/building.jpg" length_s="1" length_t="1" />
+        <texture id="t_topBuilding" file="resources/topBuilding.jpg" length_s="1" length_t="1" />
+        <texture id="t_treeLeafes" file="resources/treeLeafes.png" length_s="1" length_t="1" />
+        <texture id="t_treeWood" file="resources/treeWood.jpg" length_s="1" length_t="1" />
+        <texture id="t_grass" file="resources/grass.png" length_s="1" length_t="1" />
+        <texture id="t_whiteGrass" file="resources/whiteGrass.png" length_s="1" length_t="1" />
+        <texture id="t_sbSide1" file="resources/sbSide1.png" length_s="1" length_t="1" />
+        <texture id="t_sbSide2" file="resources/sbSide2.png" length_s="1" length_t="1" />
+        <texture id="t_sbSide3" file="resources/sbSide3.png" length_s="1" length_t="1" />
+        <texture id="t_sbSide4" file="resources/sbSide4.png" length_s="1" length_t="1" />
+        <texture id="t_sbTop" file="resources/sbTop.png" length_s="1" length_t="1" />
+        <texture id="t_sbBot" file="resources/sbBot.png" length_s="1" length_t="1" />
+        <texture id="t_goalPost" file="resources/goalPost.png" length_s="1" length_t="1" />
+        <texture id="t_football" file="resources/football.png" length_s="1" length_t="1" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
@@ -223,7 +222,7 @@
                 <componentref id="skybox" />
                 <componentref id="ball" />
                 <componentref id="test" />
-                <!--componentref id="torusT" /-->
+                <!-- componentref id="torusT" / -->
             </children>
         </component>
         <component id="test">
@@ -232,7 +231,7 @@
             <materials>
                 <material id="m_Default" />
             </materials>
-            <texture id="t_eye" />
+            <texture id="t_building" />
             <children>
                 <primitiveref id="triangle" />
             </children>

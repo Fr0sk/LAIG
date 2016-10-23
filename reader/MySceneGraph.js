@@ -23,7 +23,7 @@ function MySceneGraph(filename, scene) {
  * Callback to be executed after successful reading
  */
 MySceneGraph.prototype.onXMLReady = function() {
-    console.log("XML Loading finished.");
+    //console.log("XML Loading finished.");
     var rootElement = this.reader.xmlDoc.documentElement;
 
     // Here should go the calls for different functions to parse the various blocks
@@ -180,7 +180,7 @@ MySceneGraph.prototype.parseScene = function(rootElement) {
     var axisLength = this.reader.getFloat(scene, 'axis_length', true);
     this.rootNodeId = this.reader.getString(scene, 'root', true);
     this.axis = new CGFaxis(this.scene, axisLength, 0.2);
-    
+
     //console.log("Scene axis_length =" + s_axisLength);
 };
 
@@ -192,7 +192,7 @@ MySceneGraph.prototype.parseViews = function(rootElement) {
 
     // Perspective cameras
     {
-        var perspCams = views.getElementsByTagName('perpsective');
+        var perspCams = views.getElementsByTagName('perspective');
         for (var i = 0; i < perspCams.length; i++) {
             var id = this.reader.getString(perspCams[i], 'id', true);
             var near = this.reader.getFloat(perspCams[i], 'near', true);
@@ -214,7 +214,7 @@ MySceneGraph.prototype.parseViews = function(rootElement) {
     for(var i = 0; i < this.perspCams.length; i++)
         if(this.perspCams[i].id == defaultCam) {
             this.cameraIndex = i;
-            break;
+            return null;
         }
 
     if(this.cameraIndex == null)
@@ -329,7 +329,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement) {
 
     for (var i = 0; i < textures.length; i++) {
         var id = this.reader.getString(textures[i], 'id', true);
-        var file = "./scenes" + this.reader.getString(textures[i], 'file', true);
+        var file = this.reader.getString(textures[i], 'file', true);
         var length_s = this.reader.getFloat(textures[i], 'length_s', true);
         var length_t = this.reader.getFloat(textures[i], 'length_t', true);
 
@@ -499,8 +499,8 @@ MySceneGraph.prototype.parseNodes = function(rootElement) {
     var componentsElem = rootElement.getElementsByTagName('components')[0];
     var components = componentsElem.getElementsByTagName('component');
     var rootComponent = this.getComponentFromId(components, this.rootNodeId);
+    if (rootComponent == null) return "root node '" + this.rootNodeId + "' not found in the components!";
     rootComponent.id = this.rootNodeId;
-    if (this.rootNodeId == null) return "Root node not found!";
 
     var doubleId = this.checkForDoubleId(components);
     if (doubleId != null)
@@ -724,13 +724,12 @@ MySceneGraph.prototype.generatePrimitive = function(primitiveInfo, length_s, len
             length_s, length_t);
     else if (primitiveInfo.type == "cylinder")
         return PrimitiveBuilder.buildCylinder(this.scene, primitiveInfo.base, primitiveInfo.top, primitiveInfo.height,
-            primitiveInfo.slices, primitiveInfo.stacks, length_s, length_t);
+            primitiveInfo.slices, primitiveInfo.stacks);
     else if (primitiveInfo.type == "sphere")
-        return PrimitiveBuilder.buildSphere(this.scene, primitiveInfo.radius, primitiveInfo.slices, primitiveInfo.stacks,
-            length_s, length_t);
+        return PrimitiveBuilder.buildSphere(this.scene, primitiveInfo.radius, primitiveInfo.slices, primitiveInfo.stacks);
     else if (primitiveInfo.type == "torus")
         return PrimitiveBuilder.buildTorus(this.scene, primitiveInfo.inner, primitiveInfo.outer, primitiveInfo.slices,
-            primitiveInfo.loops, length_s, length_t);
+            primitiveInfo.loops);
 };
 
 /**

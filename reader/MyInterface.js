@@ -31,7 +31,8 @@ MyInterface.prototype.init = function (application) {
 	// e.g. LightingScene.prototype.doSomething = function () { console.log("Doing something..."); }; 
 
 	//this.gui.add(this.scene, 'doSomething');	
-	this.lightsGroup = this.gui.addFolder("Lights");
+	this.omniGroup = this.gui.addFolder("Omni Lights");
+	this.spotGroup = this.gui.addFolder("Spot Lights");
 
 	// add a group of controls (and open/expand by defult)
 
@@ -70,6 +71,10 @@ MyInterface.prototype.processKeyDown = function (event) {
 	};
 };
 
-MyInterface.prototype.addLight = function(lightNum, lightName) {
-	this.lightsGroup.add(this.scene.lightStatus, lightNum).name(lightName);
+MyInterface.prototype.addOmniLight = function(lightNum, lightName) {
+	this.omniGroup.add(this.scene.lightStatus, lightNum).name(lightName);
+};
+
+MyInterface.prototype.addSpotLight = function(lightNum, lightName) {
+	this.spotGroup.add(this.scene.lightStatus, lightNum).name(lightName);
 };
