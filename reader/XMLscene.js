@@ -95,6 +95,9 @@ XMLscene.prototype.display = function () {
     };
 };
 
+/**
+ * Goes through the graph to display the full scene
+ */
 XMLscene.prototype.runGraph = function (node) {
     this.pushMatrix();
 
@@ -115,6 +118,9 @@ XMLscene.prototype.runGraph = function (node) {
     this.popMatrix();
 };
 
+/**
+ * Changes the current camera
+ */
 XMLscene.prototype.changeCamera = function () {
     if (this.graph.cameraIndex >= this.graph.perspCams.length - 1)
         this.graph.cameraIndex = 0;
@@ -124,14 +130,23 @@ XMLscene.prototype.changeCamera = function () {
     this.camera = this.graph.perspCams[this.graph.cameraIndex];
 };
 
+/**
+ * Selects the free camera (which has free movement)
+ */
 XMLscene.prototype.resetCamera = function () {
     this.camera = freeCam;
 };
 
+/**
+ * Changes the current materials for all components
+ */
 XMLscene.prototype.changeMaterials = function () {
     this.graph.changeNodesMaterialIndex(this.graph.rootNode);
 };
 
+/**
+ * References the xml lights to the scene lights, and add them to the interface
+ */
 XMLscene.prototype.setLightsFromXML = function () {
     this.setGlobalAmbientLight(this.graph.ambientLight[0], this.graph.ambientLight[1], this.graph.ambientLight[2], this.graph.ambientLight[3]);
 
@@ -164,6 +179,8 @@ XMLscene.prototype.setLightsFromXML = function () {
         this.lights[this.numLight].setDiffuse(currentLight.diffuse[0], currentLight.diffuse[1], currentLight.diffuse[2], currentLight.diffuse[3]);
         this.lights[this.numLight].setSpecular(currentLight.specular[0], currentLight.specular[1], currentLight.specular[2], currentLight.specular[3]);
 
+        console.info("Lights info:" + currentLight.exponent + ", " + currentLight.cutOff + ", array: " + currentLight.direction[0] + " " + currentLight.direction[2]);
+
         this.lights[this.numLight].setSpotExponent(currentLight.exponent);
         this.lights[this.numLight].setSpotCutOff(currentLight.cutOff);
         this.lights[this.numLight].setSpotDirection(currentLight.direction[0], currentLight.direction[1], currentLight.direction[2]);
@@ -180,6 +197,9 @@ XMLscene.prototype.setLightsFromXML = function () {
     }
 };
 
+/**
+ * Updates light's status each frame
+ */
 XMLscene.prototype.updateLightsStatus = function () {
     for (var i = 0; i < this.numLight; i++) {
         if (this.lightStatus[i])
