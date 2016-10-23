@@ -1,8 +1,9 @@
 var cameraIndex = 0;
 var freeCam;
 
-function XMLscene() {
+function XMLscene(interface) {
 	CGFscene.call(this);
+	this.interface = interface;
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
@@ -12,6 +13,9 @@ XMLscene.prototype.init = function (application) {
 	CGFscene.prototype.init.call(this, application);
 
 	this.initCameras();
+
+	this.numLight = 0;
+	this.lightStatus = [];
 
 	this.initLights();
 
@@ -32,6 +36,8 @@ XMLscene.prototype.initLights = function () {
 	this.lights[0].setPosition(2, 3, 3, 1);
 	this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
 	this.lights[0].update();
+
+	this.lightStatus = [];
 };
 
 XMLscene.prototype.initCameras = function () {
@@ -46,29 +52,16 @@ XMLscene.prototype.setDefaultAppearance = function () {
 	this.setShininess(10.0);
 };
 
-var cil;
-
 // Handler called when the graph is finally loaded. 
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function () {
-	this.setGlobalAmbientLight(this.graph.ambientLight[0], this.graph.ambientLight[1], this.graph.ambientLight[2], this.graph.ambientLight[3]);
 	this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
 
 	this.axis = this.graph.axis;
 
 	//this.camera = this.graph.perspCams[cameraIndex];
 
-	// Lights
-	var count = 0;
-	for (var i = 0; i < this.graph.omniLights.length && count < 8; i++)
-		this.copyLight(this.lights[count++], this.graph.omniLights[i]);
-	for (var i = 0; i < this.graph.spotLights.length && count < 8; i++)
-		this.copyLight(this.lights[count++], this.graph.spotLights[i]);
-
-	for (var i = 0; i < count; i++)
-		this.lights[i].update();
-
-	cil = PrimitiveBuilder.buildCylinder(this, 2, 2, 4, 5, 5);
+	this.setLightsFromXML();
 };
 
 XMLscene.prototype.display = function () {
@@ -96,11 +89,7 @@ XMLscene.prototype.display = function () {
 	// only get executed after the graph has loaded correctly.
 	// This is one possible way to do it
 	if (this.graph.loadedOk) {
-		for(var i = 0; i < this.lights.length; i++)
-			this.lights[i].update();
-		
-		//cil.display();
-
+		this.updateLightsStatus();
 
 		//Starts going through the graph
 		this.runGraph(this.graph.rootNode);
@@ -127,22 +116,6 @@ XMLscene.prototype.runGraph = function (node) {
 	this.popMatrix();
 };
 
-XMLscene.prototype.copyLight = function (sceneLight, newLight) {
-	sceneLight.customId = newLight.id;
-	sceneLight.setPosition(newLight.position[0], newLight.position[1], newLight.position[2], newLight.homogeneous);
-	sceneLight.setAmbient(newLight.ambient[0], newLight.ambient[1], newLight.ambient[2], newLight.ambient[3]);
-	sceneLight.setDiffuse(newLight.diffuse[0], newLight.diffuse[1], newLight.diffuse[2], newLight.diffuse[3]);
-	sceneLight.setSpecular(newLight.specular[0], newLight.specular[1], newLight.specular[2], newLight.specular[3]);
-	newLight.enabled ? sceneLight.enable() : sceneLight.disable();
-
-	// Check if it's spotlight
-	if (newLight.type == 'spot') {
-		sceneLight.setSpotExponent(newLight.exponent);
-		sceneLight.setSpotCutOff(newLight.cutOff);
-		sceneLight.setSpotDirection(newLight.direction[0], newLight.direction[1], newLight.direction[2]);
-	}
-}
-
 XMLscene.prototype.changeCamera = function () {
 	console.log(this.graph.perspCams.length);
 	if (cameraIndex >= this.graph.perspCams.length - 1)
@@ -152,12 +125,71 @@ XMLscene.prototype.changeCamera = function () {
 
 	this.camera = this.graph.perspCams[cameraIndex];
 	x = 1;
-}
+};
 
 XMLscene.prototype.resetCamera = function () {
 	this.camera = freeCam;
-}
+};
 
 XMLscene.prototype.changeMaterials = function () {
 	this.graph.changeNodesMaterialIndex(this.graph.rootNode);
-}
+};
+
+XMLscene.prototype.setLightsFromXML = function () {
+	this.setGlobalAmbientLight(this.graph.ambientLight[0], this.graph.ambientLight[1], this.graph.ambientLight[2], this.graph.ambientLight[3]);
+
+	var currentLight;
+
+	for (var i = 0; i < this.graph.omniLights.length; i++ , this.numLight++) {
+		currentLight = this.graph.omniLights[i];
+
+		this.lights[this.numLight].setPosition(currentLight.position[0], currentLight.position[1], currentLight.position[2], currentLight.homogeneous);
+		this.lights[this.numLight].setAmbient(currentLight.ambient[0], currentLight.ambient[1], currentLight.ambient[2], currentLight.ambient[3]);
+		this.lights[this.numLight].setDiffuse(currentLight.diffuse[0], currentLight.diffuse[1], currentLight.diffuse[2], currentLight.diffuse[3]);
+		this.lights[this.numLight].setSpecular(currentLight.specular[0], currentLight.specular[1], currentLight.specular[2], currentLight.specular[3]);
+
+		if (currentLight.enabled) {
+			this.lights[this.numLight].enable();
+			this.lightStatus[this.numLight] = true;
+		} else {
+			this.lights[this.numLight].disable();
+			this.lightStatus[this.numLight] = false;
+		}
+
+		this.interface.addLight(this.numLight, currentLight.id);
+	}
+
+	for (var i = 0; i < this.graph.spotLights.length; i++ , this.numLight++) {
+		currentLight = this.graph.spotLights[i];
+
+		this.lights[this.numLight].setPosition(currentLight.position[0], currentLight.position[1], currentLight.position[2], currentLight.homogeneous);
+		this.lights[this.numLight].setAmbient(currentLight.ambient[0], currentLight.ambient[1], currentLight.ambient[2], currentLight.ambient[3]);
+		this.lights[this.numLight].setDiffuse(currentLight.diffuse[0], currentLight.diffuse[1], currentLight.diffuse[2], currentLight.diffuse[3]);
+		this.lights[this.numLight].setSpecular(currentLight.specular[0], currentLight.specular[1], currentLight.specular[2], currentLight.specular[3]);
+
+		this.lights[this.numLight].setSpotExponent(currentLight.exponent);
+		this.lights[this.numLight].setSpotCutOff(currentLight.cutOff);
+		this.lights[this.numLight].setSpotDirection(currentLight.direction[0], currentLight.direction[1], currentLight.direction[2]);
+
+		if (currentLight.enabled) {
+			this.lights[this.numLight].enable();
+			this.lightStatus[this.numLight] = true;
+		} else {
+			this.lights[this.numLight].disable();
+			this.lightStatus[this.numLight] = false;
+		}
+
+		this.interface.addLight(this.numLight, currentLight.id);
+	}
+};
+
+XMLscene.prototype.updateLightsStatus = function () {
+	for (var i = 0; i < this.numLight; i++) {
+		if (this.lightStatus[i])
+			this.lights[i].enable();
+		else
+			this.lights[i].disable();
+
+		this.lights[i].update();
+	}
+};

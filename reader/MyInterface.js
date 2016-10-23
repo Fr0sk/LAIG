@@ -31,7 +31,7 @@ MyInterface.prototype.init = function (application) {
 	// e.g. LightingScene.prototype.doSomething = function () { console.log("Doing something..."); }; 
 
 	//this.gui.add(this.scene, 'doSomething');	
-	var lightsGroup = this.gui.addFolder("Lights");
+	this.lightsGroup = this.gui.addFolder("Lights");
 
 	// add a group of controls (and open/expand by defult)
 
@@ -68,4 +68,8 @@ MyInterface.prototype.processKeyDown = function (event) {
 			break;
 		default: break;
 	};
-}
+};
+
+MyInterface.prototype.addLight = function(lightId, lightName) {
+	this.lightsGroup.add(this.scene.lightStatus, lightId).name(lightName);
+};

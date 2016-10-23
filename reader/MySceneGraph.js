@@ -16,7 +16,7 @@ function MySceneGraph(filename, scene) {
 	 * If any error occurs, the reader calls onXMLError on this object, with an error message
 	 */
 
-	this.reader.open('scenes/' + "ourSceneDemo.xml", this);
+	this.reader.open('scenes/' + filename, this);
 }
 
 /*
@@ -149,21 +149,13 @@ MySceneGraph.prototype.parseData = function (rootElement) {
 	err = this.parsePrimitives(rootElement);
 	if (err != null) return err;
 
-	console.info("If you have more than 1 texture per component, all but the first one will be ignored");
+	console.info("If you have more than 1 texture per component, all but the first one will be ignored.");
+	console.info("Tap 'R' to select free camera movement.");
 
 	this.rootNode;
 	err = this.parseNodes(rootElement);
 	if (err != null) return err;
-
-	this.myDebug();
 };
-
-/**
- * Debug purposes
- */
-MySceneGraph.prototype.myDebug = function () {
-	//console.log("Numero de components = " + this.components[0].componentsRef.length);
-}
 
 /**
  * Changes the current active material of all the components
