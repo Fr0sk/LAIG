@@ -105,15 +105,6 @@ MySceneGraph.prototype.validateOrder = function (rootElement) {
     return true;
 }
 
-MySceneGraph.prototype.checkDoubleId = function (list, where) {
-    var lastElementIndex = list.length - 1;
-
-    for (var i = 0; i < list.length - 1; i++) {
-        if (list[i].id == list[lastElementIndex].id)
-            return "detected the same id '" + list[i].id + "' under " + where + "!";
-    }
-}
-
 /*
  * Parse the data to the scene
  */
@@ -160,9 +151,6 @@ MySceneGraph.prototype.parseData = function (rootElement) {
     this.primitives = [];
     err = this.parsePrimitives(rootElement);
     if (err != null) return err;
-
-    console.info("If you have more than 1 texture per component, all but the first one will be ignored.");
-    console.info("Tap 'R' to select free camera movement.");
 
     this.rootNode;
     err = this.parseNodes(rootElement);
@@ -847,5 +835,17 @@ MySceneGraph.prototype.applyTransform = function (type, transformations, x, y, z
         case "scale":
             mat4.scale(transformations, transformations, [x, y, z]);
             break;
+    }
+}
+
+/**
+ * Checks if the last entry on the list has the same id as one element already there
+ */
+MySceneGraph.prototype.checkDoubleId = function (list, where) {
+    var lastElementIndex = list.length - 1;
+
+    for (var i = 0; i < list.length - 1; i++) {
+        if (list[i].id == list[lastElementIndex].id)
+            return "detected the same id '" + list[i].id + "' under " + where + "!";
     }
 }

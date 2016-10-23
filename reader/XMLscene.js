@@ -8,7 +8,7 @@ function XMLscene(interface) {
 XMLscene.prototype = Object.create(CGFscene.prototype);
 XMLscene.prototype.constructor = XMLscene;
 
-XMLscene.prototype.init = function(application) {
+XMLscene.prototype.init = function (application) {
     CGFscene.prototype.init.call(this, application);
 
     this.initCameras();
@@ -31,18 +31,18 @@ XMLscene.prototype.init = function(application) {
     this.enableTextures(true);
 };
 
-XMLscene.prototype.initLights = function() {
+XMLscene.prototype.initLights = function () {
     this.lights[0].setPosition(2, 3, 3, 1);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[0].update();
 };
 
-XMLscene.prototype.initCameras = function() {
+XMLscene.prototype.initCameras = function () {
     freeCam = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     this.camera = freeCam;
 };
 
-XMLscene.prototype.setDefaultAppearance = function() {
+XMLscene.prototype.setDefaultAppearance = function () {
     this.setAmbient(0.2, 0.4, 0.8, 1.0);
     this.setDiffuse(0.2, 0.4, 0.8, 1.0);
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
@@ -51,16 +51,19 @@ XMLscene.prototype.setDefaultAppearance = function() {
 
 // Handler called when the graph is finally loaded. 
 // As loading is asynchronous, this may be called already after the application has started the run loop
-XMLscene.prototype.onGraphLoaded = function() {
+XMLscene.prototype.onGraphLoaded = function () {
     this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
     this.setLightsFromXML();
 
     this.axis = this.graph.axis;
 
     this.camera = this.graph.perspCams[this.graph.cameraIndex];
+
+    console.info("If you have more than 1 texture per component, all but the first one will be ignored.");
+    console.info("Tap 'R' to select free camera movement.");
 };
 
-XMLscene.prototype.display = function() {
+XMLscene.prototype.display = function () {
     // ---- BEGIN Background, camera and axis setup
 
     // Clear image and depth buffer everytime we update the scene
@@ -92,7 +95,7 @@ XMLscene.prototype.display = function() {
     };
 };
 
-XMLscene.prototype.runGraph = function(node) {
+XMLscene.prototype.runGraph = function (node) {
     this.pushMatrix();
 
     //Apply material
@@ -112,7 +115,7 @@ XMLscene.prototype.runGraph = function(node) {
     this.popMatrix();
 };
 
-XMLscene.prototype.changeCamera = function() {
+XMLscene.prototype.changeCamera = function () {
     if (this.graph.cameraIndex >= this.graph.perspCams.length - 1)
         this.graph.cameraIndex = 0;
     else
@@ -121,20 +124,20 @@ XMLscene.prototype.changeCamera = function() {
     this.camera = this.graph.perspCams[this.graph.cameraIndex];
 };
 
-XMLscene.prototype.resetCamera = function() {
+XMLscene.prototype.resetCamera = function () {
     this.camera = freeCam;
 };
 
-XMLscene.prototype.changeMaterials = function() {
+XMLscene.prototype.changeMaterials = function () {
     this.graph.changeNodesMaterialIndex(this.graph.rootNode);
 };
 
-XMLscene.prototype.setLightsFromXML = function() {
+XMLscene.prototype.setLightsFromXML = function () {
     this.setGlobalAmbientLight(this.graph.ambientLight[0], this.graph.ambientLight[1], this.graph.ambientLight[2], this.graph.ambientLight[3]);
 
     var currentLight;
 
-    for (var i = 0; i < this.graph.omniLights.length && this.numLight < 8; i++, this.numLight++) {
+    for (var i = 0; i < this.graph.omniLights.length && this.numLight < 8; i++ , this.numLight++) {
         currentLight = this.graph.omniLights[i];
 
         this.lights[this.numLight].setPosition(currentLight.position[0], currentLight.position[1], currentLight.position[2], currentLight.homogeneous);
@@ -153,7 +156,7 @@ XMLscene.prototype.setLightsFromXML = function() {
         this.interface.addOmniLight(this.numLight, currentLight.id);
     }
 
-    for (var i = 0; i < this.graph.spotLights.length && this.numLight < 8; i++, this.numLight++) {
+    for (var i = 0; i < this.graph.spotLights.length && this.numLight < 8; i++ , this.numLight++) {
         currentLight = this.graph.spotLights[i];
 
         this.lights[this.numLight].setPosition(currentLight.position[0], currentLight.position[1], currentLight.position[2], currentLight.homogeneous);
@@ -177,7 +180,7 @@ XMLscene.prototype.setLightsFromXML = function() {
     }
 };
 
-XMLscene.prototype.updateLightsStatus = function() {
+XMLscene.prototype.updateLightsStatus = function () {
     for (var i = 0; i < this.numLight; i++) {
         if (this.lightStatus[i])
             this.lights[i].enable();

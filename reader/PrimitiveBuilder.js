@@ -156,7 +156,7 @@ PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stac
 
     Cylinder.prototype.initBuffers = function() {
 
-        this.primitiveType = this.scene.gl.TRIANGLES;
+               this.primitiveType = this.scene.gl.TRIANGLES;
 
         var ang = (2 * Math.PI) / this.slices;
         this.vertices = [];
@@ -164,8 +164,6 @@ PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stac
         this.normals = [];
         this.texCoords = [];
 
-        var tmpBaseVert = [];
-        var tmpTopVert = [];
         var transition = (this.base - this.top) / this.stacks;
 
         for (var lat = 0; lat <= this.stacks; lat++) {
@@ -178,15 +176,9 @@ PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stac
                 var x = radius * Math.cos(phi);
                 var y = radius * Math.sin(phi);
                 var z = this.height * Math.cos(theta);
-                if (z < 1e-10)
-                    z = 0;
 
                 this.vertices.push(x, y, z);
                 this.texCoords.push(lat / this.stacks, long / this.slices);
-                if (z == 0)
-                    tmpBaseVert.push(x, y, 0);
-                if (z == height)
-                    tmpTopVert.push(x, y, z);
             }
         }
         this.normals = this.vertices;
@@ -200,33 +192,16 @@ PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stac
             }
         }
 
-        // Base
+        console.info(this.vertices.length, this.indices.length);
 
-        var centerIndex = this.vertices.length;
-        //console.error(centerIndex);
-        this.vertices.push(0, 0, 0);
-        this.normals.push(0, 0, -1);
-
-        for (var long = 0; long <= this.slices; long++) {
-            var phi = long * 2 * Math.PI / this.slices;
-            //console.info(this.vertices.length);
-            var x = radius * Math.cos(phi);
-            var y = radius * Math.sin(phi);
-
-            this.vertices.push(x, y, 0);
-            this.normals.push(0, 0, -1);
+        //Base top
+        this.vertices.push(0, 0, this.height);
+        for (var i = 0; i < this.slices; i++) {
+            //this.vertices.push(this.vertices[i]);
+            this.normals.push(0, 0, 1);
         }
-
-        /*for (var i = 0; i < tmpBaseVert.length; i++) {
-            this.vertices.push(tmpBaseVert[i]);
-            this.normals.push(0, 0, -1);
-        }*/
-
-        /*for (var i = 0; i < tmpBaseVert.length / 3; i++) {
-            this.indices.push(centerIndex, centerIndex + (3 * (i + 1)));
-        }*/
-        this.indices.push(1323, 1329, 1335);
-
+        for (var i = 0; i < this.slices; i++)
+            this.indices.push(0, i + 1, i + 2);
 
         /*for (var i = 0; i < tmpBaseVert.length / 3; i++) {
 
