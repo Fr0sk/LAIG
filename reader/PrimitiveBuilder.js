@@ -164,6 +164,8 @@ PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stac
         this.normals = [];
         this.texCoords = [];
 
+        var tmpBaseVert = [];
+        var tmpTopVert = [];
         var transition = (this.base - this.top) / this.stacks;
 
         for (var lat = 0; lat <= this.stacks; lat++) {
@@ -176,9 +178,15 @@ PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stac
                 var x = radius * Math.cos(phi);
                 var y = radius * Math.sin(phi);
                 var z = this.height * Math.cos(theta);
+                if (z < 1e-10)
+                    z = 0;
 
                 this.vertices.push(x, y, z);
                 this.texCoords.push(lat / this.stacks, long / this.slices);
+                if (z == 0)
+                    tmpBaseVert.push(x, y, 0);
+                if (z == height)
+                    tmpTopVert.push(x, y, z);
             }
         }
         this.normals = this.vertices;
@@ -192,39 +200,99 @@ PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stac
             }
         }
 
-        console.info(this.vertices.length, this.indices.length);
+        // Base
 
-        //Base top
-        /*this.vertices.push(0, 0, this.height);
-
-        for (var i = 0; i < this.slices; i++) {
-            //this.vertices.push(this.vertices[i]);
-            this.normals.push(0, 0, 1);
-        }
-
-        for (var i = 0; i < this.slices; i++)
-            this.indices.push(0, i + 1, i + 2);
-
-
-
-        //Base bottom
-        radius = base / 2;
-        var tr = this.vertices / 3;
+        var centerIndex = this.vertices.length;
+        console.error(centerIndex);
         this.vertices.push(0, 0, 0);
+        this.normals.push(0, 0, -1);
 
-        for(var lat = 0; lat < this.slices; lat++) {
-            var phi = lat * 2 * Math.PI / this.slices;
-
+        for (var long = 0; long <= this.slices; long++) {
+            var phi = long * 2 * Math.PI / this.slices;
+            console.info(this.vertices.length);
             var x = radius * Math.cos(phi);
             var y = radius * Math.sin(phi);
-            var z = 0;
 
-            this.vertices.push(x, y, z);
+            this.vertices.push(x, y, 0);
             this.normals.push(0, 0, -1);
         }
 
-        for(var i = 1; i < this.slices; i++)            
-            this.indices.push(tr, tr + i, tr + i + 1);*/
+        /*for (var i = 0; i < tmpBaseVert.length; i++) {
+            this.vertices.push(tmpBaseVert[i]);
+            this.normals.push(0, 0, -1);
+        }*/
+
+        /*for (var i = 0; i < tmpBaseVert.length / 3; i++) {
+            this.indices.push(centerIndex, centerIndex + (3 * (i + 1)));
+        }*/
+        this.indices.push(1323, 1329, 1335);
+
+
+        /*for (var i = 0; i < tmpBaseVert.length / 3; i++) {
+
+        }*/
+
+
+        //MEU
+        //this.vertices.push(0, 0, this.height)
+        //Como os primeiros vertices sao os vertices que estao onde z = height, usamos esses vertices para os replicar
+        /*for (var i = 0; i < this.slices; i++) {
+            this.vertices.push(this.vertices[i]);
+            if ()
+            this.normals.push(0, 0, 1);
+        }*/
+
+        //E depois comecamos a fazer push aos indices, seguindo a regra da mao direita
+        /*for (var i = 0; i < this.slices; i++)
+            this.indices.push(0, i + 1, i + 2);*/
+
+        /*var centerIndex = this.vertices.length;
+        this.vertices.push(0, 0, 0);
+        for (var i = 0; i < this.slices; i++) {
+            var phi = i * 2 * Math.PI / slices;
+            var x = Math.cos(phi);
+            var y = Math.sin(phi);
+            this.vertices.push(x, y, 0);
+            this.normals.push(0, 0, -1);
+        }
+        for (var i = 1; i < this.slices; i++)
+            this.indices.push(this.vertices[centerIndex],
+                this.vertices[centerIndex + i],
+                this.vertices[centerIndex + (i + 1)]);*/
+
+
+
+
+
+
+
+
+
+
+
+        // Faces
+        /*var centerIndex = this.vertices.length;
+        
+        this.vertices.push(0, 0, 0);
+        
+        this.normals.push(0, 0, -1);
+        for (var long = 0; long <= this.slices; long++) {
+            var phi = long * 2 * Math.PI / this.slices;
+            var x = radius * Math.cos(phi);
+            var y = radius * Math.sin(phi);
+            this.vertices.push(x, y, 0);
+            this.normals.push(0, 0, -1);
+        }
+        console.info("center index: " + centerIndex);
+        console.info("vertices length: " + this.vertices.length);
+        console.info("slices: " + this.slices);
+        var i;
+        for (i = 1; i < this.slices; i++) {
+            this.indices.push(centerIndex, centerIndex + i , centerIndex + i + 1);
+            console.log("RANGE: " + centerIndex + i + 1);
+        }
+        this.indices.push(centerIndex, centerIndex + i, centerIndex + 1);*/
+
 
         this.initGLBuffers();
     };
