@@ -156,7 +156,7 @@ PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stac
 
     Cylinder.prototype.initBuffers = function() {
 
-               this.primitiveType = this.scene.gl.TRIANGLES;
+        this.primitiveType = this.scene.gl.TRIANGLES;
 
         var ang = (2 * Math.PI) / this.slices;
         this.vertices = [];
@@ -178,7 +178,7 @@ PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stac
                 var z = this.height * Math.cos(theta);
 
                 this.vertices.push(x, y, z);
-                this.texCoords.push(lat / this.stacks, long / this.slices);
+                this.texCoords.push(long / this.slices, lat / this.stacks);
             }
         }
         this.normals = this.vertices;
