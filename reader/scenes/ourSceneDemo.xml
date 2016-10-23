@@ -27,9 +27,9 @@
         <!-- Must include at least 1 omni light and 1 spot light -->
         <omni id="omni1" enabled="1">
             <location x="2" y="3" z="3" w="0" />
-            <ambient r="0.2" g="0.4" b="0.8" a="1" />
+            <ambient r="1" g="0.4" b="0.8" a="1" />
             <diffuse r="1" g="1" b="1" a="1" />
-            <specular r="0" g="0" b="0" a="1" />
+            <specular r="0.5" g="0" b="0" a="1" />
         </omni>
         <omni id="omni2" enabled="1">
             <location x="-2" y="3" z="-3" w="0" />

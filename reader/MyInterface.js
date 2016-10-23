@@ -70,6 +70,6 @@ MyInterface.prototype.processKeyDown = function (event) {
 	};
 };
 
-MyInterface.prototype.addLight = function(lightId, lightName) {
-	this.lightsGroup.add(this.scene.lightStatus, lightId).name(lightName);
+MyInterface.prototype.addLight = function(lightNum, lightName) {
+	this.lightsGroup.add(this.scene.lightStatus, lightNum).name(lightName);
 };

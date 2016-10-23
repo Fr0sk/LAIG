@@ -140,7 +140,7 @@ XMLscene.prototype.setLightsFromXML = function () {
 
 	var currentLight;
 
-	for (var i = 0; i < this.graph.omniLights.length; i++ , this.numLight++) {
+	for (var i = 0; i < this.graph.omniLights.length && this.numLight < 8; i++ , this.numLight++) {
 		currentLight = this.graph.omniLights[i];
 
 		this.lights[this.numLight].setPosition(currentLight.position[0], currentLight.position[1], currentLight.position[2], currentLight.homogeneous);
@@ -159,7 +159,7 @@ XMLscene.prototype.setLightsFromXML = function () {
 		this.interface.addLight(this.numLight, currentLight.id);
 	}
 
-	for (var i = 0; i < this.graph.spotLights.length; i++ , this.numLight++) {
+	for (var i = 0; i < this.graph.spotLights.length && this.numLight < 8; i++ , this.numLight++) {
 		currentLight = this.graph.spotLights[i];
 
 		this.lights[this.numLight].setPosition(currentLight.position[0], currentLight.position[1], currentLight.position[2], currentLight.homogeneous);
