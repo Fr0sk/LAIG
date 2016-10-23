@@ -3,16 +3,16 @@
     <scene root="root" axis_length="20" />
     <!-- Cameras definition -->
     <!-- Pressing v/V changes between cameras -->
-    <views default="MainCameras">
-        <perpsective id="persp1" near="0.1" far="500" angle="0.4">
+    <views default="above">
+        <perpsective id="above" near="0.1" far="500" angle="1.5">
             <from x="10" y="60" z="35" />
             <to x="0" y="0" z="0" />
         </perpsective>
-        <perpsective id="persp2" near="0.1" far="500" angle="0.4">
+        <perpsective id="nearField" near="0.1" far="500" angle="0.4">
             <from x="20" y="1" z="4" />
             <to x="0" y="0" z="0" />
         </perpsective>
-        <perpsective id="persp3" near="0.1" far="500" angle="0.4">
+        <perpsective id="awayField" near="0.1" far="500" angle="0.4">
             <from x="40" y="20" z="-50" />
             <to x="0" y="0" z="10" />
         </perpsective>

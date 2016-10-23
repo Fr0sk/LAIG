@@ -203,13 +203,13 @@ PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stac
         // Base
 
         var centerIndex = this.vertices.length;
-        console.error(centerIndex);
+        //console.error(centerIndex);
         this.vertices.push(0, 0, 0);
         this.normals.push(0, 0, -1);
 
         for (var long = 0; long <= this.slices; long++) {
             var phi = long * 2 * Math.PI / this.slices;
-            console.info(this.vertices.length);
+            //console.info(this.vertices.length);
             var x = radius * Math.cos(phi);
             var y = radius * Math.sin(phi);
 

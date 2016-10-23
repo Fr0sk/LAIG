@@ -1,4 +1,3 @@
-var cameraIndex = 0;
 var freeCam;
 
 function XMLscene(interface) {
@@ -56,12 +55,11 @@ XMLscene.prototype.setDefaultAppearance = function() {
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function() {
     this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
+    this.setLightsFromXML();
 
     this.axis = this.graph.axis;
 
-    //this.camera = this.graph.perspCams[cameraIndex];
-
-    this.setLightsFromXML();
+    this.camera = this.graph.perspCams[this.graph.cameraIndex];
 };
 
 XMLscene.prototype.display = function() {
@@ -117,14 +115,12 @@ XMLscene.prototype.runGraph = function(node) {
 };
 
 XMLscene.prototype.changeCamera = function() {
-    console.log(this.graph.perspCams.length);
-    if (cameraIndex >= this.graph.perspCams.length - 1)
-        cameraIndex = 0;
+    if (this.graph.cameraIndex >= this.graph.perspCams.length - 1)
+        this.graph.cameraIndex = 0;
     else
-        cameraIndex++;
+        this.graph.cameraIndex++;
 
-    this.camera = this.graph.perspCams[cameraIndex];
-    x = 1;
+    this.camera = this.graph.perspCams[this.graph.cameraIndex];
 };
 
 XMLscene.prototype.resetCamera = function() {

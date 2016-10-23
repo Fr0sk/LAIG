@@ -121,6 +121,7 @@ MySceneGraph.prototype.parseData = function(rootElement) {
     if (err != null) return err;
 
     this.perspCams = [];
+    this.cameraIndex;
     err = this.parseViews(rootElement);
     if (err != null) return err;
 
@@ -179,9 +180,7 @@ MySceneGraph.prototype.parseScene = function(rootElement) {
     var axisLength = this.reader.getFloat(scene, 'axis_length', true);
     this.rootNodeId = this.reader.getString(scene, 'root', true);
     this.axis = new CGFaxis(this.scene, axisLength, 0.2);
-
-    return null;
-
+    
     //console.log("Scene axis_length =" + s_axisLength);
 };
 
@@ -210,6 +209,16 @@ MySceneGraph.prototype.parseViews = function(rootElement) {
             //console.log("ID = " + id + " ,view = " + near + ", far = " + far);
         }
     }
+
+    var defaultCam = this.reader.getString(views, 'default', true);
+    for(var i = 0; i < this.perspCams.length; i++)
+        if(this.perspCams[i].id == defaultCam) {
+            this.cameraIndex = i;
+            break;
+        }
+
+    if(this.cameraIndex == null)
+        return "couldn't find default camera '" + defaultCam + "'!";
 };
 
 /*
