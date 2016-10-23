@@ -250,7 +250,7 @@
         </component>
         <component id="ball">
             <transformation>
-                <transformationref id="rotateX90" />
+                <rotate axis="x" angle="90" />
                 <scale x="0.5" y="0.5" z="0.5" />
                 <translate x="0" y="0" z="-1" />
             </transformation>
@@ -634,7 +634,7 @@
         <component id="floorTransform">
             <transformation>
                 <scale x="160" y="1" z="160" />
-                <transformationref id="rotateX-90" />
+                <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Bluewish" />
@@ -1038,7 +1038,7 @@
         </component>
         <component id="fbGoalBarHorzSidePos1">
             <transformation>
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1051,7 +1051,7 @@
         <component id="fbGoalBarHorzSidePos2">
             <transformation>
                 <translate x="0" y="0.2" z="0" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1064,7 +1064,7 @@
         <component id="fbGoalBarHorzSidePos3">
             <transformation>
                 <translate x="0" y="0.4" z="0" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1077,7 +1077,7 @@
         <component id="fbGoalBarHorzSidePos4">
             <transformation>
                 <translate x="0" y="0.6" z="0" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1090,7 +1090,7 @@
         <component id="fbGoalBarHorzSidePos5">
             <transformation>
                 <translate x="0" y="0.8" z="0" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1103,7 +1103,7 @@
         <component id="fbGoalBarHorzSidePos6">
             <transformation>
                 <translate x="0" y="1" z="0" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1116,7 +1116,7 @@
         <component id="fbGoalBarHorzSidePos7">
             <transformation>
                 <translate x="0" y="1.2" z="0" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1129,7 +1129,7 @@
         <component id="fbGoalBarHorzSidePos8">
             <transformation>
                 <translate x="0" y="1.4" z="0" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1142,7 +1142,7 @@
         <component id="fbGoalBarHorzSidePos9">
             <transformation>
                 <translate x="0" y="1.6" z="0" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1155,7 +1155,7 @@
         <component id="fbGoalBarHorzSidePos10">
             <transformation>
                 <translate x="0" y="1.8" z="0" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1168,7 +1168,7 @@
         <component id="fbGoalBarHorzSidePos11">
             <transformation>
                 <translate x="0" y="2" z="0" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1181,7 +1181,7 @@
         <component id="fbGoalBarHorzSidePos12">
             <transformation>
                 <translate x="0" y="2.2" z="0" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1194,7 +1194,7 @@
         <component id="fbGoalBarHorzSidePos13">
             <transformation>
                 <translate x="0" y="2.4" z="0" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1207,7 +1207,7 @@
         <component id="fbGoalBarHorzSidePos14">
             <transformation>
                 <translate x="0" y="2.6" z="0" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1220,7 +1220,7 @@
         <component id="fbGoalBarHorzSidePos15">
             <transformation>
                 <translate x="0" y="2.8" z="0" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1367,7 +1367,7 @@
         <component id="fbGoalBarHorzTopPos1">
             <transformation>
                 <translate x="0" y="3" z="2.8" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1380,7 +1380,7 @@
         <component id="fbGoalBarHorzTopPos2">
             <transformation>
                 <translate x="0" y="3" z="2.6" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1393,7 +1393,7 @@
         <component id="fbGoalBarHorzTopPos3">
             <transformation>
                 <translate x="0" y="3" z="2.4" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1406,7 +1406,7 @@
         <component id="fbGoalBarHorzTopPos4">
             <transformation>
                 <translate x="0" y="3" z="2.2" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1419,7 +1419,7 @@
         <component id="fbGoalBarHorzTopPos5">
             <transformation>
                 <translate x="0" y="3" z="2.0" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1432,7 +1432,7 @@
         <component id="fbGoalBarHorzTopPos6">
             <transformation>
                 <translate x="0" y="3" z="1.8" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1445,7 +1445,7 @@
         <component id="fbGoalBarHorzTopPos7">
             <transformation>
                 <translate x="0" y="3" z="1.6" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1458,7 +1458,7 @@
         <component id="fbGoalBarHorzTopPos8">
             <transformation>
                 <translate x="0" y="3" z="1.4" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1471,7 +1471,7 @@
         <component id="fbGoalBarHorzTopPos9">
             <transformation>
                 <translate x="0" y="3" z="1.2" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1484,7 +1484,7 @@
         <component id="fbGoalBarHorzTopPos10">
             <transformation>
                 <translate x="0" y="3" z="1" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1497,7 +1497,7 @@
         <component id="fbGoalBarHorzTopPos11">
             <transformation>
                 <translate x="0" y="3" z="0.8" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1510,7 +1510,7 @@
         <component id="fbGoalBarHorzTopPos12">
             <transformation>
                 <translate x="0" y="3" z="0.6" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1523,7 +1523,7 @@
         <component id="fbGoalBarHorzTopPos13">
             <transformation>
                 <translate x="0" y="3" z="0.4" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1536,7 +1536,7 @@
         <component id="fbGoalBarHorzTopPos14">
             <transformation>
                 <translate x="0" y="3" z="0.2" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1549,7 +1549,7 @@
         <component id="fbGoalBarHorzTopPos15">
             <transformation>
                 <translate x="0" y="3" z="0" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1562,7 +1562,7 @@
         <component id="fbGoalBarHorzTopPos16">
             <transformation>
                 <translate x="0" y="3" z="-0.2" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1575,7 +1575,7 @@
         <component id="fbGoalBarHorzTopPos17">
             <transformation>
                 <translate x="0" y="3" z="-0.4" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1588,7 +1588,7 @@
         <component id="fbGoalBarHorzTopPos18">
             <transformation>
                 <translate x="0" y="3" z="-0.6" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1601,7 +1601,7 @@
         <component id="fbGoalBarHorzTopPos19">
             <transformation>
                 <translate x="0" y="3" z="-0.8" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1614,7 +1614,7 @@
         <component id="fbGoalBarHorzTopPos20">
             <transformation>
                 <translate x="0" y="3" z="-1" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1627,7 +1627,7 @@
         <component id="fbGoalBarHorzTopPos21">
             <transformation>
                 <translate x="0" y="3" z="-1.2" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1640,7 +1640,7 @@
         <component id="fbGoalBarHorzTopPos22">
             <transformation>
                 <translate x="0" y="3" z="-1.4" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1653,7 +1653,7 @@
         <component id="fbGoalBarHorzTopPos23">
             <transformation>
                 <translate x="0" y="3" z="-1.6" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1666,7 +1666,7 @@
         <component id="fbGoalBarHorzTopPos24">
             <transformation>
                 <translate x="0" y="3" z="-1.8" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1679,7 +1679,7 @@
         <component id="fbGoalBarHorzTopPos25">
             <transformation>
                 <translate x="0" y="3" z="-2" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1692,7 +1692,7 @@
         <component id="fbGoalBarHorzTopPos26">
             <transformation>
                 <translate x="0" y="3" z="-2.2" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1705,7 +1705,7 @@
         <component id="fbGoalBarHorzTopPos27">
             <transformation>
                 <translate x="0" y="3" z="-2.4" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1718,7 +1718,7 @@
         <component id="fbGoalBarHorzTopPos28">
             <transformation>
                 <translate x="0" y="3" z="-2.6" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -1731,7 +1731,7 @@
         <component id="fbGoalBarHorzTopPos29">
             <transformation>
                 <translate x="0" y="3" z="-2.8" />
-                <transformationref id="rotateZ-90" />
+                <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -2332,7 +2332,7 @@
             <transformation>
                 <translate x="8" y="0.01" z="0" />
                 <scale x="15" y="1" z="20" />
-                <transformationref id="rotateX-90" />
+                <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Grass" />
@@ -2345,7 +2345,7 @@
         <component id="fbGrass">
             <transformation>
                 <translate x="0" y="0.01" z="0" />
-                <transformationref id="rotateX-90" />
+                <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_Grass" />
@@ -2359,7 +2359,7 @@
             <transformation>
                 <translate x="0.25" y="0.01" z="0" />
                 <scale x="0.5" y="1" z="22" />
-                <transformationref id="rotateX-90" />
+                <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_WhiteGrass" />
@@ -2373,7 +2373,7 @@
             <transformation>
                 <translate x="8" y="0.01" z="0" />
                 <scale x="15" y="1" z="1" />
-                <transformationref id="rotateX-90" />
+                <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_WhiteGrass" />
@@ -2387,7 +2387,7 @@
             <transformation>
                 <translate x="16" y="0.01" z="0" />
                 <scale x="1" y="1" z="22" />
-                <transformationref id="rotateX-90" />
+                <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_WhiteGrass" />
@@ -2475,9 +2475,8 @@
         <component id="fbGoalBarWide">
             <transformation>
                 <translate x="0" y="0" z="-3" />
-                <transformationref id="rotateX90" />
+                <rotate axis="x" angle="90" />
                 <scale x="0.05" y="6" z="0.05" />
-                
             </transformation>
             <materials>
                 <material id="m_WhiteGrass" />
@@ -2490,7 +2489,7 @@
 
         <component id="cylinderNet">
             <transformation>
-                <transformationref id="rotateX-90" />
+                <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
                 <material id="m_WhiteGrass" />
