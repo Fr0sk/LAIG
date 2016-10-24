@@ -121,9 +121,9 @@ PrimitiveBuilder.buildTri = function (scene, x1, y1, z1, x2, y2, z2, x3, y3, z3,
         this.beta = Math.acos(((this.a * this.a) - (this.b * this.b) + (this.c * this.c)) / (2 * this.a * this.c));
 
         this.texCoords = [
-            this.c - this.a * Math.cos(this.beta), this.a * Math.sin(this.beta),
+            (this.c - this.a * Math.cos(this.beta)) / this.length_s, (this.a * Math.sin(this.beta)) / this.length_t,
             0.0, 0.0,
-            this.c, 0.0
+            this.c / this.length_s, 0.0
         ];
 
         // Takes the data in vertices, indices and normals and puts in buffers to be used by WebGl.

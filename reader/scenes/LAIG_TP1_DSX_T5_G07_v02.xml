@@ -70,7 +70,6 @@
         <texture id="t_sbBot" file="resources/sbBot.png" length_s="1" length_t="1" />
         <texture id="t_goalPost" file="resources/goalPost.png" length_s="1" length_t="1" />
         <texture id="t_football" file="resources/football.png" length_s="1" length_t="1" />
-        <texture id="t_earth" file="resources/earth.jpg" length_s="1" length_t="1" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
@@ -240,7 +239,7 @@
             <materials>
                 <material id="m_Default" />
             </materials>
-            <texture id="t_earth" />
+            <texture id="t_building" />
             <children>
                 <primitiveref id="triangle" />
             </children>
@@ -251,7 +250,7 @@
             <materials>
                 <material id="m_Default" />
             </materials>
-            <texture id="t_earth" />
+            <texture id="t_building" />
             <children>
                 <primitiveref id="cylinder1" />
             </children>
