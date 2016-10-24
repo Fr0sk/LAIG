@@ -3,7 +3,7 @@ function PrimitiveBuilder() {
 }
 
 // Builds a rectangle with the diagonal vertices
-PrimitiveBuilder.buildRect = function(scene, x1, y1, x2, y2, length_s, length_t) {
+PrimitiveBuilder.buildRect = function (scene, x1, y1, x2, y2, length_s, length_t) {
     function Rect(scene, x1, y1, x2, y2, length_s, length_t) {
         this.scene = scene;
         this.x1 = x1;
@@ -19,7 +19,7 @@ PrimitiveBuilder.buildRect = function(scene, x1, y1, x2, y2, length_s, length_t)
     Rect.prototype = Object.create(CGFobject.prototype);
     Rect.prototype.constructor = Rect;
 
-    Rect.prototype.initBuffers = function() {
+    Rect.prototype.initBuffers = function () {
 
         // Only draws triangles
         this.primitiveType = this.scene.gl.TRIANGLES;
@@ -62,7 +62,7 @@ PrimitiveBuilder.buildRect = function(scene, x1, y1, x2, y2, length_s, length_t)
 }
 
 // Builds a triangle with the given verices
-PrimitiveBuilder.buildTri = function(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3, length_s, length_t) {
+PrimitiveBuilder.buildTri = function (scene, x1, y1, z1, x2, y2, z2, x3, y3, z3, length_s, length_t) {
     function Tri(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3, length_s, length_t) {
         this.scene = scene;
         this.x1 = x1;
@@ -83,7 +83,7 @@ PrimitiveBuilder.buildTri = function(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3, 
     Tri.prototype = Object.create(CGFobject.prototype);
     Tri.prototype.constructor = Tri;
 
-    Tri.prototype.initBuffers = function() {
+    Tri.prototype.initBuffers = function () {
 
         // Only draws triangles
         this.primitiveType = this.scene.gl.TRIANGLES;
@@ -114,20 +114,16 @@ PrimitiveBuilder.buildTri = function(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3, 
             xp, yp, zp,
         ];
 
-        var a = Math.sqrt((this.x1 - this.x3) * (this.x1 - this.x3) + (this.y1 - this.y3) * (this.y1 - this.y3) + (this.z1 - this.z3) * (this.z1 - this.z3));
-        var b = Math.sqrt((this.x2 - this.x1) * (this.x2 - this.x1) + (this.y2 - this.y1) * (this.y2 - this.y1) + (this.z2 - this.z1) * (this.z2 - this.z1));
-        var c = Math.sqrt((this.x3 - this.x2) * (this.x3 - this.x2) + (this.y3 - this.y2) * (this.y3 - this.y2) + (this.z3 - this.z2) * (this.z3 - this.z2));
-
-        var Y = (a * a + b * b - c * c) / (2 * a * b);
-        var A = (-a * a + b * b + c * c) / (2 * b * c);
-        var B = (a * a - b * b + c * c) / (2 * a * c);
-
-        var sinB = Math.sqrt(((a * a) - (a * a) * (B * B)) / (a * a));
+        this.a = Math.sqrt((this.x1 - this.x3) * (this.x1 - this.x3) + (this.y1 - this.y3) * (this.y1 - this.y3) + (this.z1 - this.z3) * (this.z1 - this.z3));
+        this.b = Math.sqrt((this.x2 - this.x1) * (this.x2 - this.x1) + (this.y2 - this.y1) * (this.y2 - this.y1) + (this.z2 - this.z1) * (this.z2 - this.z1));
+        this.c = Math.sqrt((this.x3 - this.x2) * (this.x3 - this.x2) + (this.y3 - this.y2) * (this.y3 - this.y2) + (this.z3 - this.z2) * (this.z3 - this.z2));
+        
+        this.beta = Math.acos(((this.a * this.a) - (this.b * this.b) + (this.c * this.c)) / (2 * this.a * this.c));
 
         this.texCoords = [
-            0, 0,
-            c, 0,
-            c - a * B, a * sinB
+            this.c - this.a * Math.cos(this.beta), this.a * Math.sin(this.beta),
+            0.0, 0.0,
+            this.c, 0.0
         ];
 
         // Takes the data in vertices, indices and normals and puts in buffers to be used by WebGl.
@@ -139,7 +135,7 @@ PrimitiveBuilder.buildTri = function(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3, 
 }
 
 // Builds a cylinder with given params
-PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stacks) {
+PrimitiveBuilder.buildCylinder = function (scene, base, top, height, slices, stacks) {
     function Cylinder(scene, base, top, height, slices, stacks) {
         this.scene = scene;
         this.base = base;
@@ -154,7 +150,7 @@ PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stac
     Cylinder.prototype = Object.create(CGFobject.prototype);
     Cylinder.prototype.constructor = Cylinder;
 
-    Cylinder.prototype.initBuffers = function() {
+    Cylinder.prototype.initBuffers = function () {
 
         this.primitiveType = this.scene.gl.TRIANGLES;
 
@@ -230,7 +226,7 @@ PrimitiveBuilder.buildCylinder = function(scene, base, top, height, slices, stac
 }
 
 // Builds a sphere with given params
-PrimitiveBuilder.buildSphere = function(scene, radius, slices, stacks) {
+PrimitiveBuilder.buildSphere = function (scene, radius, slices, stacks) {
     function Sphere(scene, radius, slices, stacks) {
         this.scene = scene;
         this.radius = radius;
@@ -243,7 +239,7 @@ PrimitiveBuilder.buildSphere = function(scene, radius, slices, stacks) {
     Sphere.prototype = Object.create(CGFobject.prototype);
     Sphere.prototype.constructor = Sphere;
 
-    Sphere.prototype.initBuffers = function() {
+    Sphere.prototype.initBuffers = function () {
 
         // Only draws triangles
         this.primitiveType = this.scene.gl.TRIANGLES;
@@ -301,7 +297,7 @@ PrimitiveBuilder.buildTorus = function(scene, inner, outer, slices, loops) {
     Torus.prototype = Object.create(CGFobject.prototype);
     Torus.prototype.constructor = Torus;
 
-    Torus.prototype.initBuffers = function() {
+    Torus.prototype.initBuffers = function () {
 
         this.primitiveType = this.scene.gl.TRIANGLES;
 

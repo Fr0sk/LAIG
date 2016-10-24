@@ -229,9 +229,9 @@
                 <componentref id="footballField" />
                 <componentref id="skybox" />
                 <componentref id="ball" />
-                <!--componentref id="test" / -->
+                <componentref id="test" />
                 <componentref id="testcIL" />
-                <!-- componentref id="torusT" / -->
+                <componentref id="torusT" />
             </children>
         </component>
         <component id="test">
@@ -240,7 +240,7 @@
             <materials>
                 <material id="m_Default" />
             </materials>
-            <texture id="t_building" />
+            <texture id="t_earth" />
             <children>
                 <primitiveref id="triangle" />
             </children>
