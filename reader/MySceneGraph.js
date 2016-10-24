@@ -687,7 +687,6 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
             for (var i = 0; i < this.textures.length; i++) {
                 if (this.textures[i].id == textureId) {
                     node.setTexture(this.textures[i]);
-                    //node.material[0].setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
                     break;
                 }
             }
