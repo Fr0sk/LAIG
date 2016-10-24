@@ -117,13 +117,13 @@ PrimitiveBuilder.buildTri = function (scene, x1, y1, z1, x2, y2, z2, x3, y3, z3,
         this.a = Math.sqrt((this.x1 - this.x3) * (this.x1 - this.x3) + (this.y1 - this.y3) * (this.y1 - this.y3) + (this.z1 - this.z3) * (this.z1 - this.z3));
         this.b = Math.sqrt((this.x2 - this.x1) * (this.x2 - this.x1) + (this.y2 - this.y1) * (this.y2 - this.y1) + (this.z2 - this.z1) * (this.z2 - this.z1));
         this.c = Math.sqrt((this.x3 - this.x2) * (this.x3 - this.x2) + (this.y3 - this.y2) * (this.y3 - this.y2) + (this.z3 - this.z2) * (this.z3 - this.z2));
-        
+
         this.beta = Math.acos(((this.a * this.a) - (this.b * this.b) + (this.c * this.c)) / (2 * this.a * this.c));
 
         this.texCoords = [
-            (this.c - this.a * Math.cos(this.beta)) / this.length_s, (this.a * Math.sin(this.beta)) / this.length_t,
             0.0, 0.0,
-            this.c / this.length_s, 0.0
+            this.c / this.length_s, 0.0,
+            (this.c - this.a * Math.cos(this.beta)) / this.length_s, -(this.a * Math.sin(this.beta)) / this.length_t
         ];
 
         // Takes the data in vertices, indices and normals and puts in buffers to be used by WebGl.
@@ -283,7 +283,7 @@ PrimitiveBuilder.buildSphere = function (scene, radius, slices, stacks) {
 }
 
 // Builds a torus with given params
-PrimitiveBuilder.buildTorus = function(scene, inner, outer, slices, loops) {
+PrimitiveBuilder.buildTorus = function (scene, inner, outer, slices, loops) {
     function Torus(scene, inner, outer, slices, loops) {
         this.scene = scene;
         this.inner = inner;

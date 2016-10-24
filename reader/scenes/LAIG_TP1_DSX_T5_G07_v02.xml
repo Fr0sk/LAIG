@@ -78,7 +78,7 @@
         <texture id="t_goalPost" file="resources/goalPost.png" length_s="1" length_t="1" />
         <texture id="t_football" file="resources/football.png" length_s="1" length_t="1" />
         <texture id="t_cyberpunkSign" file="resources/cyberpunk.jpg" length_s="1" length_t="1" />
-        <texture id="t_illuminati" file="resources/illuminati.png" length_s="1" length_t="1" />
+        <texture id="t_illuminati" file="resources/illuminati.png" length_s="3" length_t="3" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
