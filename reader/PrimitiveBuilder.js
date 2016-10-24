@@ -326,8 +326,8 @@ PrimitiveBuilder.buildTorus = function(scene, inner, outer, slices, loops) {
                 var sinPhi = Math.sin(phi);
                 var cosPhi = Math.cos(phi);
 
-                var x = (1 + radius * Math.cos(phi)) * Math.cos(theta);
-                var y = (1 + radius * Math.cos(phi)) * Math.sin(theta);
+                var x = (this.inner + radius + radius * Math.cos(phi)) * Math.cos(theta);
+                var y = (this.inner + radius + radius * Math.cos(phi)) * Math.sin(theta);
                 var z = radius * Math.sin(phi);
                 var u = 1 - (longNumber / this.loops);
                 var v = 1 - (latNumber / this.slices);
@@ -337,9 +337,9 @@ PrimitiveBuilder.buildTorus = function(scene, inner, outer, slices, loops) {
                 this.normals.push(z);
                 this.texCoords.push(u);
                 this.texCoords.push(v);
-                this.vertices.push(this.inner * x);
-                this.vertices.push(this.inner * y);
-                this.vertices.push(this.inner * z)
+                this.vertices.push(x);
+                this.vertices.push(y);
+                this.vertices.push(z);
             }
         }
 
