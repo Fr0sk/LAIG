@@ -401,7 +401,11 @@ MySceneGraph.prototype.parseTransformations = function(rootElement) {
     var idList = [];
     for (var i = 0; i < transformations.length; i++) {
         var ID = this.reader.getString(transformations[i], 'id', true);
-        idList.push(ID);
+        idList.push({ id: ID });
+
+        err = this.checkDoubleId(idList, "transformations");
+        if (err != null)
+            return err;
 
         var translateElem = transformations[i].getElementsByTagName('translate')[0];
         if (translateElem != null) {
@@ -434,10 +438,6 @@ MySceneGraph.prototype.parseTransformations = function(rootElement) {
             scaleToSend.z = this.reader.getFloat(scaleElem, 'z', true);
             this.transformations.push(scaleToSend);
         }
-
-        err = this.checkDoubleId(this.transformations, "transformations (specifically scales)");
-            if (err != null)
-                return err;
     }
 };
 
