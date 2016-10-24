@@ -606,7 +606,7 @@ MySceneGraph.prototype.parseNode = function(componentsList, component, parentNod
                         this.applyTransform(this.transformations[k].type, transformations,
                             this.transformations[k].x, this.transformations[k].y, this.transformations[k].z,
                             this.transformations[k].axis, this.transformations[k].angle);
-                        break;
+
                     }
             }
         }
