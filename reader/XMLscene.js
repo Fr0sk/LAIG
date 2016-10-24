@@ -8,7 +8,7 @@ function XMLscene(interface) {
 XMLscene.prototype = Object.create(CGFscene.prototype);
 XMLscene.prototype.constructor = XMLscene;
 
-XMLscene.prototype.init = function (application) {
+XMLscene.prototype.init = function(application) {
     CGFscene.prototype.init.call(this, application);
 
     this.initCameras();
@@ -31,18 +31,18 @@ XMLscene.prototype.init = function (application) {
     this.enableTextures(true);
 };
 
-XMLscene.prototype.initLights = function () {
+XMLscene.prototype.initLights = function() {
     this.lights[0].setPosition(2, 3, 3, 1);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[0].update();
 };
 
-XMLscene.prototype.initCameras = function () {
+XMLscene.prototype.initCameras = function() {
     freeCam = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     this.camera = freeCam;
 };
 
-XMLscene.prototype.setDefaultAppearance = function () {
+XMLscene.prototype.setDefaultAppearance = function() {
     this.setAmbient(0.2, 0.4, 0.8, 1.0);
     this.setDiffuse(0.2, 0.4, 0.8, 1.0);
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
@@ -51,7 +51,7 @@ XMLscene.prototype.setDefaultAppearance = function () {
 
 // Handler called when the graph is finally loaded. 
 // As loading is asynchronous, this may be called already after the application has started the run loop
-XMLscene.prototype.onGraphLoaded = function () {
+XMLscene.prototype.onGraphLoaded = function() {
     this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
     this.setLightsFromXML();
 
@@ -63,7 +63,7 @@ XMLscene.prototype.onGraphLoaded = function () {
     console.info("Tap 'R' to select free camera movement.");
 };
 
-XMLscene.prototype.display = function () {
+XMLscene.prototype.display = function() {
     // ---- BEGIN Background, camera and axis setup
 
     // Clear image and depth buffer everytime we update the scene
@@ -98,7 +98,7 @@ XMLscene.prototype.display = function () {
 /**
  * Goes through the graph to display the full scene
  */
-XMLscene.prototype.runGraph = function (node) {
+XMLscene.prototype.runGraph = function(node) {
     this.pushMatrix();
 
     //Apply material
@@ -121,7 +121,7 @@ XMLscene.prototype.runGraph = function (node) {
 /**
  * Changes the current camera
  */
-XMLscene.prototype.changeCamera = function () {
+XMLscene.prototype.changeCamera = function() {
     if (this.graph.cameraIndex >= this.graph.perspCams.length - 1)
         this.graph.cameraIndex = 0;
     else
@@ -133,21 +133,21 @@ XMLscene.prototype.changeCamera = function () {
 /**
  * Selects the free camera (which has free movement)
  */
-XMLscene.prototype.resetCamera = function () {
+XMLscene.prototype.resetCamera = function() {
     this.camera = freeCam;
 };
 
 /**
  * Changes the current materials for all components
  */
-XMLscene.prototype.changeMaterials = function () {
+XMLscene.prototype.changeMaterials = function() {
     this.graph.changeNodesMaterialIndex(this.graph.rootNode);
 };
 
 /**
  * References the xml lights to the scene lights, and add them to the interface
  */
-XMLscene.prototype.setLightsFromXML = function () {
+XMLscene.prototype.setLightsFromXML = function() {
     this.setGlobalAmbientLight(this.graph.ambientLight[0], this.graph.ambientLight[1], this.graph.ambientLight[2], this.graph.ambientLight[3]);
 
     var currentLight;
@@ -179,8 +179,6 @@ XMLscene.prototype.setLightsFromXML = function () {
         this.lights[this.numLight].setDiffuse(currentLight.diffuse[0], currentLight.diffuse[1], currentLight.diffuse[2], currentLight.diffuse[3]);
         this.lights[this.numLight].setSpecular(currentLight.specular[0], currentLight.specular[1], currentLight.specular[2], currentLight.specular[3]);
 
-        console.info("Lights info:" + currentLight.exponent + ", " + currentLight.cutOff + ", array: " + currentLight.direction[0] + " " + currentLight.direction[2]);
-
         this.lights[this.numLight].setSpotExponent(currentLight.exponent);
         this.lights[this.numLight].setSpotCutOff(currentLight.cutOff);
         this.lights[this.numLight].setSpotDirection(currentLight.direction[0], currentLight.direction[1], currentLight.direction[2]);
@@ -200,7 +198,7 @@ XMLscene.prototype.setLightsFromXML = function () {
 /**
  * Updates light's status each frame
  */
-XMLscene.prototype.updateLightsStatus = function () {
+XMLscene.prototype.updateLightsStatus = function() {
     for (var i = 0; i < this.numLight; i++) {
         if (this.lightStatus[i])
             this.lights[i].enable();

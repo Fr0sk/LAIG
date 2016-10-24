@@ -52,7 +52,6 @@ MySceneGraph.prototype.validateOrder = function(rootElement) {
     for (var i = 0; i < nodes.length; i++) {
         if (nodes[i].nodeType == 1) {
             types.push(nodes[i]);
-            console.info(nodes[i]);
         }
     }
 
@@ -97,8 +96,6 @@ MySceneGraph.prototype.validateOrder = function(rootElement) {
                 this.onXMLError(names[i] + " node not found, aborting!");
                 return false;
             }
-        } else {
-            console.debug(names[i] + " node found");
         }
     }
 
