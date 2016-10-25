@@ -58,12 +58,20 @@ XMLscene.prototype.setDefaultAppearance = function() {
 // Handler called when the graph is finally loaded. 
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function() {
+    // Sets the background color
     this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
+
+    // Updates lights
     this.setLightsFromXML();
 
+    // Draws axis
     this.axis = this.graph.axis;
 
+    // Inits camera
     this.camera = this.graph.perspCams[this.graph.cameraIndex];
+
+    // Enables animations
+    this.setUpdatePeriod(10);
 
     console.info("If you have more than 1 texture per component, all but the first one will be ignored.");
     console.info("Tap 'R' to select free camera movement.");
@@ -214,3 +222,19 @@ XMLscene.prototype.updateLightsStatus = function() {
         this.lights[i].update();
     }
 };
+
+/*
+ * Animations
+ */
+var lastCurTime = -1;
+XMLscene.prototype.update = function (curTime) {
+    var deltaTime;
+    if (lastCurTime < 0) {
+        lastCurTime = curTime;
+        return;
+    } else {
+        deltaTime = lastCurTime < 0 ? curTime : curTime - lastCurTime;
+        lastCurTime = curTime;
+    }
+        
+}
