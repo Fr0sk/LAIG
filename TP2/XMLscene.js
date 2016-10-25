@@ -237,8 +237,8 @@ XMLscene.prototype.update = function (curTime) {
         lastCurTime = curTime;
     }
         
-    this.graph.animatedNodes.foreach(function(node, nIndex) {
-        node.animations.foreach(function(anim, aIndex) {
+    this.graph.animatedNodes.forEach(function(node, nIndex) {
+        node.animations.forEach(function(anim, aIndex) {
             anim.animate(deltaTime);
         });
     });
