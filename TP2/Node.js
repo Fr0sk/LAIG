@@ -35,6 +35,6 @@ Node.prototype.getMaterials = function() {
     return this.materials;
 };
 
-Node.prototye.pushAnimation = function(animation) {
+Node.prototype.pushAnimation = function(animation) {
     this.animations.push(animation);
 };

@@ -665,7 +665,15 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 
     //Animations
     {
-        var animationsElem = component.getElementsByTagName('animationref')[0];
+        var animationsElem = component.getElementsByTagName('animationref');
+        for (var i = 0; i < animationsElem.length; i++) {
+            for(var j = 0; j < this.animations.length; j++) {
+                if(animationsElem[i].id == this.animations[j].id) {
+                    node.pushAnimation(this.animations);
+                    break;
+                }
+            }
+        }
     }
 
     //Materials
