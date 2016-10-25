@@ -1,9 +1,15 @@
 /**
  * Constructor
  */
-var CircularAnimation = function() {
+var CircularAnimation = function(center, radius, initAng, endAng, animTime) {
     Animation.apply(this, arguments);
+
     //CircularAnimation initialization
+    this.center = center;
+    this.radius = radius;
+    this.initAng = initAng;
+    this.endAng = endAng;
+    this.animTime = animTime;
 };
 
 CircularAnimation.prototype = Object.create(Animation.prototype);

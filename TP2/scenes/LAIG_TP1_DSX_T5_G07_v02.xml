@@ -183,6 +183,26 @@
             <scale x="1" y="1" z="2" />
         </transformation>
     </transformations>
+    <!-- Animations set -->
+    <animations>
+        <!-- podem existir zero ou mais nós "animation" -->
+        <!-- span é o tempo, em segundos, que a animação deve -->
+        <!-- demorar. Nesta versão do formato DSX, type pode ter -->
+        <!-- o valor "linear" ou "circular"; na animacao circular -->
+        <!-- os angulos sao expressos em graus  -->
+        <animation id="goUp" span="2" type="linear">
+            <controlpoint xx="0" yy="0" zz="0" />
+            <controlpoint xx="0" yy="5" zz="0" />
+        </animation>
+
+        <animation id="goDown" span="3" type="linear">
+            <controlpoint xx="0" yy="0" zz="0" />
+            <controlpoint xx="0" yy="-5" zz="0" />
+        </animation>
+
+        <animation id="rotateCrazy" span="1" type="circular" center="5 5 5"
+            radius="3" starting="20" rotang="40" />
+    </animations>
     <!-- Primitives set -->
     <!-- Must include at least one primitive block -->
     <primitives>
@@ -2598,6 +2618,7 @@
             <transformation>
                 <translate x="0" y="0" z="0.5" />
             </transformation>
+            <!--animationref = "goUp" /-->
             <materials>
                 <material id="inherit" />
             </materials>

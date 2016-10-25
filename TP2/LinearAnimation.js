@@ -1,9 +1,12 @@
 /**
  * Constructor
  */
-var LinearAnimation = function() {
+var LinearAnimation = function(controlPoints, animTime) {
     Animation.apply(this, arguments);
+
     //LinearAnimation initialization
+    this.controlPoints = controlPoints;
+    this.animTime = animTime;
 };
 
 LinearAnimation.prototype = Object.create(Animation.prototype);
