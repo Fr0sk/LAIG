@@ -12,3 +12,7 @@ var Animation = function() {
 Animation.prototype.reply = function() {
     throw new Error("Abstract method!");
 }
+
+Animation.prototype.animate = function(deltaTime){
+    
+};
