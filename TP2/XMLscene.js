@@ -236,10 +236,11 @@ XMLscene.prototype.update = function (curTime) {
         deltaTime = lastCurTime < 0 ? curTime : curTime - lastCurTime;
         lastCurTime = curTime;
     }
-        
-    this.graph.animatedNodes.forEach(function(node, nIndex) {
-        node.animations.forEach(function(anim, aIndex) {
-            anim.animate(deltaTime);
-        });
-    });
+    
+    for (var i = 0; i < this.graph.animatedNodes.length; i++) {
+        var node = this.graph.animatedNodes[i];
+        for(var j = 0; j < node.animations.length; j++) {
+            node.animations[j].animate(deltaTime);
+        }
+    }
 }
