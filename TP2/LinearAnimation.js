@@ -15,3 +15,7 @@ LinearAnimation.prototype.constructor = LinearAnimation;
 LinearAnimation.prototype.reply = function() {
     console.log("I am a LinearAnimation!");
 };
+
+LinearAnimation.prototype.animate = function(deltaTime){
+    console.log("LinearAnimation");
+};

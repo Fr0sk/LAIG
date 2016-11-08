@@ -14,5 +14,5 @@ Animation.prototype.reply = function() {
 }
 
 Animation.prototype.animate = function(deltaTime){
-    
+    console.log("HAHAHA");
 };
