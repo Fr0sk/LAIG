@@ -677,10 +677,10 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
                 for (var j = 0; j < this.animations.length; j++) {
                     if (id == this.animations[j].id) {
                         if (this.animations[j].type == "linear") {
-                            var linearAnim = new LinearAnimation(this.animations[j].time, this.animations[j].controlPoints);
+                            var linearAnim = new LinearAnimation(node, this.animations[j].time, this.animations[j].controlPoints);
                             node.pushAnimation(linearAnim);
                         } else {
-                            var circularAnim = new CircularAnimation(this.animations[j].center, this.animations[j].radius,
+                            var circularAnim = new CircularAnimation(node, this.animations[j].center, this.animations[j].radius,
                                 this.animations[j].initAng, this.animations[j].endAng, this.animations[j].animTime);
                             node.pushAnimation(circularAnim);
                         }

@@ -1,10 +1,11 @@
 /**
  * Constructor
  */
-var LinearAnimation = function (animTime, controlPoints) {
+var LinearAnimation = function (node, animTime, controlPoints) {
     Animation.apply(this, arguments);
 
     //LinearAnimation initialization
+    this.node = node;
     this.animTime = animTime;
     this.controlPoints = controlPoints;
     this.type = "linear";
