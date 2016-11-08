@@ -19,3 +19,7 @@ CircularAnimation.prototype.constructor = CircularAnimation;
 CircularAnimation.prototype.reply = function () {
     console.log("I am a CircularAnimation!");
 };
+
+CircularAnimation.prototype.animate = function(deltaTime){
+    console.log("CircularAnimation");
+};
