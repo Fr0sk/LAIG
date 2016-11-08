@@ -468,12 +468,12 @@ MySceneGraph.prototype.parseAnimations = function (rootElement) {
                         animation.controlPoints.push(controlPoint);
                     }
                 }
-            } else {
+            } else if (animation.type == "circular") {
                 animation.center = this.reader.getString(animationsElem[i], 'center', true);
                 animation.radius = this.reader.getString(animationsElem[i], 'radius', true);
                 animation.angInit = this.reader.getString(animationsElem[i], 'starting', true);
                 animation.angRot = this.reader.getString(animationsElem[i], 'rotang', true);
-            }
+            } else return "wrong animation type in animation with id '" + animation.id + "'";
 
             this.animations.push(animation);
         }
@@ -676,12 +676,25 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
                 var id = this.reader.getString(animationsElem[i], 'id', true);
                 for (var j = 0; j < this.animations.length; j++) {
                     if (id == this.animations[j].id) {
-                        node.pushAnimation(this.animations);
-                        console.info("Added: " + id);
+                        if (this.animations[j].type == "linear") {
+                            var linearAnim = new LinearAnimation(this.animations[j].time, this.animations[j].controlPoints);
+                            node.pushAnimation(linearAnim);
+                        } else {
+                            var circularAnim = new CircularAnimation(this.animations[j].center, this.animations[j].radius,
+                                this.animations[j].initAng, this.animations[j].endAng, this.animations[j].animTime);
+                            node.pushAnimation(circularAnim);
+                        }
                         break;
                     }
                 }
             }
+
+            /******************DEBUG******************/
+            /*console.info("Animacoes do '" + node.id + "': " + node.animations.length);
+            for (var i = 0; i < node.animations.length; i++)
+                console.info(node.animations[i].type);*/
+
+            this.animatedNodes.push(node);
         }
     }
 
