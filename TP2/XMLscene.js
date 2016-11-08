@@ -11,12 +11,6 @@ XMLscene.prototype.constructor = XMLscene;
 XMLscene.prototype.init = function(application) {
     CGFscene.prototype.init.call(this, application);
 
-    var lAnim = new LinearAnimation();
-    lAnim.reply();
-
-    var cAnim = new CircularAnimation();
-    cAnim.reply();
-
     this.initCameras();
 
     this.numLight = 0;

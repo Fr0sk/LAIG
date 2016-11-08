@@ -14,10 +14,10 @@ var LinearAnimation = function (node, animTime, controlPoints) {
 LinearAnimation.prototype = Object.create(Animation.prototype);
 LinearAnimation.prototype.constructor = LinearAnimation;
 
-LinearAnimation.prototype.reply = function () {
-    console.log("I am a LinearAnimation!");
-};
-
 LinearAnimation.prototype.animate = function(deltaTime){
-    console.log("LinearAnimation");
+    if (this.currAnimTime >= this.animTime) {
+        console.info("End of animation '" + node.activeAnimation + "'");
+        this.node.activeAnimation++;
+        return;
+    }
 };
