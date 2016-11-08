@@ -9,6 +9,10 @@ var Animation = function() {
 /**
  * Abstract method
  */
+Animation.prototype.getMatrix = function() {
+    return;
+}
+
 Animation.prototype.animate = function(deltaTime){
     throw new Error("animete is an abstract method!");
 };

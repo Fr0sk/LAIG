@@ -24,6 +24,16 @@ Node.prototype.setMat = function(mat) {
     this.mat = mat;
 };
 
+Node.prototype.getMat = function(mat) {
+    var mat = this.mat;
+    if (this.animations.length > 0) {
+        for (var i = 0; i < this.animations.length; i++) {
+            mat = computeMatrix(mat, this.animations[i].getMatrix());
+        }  
+    }
+    return mat;
+}
+
 Node.prototype.pushChild = function(child) {
     this.children.push(child);
 };
@@ -39,3 +49,19 @@ Node.prototype.getMaterials = function() {
 Node.prototype.pushAnimation = function(animation) {
     this.animations.push(animation);
 };
+
+Node.prototype.computeMatrix = function(mat1, mat2) {
+    if (mat.length != 16) return;
+    var mult = [];
+    
+    for (var i = 0; i < mat1.length/4; i++) {
+        for (var j = 0; j < mat2.length/4; j++) {
+            var sum = 0;
+            for (var offset = 0; offset < 4; offset++)
+                sum += mat1[4 * i + offset] * mat2[j + 4 * offset];
+        }
+        mult.push(sum);
+    }
+
+    return mult;
+}
