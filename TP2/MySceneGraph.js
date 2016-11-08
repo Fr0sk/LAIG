@@ -665,12 +665,21 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 
     //Animations
     {
-        var animationsElem = component.getElementsByTagName('animationref');
-        for (var i = 0; i < animationsElem.length; i++) {
-            for(var j = 0; j < this.animations.length; j++) {
-                if(animationsElem[i].id == this.animations[j].id) {
-                    node.pushAnimation(this.animations);
-                    break;
+        var animationsElem = component.getElementsByTagName('animation');
+
+        if (animationsElem.length != 0) {
+            animationsElem = animationsElem[0].childNodes;
+            for (var i = 0; i < animationsElem.length; i++) {
+                if (animationsElem[i].nodeName != "animationref")
+                    continue;
+
+                var id = this.reader.getString(animationsElem[i], 'id', true);
+                for (var j = 0; j < this.animations.length; j++) {
+                    if (id == this.animations[j].id) {
+                        node.pushAnimation(this.animations);
+                        console.info("Added: " + id);
+                        break;
+                    }
                 }
             }
         }
@@ -681,7 +690,7 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
         var materialsElem = component.getElementsByTagName('materials')[0].childNodes;
 
         if (materialsElem == null)
-            return "Can't"
+            return "Can't";
 
         if (materialsElem.length < 2)
             return "component '" + component.id + "' needs to have at least one material!";
