@@ -469,28 +469,10 @@ MySceneGraph.prototype.parseAnimations = function (rootElement) {
                     }
                 }
             } else if (animation.type == "circular") {
-                animation.center = this.reader.getString(animationsElem[i], 'center', true);
+                animation.center = this.reader.getVector3(animationsElem[i], 'center', true);
                 animation.radius = this.reader.getString(animationsElem[i], 'radius', true);
                 animation.starting = this.reader.getString(animationsElem[i], 'starting', true);
                 animation.rotang = this.reader.getString(animationsElem[i], 'rotang', true);
-                /*var x, y, z;
-                var aux;
-                for (var i = 0; i < animation.center.length; i++) {
-                    if (animation.center[i] == " ") {
-                        if (x == null) {
-                            x = animation.center.substring(0, i);
-                            aux = i + 1;
-                        }
-                        else if (y == null) {
-                            y = animation.center.substring(aux, i);
-                            //z = animation.center.substring(i + 1, animation.center.length - 1);
-                            break;
-                        }
-                    }
-                }
-
-                //console.info("This is it: " + x + ", " + y + ", " + z);*/
-                console.info("Isto e o parser: " , animation.starting, animation.rotang)
             } else return "wrong animation type in animation with id '" + animation.id + "'";
 
             this.animations.push(animation);

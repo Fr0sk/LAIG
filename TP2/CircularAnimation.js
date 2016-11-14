@@ -7,12 +7,9 @@ var CircularAnimation = function (node, center, radius, starting, rotang, animTi
     //CircularAnimation initialization
     this.node = node;
     this.center = center;
-    this.centerX = 5;
-    this.centerY = 0;
-    this.centerZ = 5;
     this.radius = radius;
-    this.starting = 0;
-    this.rotang = 45;
+    this.starting = starting * Math.PI / 180.0;
+    this.rotang = (starting + rotang) * Math.PI / 180.0;
     this.animTime = animTime;
 
     this.defaultMat = node.getMat();
@@ -20,24 +17,24 @@ var CircularAnimation = function (node, center, radius, starting, rotang, animTi
 
     this.totalAnimTime = 0;
 
-    console.info(this.center, this.radius, this.initAng, this.endAng, this.animTime);
-
-    this.totalLength = this.getTotalLength();
-    console.info("Perimetro a considerar: " + this.totalLength);
-    this.velocity = 0.02;//this.totalLength / this.animTime;
+    this.currDist = 0;
+    this.totalDist = this.getTotalLength();
+    this.velocity = 0.02;//this.totalDist / this.animTime;
 };
 
 CircularAnimation.prototype = Object.create(Animation.prototype);
 CircularAnimation.prototype.constructor = CircularAnimation;
 
 CircularAnimation.prototype.getTotalLength = function (deltaTime) {
-    var angInit = Math.PI / 180.0 * this.starting;
+    /*var angInit = Math.PI / 180.0 * this.starting;
     var angEnd = Math.PI / 180.0 * this.rotang;
 
-    return 2 * Math.PI * this.radius * ((this.rotang - this.starting) / 360);
+    return 2 * Math.PI * this.radius * ((this.rotang - this.starting) / 360);*/
+
+    return this.rotang * this.radius;
 }
 
-CircularAnimation.prototype.getMatrix = function (dist) {
+CircularAnimation.prototype.getLerpedMatrix = function () {
     var mat = [
         1.0, 0.0, 0.0, 0.0,
         0.0, 1.0, 0.0, 0.0,
@@ -45,7 +42,11 @@ CircularAnimation.prototype.getMatrix = function (dist) {
         0.0, 0.0, 0.0, 1.0
     ];
 
-    mat4.rotate(mat, mat, (this.rotang - this.starting) * (Math.PI / 180.0) * dist, [1, 0, 0]);
+    var m = (this.starting + (this.rotang - this.starting)) * (this.currDist / this.totalDist);
+
+    mat4.translate(mat, mat, [this.center[0], this.center[1], this.center[2]]);
+    mat4.rotate(mat, mat, (this.rotang - this.starting) * m, [0, 1, 0]);
+    mat4.translate(mat, mat, [-this.center[0], -this.center[1], -this.center[2]]);
 
     return mat;
 }
@@ -59,6 +60,6 @@ CircularAnimation.prototype.animate = function (deltaTime) {
     }
 
     this.totalAnimTime += deltaTime;
-    var dist = this.velocity * this.totalAnimTime;
-    this.node.setMat(this.node.computeMatrix(this.node.getMat(), this.getMatrix(dist)));
+    this.node.setMat(this.node.computeMatrix(this.node.getMat(), this.getLerpedMatrix()));
+    this.currDist = this.totalAnimTime * this.velocity;
 };

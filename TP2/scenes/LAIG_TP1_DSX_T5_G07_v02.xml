@@ -199,8 +199,8 @@
             <controlpoint xx="0" yy="-5" zz="0" />
         </animation>
 
-        <animation id="rotateCrazy" span="5" type="circular" center="5 0 5"
-            radius="10" starting="20" rotang="40" />
+        <animation id="rotateCrazy" span="5" type="circular" center="0 0 0"
+            radius="10" starting="0" rotang="45" />
     </animations>
     <!-- Primitives set -->
     <!-- Must include at least one primitive block -->
