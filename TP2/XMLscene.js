@@ -27,7 +27,7 @@ XMLscene.prototype.init = function (application) {
 
     this.axis = new CGFaxis(this);
 
-    this.ao = Plane();
+    this.ao = new Plane(this, 2, 2, 20, 20);
 
     //We need to enable textures
     this.enableTextures(true);
