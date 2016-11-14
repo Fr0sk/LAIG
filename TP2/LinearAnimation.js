@@ -60,7 +60,7 @@ LinearAnimation.prototype.animate = function (deltaTime) {
     if (this.totalAnimTime >= this.animTime) {
         console.info("End of animation");
         this.node.activeAnimation++;
-        this.node.setMat(this.defaultMat);
+        //this.node.setMat(this.defaultMat);
         return;
     } else if (this.currAnimTime >= this.animTime / this.controlPoints.length) {
         this.currAnimTime = 0;

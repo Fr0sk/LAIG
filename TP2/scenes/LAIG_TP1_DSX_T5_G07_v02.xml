@@ -192,10 +192,10 @@
         <!-- os angulos sao expressos em graus  -->
         <animation id="goUpAndLeft" span="3" type="linear">
             <controlpoint xx="0" yy="5" zz="0" />
-            <controlpoint xx="-5" yy="5" zz="0" />
+            <controlpoint xx="-5" yy="0" zz="0" />
         </animation>
 
-        <animation id="goDown" span="3" type="linear">
+        <animation id="goDown" span="1.5" type="linear">
             <controlpoint xx="0" yy="-5" zz="0" />
         </animation>
 
@@ -423,6 +423,7 @@
             </transformation>
             <animation>
                 <animationref id="goUpAndLeft" />
+                <animationref id="goDown" />
             </animation>
             <materials>
                 <material id="m_Default" />
