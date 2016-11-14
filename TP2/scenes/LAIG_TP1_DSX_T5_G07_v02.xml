@@ -808,6 +808,9 @@
             <materials>
                 <material id="m_Default" />
             </materials>
+            <animation>
+                <animationref id="goLeftRight" />
+            </animation>
             <texture id="none" />
             <children>
                 <componentref id="fbMainGrass" />
@@ -929,9 +932,6 @@
             <transformation>
                 <translate x="16" y="0" z="0" />
             </transformation>
-            <animation>
-                <animationref id="goLeftRight" />
-            </animation>
             <materials>
                 <material id="m_metal" />
             </materials>

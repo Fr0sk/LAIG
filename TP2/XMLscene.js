@@ -27,6 +27,8 @@ XMLscene.prototype.init = function (application) {
 
     this.axis = new CGFaxis(this);
 
+    this.ao = Plane();
+
     //We need to enable textures
     this.enableTextures(true);
 };
@@ -92,6 +94,8 @@ XMLscene.prototype.display = function () {
 
     // ---- END Background, camera and axis setup
 
+    this.ao.display();
+
     // it is important that things depending on the proper loading of the graph
     // only get executed after the graph has loaded correctly.
     // This is one possible way to do it
@@ -99,7 +103,7 @@ XMLscene.prototype.display = function () {
         this.updateLightsStatus();
 
         //Starts going through the graph
-        this.runGraph(this.graph.rootNode);
+        //this.runGraph(this.graph.rootNode);
     };
 };
 
@@ -235,7 +239,7 @@ XMLscene.prototype.update = function (curTime) {
         for (var i = 0; i < this.graph.animatedNodes.length; i++) {
             var node = this.graph.animatedNodes[i];
             if (node.activeAnimation >= node.animations.length) {
-                this.graph.animatedNodes.splice(0, i);
+                continue;
             } else
                 node.animations[node.activeAnimation].animate(deltaTime);
         }

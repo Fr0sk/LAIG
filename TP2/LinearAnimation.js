@@ -1,7 +1,10 @@
 /**
  * Constructor
  */
-var LinearAnimation = function (node, animTime, controlPoints) {
+
+var a = true;
+
+var LinearAnimation = function(node, animTime, controlPoints) {
     Animation.apply(this, arguments);
 
     //LinearAnimation initialization
@@ -24,7 +27,7 @@ var LinearAnimation = function (node, animTime, controlPoints) {
 LinearAnimation.prototype = Object.create(Animation.prototype);
 LinearAnimation.prototype.constructor = LinearAnimation;
 
-LinearAnimation.prototype.calculateTotalLength = function () {
+LinearAnimation.prototype.calculateTotalLength = function() {
     for (var i = 0; i < this.controlPoints.length; i++) {
         if (i == 0)
             this.totalLength += Math.sqrt(Math.pow(this.controlPoints[i].x, 2) + Math.pow(this.controlPoints[i].y, 2) + Math.pow(this.controlPoints[i].z, 2));
@@ -40,8 +43,8 @@ LinearAnimation.prototype.calculateTotalLength = function () {
     }
 }
 
-LinearAnimation.prototype.getMatrix = function (dist) {
-    var currDist = this.velocity * this.currAnimTime;    
+LinearAnimation.prototype.getMatrix = function(dist) {
+    var currDist = this.velocity * this.currAnimTime;
 
     var x = this.controlPoints[this.currControlPoint].x * currDist;
     var y = this.controlPoints[this.currControlPoint].y * currDist;
@@ -56,10 +59,22 @@ LinearAnimation.prototype.getMatrix = function (dist) {
 
     mat4.translate(mat, mat, [x, y, z]);
 
+    var u = Math.sqrt(Math.pow(this.controlPoints[this.currControlPoint].x, 2) + Math.pow(this.controlPoints[this.currControlPoint].y, 2) + Math.pow(this.controlPoints[this.currControlPoint].z, 2));
+    var myCP = {
+        x: this.controlPoints[this.currControlPoint].x * (1 / u),
+        z: this.controlPoints[this.currControlPoint].z * (1 / u)
+    };
+
+
+    if (a) {
+        mat4.rotate(mat, mat, -Math.atan2(this.controlPoints[this.currControlPoint].x, this.controlPoints[this.currControlPoint].z), [0, 1, 0]);
+        a = false;
+    }
+
     return mat;
 }
 
-LinearAnimation.prototype.animate = function (deltaTime) {
+LinearAnimation.prototype.animate = function(deltaTime) {
     if (this.totalAnimTime >= this.animTime) {
         console.info("End of animation");
         this.node.activeAnimation++;
@@ -68,6 +83,7 @@ LinearAnimation.prototype.animate = function (deltaTime) {
     } else if (this.currAnimTime >= this.animTime / this.controlPoints.length) {
         this.currAnimTime = 0;
         this.currControlPoint++;
+        a = true;
     } else
         this.currAnimTime += deltaTime;
 
