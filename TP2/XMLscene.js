@@ -230,7 +230,6 @@ XMLscene.prototype.update = function (curTime) {
         deltaTime = (curTime - lastCurTime) / 1000;
         lastCurTime = curTime;
     }
-    console.info("hi: " + this.graph.animatedNodes.length);
 
     if (this.graph.loadedOk) {
         for (var i = 0; i < this.graph.animatedNodes.length; i++) {
