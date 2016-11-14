@@ -6,14 +6,17 @@ var LinearAnimation = function (node, animTime, controlPoints) {
 
     //LinearAnimation initialization
     this.node = node;
+    this.defaultMat = node.getMat();
     this.animTime = animTime;
     this.controlPoints = controlPoints;
     this.type = "linear";
     this.currAnimTime = 0;
+    this.totalAnimTime = 0;
+    this.currControlPoint = 0;
 
     this.totalLength = 0;
     this.calculateTotalLength();
-    this.velocity = this.totalLength / this.animTime;
+    this.velocity = 0.02;//this.totalLength / this.animTime;
     console.info("Total length = " + this.totalLength + ", velocity = " + this.velocity);
 }
 
@@ -37,9 +40,9 @@ LinearAnimation.prototype.calculateTotalLength = function () {
 }
 
 LinearAnimation.prototype.getMatrix = function (dist) {
-    var x = this.controlPoints[0].x;
-    var y = this.controlPoints[0].y;
-    var z = this.controlPoints[0].z;
+    var x = this.controlPoints[this.currControlPoint].x;
+    var y = this.controlPoints[this.currControlPoint].y;
+    var z = this.controlPoints[this.currControlPoint].z;
 
     var mat = [
         1.0, 0.0, 0.0, 0.0,
@@ -54,17 +57,19 @@ LinearAnimation.prototype.getMatrix = function (dist) {
 }
 
 LinearAnimation.prototype.animate = function (deltaTime) {
-    if (this.node.activeAnimation > 0)
-        return;
-
-    if (this.currAnimTime >= this.animTime) {
+    if (this.totalAnimTime >= this.animTime) {
         console.info("End of animation");
         this.node.activeAnimation++;
+        this.node.setMat(this.defaultMat);
         return;
-    } else {
+    } else if (this.currAnimTime >= this.animTime / this.controlPoints.length) {
+        this.currAnimTime = 0;
+        this.currControlPoint++;
+    } else
         this.currAnimTime += deltaTime;
-        var dist = this.currAnimTime * this.velocity;
-        var matFinal = this.node.computeMatrix(this.node.mat, this.getMatrix(dist));
-        this.node.setMat(matFinal);
-    }
+
+    this.totalAnimTime += deltaTime;
+    var dist = this.currAnimTime * this.velocity;
+    var matFinal = this.node.computeMatrix(this.node.getMat(), this.getMatrix(dist));
+    this.node.setMat(matFinal);
 };

@@ -24,12 +24,8 @@ Node.prototype.setMat = function (mat) {
     this.mat = mat;
 };
 
-Node.prototype.getMat = function (mat) {
-    var mat = this.mat;
-    if (this.animations.length > 0)
-        mat = computeMatrix(mat, this.animations[this.activeAnimation].getMatrix());
-
-    return mat;
+Node.prototype.getMat = function () {
+    return this.mat;
 }
 
 Node.prototype.pushChild = function (child) {
