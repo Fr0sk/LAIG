@@ -190,13 +190,12 @@
         <!-- demorar. Nesta versão do formato DSX, type pode ter -->
         <!-- o valor "linear" ou "circular"; na animacao circular -->
         <!-- os angulos sao expressos em graus  -->
-        <animation id="goUp" span="2" type="linear">
-            <controlpoint xx="0" yy="0" zz="0" />
+        <animation id="goUpAndLeft" span="3" type="linear">
             <controlpoint xx="0" yy="5" zz="0" />
+            <controlpoint xx="-5" yy="5" zz="0" />
         </animation>
 
         <animation id="goDown" span="3" type="linear">
-            <controlpoint xx="0" yy="0" zz="0" />
             <controlpoint xx="0" yy="-5" zz="0" />
         </animation>
 
@@ -422,6 +421,9 @@
         <component id="trees">
             <transformation>
             </transformation>
+            <animation>
+                <animationref id="goUpAndLeft" />
+            </animation>
             <materials>
                 <material id="m_Default" />
             </materials>
@@ -2618,9 +2620,6 @@
             <transformation>
                 <translate x="0" y="0" z="0.5" />
             </transformation>
-            <animation>
-                <animationref id="goUp" />
-            </animation>
             <materials>
                 <material id="inherit" />
             </materials>
