@@ -6,10 +6,12 @@ var LinearAnimation = function (node, animTime, controlPoints) {
 
     //LinearAnimation initialization
     this.node = node;
-    this.defaultMat = node.getMat();
     this.animTime = animTime;
     this.controlPoints = controlPoints;
+
+    this.defaultMat = node.getMat();
     this.type = "linear";
+
     this.currAnimTime = 0;
     this.totalAnimTime = 0;
     this.currControlPoint = 0;
@@ -17,7 +19,6 @@ var LinearAnimation = function (node, animTime, controlPoints) {
     this.totalLength = 0;
     this.calculateTotalLength();
     this.velocity = 0.02;//this.totalLength / this.animTime;
-    console.info("Total length = " + this.totalLength + ", velocity = " + this.velocity);
 }
 
 LinearAnimation.prototype = Object.create(Animation.prototype);
@@ -69,7 +70,7 @@ LinearAnimation.prototype.animate = function (deltaTime) {
         this.currAnimTime += deltaTime;
 
     this.totalAnimTime += deltaTime;
-    var dist = this.currAnimTime * this.velocity;
+    var dist = this.velocity * this.currAnimTime;
     var matFinal = this.node.computeMatrix(this.node.getMat(), this.getMatrix(dist));
     this.node.setMat(matFinal);
 };

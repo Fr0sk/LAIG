@@ -471,8 +471,26 @@ MySceneGraph.prototype.parseAnimations = function (rootElement) {
             } else if (animation.type == "circular") {
                 animation.center = this.reader.getString(animationsElem[i], 'center', true);
                 animation.radius = this.reader.getString(animationsElem[i], 'radius', true);
-                animation.angInit = this.reader.getString(animationsElem[i], 'starting', true);
-                animation.angRot = this.reader.getString(animationsElem[i], 'rotang', true);
+                animation.starting = this.reader.getString(animationsElem[i], 'starting', true);
+                animation.rotang = this.reader.getString(animationsElem[i], 'rotang', true);
+                /*var x, y, z;
+                var aux;
+                for (var i = 0; i < animation.center.length; i++) {
+                    if (animation.center[i] == " ") {
+                        if (x == null) {
+                            x = animation.center.substring(0, i);
+                            aux = i + 1;
+                        }
+                        else if (y == null) {
+                            y = animation.center.substring(aux, i);
+                            //z = animation.center.substring(i + 1, animation.center.length - 1);
+                            break;
+                        }
+                    }
+                }
+
+                //console.info("This is it: " + x + ", " + y + ", " + z);*/
+                console.info("Isto e o parser: " , animation.starting, animation.rotang)
             } else return "wrong animation type in animation with id '" + animation.id + "'";
 
             this.animations.push(animation);
@@ -681,7 +699,7 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
                             node.pushAnimation(linearAnim);
                         } else {
                             var circularAnim = new CircularAnimation(node, this.animations[j].center, this.animations[j].radius,
-                                this.animations[j].initAng, this.animations[j].endAng, this.animations[j].animTime);
+                                this.animations[j].starting, this.animations[j].rotang, this.animations[j].time);
                             node.pushAnimation(circularAnim);
                         }
                         break;
