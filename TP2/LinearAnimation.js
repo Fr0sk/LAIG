@@ -41,9 +41,11 @@ LinearAnimation.prototype.calculateTotalLength = function () {
 }
 
 LinearAnimation.prototype.getMatrix = function (dist) {
-    var x = this.controlPoints[this.currControlPoint].x;
-    var y = this.controlPoints[this.currControlPoint].y;
-    var z = this.controlPoints[this.currControlPoint].z;
+    var currDist = this.velocity * this.currAnimTime;    
+
+    var x = this.controlPoints[this.currControlPoint].x * currDist;
+    var y = this.controlPoints[this.currControlPoint].y * currDist;
+    var z = this.controlPoints[this.currControlPoint].z * currDist;
 
     var mat = [
         1.0, 0.0, 0.0, 0.0,
@@ -52,7 +54,7 @@ LinearAnimation.prototype.getMatrix = function (dist) {
         0.0, 0.0, 0.0, 1.0
     ];
 
-    mat4.translate(mat, mat, [x * dist, y * dist, z * dist]);
+    mat4.translate(mat, mat, [x, y, z]);
 
     return mat;
 }
@@ -70,7 +72,6 @@ LinearAnimation.prototype.animate = function (deltaTime) {
         this.currAnimTime += deltaTime;
 
     this.totalAnimTime += deltaTime;
-    var dist = this.velocity * this.currAnimTime;
-    var matFinal = this.node.computeMatrix(this.node.getMat(), this.getMatrix(dist));
+    var matFinal = this.node.computeMatrix(this.node.getMat(), this.getMatrix());
     this.node.setMat(matFinal);
 };

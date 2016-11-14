@@ -3,7 +3,7 @@
     <scene root="root" axis_length="20" />
     <!-- Cameras definition -->
     <!-- Pressing v/V changes between cameras -->
-    <views default="above">
+    <views default="nearField">
         <perspective id="above" near="0.1" far="500" angle="1.5">
             <from x="10" y="60" z="35" />
             <to x="0" y="0" z="0" />
@@ -197,6 +197,11 @@
 
         <animation id="goDown" span="1.5" type="linear">
             <controlpoint xx="0" yy="-5" zz="0" />
+        </animation>
+
+        <animation id="goLeftRight" span="2" type="linear">
+            <controlpoint xx="-5" yy="0" zz="0" />
+            <controlpoint xx="5" yy="0" zz="0" />
         </animation>
 
         <animation id="rotateCrazy" span="5" type="circular" center="0 0 0"
@@ -924,6 +929,9 @@
             <transformation>
                 <translate x="16" y="0" z="0" />
             </transformation>
+            <animation>
+                <animationref id="goLeftRight" />
+            </animation>
             <materials>
                 <material id="m_metal" />
             </materials>

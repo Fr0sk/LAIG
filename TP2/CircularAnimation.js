@@ -26,11 +26,6 @@ CircularAnimation.prototype = Object.create(Animation.prototype);
 CircularAnimation.prototype.constructor = CircularAnimation;
 
 CircularAnimation.prototype.getTotalLength = function (deltaTime) {
-    /*var angInit = Math.PI / 180.0 * this.starting;
-    var angEnd = Math.PI / 180.0 * this.rotang;
-
-    return 2 * Math.PI * this.radius * ((this.rotang - this.starting) / 360);*/
-
     return this.rotang * this.radius;
 }
 
@@ -42,10 +37,10 @@ CircularAnimation.prototype.getLerpedMatrix = function () {
         0.0, 0.0, 0.0, 1.0
     ];
 
-    var m = (this.starting + (this.rotang - this.starting)) * (this.currDist / this.totalDist);
+    var currAng = this.starting + (this.rotang - this.starting) * (this.currDist / this.totalDist);
 
     mat4.translate(mat, mat, [this.center[0], this.center[1], this.center[2]]);
-    mat4.rotate(mat, mat, (this.rotang - this.starting) * m, [0, 1, 0]);
+    mat4.rotate(mat, mat, currAng, [0, 1, 0]);
     mat4.translate(mat, mat, [-this.center[0], -this.center[1], -this.center[2]]);
 
     return mat;
