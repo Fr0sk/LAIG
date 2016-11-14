@@ -10,6 +10,7 @@ var CircularAnimation = function (node, center, radius, initAng, endAng, animTim
     this.radius = radius;
     this.initAng = initAng;
     this.endAng = endAng;
+    this.currAnimTime = 0;
     this.animTime = animTime;
     this.type = "circular";
 };
@@ -17,10 +18,12 @@ var CircularAnimation = function (node, center, radius, initAng, endAng, animTim
 CircularAnimation.prototype = Object.create(Animation.prototype);
 CircularAnimation.prototype.constructor = CircularAnimation;
 
-CircularAnimation.prototype.reply = function () {
-    console.log("I am a CircularAnimation!");
-};
+CircularAnimation.prototype.animate = function (deltaTime) {
+    if (this.currAnimTime >= this.animTime) {
+        console.info("End of animation '" + node.activeAnimation + "'");
+        this.node.activeAnimation++;
+        return;
+    }
 
-CircularAnimation.prototype.animate = function(deltaTime){
-    console.log("CircularAnimation");
+    this.currAnimTime += deltaTime;
 };

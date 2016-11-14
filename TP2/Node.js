@@ -7,6 +7,7 @@ function Node(id) {
     this.children = [];
     this.primitive = null;
     this.animations = [];
+    this.activeAnimation = 0;
 };
 
 Node.prototype.pushMaterial = function(material) {
