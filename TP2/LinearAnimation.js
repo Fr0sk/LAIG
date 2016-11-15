@@ -48,8 +48,8 @@ LinearAnimation.prototype.calculateTotalLength = function () {
 
 var b = true;
 LinearAnimation.prototype.getMatrix = function () {
-    if(this.currDist > this.individualLengths[this.currControlPoint - 1]) {
-        this.currControlPoint++;
+    if (this.currDist > this.individualLengths[this.currControlPoint - 1]) {
+        //this.currControlPoint++;
         this.currAnimTime = 0;
     }
 
@@ -62,7 +62,7 @@ LinearAnimation.prototype.getMatrix = function () {
 
     if (b) {
         b = false;
-        console.info("currDist = " + currDist + ", velocity = " + this.velocity + ", currAnimTime = " + this.currAnimTime);
+        console.info("currDist = " + this.currDist + ", velocity = " + this.velocity + ", currAnimTime = " + this.currAnimTime);
         console.info("X = " + x + ", Y = " + y + ", Z = " + z);
     }
 
