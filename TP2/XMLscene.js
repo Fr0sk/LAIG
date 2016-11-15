@@ -26,11 +26,15 @@ XMLscene.prototype.init = function (application) {
     this.gl.depthFunc(this.gl.LEQUAL);
 
     this.axis = new CGFaxis(this);
-
-    this.ao = new Plane(this, 2, 2, 20, 20);
-
-    //We need to enable textures
     this.enableTextures(true);
+
+    this.plane =  new Plane(this, 2, 2, 3, 3);
+
+    this.testShaders = [
+        new CGFshader(this.gl, "shaders/flat.vert", "shaders/flat.frag")
+    ];
+
+    this.testShaders[0].setUniformsValues({normScale: 1.0});
 };
 
 XMLscene.prototype.initLights = function () {
@@ -94,7 +98,9 @@ XMLscene.prototype.display = function () {
 
     // ---- END Background, camera and axis setup
 
-    this.ao.display();
+    this.setActiveShader(this.testShaders[0]);
+    this.plane.display();
+	this.setActiveShader(this.defaultShader);
 
     // it is important that things depending on the proper loading of the graph
     // only get executed after the graph has loaded correctly.

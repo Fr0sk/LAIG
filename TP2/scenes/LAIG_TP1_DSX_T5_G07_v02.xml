@@ -190,12 +190,13 @@
         <!-- demorar. Nesta versão do formato DSX, type pode ter -->
         <!-- o valor "linear" ou "circular"; na animacao circular -->
         <!-- os angulos sao expressos em graus  -->
-        <animation id="goUpAndLeft" span="3" type="linear">
+        <animation id="goUpAndLeft" span="5" type="linear">
             <controlpoint xx="0" yy="5" zz="0" />
             <controlpoint xx="-5" yy="0" zz="0" />
         </animation>
 
-        <animation id="goDown" span="1.5" type="linear">
+        <animation id="goDown" span="0.5" type="linear">
+            <controlpoint xx="0" yy="-5" zz="0" />
             <controlpoint xx="0" yy="-5" zz="0" />
         </animation>
 
@@ -204,7 +205,7 @@
             <controlpoint xx="5" yy="0" zz="0" />
         </animation>
 
-        <animation id="rotateCrazy" span="5" type="circular" center="0 0 0"
+        <animation id="rotateCrazy" span="20" type="circular" center="0 0 0"
             radius="10" starting="0" rotang="45" />
     </animations>
     <!-- Primitives set -->
@@ -808,9 +809,10 @@
             <materials>
                 <material id="m_Default" />
             </materials>
-            <animation>
-                <animationref id="goLeftRight" />
-            </animation>
+            <!--animation>
+                <animationref id="goUpAndLeft" />
+                <animationref id="goDown" />
+            </animation-->
             <texture id="none" />
             <children>
                 <componentref id="fbMainGrass" />
