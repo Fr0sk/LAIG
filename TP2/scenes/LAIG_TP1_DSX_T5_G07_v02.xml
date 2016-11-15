@@ -3,7 +3,7 @@
     <scene root="root" axis_length="20" />
     <!-- Cameras definition -->
     <!-- Pressing v/V changes between cameras -->
-    <views default="nearField">
+    <views default="awayField">
         <perspective id="above" near="0.1" far="500" angle="1.5">
             <from x="10" y="60" z="35" />
             <to x="0" y="0" z="0" />
@@ -13,7 +13,7 @@
             <to x="0" y="0" z="0" />
         </perspective>
         <perspective id="awayField" near="0.1" far="500" angle="0.4">
-            <from x="40" y="20" z="-50" />
+            <from x="60" y="45" z="-70" />
             <to x="0" y="0" z="10" />
         </perspective>
     </views>
@@ -190,13 +190,13 @@
         <!-- demorar. Nesta versão do formato DSX, type pode ter -->
         <!-- o valor "linear" ou "circular"; na animacao circular -->
         <!-- os angulos sao expressos em graus  -->
-        <animation id="goUpAndLeft" span="5" type="linear">
-            <controlpoint xx="0" yy="5" zz="0" />
-            <controlpoint xx="-5" yy="0" zz="0" />
+        <animation id="goUpAndLeft" span="15" type="linear">
+            <controlpoint xx="0" yy="0" zz="0" />
+            <controlpoint xx="0" yy="0" zz="-30" />
         </animation>
 
         <animation id="goDown" span="0.5" type="linear">
-            <controlpoint xx="0" yy="-5" zz="0" />
+            <controlpoint xx="0" yy="0" zz="0" />
             <controlpoint xx="0" yy="-5" zz="0" />
         </animation>
 
@@ -205,7 +205,13 @@
             <controlpoint xx="5" yy="0" zz="0" />
         </animation>
 
-        <animation id="rotateCrazy" span="20" type="circular" center="0 0 0"
+        <animation id="goForward" span="3" type="linear">
+            <controlpoint xx="0" yy="0" zz="0" />
+            <controlpoint xx="0" yy="0" zz="-12" />
+        </animation>
+
+
+        <animation id="rotateCrazy" span="0.1" type="circular" center="0 0 0"
             radius="10" starting="0" rotang="45" />
     </animations>
     <!-- Primitives set -->
@@ -268,8 +274,12 @@
         </component>
         <component id="sign">
             <transformation>
-                    <translate x="-2.5" y="0" z="-12" />
+                    <translate x="2.5" y="0" z="12" />
+                    <rotate axis="y" angle="180" />
             </transformation>
+            <animation>
+                <animationref id="goForward" />
+            </animation>
             <materials>
                 <material id="m_Default" />
             </materials>

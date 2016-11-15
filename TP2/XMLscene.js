@@ -28,13 +28,13 @@ XMLscene.prototype.init = function (application) {
     this.axis = new CGFaxis(this);
     this.enableTextures(true);
 
-    this.plane =  new Plane(this, 2, 2, 3, 3);
+    this.plane = new Plane(this, 2, 2, 3, 3);
 
-    this.testShaders = [
+    /*this.testShaders = [
         new CGFshader(this.gl, "shaders/flat.vert", "shaders/flat.frag")
     ];
 
-    this.testShaders[0].setUniformsValues({normScale: 1.0});
+    this.testShaders[0].setUniformsValues({normScale: 1.0});*/
 };
 
 XMLscene.prototype.initLights = function () {
@@ -98,9 +98,9 @@ XMLscene.prototype.display = function () {
 
     // ---- END Background, camera and axis setup
 
-    this.setActiveShader(this.testShaders[0]);
+    /*this.setActiveShader(this.testShaders[0]);
     this.plane.display();
-	this.setActiveShader(this.defaultShader);
+	this.setActiveShader(this.defaultShader);*/
 
     // it is important that things depending on the proper loading of the graph
     // only get executed after the graph has loaded correctly.
@@ -109,7 +109,7 @@ XMLscene.prototype.display = function () {
         this.updateLightsStatus();
 
         //Starts going through the graph
-        //this.runGraph(this.graph.rootNode);
+        this.runGraph(this.graph.rootNode);
     };
 };
 
@@ -228,7 +228,7 @@ XMLscene.prototype.updateLightsStatus = function () {
 };
 
 /*
- * Animations
+ * Update function
  */
 var lastCurTime = -1;
 XMLscene.prototype.update = function (curTime) {
@@ -244,9 +244,9 @@ XMLscene.prototype.update = function (curTime) {
     if (this.graph.loadedOk) {
         for (var i = 0; i < this.graph.animatedNodes.length; i++) {
             var node = this.graph.animatedNodes[i];
-            if (node.activeAnimation >= node.animations.length) {
+            if (node.activeAnimation >= node.animations.length)
                 continue;
-            } else
+            else
                 node.animations[node.activeAnimation].animate(deltaTime);
         }
     }
