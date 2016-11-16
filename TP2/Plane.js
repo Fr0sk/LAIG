@@ -1,5 +1,6 @@
-function Plane(scene, xLength, yLength, numDivsU, numDivsY) {
+function Plane(scene, id, xLength, yLength, numDivsU, numDivsY) {
     this.scene = scene;
+    this.id = id;
     this.xLength = xLength;
     this.yLength = yLength;
     this.numDivsU = numDivsU;

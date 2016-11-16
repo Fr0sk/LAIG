@@ -238,6 +238,35 @@
         <primitive id="torus1">
             <torus inner="40" outer="45" slices="50" loops="50" />
         </primitive>
+        <primitive id="plane1">
+            <plane dimX="3" dimY="2" partsX="10" partsY="7" />
+        </primitive>
+        <primitive id="patch1">
+            <patch orderU="2" orderV="1" partsU="7" partsV="9">
+                <controlpoint x="-1.5" y="-1.5" z="0.0" />
+                <controlpoint x="-1.5" y="1.5" z="0.0" />
+                <controlpoint x="0" y="-1.5" z="0.0" />
+                <controlpoint x="0" y="1.5" z="0.0" />
+                <controlpoint x="1.5" y="-1.5" z="0.0" />
+                <controlpoint x="1.5" y="1.5" z="0.0" />
+            </patch>
+        </primitive>
+        <primitive id="patch2">
+            <patch orderU="2" orderV="3" partsU="7" partsV="20">
+                <controlpoint x="-2" y="-2" z="1" />
+                <controlpoint x="-2" y="-1" z="-2" />
+                <controlpoint x="-2" y="1" z="5" />
+                <controlpoint x="-2" y="2" z="1" />
+                <controlpoint x="0" y="-2" z="0" />
+                <controlpoint x="0" y="-1" z="-1" />
+                <controlpoint x="0" y="1" z="1.5" />
+                <controlpoint x="0" y="2" z="0" />
+                <controlpoint x="2" y="-2" z="-1" />
+                <controlpoint x="2" y="-1" z="2" />
+                <controlpoint x="2" y="1" z="-5" />
+                <controlpoint x="2" y="2" z="1" />
+            </patch>
+        </primitive>
     </primitives>
     <!-- Components set -->
     <components>
@@ -270,6 +299,40 @@
                 <componentref id="ball" />
                 <componentref id="surrondingTorus" />
                 <componentref id="sign" />
+                <componentref id="patch2Test" />
+            </children>
+        </component>
+        <component id="planeTest">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="plane1" />
+            </children>
+        </component>
+        <component id="patch1Test">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="patch1" />
+            </children>
+        </component>
+        <component id="patch2Test">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="patch2" />
             </children>
         </component>
         <component id="sign">
@@ -437,10 +500,6 @@
         <component id="trees">
             <transformation>
             </transformation>
-            <animation>
-                <animationref id="goUpAndLeft" />
-                <animationref id="goDown" />
-            </animation>
             <materials>
                 <material id="m_Default" />
             </materials>

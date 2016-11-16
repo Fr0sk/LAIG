@@ -28,8 +28,6 @@ XMLscene.prototype.init = function (application) {
     this.axis = new CGFaxis(this);
     this.enableTextures(true);
 
-    this.plane = new Plane(this, 2, 2, 3, 3);
-
     /*this.testShaders = [
         new CGFshader(this.gl, "shaders/flat.vert", "shaders/flat.frag")
     ];
@@ -101,7 +99,6 @@ XMLscene.prototype.display = function () {
     /*this.setActiveShader(this.testShaders[0]);
     this.plane.display();
 	this.setActiveShader(this.defaultShader);*/
-    //this.plane.display();
 
     // it is important that things depending on the proper loading of the graph
     // only get executed after the graph has loaded correctly.
