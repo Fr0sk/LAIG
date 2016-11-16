@@ -47,13 +47,13 @@ LinearAnimation.prototype.calculateTotalLength = function () {
 }
 
 var b = true;
-LinearAnimation.prototype.getMatrix = function () {
+LinearAnimation.prototype.getMatrix = function (deltaTime) {
     if (this.currDist > this.individualLengths[this.currControlPoint - 1]) {
         //this.currControlPoint++;
         this.currAnimTime = 0;
     }
 
-    this.currDist = this.velocity * this.currAnimTime;
+    this.currDist = this.velocity * this.currAnimTime * deltaTime;
     //console.info("currDist = " + currDist + ", velocity = " + this.velocity + ", currAnimTime = " + this.currAnimTime);
 
     var x = this.controlPoints[this.currControlPoint].x * this.currDist;
@@ -93,13 +93,13 @@ LinearAnimation.prototype.getMatrix = function () {
 LinearAnimation.prototype.animate = function (deltaTime) {
     if (this.totalAnimTime >= this.animTime) {
         console.info("End of animation, animation took '" + this.totalAnimTime + "' seconds!");
-        this.node.setMat(this.node.computeMatrix(this.defaultMat, this.getMatrix()));
+        this.node.setMat(this.node.computeMatrix(this.defaultMat, this.getMatrix(deltaTime)));
         this.node.activeAnimation++;
         return;
     } else
         this.currAnimTime += deltaTime;
 
     this.totalAnimTime += deltaTime;
-    var matFinal = this.node.computeMatrix(this.defaultMat, this.getMatrix());
+    var matFinal = this.node.computeMatrix(this.defaultMat, this.getMatrix(deltaTime));
     this.node.setMat(matFinal);
 };

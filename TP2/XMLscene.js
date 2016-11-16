@@ -101,7 +101,7 @@ XMLscene.prototype.display = function () {
     /*this.setActiveShader(this.testShaders[0]);
     this.plane.display();
 	this.setActiveShader(this.defaultShader);*/
-    this.plane.display();
+    //this.plane.display();
 
     // it is important that things depending on the proper loading of the graph
     // only get executed after the graph has loaded correctly.
@@ -110,7 +110,7 @@ XMLscene.prototype.display = function () {
         this.updateLightsStatus();
 
         //Starts going through the graph
-        //this.runGraph(this.graph.rootNode);
+        this.runGraph(this.graph.rootNode);
     };
 };
 
