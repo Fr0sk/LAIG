@@ -97,8 +97,7 @@ XMLscene.prototype.display = function () {
     // ---- END Background, camera and axis setup
 
     /*this.setActiveShader(this.testShaders[0]);
-    this.plane.display();
-	this.setActiveShader(this.defaultShader);*/
+    this.setActiveShader(this.defaultShader);*/
 
     // it is important that things depending on the proper loading of the graph
     // only get executed after the graph has loaded correctly.

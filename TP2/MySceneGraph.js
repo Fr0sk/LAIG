@@ -594,6 +594,35 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
             }
 
             this.primitives.push(patch);
+        } else if ((typeElem = primitives[i].getElementsByTagName('chessboard')[0]) != null) {
+            var chessboard = {};
+            chessboard.id = id;
+            chessboard.type = "chessboard";
+            chessboard.dimX = this.reader.getFloat(typeElem, 'du', true);
+            chessboard.dimY = this.reader.getFloat(typeElem, 'dv', true);
+            chessboard.textureRef = this.reader.getString(typeElem, 'textureref', true);
+            chessboard.partsX = this.reader.getFloat(typeElem, 'su', true);
+            chessboard.partsY = this.reader.getFloat(typeElem, 'sv', true);
+
+            var c1 = typeElem.getElementsByTagName('c1')[0];
+            chessboard.c1R = this.reader.getFloat(c1, 'r', true);
+            chessboard.c1G = this.reader.getFloat(c1, 'g', true);
+            chessboard.c1B = this.reader.getFloat(c1, 'b', true);
+            chessboard.c1A = this.reader.getFloat(c1, 'a', true);
+
+            var c2 = typeElem.getElementsByTagName('c2')[0];
+            chessboard.c2R = this.reader.getFloat(c2, 'r', true);
+            chessboard.c2G = this.reader.getFloat(c2, 'g', true);
+            chessboard.c2B = this.reader.getFloat(c2, 'b', true);
+            chessboard.c2A = this.reader.getFloat(c2, 'a', true);
+
+            var cs = typeElem.getElementsByTagName('cs')[0];
+            chessboard.csR = this.reader.getFloat(cs, 'r', true);
+            chessboard.csG = this.reader.getFloat(cs, 'g', true);
+            chessboard.csB = this.reader.getFloat(cs, 'b', true);
+            chessboard.csA = this.reader.getFloat(cs, 'a', true);
+
+            this.primitives.push(chessboard);
         }
 
         err = this.checkDoubleId(this.primitives, "primitives");
@@ -902,10 +931,12 @@ MySceneGraph.prototype.generatePrimitive = function(primitiveInfo, length_s, len
     else if (primitiveInfo.type == "torus")
         return PrimitiveBuilder.buildTorus(this.scene, primitiveInfo.inner, primitiveInfo.outer, primitiveInfo.slices,
             primitiveInfo.loops);
-    else if(primitiveInfo.type == "plane")
+    else if (primitiveInfo.type == "plane")
         return new Plane(this.scene, primitiveInfo.id, primitiveInfo.dimX, primitiveInfo.dimY, primitiveInfo.partsX, primitiveInfo.partsY);
-    else if(primitiveInfo.type == "patch")
+    else if (primitiveInfo.type == "patch")
         return PatchBuilder.buildPatch(this.scene, primitiveInfo.id, primitiveInfo.orderU, primitiveInfo.orderV, primitiveInfo.partsU, primitiveInfo.partsV, primitiveInfo.controlPoints);
+    else if(primitiveInfo.type == "chessboard")
+        return new Plane(this.scene, primitiveInfo.id, primitiveInfo.dimX, primitiveInfo.dimY, primitiveInfo.partsX, primitiveInfo.partsY);
 };
 
 /**

@@ -267,6 +267,13 @@
                 <controlpoint x="2" y="2" z="1" />
             </patch>
         </primitive>
+        <primitive id="chessboard1">
+            <chessboard du="3" dv="3" textureref="t_building" su="1" sv="1">
+                <c1 r="1" g="0" b="0" a="1" />
+                <c2 r="0" g="1" b="0" a="1" />
+                <cs r="0" g="0" b="1" a="1" />
+            </chessboard>
+        </primitive>
     </primitives>
     <!-- Components set -->
     <components>
@@ -299,7 +306,6 @@
                 <componentref id="ball" />
                 <componentref id="surrondingTorus" />
                 <componentref id="sign" />
-                <componentref id="patch2Test" />
             </children>
         </component>
         <component id="planeTest">
