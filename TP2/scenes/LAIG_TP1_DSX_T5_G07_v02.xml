@@ -25,7 +25,7 @@
     <!-- Lights instances set -->
     <lights>
         <!-- Must include at least 1 omni light and 1 spot light -->
-        <omni id="omni1" enabled="0">
+        <omni id="omni1" enabled="1">
             <location x="2" y="3" z="3" w="0" />
             <ambient r="1" g="0.4" b="0.8" a="1" />
             <diffuse r="1" g="1" b="1" a="1" />
@@ -79,6 +79,7 @@
         <texture id="t_football" file="resources/football.png" length_s="1" length_t="1" />
         <texture id="t_cyberpunkSign" file="resources/cyberpunk.jpg" length_s="1" length_t="1" />
         <texture id="t_cyberCharacter" file="resources/cyberCharacter.jpg" length_s="5" length_t="5" />
+        <texture id="t_wood" file="resources/wood.jpg" length_s="1" length_t="1" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
@@ -268,10 +269,10 @@
             </patch>
         </primitive>
         <primitive id="chessboard1">
-            <chessboard du="3" dv="3" textureref="t_building" su="1" sv="1">
+            <chessboard du="8" dv="8" textureref="t_building" su="4" sv="4">
                 <c1 r="1" g="0" b="0" a="1" />
                 <c2 r="0" g="1" b="0" a="1" />
-                <cs r="0" g="0" b="1" a="1" />
+                <cs r="0" g="0" b="1" a="0.3" />
             </chessboard>
         </primitive>
     </primitives>
@@ -298,14 +299,26 @@
             <!-- objecto "pai" -->
             <texture id="none" />
             <children>
-                <componentref id="floorTransform" />
+                <!--componentref id="floorTransform" />
                 <componentref id="buildings" />
                 <componentref id="trees" />
                 <componentref id="footballField" />
                 <componentref id="skybox" />
                 <componentref id="ball" />
                 <componentref id="surrondingTorus" />
-                <componentref id="sign" />
+                <componentref id="sign" /-->
+                <componentref id="chessboardTest" />
+            </children>
+        </component>
+        <component id="chessboardTest">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="chessboard1" />
             </children>
         </component>
         <component id="planeTest">

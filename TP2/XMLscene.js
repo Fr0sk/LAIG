@@ -28,11 +28,23 @@ XMLscene.prototype.init = function (application) {
     this.axis = new CGFaxis(this);
     this.enableTextures(true);
 
-    /*this.testShaders = [
+    this.plane = new Plane(this, "1", 1, 1, 5, 5);
+
+    this.appearance = new CGFappearance(this);
+    this.appearance.setAmbient(0.3, 0.3, 0.3, 1);
+    this.appearance.setDiffuse(0.7, 0.7, 0.7, 1);
+    this.appearance.setSpecular(0.0, 0.0, 0.0, 1);
+    this.appearance.setShininess(120);
+    this.texture = new CGFtexture(this, "resources/building.jpg");
+    this.appearance.setTexture(this.texture);
+    this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+
+    this.testShaders = [
         new CGFshader(this.gl, "shaders/flat.vert", "shaders/flat.frag")
     ];
 
-    this.testShaders[0].setUniformsValues({normScale: 1.0});*/
+    this.testShaders[0].setUniformsValues({ normScale: 0.2 });
+    this.testShaders[0].setUniformsValues({ uSampler: 1});
 };
 
 XMLscene.prototype.initLights = function () {
@@ -96,8 +108,12 @@ XMLscene.prototype.display = function () {
 
     // ---- END Background, camera and axis setup
 
-    /*this.setActiveShader(this.testShaders[0]);
-    this.setActiveShader(this.defaultShader);*/
+    /* this.pushMatrix();
+     this.setActiveShader(this.testShaders[0]);
+     this.appearance.apply();
+     this.plane.display();
+     this.setActiveShader(this.defaultShader);
+     this.popMatrix();*/
 
     // it is important that things depending on the proper loading of the graph
     // only get executed after the graph has loaded correctly.
@@ -123,8 +139,17 @@ XMLscene.prototype.runGraph = function (node) {
     this.multMatrix(node.mat);
 
     //Draws primitive (if it has one)
-    if (node.primitive != null)
+    if (node.primitive != null) {
+        if (node.activeShader != null) {
+            this.setActiveShader(this.testShaders[node.activeShader]);
+            node.texture.bind(1);
+        }
+
         node.primitive.display();
+
+        if (node.activeShader != null)
+            this.setActiveShader(this.defaultShader);
+    }
 
     //Uses pesquisa em profundidade
     for (var i = 0; i < node.children.length; i++)
