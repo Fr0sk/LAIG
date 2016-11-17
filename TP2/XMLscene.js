@@ -40,7 +40,7 @@ XMLscene.prototype.init = function (application) {
     this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
     this.testShaders = [
-        new CGFshader(this.gl, "shaders/flat.vert", "shaders/flat.frag")
+        new CGFshader(this.gl, "shaders/chessboard.vert", "shaders/chessboard.frag")
     ];
 
     this.testShaders[0].setUniformsValues({ normScale: 0.2 });

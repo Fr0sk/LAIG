@@ -604,6 +604,9 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
             chessboard.selectedU = this.reader.getFloat(typeElem, 'su', true);
             chessboard.selectedV = this.reader.getFloat(typeElem, 'sv', true);
 
+            if((chessboard.selectedU <= -1 && chessboard.selectedV != -1) || (chessboard.selectedU != -1 && chessboard.selectedV <= -1) )
+                err = "'" + chessboard.id + "' has 'u' or 'v' less than zero, but not the other!";
+
             var c1 = typeElem.getElementsByTagName('c1')[0];
             chessboard.c1R = this.reader.getFloat(c1, 'r', true);
             chessboard.c1G = this.reader.getFloat(c1, 'g', true);
@@ -626,8 +629,10 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
             this.primitives.push(chessboard);
         }
 
+        if (err != null)
+            return err;
+
         err = this.checkDoubleId(this.primitives, "primitives");
-        err = null;
         if (err != null)
             return err;
     }
