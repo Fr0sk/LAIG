@@ -22,7 +22,7 @@ function MySceneGraph(filename, scene) {
 /*
  * Callback to be executed after successful reading
  */
-MySceneGraph.prototype.onXMLReady = function () {
+MySceneGraph.prototype.onXMLReady = function() {
     //console.log("XML Loading finished.");
     var rootElement = this.reader.xmlDoc.documentElement;
 
@@ -42,7 +42,7 @@ MySceneGraph.prototype.onXMLReady = function () {
     this.scene.onGraphLoaded();
 };
 
-MySceneGraph.prototype.validateOrder = function (rootElement) {
+MySceneGraph.prototype.validateOrder = function(rootElement) {
     var nodes = rootElement.childNodes;
     var types = [];
     var names = ['scene', 'views', 'illumination', 'lights', 'textures',
@@ -105,7 +105,7 @@ MySceneGraph.prototype.validateOrder = function (rootElement) {
 /*
  * Parse the data to the scene
  */
-MySceneGraph.prototype.parseData = function (rootElement) {
+MySceneGraph.prototype.parseData = function(rootElement) {
     /*
      * The variables before each method are the variables
      * that method populates in his body
@@ -162,7 +162,7 @@ MySceneGraph.prototype.parseData = function (rootElement) {
 /**
  * Changes the current active material of all the components
  */
-MySceneGraph.prototype.changeNodesMaterialIndex = function (node) {
+MySceneGraph.prototype.changeNodesMaterialIndex = function(node) {
     if (node.indexActiveMaterial >= node.materials.length - 1)
         node.indexActiveMaterial = 0;
     else
@@ -175,7 +175,7 @@ MySceneGraph.prototype.changeNodesMaterialIndex = function (node) {
 /*
  * Scene
  */
-MySceneGraph.prototype.parseScene = function (rootElement) {
+MySceneGraph.prototype.parseScene = function(rootElement) {
     var scene = rootElement.getElementsByTagName('scene')[0];
     var axisLength = this.reader.getFloat(scene, 'axis_length', true);
     this.rootNodeId = this.reader.getString(scene, 'root', true);
@@ -187,7 +187,7 @@ MySceneGraph.prototype.parseScene = function (rootElement) {
 /*
  * Views
  */
-MySceneGraph.prototype.parseViews = function (rootElement) {
+MySceneGraph.prototype.parseViews = function(rootElement) {
     var views = rootElement.getElementsByTagName('views')[0];
     var err;
 
@@ -229,7 +229,7 @@ MySceneGraph.prototype.parseViews = function (rootElement) {
 /*
  * Illumination
  */
-MySceneGraph.prototype.parseIllumination = function (rootElement) {
+MySceneGraph.prototype.parseIllumination = function(rootElement) {
     var illumination = rootElement.getElementsByTagName("illumination")[0];
     var ambient = illumination.getElementsByTagName('ambient')[0];
     var background = illumination.getElementsByTagName('background')[0];
@@ -242,7 +242,7 @@ MySceneGraph.prototype.parseIllumination = function (rootElement) {
 /*
  * Lights
  */
-MySceneGraph.prototype.parseLights = function (rootElement) {
+MySceneGraph.prototype.parseLights = function(rootElement) {
     var lights = rootElement.getElementsByTagName('lights')[0];
     var err;
 
@@ -337,7 +337,7 @@ MySceneGraph.prototype.parseLights = function (rootElement) {
 /**
  * Textures
  */
-MySceneGraph.prototype.parseTextures = function (rootElement) {
+MySceneGraph.prototype.parseTextures = function(rootElement) {
     var texturesElem = rootElement.getElementsByTagName('textures')[0];
     var textures = texturesElem.getElementsByTagName('texture');
 
@@ -364,7 +364,7 @@ MySceneGraph.prototype.parseTextures = function (rootElement) {
 /**
  * Materials
  */
-MySceneGraph.prototype.parseMaterials = function (rootElement) {
+MySceneGraph.prototype.parseMaterials = function(rootElement) {
     var materialsElem = rootElement.getElementsByTagName('materials')[0];
     var materials = materialsElem.getElementsByTagName('material');
 
@@ -397,7 +397,7 @@ MySceneGraph.prototype.parseMaterials = function (rootElement) {
 /**
  * Transformations
  */
-MySceneGraph.prototype.parseTransformations = function (rootElement) {
+MySceneGraph.prototype.parseTransformations = function(rootElement) {
     var transformationsElem = rootElement.getElementsByTagName('transformations')[0];
     var transformations = transformationsElem.getElementsByTagName('transformation');
     var idList = [];
@@ -446,7 +446,7 @@ MySceneGraph.prototype.parseTransformations = function (rootElement) {
 /**
  * Parse animations
  */
-MySceneGraph.prototype.parseAnimations = function (rootElement) {
+MySceneGraph.prototype.parseAnimations = function(rootElement) {
     var animationsElem = rootElement.getElementsByTagName('animations')[0].childNodes;
 
     for (var i = 0; i < animationsElem.length; i++) {
@@ -493,7 +493,7 @@ MySceneGraph.prototype.parseAnimations = function (rootElement) {
 /**
  * Primitives
  */
-MySceneGraph.prototype.parsePrimitives = function (rootElement) {
+MySceneGraph.prototype.parsePrimitives = function(rootElement) {
     var primitivesElem = rootElement.getElementsByTagName('primitives')[0];
     var primitives = primitivesElem.getElementsByTagName('primitive');
 
@@ -609,6 +609,7 @@ MySceneGraph.prototype.parsePrimitives = function (rootElement) {
             chessboard.c1G = this.reader.getFloat(c1, 'g', true);
             chessboard.c1B = this.reader.getFloat(c1, 'b', true);
             chessboard.c1A = this.reader.getFloat(c1, 'a', true);
+            //chessboard.c1 = vec4(c1R, c1G, c1B, c1A);
 
             var c2 = typeElem.getElementsByTagName('c2')[0];
             chessboard.c2R = this.reader.getFloat(c2, 'r', true);
@@ -635,7 +636,7 @@ MySceneGraph.prototype.parsePrimitives = function (rootElement) {
 /**
  * Components
  */
-MySceneGraph.prototype.parseNodes = function (rootElement) {
+MySceneGraph.prototype.parseNodes = function(rootElement) {
     var componentsElem = rootElement.getElementsByTagName('components')[0];
     var components = componentsElem.getElementsByTagName('component');
     var rootComponent = this.getComponentFromId(components, this.rootNodeId);
@@ -656,7 +657,7 @@ MySceneGraph.prototype.parseNodes = function (rootElement) {
 /**
  * Recursive function to get all the individual components
  */
-MySceneGraph.prototype.parseNode = function (componentsList, component, parentNode) {
+MySceneGraph.prototype.parseNode = function(componentsList, component, parentNode) {
     var node = new Node(component.id);
     var checkType;
     var firstTransformation = true;
@@ -874,6 +875,9 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
                             this.scene.testShaders[0].setUniformsValues({ dimY: this.primitives[j].partsY });
                             this.scene.testShaders[0].setUniformsValues({ selectedU: this.primitives[j].selectedU });
                             this.scene.testShaders[0].setUniformsValues({ selectedV: this.primitives[j].selectedV });
+
+                            //this.scene.testShaders[0].setUniformsValues({ c1: this.primitives[j].c1 });
+
                             this.scene.testShaders[0].setUniformsValues({ c1R: this.primitives[j].c1R });
                             this.scene.testShaders[0].setUniformsValues({ c1G: this.primitives[j].c1G });
                             this.scene.testShaders[0].setUniformsValues({ c1B: this.primitives[j].c1B });
@@ -906,7 +910,7 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
 /**
  * Callback to be executed on any read error
  */
-MySceneGraph.prototype.onXMLError = function (message) {
+MySceneGraph.prototype.onXMLError = function(message) {
     console.error("XML Loading Error: " + message);
     this.loadedOk = false;
 };
@@ -915,7 +919,7 @@ MySceneGraph.prototype.onXMLError = function (message) {
  * Util functions
  */
 
-MySceneGraph.prototype.getComponentFromId = function (list, id) {
+MySceneGraph.prototype.getComponentFromId = function(list, id) {
     for (var i = 0; i < list.length; i++) {
         var component = list[i];
         var componentId = this.reader.getString(component, 'id', true);
@@ -924,7 +928,7 @@ MySceneGraph.prototype.getComponentFromId = function (list, id) {
     }
 }
 
-MySceneGraph.prototype.getRGBA = function (element, required) {
+MySceneGraph.prototype.getRGBA = function(element, required) {
     var r = this.reader.getFloat(element, 'r', required);
     var g = this.reader.getFloat(element, 'g', required);
     var b = this.reader.getFloat(element, 'b', required);
@@ -932,7 +936,7 @@ MySceneGraph.prototype.getRGBA = function (element, required) {
     return vec4.fromValues(r, g, b, a);
 };
 
-MySceneGraph.prototype.getColorFromRGBA = function (element, required) {
+MySceneGraph.prototype.getColorFromRGBA = function(element, required) {
     var color = {};
     color.r = this.reader.getFloat(element, 'r', required);
     color.g = this.reader.getFloat(element, 'g', required);
@@ -941,7 +945,7 @@ MySceneGraph.prototype.getColorFromRGBA = function (element, required) {
     return color;
 };
 
-MySceneGraph.prototype.getXYZ = function (element, required) {
+MySceneGraph.prototype.getXYZ = function(element, required) {
     var x = this.reader.getFloat(element, 'x', required);
     var y = this.reader.getFloat(element, 'y', required);
     var z = this.reader.getFloat(element, 'z', required);
@@ -951,7 +955,7 @@ MySceneGraph.prototype.getXYZ = function (element, required) {
 /**
  * Generates the apropriate primitive
  */
-MySceneGraph.prototype.generatePrimitive = function (primitiveInfo, length_s, length_t) {
+MySceneGraph.prototype.generatePrimitive = function(primitiveInfo, length_s, length_t) {
     if (primitiveInfo.type == "rectangle")
         return PrimitiveBuilder.buildRect(this.scene, primitiveInfo.x1, primitiveInfo.y1, primitiveInfo.x2, primitiveInfo.y2, length_s, length_t);
     else if (primitiveInfo.type == "triangle")
@@ -979,7 +983,7 @@ MySceneGraph.prototype.generatePrimitive = function (primitiveInfo, length_s, le
 /**
  * Checks if there's more than one components with the same id
  */
-MySceneGraph.prototype.checkForDoubleIdInComponents = function (components) {
+MySceneGraph.prototype.checkForDoubleIdInComponents = function(components) {
     var idCollection = [];
 
     for (var i = 0; i < components.length; i++)
@@ -996,7 +1000,7 @@ MySceneGraph.prototype.checkForDoubleIdInComponents = function (components) {
 /**
  * Applies transformations to only one variable
  */
-MySceneGraph.prototype.applyTransform = function (type, transformations, x, y, z, axis, angle) {
+MySceneGraph.prototype.applyTransform = function(type, transformations, x, y, z, axis, angle) {
     switch (type) {
         case "translate":
             mat4.translate(transformations, transformations, [x, y, z]);
@@ -1023,7 +1027,7 @@ MySceneGraph.prototype.applyTransform = function (type, transformations, x, y, z
 /**
  * Checks if the last entry on the list has the same id as one element already there
  */
-MySceneGraph.prototype.checkDoubleId = function (list, where) {
+MySceneGraph.prototype.checkDoubleId = function(list, where) {
     var lastElementIndex = list.length - 1;
 
     for (var i = 0; i < list.length - 1; i++) {

@@ -17,6 +17,8 @@ uniform float c1G;
 uniform float c1B;
 uniform float c1A;
 
+//uniform vec4 c1;
+
 uniform float c2R;
 uniform float c2G;
 uniform float c2B;
@@ -27,10 +29,12 @@ uniform float csG;
 uniform float csB;
 uniform float csA;
 
-varying vec2 aTextureCoordFrag;
+varying vec2 vTextureCoord;
 varying vec2 vertexPositionFrag;
 varying float selectedUFrag;
 varying float selectedVFrag;
+
+//varying vec4 c1Flag;
 
 varying float c1RFrag;
 varying float c1GFrag;
@@ -54,7 +58,11 @@ void main() {
 	else
 		gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
 
-	aTextureCoordFrag = aTextureCoord;
+
+
+
+
+	vTextureCoord = aTextureCoord;
 	vertexPositionFrag = vertexPosition;
 	selectedUFrag = selectedU;
 	selectedVFrag = selectedV;
@@ -63,6 +71,8 @@ void main() {
 	c1GFrag = c1G;
 	c1BFrag = c1B;
 	c1AFrag = c1A;
+
+	//c1Flag = c1;
 
 	c2RFrag = c2R;
 	c2GFrag = c2G;
