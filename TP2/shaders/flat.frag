@@ -49,16 +49,14 @@ void main() {
 
     vec2 myMod = mod(vertexPositionFrag, 2.0);
     if((floor(myMod.x) == 0.0 && floor(myMod.y) == 0.0) || (floor(myMod.x) == 1.0 && floor(myMod.y) == 1.0))
-        color = vec4(0, 0, 0, 1);
+        color = texture2D(uSampler, vTextureCoord) * vec4(c1RFrag, c1GFrag, c1BFrag, c1AFrag);
+    else
+        color = texture2D(uSampler, vTextureCoord) * vec4(c2RFrag, c2GFrag, c2BFrag, c2AFrag);
 
     vec4 filter;
     if(ivec2(vertexPositionFrag) == ivec2(selectedUFrag, selectedVFrag)) {
-        color = vec4(c1RFrag, c1GFrag, c1BFrag, c1AFrag);
+        color = texture2D(uSampler, vTextureCoord) * vec4(csRFrag, csGFrag, csBFrag, csAFrag);
     }
-
-    /*if(ivec2(vertexPositionFrag) == ivec2(selectedUFrag, selectedVFrag) || ivec2(vertexPositionFrag) == ivec2(selectedUFrag + 1.0, selectedVFrag) ||
-        ivec2(vertexPositionFrag) == ivec2(selectedUFrag, selectedVFrag + 1.0) || ivec2(vertexPositionFrag) == ivec2(selectedUFrag + 1.0, selectedVFrag + 1.0))
-        color = vec4(1, 0, 0, 1);*/
 
     gl_FragColor = color;
 }

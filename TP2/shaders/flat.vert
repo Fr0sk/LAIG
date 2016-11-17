@@ -53,7 +53,10 @@ varying float csAFrag;
 
 void main() {
 	vec2 vertexPosition = floor(aTextureCoord * vec2(dimX, dimY));
-	if(ivec2(vertexPosition) == ivec2(selectedU, selectedV) || ivec2(vertexPosition) == ivec2(selectedU + 1.0, selectedV + 1.0) || ivec2(vertexPosition) == ivec2(selectedU + 1.0, selectedV) || ivec2(vertexPosition) == ivec2(selectedU, selectedV + 1.0))
+	if(ivec2(vertexPosition) == ivec2(selectedU, selectedV)
+		|| ivec2(vertexPosition) == ivec2(selectedU + 1.0, selectedV)
+		|| ivec2(vertexPosition) == ivec2(selectedU, selectedV + 1.0)
+		|| ivec2(vertexPosition) == ivec2(selectedU + 1.0, selectedV + 1.0))
 		gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition + aVertexNormal * normScale, 1.0);
 	else
 		gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
