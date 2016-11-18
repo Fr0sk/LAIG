@@ -875,7 +875,7 @@ MySceneGraph.prototype.parseNode = function(componentsList, component, parentNod
                     else {
                         node.setPrimitive(this.generatePrimitive(this.primitives[j], 1, 1));
                         if (this.primitives[j].type == "chessboard") {
-                            node.activeShader = 0;
+                            node.activeShader = 1;
                             this.scene.testShaders[0].setUniformsValues({ dimX: this.primitives[j].partsX });
                             this.scene.testShaders[0].setUniformsValues({ dimY: this.primitives[j].partsY });
                             this.scene.testShaders[0].setUniformsValues({ selectedU: this.primitives[j].selectedU });

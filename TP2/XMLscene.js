@@ -40,11 +40,13 @@ XMLscene.prototype.init = function (application) {
     this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
     this.testShaders = [
-        new CGFshader(this.gl, "shaders/chessboard.vert", "shaders/chessboard.frag")
+        new CGFshader(this.gl, "shaders/chessboard.vert", "shaders/chessboard.frag"),
+        new CGFshader(this.gl, "shaders/progressive.vert", "shaders/progressive.frag")
     ];
 
     this.testShaders[0].setUniformsValues({ normScale: 0.2 });
-    this.testShaders[0].setUniformsValues({ uSampler: 1});
+    this.testShaders[0].setUniformsValues({ uSampler: 1 });
+    this.testShaders[1].setUniformsValues({ uSampler: 1 });
 };
 
 XMLscene.prototype.initLights = function () {
@@ -252,7 +254,11 @@ XMLscene.prototype.updateLightsStatus = function () {
 /*
  * Update function
  */
+/*var xAux = 0;
+var yAux = 0;
+var myTime = 0;*/
 var lastCurTime = -1;
+var passedTime = 0;
 XMLscene.prototype.update = function (curTime) {
     var deltaTime;
     if (lastCurTime < 0) {
@@ -271,6 +277,22 @@ XMLscene.prototype.update = function (curTime) {
             else
                 node.animations[node.activeAnimation].animate(deltaTime);
         }
+        passedTime += deltaTime;
+        this.testShaders[1].setUniformsValues({ time: passedTime });
+
+        /*myTime += deltaTime;
+        if (myTime >= 0.5) {
+            myTime = 0;
+            xAux++;
+            if (xAux == 8) {
+                xAux = 0;
+                yAux++;
+                if (yAux == 8)
+                    yAux = 0;
+            }
+            this.testShaders[0].setUniformsValues({ selectedU: xAux });
+            this.testShaders[0].setUniformsValues({ selectedV: yAux });
+        }*/
     }
 
 }

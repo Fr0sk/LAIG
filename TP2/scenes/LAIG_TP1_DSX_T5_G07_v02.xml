@@ -269,7 +269,7 @@
             </patch>
         </primitive>
         <primitive id="chessboard1">
-            <chessboard du="8" dv="8" textureref="t_wood" su="3" sv="3">
+            <chessboard du="100" dv="100" textureref="t_wood" su="3" sv="3">
                 <c1 r="0.7" g="0.9" b="0" a="1" />
                 <c2 r="1" g="1" b="1" a="1" />
                 <cs r="1" g="0" b="0" a="1" />
