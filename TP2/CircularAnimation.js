@@ -55,6 +55,6 @@ CircularAnimation.prototype.animate = function (deltaTime) {
     }
 
     this.totalAnimTime += deltaTime;
-    this.node.setMat(this.node.computeMatrix(this.node.getMat(), this.getLerpedMatrix()));
+    //this.node.setMat(this.node.computeMatrix(this.node.getMat(), this.getLerpedMatrix()));
     this.currDist = this.totalAnimTime * this.velocity;
 };
