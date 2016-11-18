@@ -25,7 +25,7 @@
     <!-- Lights instances set -->
     <lights>
         <!-- Must include at least 1 omni light and 1 spot light -->
-        <omni id="omni1" enabled="0">
+        <omni id="omni1" enabled="1">
             <location x="2" y="3" z="3" w="0" />
             <ambient r="1" g="0.4" b="0.8" a="1" />
             <diffuse r="1" g="1" b="1" a="1" />
@@ -79,6 +79,9 @@
         <texture id="t_football" file="resources/football.png" length_s="1" length_t="1" />
         <texture id="t_cyberpunkSign" file="resources/cyberpunk.jpg" length_s="1" length_t="1" />
         <texture id="t_cyberCharacter" file="resources/cyberCharacter.jpg" length_s="5" length_t="5" />
+        <texture id="t_zeppelin" file="resources/zeppelin.png" length_s="1" length_t="1" />
+        <texture id="t_zeppelinCabine" file="resources/zeppelinCabine.jpg" length_s="1" length_t="1" />
+        <texture id="t_uv" file="resources/uv.jpg" length_s="1" length_t="1" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
@@ -205,9 +208,20 @@
             <controlpoint xx="5" yy="0" zz="0" />
         </animation>
 
-        <animation id="goForward" span="3" type="linear">
+        <animation id="goForward" span="5" type="linear">
             <controlpoint xx="0" yy="0" zz="0" />
             <controlpoint xx="0" yy="0" zz="-12" />
+            <controlpoint xx="0" yy="0" zz="6" />
+        </animation>
+
+        <animation id="a_ball" span="2" type="linear">
+            <controlpoint xx="0" yy="0" zz="0" />
+            <controlpoint xx="-16.8" yy="2" zz="0" />
+            <controlpoint xx="0" yy="-2" zz="0" />
+            <controlpoint xx="0" yy="1" zz="0" />
+            <controlpoint xx="0" yy="-1" zz="0" />
+            <controlpoint xx="0" yy="0.5" zz="0" />
+            <controlpoint xx="0" yy="-0.5" zz="0" />
         </animation>
 
 
@@ -267,6 +281,34 @@
                 <controlpoint x="2" y="2" z="1" />
             </patch>
         </primitive>
+        <primitive id="zeppelinPatch">
+            <patch orderV="3" orderU="5" partsU="20" partsV="20">
+                <controlpoint x="-1.000" y="-1.000" z="-1.000" />
+                <controlpoint x="-1.500" y="-0.500" z="-1.000" />
+                <controlpoint x="-1.500" y="3.500" z="-1.000" />
+                <controlpoint x="-0.850" y="4.000" z="-1.000" />
+                <controlpoint x="-0.500" y="-1.500" z="-1.000" />
+                <controlpoint x="-0.500" y="-1.596" z="0.079" />
+                <controlpoint x="-0.500" y="3.743" z="0.785" />
+                <controlpoint x="-0.500" y="4.500" z="-1.000" />
+                <controlpoint x="-0.500" y="-1.500" z="-1.000" />
+                <controlpoint x="-0.500" y="-0.434" z="1.165" />
+                <controlpoint x="-0.500" y="3.226" z="0.322" />
+                <controlpoint x="-0.500" y="4.500" z="-1.000" />
+                <controlpoint x="0.500" y="-1.500" z="-1.000" />
+                <controlpoint x="0.500" y="-0.434" z="1.174" />
+                <controlpoint x="0.500" y="3.235" z="0.322" />
+                <controlpoint x="0.500" y="4.500" z="-1.000" />
+                <controlpoint x="0.500" y="-1.500" z="-1.000" />
+                <controlpoint x="0.500" y="-1.605" z="0.062" />
+                <controlpoint x="0.500" y="3.743" z="0.785" />
+                <controlpoint x="0.500" y="4.500" z="-1.000" />
+                <controlpoint x="1.000" y="-1.000" z="-1.000" />
+                <controlpoint x="1.500" y="-0.500" z="-1.000" />
+                <controlpoint x="1.500" y="3.500" z="-1.000" />
+                <controlpoint x="0.850" y="4.000" z="-1.000" />
+            </patch>
+        </primitive>
         <primitive id="chessboard1">
             <chessboard du="3" dv="3" textureref="t_building" su="1" sv="1">
                 <c1 r="1" g="0" b="0" a="1" />
@@ -306,6 +348,61 @@
                 <componentref id="ball" />
                 <componentref id="surrondingTorus" />
                 <componentref id="sign" />
+                <componentref id="zeppelin" />
+            </children>
+        </component>
+        <component id="zeppelin">
+            <transformation>
+                <translate x="-8" y="20" z="-8" />
+                <rotate axis="x" angle="90" />
+                <scale x="5" y="5" z="5" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="t_zeppelin" />
+            <children>
+                <componentref id="zeppelinUpper" />
+                <componentref id="zeppelinLower" />
+                <componentref id="zeppelinCabine" />
+            </children>
+        </component>
+         <component id="zeppelinUpper">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="zeppelinPatch" />
+            </children>
+        </component>
+        <component id="zeppelinLower">
+            <transformation>
+                <translate x="0" y="0" z="-2" />
+                <rotate axis="y" angle="180" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="zeppelinPatch" />
+            </children>
+        </component>
+        <component id="zeppelinCabine">
+            <transformation>
+                <translate x="0" y="2" z="0" />
+                <rotate axis="y" angle="90" />
+                <scale x="1" y="2" z="1" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="t_zeppelinCabine" />
+            <children>
+                <componentref id="cube" />
             </children>
         </component>
         <component id="planeTest">
@@ -346,9 +443,6 @@
                     <translate x="2.5" y="0" z="12" />
                     <rotate axis="y" angle="180" />
             </transformation>
-            <animation>
-                <animationref id="goForward" />
-            </animation>
             <materials>
                 <material id="m_Default" />
             </materials>
@@ -379,6 +473,9 @@
                 <material id="m_Default" />
             </materials>
             <texture id="t_football" />
+            <animation>
+                <animationref id="a_ball" />
+            </animation>
             <children>
                 <primitiveref id="sphere2" />
             </children>
@@ -770,9 +867,6 @@
             <transformation>
                 <translate x="0" y="0" z="-30" />
             </transformation>
-            <animation>
-                <animationref id="rotateCrazy" />
-            </animation>
             <materials>
                 <material id="inherit" />
             </materials>
@@ -788,6 +882,9 @@
             <transformation>
                 <translate x="0" y="0" z="30" />
             </transformation>
+            <animation>
+                <animationref id="rotateCrazy" />
+            </animation>
             <materials>
                 <material id="inherit" />
             </materials>
@@ -2636,6 +2733,22 @@
             <texture id="inherit" />
             <children>
                 <componentref id="topRectChangedTexture" />
+                <componentref id="bottomRect" />
+                <componentref id="leftRect" />
+                <componentref id="rightRect" />
+                <componentref id="frontRect" />
+                <componentref id="backRect" />
+            </children>
+        </component>
+        <component id="cube">
+            <transformation></transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="topRect" />
+                <componentref id="bottomRect" />
                 <componentref id="leftRect" />
                 <componentref id="rightRect" />
                 <componentref id="frontRect" />

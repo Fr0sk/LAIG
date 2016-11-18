@@ -57,7 +57,7 @@ LinearAnimation.prototype.getMatrix = function () {
     var x = this.pointsCoordLength[this.currControlPoint].x * delta;
     var y = this.pointsCoordLength[this.currControlPoint].y * delta;
     var z = this.pointsCoordLength[this.currControlPoint].z * delta;
-
+    
     var mat = [
         1.0, 0.0, 0.0, 0.0,
         0.0, 1.0, 0.0, 0.0,
