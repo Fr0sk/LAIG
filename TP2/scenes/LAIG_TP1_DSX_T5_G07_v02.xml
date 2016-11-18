@@ -324,6 +324,13 @@
                 <cs r="1" g="0" b="0" a="1" />
             </chessboard>
         </primitive>
+        <primitive id="chessboard2">
+            <chessboard du="20" dv="20" textureref="t_whiteGrass" su="10" sv="10">
+                <c1 r="0.7" g="0.9" b="0" a="1" />
+                <c2 r="1" g="1" b="1" a="1" />
+                <cs r="1" g="0" b="0" a="1" />
+            </chessboard>
+        </primitive>
     </primitives>
     <!-- Components set -->
     <components>
@@ -468,14 +475,14 @@
             <transformation>
                 <scale x="2" y="2" z="2" />
                 <rotate axis="x" angle="-90" />
-                <translate x="0" y="-15" z="28.3" />
+                <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="m_Default" />
             </materials>
             <texture id="none" />
             <children>
-                <componentref id="chessboardPrimitive" />
+                <componentref id="chessboard1Primitive" />
             </children>
         </component>
         <component id="chessboard2Position">
@@ -489,10 +496,10 @@
             </materials>
             <texture id="none" />
             <children>
-                <componentref id="chessboardPrimitive" />
+                <componentref id="chessboard2Primitive" />
             </children>
         </component>
-        <component id="chessboardPrimitive">
+        <component id="chessboard1Primitive">
             <transformation>
             </transformation>
             <materials>
@@ -501,6 +508,16 @@
             <texture id="none" />
             <children>
                 <primitiveref id="chessboard1" />
+            </children>
+        <component id="chessboard2Primitive">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="chessboard2" />
             </children>
         </component>
         <component id="zeppelin">

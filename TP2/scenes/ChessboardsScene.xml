@@ -1,0 +1,353 @@
+<dsx>
+ <!-- Scene root definition and axis length -->
+    <scene root="root" axis_length="20" />
+    <!-- Cameras definition -->
+    <!-- Pressing v/V changes between cameras -->
+    <views default="awayField">
+        <perspective id="above" near="0.1" far="500" angle="1.5">
+            <from x="10" y="60" z="35" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+        <perspective id="nearField" near="0.1" far="500" angle="0.4">
+            <from x="20" y="1" z="4" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+        <perspective id="awayField" near="0.1" far="500" angle="0.4">
+            <from x="60" y="45" z="-70" />
+            <to x="0" y="0" z="10" />
+        </perspective>
+    </views>
+    <!-- Illumination parameters set -->
+    <illumination doublesided="0" local="1">
+        <ambient r="1" g="0.5" b="0.1" a="1" />
+        <background r="1" g="0.5" b="0.1" a="1" />
+    </illumination>
+    <!-- Lights instances set -->
+    <lights>
+        <!-- Must include at least 1 omni light and 1 spot light -->
+        <omni id="omni1" enabled="1">
+            <location x="2" y="3" z="3" w="0" />
+            <ambient r="1" g="0.4" b="0.8" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="0.5" g="0" b="0" a="1" />
+        </omni>
+        <omni id="omni2" enabled="0">
+            <location x="-2" y="3" z="-3" w="0" />
+            <ambient r="1" g="0.2" b="1" a="1" />
+            <diffuse r="1" g="0.1" b="0" a="1" />
+            <specular r="1" g="0.5" b="1" a="1" />
+        </omni>
+        <spot id="fieldLight" enabled="0" angle="30" exponent="0.5">
+            <target x="0" y="0" z="0" />
+            <location x="0" y="5" z="0" />
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="0" g="0.5" b="0.5" a="1" />
+        </spot>
+        <spot id="goalLight" enabled="0" angle="30" exponent="1">
+            <target x="15" y="0" z="0" />
+            <location x="12" y="3" z="0" />
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="1" g="1" b="1" a="1" />
+        </spot>
+        <spot id="goalLight2" enabled="0" angle="30" exponent="1">
+            <target x="-15" y="0" z="0" />
+            <location x="-12" y="3" z="0" />
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="1" g="1" b="1" a="1" />
+        </spot>
+    </lights>
+    <!-- Textures set -->
+    <!-- Must include at least one texture block -->
+    <textures>
+        <texture id="t_cyberpunkSign" file="resources/cyberpunk.jpg" length_s="1" length_t="1" />
+        <texture id="t_cyberCharacter" file="resources/cyberCharacter.jpg" length_s="1" length_t="1" />
+        <texture id="t_topBuilding" file="resources/topBuilding.jpg" length_s="1" length_t="1" />
+        <texture id="t_treeWood" file="resources/treeWood.jpg" length_s="1" length_t="1" />
+        <texture id="t_grass" file="resources/grass.png" length_s="1" length_t="1" />
+        <texture id="t_wood" file="resources/wood.jpg" length_s="1" length_t="1" />       
+    </textures>
+    <!-- Materials set -->
+    <!-- Must include at least one material block -->
+    <materials>
+        <material id="m_Default">
+            <emission r="0" g="0" b="0" a="1" />
+            <ambient r="1" g="1" b="1" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="1" g="1" b="1" a="1" />
+            <shininess value="50" />
+        </material>
+        <material id="m_Bluewish">
+            <emission r="0" g="0" b="0.1" a="1" />
+            <ambient r="0.1" g="0.4" b="0.8" a="1" />
+            <diffuse r="0.1" g="0.4" b="0.8" a="1" />
+            <specular r="0.1" g="0.04" b="0.01" a="1" />
+            <shininess value="50" />
+        </material>
+        <material id="m_Glow">
+            <emission r="0.8" g="0" b="0" a="0" />
+            <ambient r="0.8" g="0" b="0" a="1" />
+            <diffuse r="0.8" g="0" b="0" a="1" />
+            <specular r="0.8" g="0" b="0" a="1" />
+            <shininess value="50" />
+        </material>
+        <material id="m_Glow_Orange">
+            <emission r="1" g="0.5" b="0" a="1" />
+            <ambient r="1" g="0.5" b="0" a="1" />
+            <diffuse r="1" g="0.5" b="0" a="1" />
+            <specular r="1" g="0.5" b="0" a="1" />
+            <shininess value="50" />
+        </material>
+        <material id="m_Grass">
+            <emission r="0" g="0.2" b="0" a="1" />
+            <ambient r="0.1" g="0.4" b="0.1" a="1" />
+            <diffuse r="0.1" g="0.4" b="0.1" a="1" />
+            <specular r="0.1" g="0.04" b="0.01" a="1" />
+            <shininess value="50" />
+        </material>
+        <material id="m_WhiteGrass">
+            <emission r="0" g="0" b="0.1" a="1" />
+            <ambient r="1" g="1" b="1" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="0.01" g="0.01" b="0.01" a="1" />
+            <shininess value="50" />
+        </material>
+        <material id="m_metal">
+            <emission r="0" g="0" b="0.1" a="1" />
+            <ambient r="1" g="1" b="1" a="1" />
+            <diffuse r="0.6" g="0.6" b="0.6" a="1" />
+            <specular r="0.9" g="0.9" b="0.9" a="1" />
+            <shininess value="50" />
+        </material>
+        <material id="m_skybox">
+            <emission r="0" g="0" b="0" a="1" />
+            <ambient r="1" g="1" b="1" a="1" />
+            <diffuse r="0" g="0" b="0" a="0" />
+            <specular r="0" g="0" b="0" a="1" />
+            <shininess value="50" />
+        </material>
+    </materials>
+    <!-- Transformations set -->
+    <!-- Must include at least one transformation block -->
+    <transformations>
+    </transformations>
+    <!-- Animations set -->
+    <animations>
+    </animations>
+    <!-- Primitives set -->
+    <!-- Must include at least one primitive block -->
+    <primitives>
+        <primitive id="chessboard1">
+            <chessboard du="2" dv="2" textureref="t_wood" su="1" sv="0">
+                <c1 r="0.7" g="0.9" b="0" a="1" />
+                <c2 r="1" g="1" b="1" a="1" />
+                <cs r="1" g="0" b="0" a="1" />
+            </chessboard>
+        </primitive>
+        <primitive id="chessboard2">
+            <chessboard du="4" dv="4" textureref="t_treeWood" su="2" sv="1">
+                <c1 r="0" g="0.2" b="0.6" a="1" />
+                <c2 r="0.5" g="0.1" b="0.8" a="1" />
+                <cs r="0" g="0.5" b="0" a="1" />
+            </chessboard>
+        </primitive>
+        <primitive id="chessboard3">
+            <chessboard du="8" dv="8" textureref="t_topBuilding" su="4" sv="6">
+                <c1 r="0" g="0.4" b="0.1" a="1" />
+                <c2 r="0.5" g="1" b="0.2" a="1" />
+                <cs r="0.2" g="0.5" b="0.4" a="1" />
+            </chessboard>
+        </primitive>
+        <primitive id="chessboard4">
+            <chessboard du="8" dv="4" textureref="t_treeWood" su="2" sv="3">
+                <c1 r="0.2" g="0.4" b="0" a="1" />
+                <c2 r="0.6" g="1" b="1" a="1" />
+                <cs r="0.9" g="0.5" b="0.5" a="1" />
+            </chessboard>
+        </primitive>
+        <primitive id="chessboard5">
+            <chessboard du="10" dv="10" textureref="t_topBuilding" su="7" sv="9">
+                <c1 r="0.8" g="0" b="1" a="1" />
+                <c2 r="1" g="0.8" b="0.5" a="1" />
+                <cs r="1" g="0.2" b="0.8" a="1" />
+            </chessboard>
+        </primitive>
+        <primitive id="chessboard6">
+            <chessboard du="20" dv="20" textureref="t_wood" su="-1" sv="-1">
+                <c1 r="0.7" g="0.2" b="0.5" a="1" />
+                <c2 r="0.1" g="0.7" b="0.6" a="1" />
+                <cs r="0.5" g="0.8" b="0.8" a="1" />
+            </chessboard>
+        </primitive>
+    </primitives>
+    <components>
+        <component id="root">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="chessboards" />
+            </children>
+        </component>
+        <component id="chessboards">
+            <transformation>
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="chessboard1Position" />
+                <componentref id="chessboard2Position" />
+                <componentref id="chessboard3Position" />
+                <componentref id="chessboard4Position" />
+                <componentref id="chessboard5Position" />
+                <componentref id="chessboard6Position" />
+            </children>
+        </component>
+        <component id="chessboard1Position">
+            <transformation>
+                <translate x="-4" y="2" z="0" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="chessboard1Primitive" />
+            </children>
+        </component>
+        <component id="chessboard2Position">
+            <transformation>
+                <translate x="-4" y="-2" z="0" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="chessboard2Primitive" />
+            </children>
+        </component>
+        <component id="chessboard3Position">
+            <transformation>
+                <translate x="0" y="2" z="0" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="chessboard3Primitive" />
+            </children>
+        </component>
+        <component id="chessboard4Position">
+            <transformation>
+                <translate x="0" y="-2" z="0" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="chessboard4Primitive" />
+            </children>
+        </component>
+        <component id="chessboard5Position">
+            <transformation>
+                <translate x="4" y="2" z="0" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="chessboard5Primitive" />
+            </children>
+        </component>
+        <component id="chessboard6Position">
+            <transformation>
+                <translate x="4" y="-2" z="0" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="chessboard6Primitive" />
+            </children>
+        </component>
+        <component id="chessboard1Primitive">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="chessboard1" />
+            </children>
+        </component>
+        <component id="chessboard2Primitive">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="chessboard2" />
+            </children>
+        </component>
+        <component id="chessboard3Primitive">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="chessboard3" />
+            </children>
+        </component>
+        <component id="chessboard4Primitive">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="chessboard4" />
+            </children>
+        </component>
+        <component id="chessboard5Primitive">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="chessboard5" />
+            </children>
+        </component>
+        <component id="chessboard6Primitive">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="chessboard6" />
+            </children>
+        </component>
+    </components>
+</dsx>
