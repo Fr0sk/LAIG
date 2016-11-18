@@ -8,6 +8,7 @@ function Node(id) {
     this.primitive = null;
     this.animations = [];
     this.activeAnimation = 0;
+    this.activeShader = null;       //null to avoid shaders, int to select shader
 };
 
 Node.prototype.pushMaterial = function (material) {
@@ -40,6 +41,10 @@ Node.prototype.getMaterials = function () {
     return this.materials;
 };
 
+Node.prototype.getPrimitive = function () {
+    return this.primitive;
+};
+
 Node.prototype.pushAnimation = function (animation) {
     this.animations.push(animation);
 };
@@ -59,4 +64,4 @@ Node.prototype.computeMatrix = function (mat1, mat2) {
     }
 
     return mult;
-}
+};

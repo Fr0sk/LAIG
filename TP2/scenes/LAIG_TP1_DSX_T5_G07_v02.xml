@@ -82,6 +82,7 @@
         <texture id="t_zeppelin" file="resources/zeppelin.png" length_s="1" length_t="1" />
         <texture id="t_zeppelinCabine" file="resources/zeppelinCabine.jpg" length_s="1" length_t="1" />
         <texture id="t_uv" file="resources/uv.jpg" length_s="1" length_t="1" />
+        <texture id="t_wood" file="resources/wood.jpg" length_s="1" length_t="1" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
@@ -312,10 +313,10 @@
             </patch>
         </primitive>
         <primitive id="chessboard1">
-            <chessboard du="3" dv="3" textureref="t_building" su="1" sv="1">
-                <c1 r="1" g="0" b="0" a="1" />
-                <c2 r="0" g="1" b="0" a="1" />
-                <cs r="0" g="0" b="1" a="1" />
+            <chessboard du="100" dv="100" textureref="t_wood" su="3" sv="3">
+                <c1 r="0.7" g="0.9" b="0" a="1" />
+                <c2 r="1" g="1" b="1" a="1" />
+                <cs r="1" g="0" b="0" a="1" />
             </chessboard>
         </primitive>
     </primitives>
@@ -351,6 +352,18 @@
                 <componentref id="surrondingTorus" />
                 <componentref id="sign" />
                 <componentref id="zeppelin" />
+                <componentref id="chessboardTest" />
+            </children>
+        </component>
+        <component id="chessboardTest">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="chessboard1" />
             </children>
         </component>
         <component id="zeppelin">
