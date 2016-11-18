@@ -20,6 +20,14 @@ struct lightProperties {
 #define NUMBER_OF_LIGHTS 8
 uniform lightProperties uLight[NUMBER_OF_LIGHTS];
 
-void main() {
-		gl_FragColor =  vec4(0.6,0.6,0.9, 1.0) * uLight[0].diffuse;
+uniform sampler2D uSampler;
+
+varying vec2 vTextureCoord;//Variavel recebida do vertex shader
+varying float newY;
+
+void main( void ) {
+
+    vec4 texel = texture2D(uSampler,vTextureCoord);
+	
+    gl_FragColor = vec4(texel.rgb * clamp(newY,0.3,0.6),texel.a);
 }
