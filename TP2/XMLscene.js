@@ -256,5 +256,4 @@ XMLscene.prototype.update = function (curTime) {
         passedTime += deltaTime;
         this.testShaders[1].setUniformsValues({ time: passedTime });
     }
-
 }
