@@ -83,6 +83,8 @@
         <texture id="t_zeppelinCabine" file="resources/zeppelinCabine.jpg" length_s="1" length_t="1" />
         <texture id="t_uv" file="resources/uv.jpg" length_s="1" length_t="1" />
         <texture id="t_wood" file="resources/wood.jpg" length_s="1" length_t="1" />
+        <texture id="t_feupFlag" file="resources/logoFEUP.png" length_s="1" length_t="1" />        
+        <texture id="t_isepFlag" file="resources/logoISEP.jpg" length_s="1" length_t="1" />        
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
@@ -244,6 +246,9 @@
         <primitive id="cylinderNetPrim">
             <cylinder base="0.5" top="0.5" height="1" slices="5" stacks="5" />
         </primitive>
+        <primitive id="cylinderHolder">
+            <cylinder base="0.2" top="0.2" height="8" slices="15" stacks="5" />
+        </primitive>
         <primitive id="sphere1">
             <sphere radius="2" slices="5" stacks="10" />
         </primitive>
@@ -311,7 +316,7 @@
             </patch>
         </primitive>
         <primitive id="chessboard1">
-            <chessboard du="100" dv="100" textureref="t_wood" su="3" sv="3">
+            <chessboard du="8" dv="8" textureref="t_wood" su="3" sv="3">
                 <c1 r="0.7" g="0.9" b="0" a="1" />
                 <c2 r="1" g="1" b="1" a="1" />
                 <cs r="1" g="0" b="0" a="1" />
@@ -350,10 +355,142 @@
                 <componentref id="surrondingTorus" />
                 <componentref id="sign" />
                 <componentref id="zeppelin" />
-                <componentref id="chessboardTest" />
+                <componentref id="chessboards" />
+                <componentref id="flags" />
             </children>
         </component>
-        <component id="chessboardTest">
+        <component id="flags">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="flag1Position" />
+                <componentref id="flag2Position" />
+                <componentref id="flag1Holder" />
+                <componentref id="flag2Holder" />
+            </children>
+        </component>
+        <component id="flag1Holder">
+            <transformation>
+                <rotate axis="x" angle="-90" />
+                <translate x="0" y="-23" z="10" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="holderPrimitive" />
+            </children>
+        </component>
+        <component id="flag2Holder">
+            <transformation>
+                <rotate axis="x" angle="-25" />
+                <translate x="0" y="21" z="-18" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="holderPrimitive" />
+            </children>
+        </component>
+        <component id="holderPrimitive">
+            <transformation>
+                <rotate axis="x" angle="-30" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="t_football" />
+            <children>
+                <primitiveref id="cylinderHolder" />
+            </children>
+        </component>
+        <component id="flag1Position">
+            <transformation>
+                <rotate axis="y" angle="90" />
+                <translate x="-18.8" y="14" z="0" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="t_feupFlag" />
+            <children>
+                <componentref id="flag" />
+            </children>
+        </component>
+        <component id="flag2Position">
+            <transformation>
+                <rotate axis="y" angle="90" />
+                <rotate axis="z" angle="60" />
+                <translate x="25" y="-8" z="0" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="t_isepFlag" />
+            <children>
+                <componentref id="flag" />
+            </children>
+        </component>
+        <component id="flag">
+            <transformation>
+                <rotate axis="z" angle="-30" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="patch1" />
+            </children>
+        </component>
+        <component id="chessboards">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="chessboard1Position" />
+                <componentref id="chessboard2Position" />
+            </children>
+        </component>
+        <component id="chessboard1Position">
+            <transformation>
+                <scale x="2" y="2" z="2" />
+                <rotate axis="x" angle="-90" />
+                <translate x="0" y="-15" z="28.3" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="chessboardPrimitive" />
+            </children>
+        </component>
+        <component id="chessboard2Position">
+            <transformation>
+                <scale x="2" y="2" z="2" />
+                <rotate axis="x" angle="-90" />
+                <translate x="0" y="15" z="28.3" />            
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="chessboardPrimitive" />
+            </children>
+        </component>
+        <component id="chessboardPrimitive">
             <transformation>
             </transformation>
             <materials>
@@ -416,39 +553,6 @@
             <texture id="t_zeppelinCabine" />
             <children>
                 <componentref id="cube" />
-            </children>
-        </component>
-        <component id="planeTest">
-            <transformation>
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <primitiveref id="plane1" />
-            </children>
-        </component>
-        <component id="patch1Test">
-            <transformation>
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <primitiveref id="patch1" />
-            </children>
-        </component>
-        <component id="patch2Test">
-            <transformation>
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <primitiveref id="patch2" />
             </children>
         </component>
         <component id="sign">

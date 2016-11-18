@@ -53,7 +53,6 @@ void main() {
     else
         color = texture2D(uSampler, vTextureCoord) * vec4(c2RFrag, c2GFrag, c2BFrag, c2AFrag);
 
-    vec4 filter;
     if(ivec2(vertexPositionFrag) == ivec2(selectedUFrag, selectedVFrag)) {
         color = texture2D(uSampler, vTextureCoord) * vec4(csRFrag, csGFrag, csBFrag, csAFrag);
     }
