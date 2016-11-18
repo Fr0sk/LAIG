@@ -51,9 +51,11 @@ LinearAnimation.prototype.setupTimes = function () {
 
 LinearAnimation.prototype.computeMatrix = function () {
     var delta = this.currAnimTime / this.pointsTime[this.currControlPoint];
-    var x = this.controlPointsLength[this.currControlPoint].x * delta + this.controlPoints[this.currControlPoint - 1].x;
+    var opposite = this.controlPointsLength[this.currControlPoint].x;
+    var adjacent = this.controlPointsLength[this.currControlPoint].z;
+    var x = opposite * delta + this.controlPoints[this.currControlPoint - 1].x;
     var y = this.controlPointsLength[this.currControlPoint].y * delta + this.controlPoints[this.currControlPoint - 1].y;
-    var z = this.controlPointsLength[this.currControlPoint].z * delta + this.controlPoints[this.currControlPoint - 1].z;
+    var z = adjacent * delta + this.controlPoints[this.currControlPoint - 1].z;
     
     var mat = [
         1.0, 0.0, 0.0, 0.0,
@@ -63,6 +65,11 @@ LinearAnimation.prototype.computeMatrix = function () {
     ];
 
     mat4.translate(mat, mat, [x, y, z]);
+    
+    var hypotenuse = Math.sqrt(Math.pow(opposite, 2) + Math.pow(adjacent, 2));
+    var angle = Math.acos(adjacent / hypotenuse);
+    if (opposite < 0) angle = -angle;
+    mat4.rotate(mat, mat, angle, [0, 1, 0]);
     return mat;
 }
 
