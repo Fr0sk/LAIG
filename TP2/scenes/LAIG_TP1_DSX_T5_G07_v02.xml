@@ -384,37 +384,13 @@
         </component>
         <component id="flag1Holder">
             <transformation>
-<<<<<<< HEAD
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="t_zeppelin" />
-            <animation>
-                <animationref id="a_zeppelin" />
-            </animation>
-            <children>
-                <componentref id="zeppelinPos" />
-            </children>
-        </component>
-        <component id="zeppelinPos">
-            <transformation>
-                <translate x="-8" y="20" z="-8" />
-                <rotate axis="x" angle="90" />
-                <scale x="5" y="5" z="5" />
-=======
                 <rotate axis="x" angle="-90" />
                 <translate x="0" y="-23" z="10" />
->>>>>>> bd5356c292176d16d7620a54b50f6249f08721cf
             </transformation>
             <materials>
                 <material id="m_Default" />
             </materials>
-<<<<<<< HEAD
-            <texture id="inherit" />
-=======
-            <texture id="none" />
->>>>>>> bd5356c292176d16d7620a54b50f6249f08721cf
+            <texture id="t_football" />
             <children>
                 <componentref id="holderPrimitive" />
             </children>
@@ -535,6 +511,20 @@
             </children>
         </component>
         <component id="zeppelin">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="t_zeppelin" />
+            <animation>
+                <animationref id="a_zeppelin" />
+            </animation>
+            <children>
+                <componentref id="zeppelinPos" />
+            </children>
+        </component>
+        <component id="zeppelinPos">
             <transformation>
                 <translate x="-8" y="20" z="-8" />
                 <rotate axis="x" angle="90" />
