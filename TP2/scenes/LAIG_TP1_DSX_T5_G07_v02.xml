@@ -216,7 +216,7 @@
         </animation>
 
         <animation id="a_ball" span="2" type="linear">
-            <controlpoint xx="0" yy="10" zz="0" />
+            <controlpoint xx="0" yy="0" zz="0" />
             <controlpoint xx="-16.8" yy="2" zz="1" />
             <controlpoint xx="-16.8" yy="0" zz="1.2" />
             <controlpoint xx="-16.8" yy="1.5" zz="1.4" />
@@ -227,6 +227,13 @@
             <controlpoint xx="-16.8" yy="0" zz="2.2" />
         </animation>
 
+
+        <animation id="a_zeppelin" span="60" type="linear">
+            <controlpoint xx="50" yy="20" zz="-50" />
+            <controlpoint xx="50" yy="20" zz="50" />
+            <controlpoint xx="-50" yy="20" zz="50" />
+            <controlpoint xx="-50" yy="20" zz="-50" />
+        </animation>
 
         <animation id="rotateCrazy" span="0.1" type="circular" center="0 0 0"
             radius="10" starting="0" rotang="45" />
@@ -368,6 +375,20 @@
         </component>
         <component id="zeppelin">
             <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="t_zeppelin" />
+            <animation>
+                <animationref id="a_zeppelin" />
+            </animation>
+            <children>
+                <componentref id="zeppelinPos" />
+            </children>
+        </component>
+        <component id="zeppelinPos">
+            <transformation>
                 <translate x="-8" y="20" z="-8" />
                 <rotate axis="x" angle="90" />
                 <scale x="5" y="5" z="5" />
@@ -375,7 +396,7 @@
             <materials>
                 <material id="m_Default" />
             </materials>
-            <texture id="t_zeppelin" />
+            <texture id="inherit" />
             <children>
                 <componentref id="zeppelinUpper" />
                 <componentref id="zeppelinLower" />
