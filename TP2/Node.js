@@ -12,45 +12,45 @@ function Node(id) {
     this.primitiveWithShaderInfo = null;
 };
 
-Node.prototype.pushMaterial = function (material) {
+Node.prototype.pushMaterial = function(material) {
     this.materials.push(material);
 };
 
-Node.prototype.setTexture = function (texture) {
+Node.prototype.setTexture = function(texture) {
     this.texture = texture;
     for (var i = 0; i < this.materials.length; i++)
         this.materials[i].setTexture(texture);
 };
 
-Node.prototype.setMat = function (mat) {
+Node.prototype.setMat = function(mat) {
     this.mat = mat;
 };
 
-Node.prototype.getMat = function () {
+Node.prototype.getMat = function() {
     return this.mat;
 }
 
-Node.prototype.pushChild = function (child) {
+Node.prototype.pushChild = function(child) {
     this.children.push(child);
 };
 
-Node.prototype.setPrimitive = function (primitive) {
+Node.prototype.setPrimitive = function(primitive) {
     this.primitive = primitive;
 };
 
-Node.prototype.getMaterials = function () {
+Node.prototype.getMaterials = function() {
     return this.materials;
 };
 
-Node.prototype.getPrimitive = function () {
+Node.prototype.getPrimitive = function() {
     return this.primitive;
 };
 
-Node.prototype.pushAnimation = function (animation) {
+Node.prototype.pushAnimation = function(animation) {
     this.animations.push(animation);
 };
 
-Node.prototype.setupShaders = function (scene) {
+Node.prototype.setupShaders = function(scene) {
     scene.setActiveShader(scene.testShaders[this.activeShader]);
     this.texture.bind(this.activeShader);
 
@@ -75,4 +75,4 @@ Node.prototype.setupShaders = function (scene) {
         scene.testShaders[0].setUniformsValues({ csB: this.primitiveWithShaderInfo.csB });
         scene.testShaders[0].setUniformsValues({ csA: this.primitiveWithShaderInfo.csA });
     }
-}
+};

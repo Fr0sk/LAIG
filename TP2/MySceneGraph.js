@@ -877,8 +877,7 @@ MySceneGraph.prototype.parseNode = function(componentsList, component, parentNod
                             node.activeShader = 1;
                             this.scene.testShaders[1].setUniformsValues({ uSampler: 1 });
                         }
-                    }
-                    else {
+                    } else {
                         node.setPrimitive(this.generatePrimitive(this.primitives[j], 1, 1));
                         if (this.primitives[j].type == "chessboard") {
                             node.activeShader = 0;

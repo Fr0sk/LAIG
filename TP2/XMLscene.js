@@ -232,6 +232,7 @@ XMLscene.prototype.updateLightsStatus = function () {
  * Update function
  */
 var lastCurTime = -1;
+var passedTime = 0;
 XMLscene.prototype.update = function (curTime) {
     var deltaTime;
     if (lastCurTime < 0) {
@@ -252,7 +253,8 @@ XMLscene.prototype.update = function (curTime) {
                 node.animations[node.activeAnimation].animate(deltaTime);
         }
 
-        this.testShaders[1].setUniformsValues({ time: curTime });
+        passedTime += deltaTime;
+        this.testShaders[1].setUniformsValues({ time: passedTime });
     }
 
 }
