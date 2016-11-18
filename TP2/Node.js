@@ -48,20 +48,3 @@ Node.prototype.getPrimitive = function () {
 Node.prototype.pushAnimation = function (animation) {
     this.animations.push(animation);
 };
-
-Node.prototype.computeMatrix = function (mat1, mat2) {
-    if (mat1.length != 16 || mat2.length != 16) return;
-    var mult = [];
-
-    for (var i = 0; i < mat1.length / 4; i++) {
-        for (var j = 0; j < mat2.length / 4; j++) {
-            var sum = 0;
-            for (var offset = 0; offset < 4; offset++)
-                sum += mat1[4 * i + offset] * mat2[j + 4 * offset];
-
-            mult.push(sum);
-        }
-    }
-
-    return mult;
-};

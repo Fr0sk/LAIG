@@ -20,14 +20,11 @@ var LinearAnimation = function (node, animTime, controlPoints) {
 
     this.length = 0;
     this.pointsLength = [0];
-    this.pointsCoordLength = [{x:0, y:0, z:0}];
+    this.controlPointsLength = [{x:0, y:0, z:0}];
     this.setupLengths();
 
     this.pointsTime = [0];
     this.setupTimes();
-    
-    this.velocity = this.length / this.animTime;
-    this.animTransfMat = node.getMat();
 }
 
 LinearAnimation.prototype = Object.create(Animation.prototype);
@@ -36,27 +33,27 @@ LinearAnimation.prototype.constructor = LinearAnimation;
 LinearAnimation.prototype.setupLengths = function () {
     for (var i = 1; i < this.controlPoints.length; i++) {
         var controlPointLength = {
-            x: this.controlPoints[i].x - this.controlPoints[0].x,
-            y: this.controlPoints[i].y - this.controlPoints[0].y,
-            z: this.controlPoints[i].z - this.controlPoints[0].z
+            x: this.controlPoints[i].x - this.controlPoints[i-1].x,
+            y: this.controlPoints[i].y - this.controlPoints[i-1].y,
+            z: this.controlPoints[i].z - this.controlPoints[i-1].z,
+            length: 0
         };
-        var length = Math.sqrt(Math.pow(controlPointLength.x, 2) + Math.pow(controlPointLength.y, 2) + Math.pow(controlPointLength.z, 2));
-        this.pointsCoordLength.push(controlPointLength);
-        this.pointsLength.push(length);
-        this.length += length;
+        controlPointLength.length = Math.sqrt(Math.pow(controlPointLength.x, 2) + Math.pow(controlPointLength.y, 2) + Math.pow(controlPointLength.z, 2));
+        this.controlPointsLength.push(controlPointLength);
+        this.length += controlPointLength.length;
     }
 }
 
 LinearAnimation.prototype.setupTimes = function () {
     for (var i = 1; i < this.controlPoints.length; i++)
-        this.pointsTime.push(this.animTime * (this.pointsLength[i] / this.length));
+        this.pointsTime.push(this.animTime * (this.controlPointsLength[i].length / this.length));
 }   
 
-LinearAnimation.prototype.getMatrix = function () {
+LinearAnimation.prototype.computeMatrix = function () {
     var delta = this.currAnimTime / this.pointsTime[this.currControlPoint];
-    var x = this.pointsCoordLength[this.currControlPoint].x * delta;
-    var y = this.pointsCoordLength[this.currControlPoint].y * delta;
-    var z = this.pointsCoordLength[this.currControlPoint].z * delta;
+    var x = this.controlPointsLength[this.currControlPoint].x * delta + this.controlPoints[this.currControlPoint - 1].x;
+    var y = this.controlPointsLength[this.currControlPoint].y * delta + this.controlPoints[this.currControlPoint - 1].y;
+    var z = this.controlPointsLength[this.currControlPoint].z * delta + this.controlPoints[this.currControlPoint - 1].z;
     
     var mat = [
         1.0, 0.0, 0.0, 0.0,
@@ -77,14 +74,12 @@ LinearAnimation.prototype.animate = function (deltaTime) {
         this.node.activeAnimation++;
         return;
     } else if (this.currAnimTime >= this.pointsTime[this.currControlPoint]) {
-        
         this.currAnimTime = this.pointsTime[this.currControlPoint];
-        this.animTransfMat = this.node.computeMatrix(this.animTransfMat, this.getMatrix());
+        this.node.setMat(this.computeMatrix());
         this.currControlPoint++;
         this.currAnimTime = 0;
-        this.node.setMat(this.animTransfMat);
     } else {
-        this.node.setMat(this.node.computeMatrix(this.animTransfMat, this.getMatrix()));
+        this.node.setMat(this.computeMatrix());
     }
 };
 

@@ -68,7 +68,7 @@ XMLscene.prototype.onGraphLoaded = function () {
     this.camera = this.graph.perspCams[this.graph.cameraIndex];
 
     // Enables animations
-    this.setUpdatePeriod(10);
+    this.setUpdatePeriod(5);
 
     console.info("If you have more than 1 texture per component, all but the first one will be ignored.");
     console.info("Tap 'R' to select free camera movement.");
@@ -246,6 +246,7 @@ XMLscene.prototype.update = function (curTime) {
         deltaTime = (curTime - lastCurTime) / 1000;
         lastCurTime = curTime;
     }
+    if (deltaTime > 0.1) return;
 
     if (this.graph.loadedOk) {
         for (var i = 0; i < this.graph.animatedNodes.length; i++) {
