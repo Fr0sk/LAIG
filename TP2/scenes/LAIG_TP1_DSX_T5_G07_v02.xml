@@ -215,13 +215,15 @@
         </animation>
 
         <animation id="a_ball" span="2" type="linear">
-            <controlpoint xx="0" yy="0" zz="0" />
-            <controlpoint xx="-16.8" yy="2" zz="0" />
-            <controlpoint xx="0" yy="-2" zz="0" />
-            <controlpoint xx="0" yy="1" zz="0" />
-            <controlpoint xx="0" yy="-1" zz="0" />
-            <controlpoint xx="0" yy="0.5" zz="0" />
-            <controlpoint xx="0" yy="-0.5" zz="0" />
+            <controlpoint xx="0" yy="10" zz="0" />
+            <controlpoint xx="-16.8" yy="2" zz="1" />
+            <controlpoint xx="-16.8" yy="0" zz="1.2" />
+            <controlpoint xx="-16.8" yy="1.5" zz="1.4" />
+            <controlpoint xx="-16.8" yy="0" zz="1.6" />
+            <controlpoint xx="-16.8" yy="0.1" zz="1.8" />
+            <controlpoint xx="-16.8" yy="0" zz="2" />
+            <controlpoint xx="-16.8" yy="0.5" zz="2.1" />
+            <controlpoint xx="-16.8" yy="0" zz="2.2" />
         </animation>
 
 
@@ -465,9 +467,6 @@
         </component>
         <component id="ball">
             <transformation>
-                <rotate axis="x" angle="90" />
-                <scale x="0.5" y="0.5" z="0.5" />
-                <translate x="0" y="0" z="-1" />
             </transformation>
             <materials>
                 <material id="m_Default" />
@@ -476,6 +475,20 @@
             <animation>
                 <animationref id="a_ball" />
             </animation>
+            <children>
+                <componentref id="ballPos" />
+            </children>
+        </component>
+        <component id="ballPos">
+            <transformation>
+                <rotate axis="x" angle="90" />
+                <scale x="0.5" y="0.5" z="0.5" />
+                <translate x="0" y="0" z="-1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
             <children>
                 <primitiveref id="sphere2" />
             </children>
