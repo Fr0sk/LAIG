@@ -14,9 +14,7 @@ uniform float selectedV;
 
 uniform float time;
 
-varying float newY;//Parametro da nova altura do vertice para determinar a sua cor
-varying vec2 vTextureCoord;//Variavel recebida do vertex shader
-
+varying vec2 vTextureCoord;
 
 void main() {
 	vec2 vertexPosition = floor(aTextureCoord * vec2(dimX, dimY));
@@ -29,4 +27,6 @@ void main() {
     float height = cos(a + pi) / 5.0 + sin(b + pi * 10.0) / 5.0;
 
 	gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition + aVertexNormal * height, 1.0);
+
+    vTextureCoord = aTextureCoord;
 }

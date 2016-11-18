@@ -604,7 +604,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
             chessboard.selectedU = this.reader.getFloat(typeElem, 'su', true);
             chessboard.selectedV = this.reader.getFloat(typeElem, 'sv', true);
 
-            if((chessboard.selectedU <= -1 && chessboard.selectedV != -1) || (chessboard.selectedU != -1 && chessboard.selectedV <= -1) )
+            if ((chessboard.selectedU <= -1 && chessboard.selectedV != -1) || (chessboard.selectedU != -1 && chessboard.selectedV <= -1))
                 err = "'" + chessboard.id + "' has 'u' or 'v' less than zero, but not the other!";
 
             var c1 = typeElem.getElementsByTagName('c1')[0];
@@ -870,12 +870,15 @@ MySceneGraph.prototype.parseNode = function(componentsList, component, parentNod
                                     node.setTexture(this.textures[k]);
                                     break;
                                 }
+                        } else if (this.primitives[j].id == "patch1") {
+                            node.activeShader = 1;
+                            this.scene.testShaders[1].setUniformsValues({ uSampler: 1 });
                         }
                     }
                     else {
                         node.setPrimitive(this.generatePrimitive(this.primitives[j], 1, 1));
                         if (this.primitives[j].type == "chessboard") {
-                            node.activeShader = 1;
+                            node.activeShader = 0;
                             this.scene.testShaders[0].setUniformsValues({ dimX: this.primitives[j].partsX });
                             this.scene.testShaders[0].setUniformsValues({ dimY: this.primitives[j].partsY });
                             this.scene.testShaders[0].setUniformsValues({ selectedU: this.primitives[j].selectedU });
@@ -897,12 +900,18 @@ MySceneGraph.prototype.parseNode = function(componentsList, component, parentNod
                             this.scene.testShaders[0].setUniformsValues({ csG: this.primitives[j].csG });
                             this.scene.testShaders[0].setUniformsValues({ csB: this.primitives[j].csB });
                             this.scene.testShaders[0].setUniformsValues({ csA: this.primitives[j].csA });
+
+                            this.scene.testShaders[0].setUniformsValues({ normScale: 0.2 });
+                            this.scene.testShaders[0].setUniformsValues({ uSampler: 0 });
+
                             for (var k = 0; k < this.textures.length; k++)
                                 if (this.primitives[j].textureRef == this.textures[k].id) {
                                     node.setTexture(this.textures[k]);
                                     break;
                                 }
-                        }
+                        } else if (this.primitives[j].id == "patch1")
+                            node.activeShader = 1;
+                        this.scene.testShaders[1].setUniformsValues({ uSampler: 1 });
                     }
                 }
             }

@@ -22,12 +22,10 @@ uniform lightProperties uLight[NUMBER_OF_LIGHTS];
 
 uniform sampler2D uSampler;
 
-varying vec2 vTextureCoord;//Variavel recebida do vertex shader
-varying float newY;
+varying vec2 vTextureCoord;
 
 void main( void ) {
+	vec4 color = texture2D(uSampler, vTextureCoord);
 
-    vec4 texel = texture2D(uSampler,vTextureCoord);
-	
-    gl_FragColor = vec4(texel.rgb * clamp(newY,0.3,0.6),texel.a);
+    gl_FragColor = color;
 }
