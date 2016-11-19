@@ -14,9 +14,8 @@ var LinearAnimation = function (node, animTime, controlPoints) {
 
     this.currAnimTime = 0;
     this.totalAnimTime = 0;
-    this.currDist = 0;
     this.currControlPoint = 1;
-    this.type = "linear";
+    this.type = "linear"; // WHY IS THIS?
 
     this.length = 0;
     this.pointsLength = [0];
