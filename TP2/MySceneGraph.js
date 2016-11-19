@@ -865,6 +865,9 @@ MySceneGraph.prototype.parseNode = function(componentsList, component, parentNod
                         node.setPrimitive(this.generatePrimitive(this.primitives[j], node.texture.length_s, node.texture.length_t));
                         if (this.primitives[j].type == "chessboard") {
                             node.activeShader = 0;
+                            node.primitiveWithShaderInfo = this.primitives[j];
+                            this.scene.testShaders[0].setUniformsValues({ normScale: 0.2 });
+                            this.scene.testShaders[0].setUniformsValues({ uSampler: 0 });
                             for (var k = 0; k < this.textures.length; k++)
                                 if (this.primitives[j].textureRef == this.textures[k].id) {
                                     node.setTexture(this.textures[k]);
@@ -874,33 +877,11 @@ MySceneGraph.prototype.parseNode = function(componentsList, component, parentNod
                             node.activeShader = 1;
                             this.scene.testShaders[1].setUniformsValues({ uSampler: 1 });
                         }
-                    }
-                    else {
+                    } else {
                         node.setPrimitive(this.generatePrimitive(this.primitives[j], 1, 1));
                         if (this.primitives[j].type == "chessboard") {
                             node.activeShader = 0;
-                            this.scene.testShaders[0].setUniformsValues({ dimX: this.primitives[j].partsX });
-                            this.scene.testShaders[0].setUniformsValues({ dimY: this.primitives[j].partsY });
-                            this.scene.testShaders[0].setUniformsValues({ selectedU: this.primitives[j].selectedU });
-                            this.scene.testShaders[0].setUniformsValues({ selectedV: this.primitives[j].selectedV });
-
-                            //this.scene.testShaders[0].setUniformsValues({ c1: this.primitives[j].c1 });
-
-                            this.scene.testShaders[0].setUniformsValues({ c1R: this.primitives[j].c1R });
-                            this.scene.testShaders[0].setUniformsValues({ c1G: this.primitives[j].c1G });
-                            this.scene.testShaders[0].setUniformsValues({ c1B: this.primitives[j].c1B });
-                            this.scene.testShaders[0].setUniformsValues({ c1A: this.primitives[j].c1A });
-
-                            this.scene.testShaders[0].setUniformsValues({ c2R: this.primitives[j].c2R });
-                            this.scene.testShaders[0].setUniformsValues({ c2G: this.primitives[j].c2G });
-                            this.scene.testShaders[0].setUniformsValues({ c2B: this.primitives[j].c2B });
-                            this.scene.testShaders[0].setUniformsValues({ c2A: this.primitives[j].c2A });
-
-                            this.scene.testShaders[0].setUniformsValues({ csR: this.primitives[j].csR });
-                            this.scene.testShaders[0].setUniformsValues({ csG: this.primitives[j].csG });
-                            this.scene.testShaders[0].setUniformsValues({ csB: this.primitives[j].csB });
-                            this.scene.testShaders[0].setUniformsValues({ csA: this.primitives[j].csA });
-
+                            node.primitiveWithShaderInfo = this.primitives[j];
                             this.scene.testShaders[0].setUniformsValues({ normScale: 0.2 });
                             this.scene.testShaders[0].setUniformsValues({ uSampler: 0 });
 
@@ -909,9 +890,10 @@ MySceneGraph.prototype.parseNode = function(componentsList, component, parentNod
                                     node.setTexture(this.textures[k]);
                                     break;
                                 }
-                        } else if (this.primitives[j].id == "patch1")
+                        } else if (this.primitives[j].id == "patch1") {
                             node.activeShader = 1;
-                        this.scene.testShaders[1].setUniformsValues({ uSampler: 1 });
+                            this.scene.testShaders[1].setUniformsValues({ uSampler: 1 });
+                        }
                     }
                 }
             }
@@ -989,7 +971,6 @@ MySceneGraph.prototype.generatePrimitive = function(primitiveInfo, length_s, len
     else if (primitiveInfo.type == "patch")
         return PatchBuilder.buildPatch(this.scene, primitiveInfo.id, primitiveInfo.orderU, primitiveInfo.orderV, primitiveInfo.partsU, primitiveInfo.partsV, primitiveInfo.controlPoints);
     else if (primitiveInfo.type == "chessboard") {
-        console.info("Criando uma primitiva chessboard...");
         return new Plane(this.scene, primitiveInfo.id, 1, 1, primitiveInfo.partsX, primitiveInfo.partsY);
     }
 };

@@ -121,8 +121,7 @@ XMLscene.prototype.runGraph = function (node) {
     //Draws primitive (if it has one)
     if (node.primitive != null) {
         if (node.activeShader != null) {
-            this.setActiveShader(this.testShaders[node.activeShader]);
-            node.texture.bind(node.activeShader);
+            node.setupShaders(this);
         }
 
         node.primitive.display();
@@ -232,9 +231,6 @@ XMLscene.prototype.updateLightsStatus = function () {
 /*
  * Update function
  */
-/*var xAux = 0;
-var yAux = 0;
-var myTime = 0;*/
 var lastCurTime = -1;
 var passedTime = 0;
 XMLscene.prototype.update = function (curTime) {
@@ -256,22 +252,8 @@ XMLscene.prototype.update = function (curTime) {
             else
                 node.animations[node.activeAnimation].animate(deltaTime);
         }
+
         passedTime += deltaTime;
         this.testShaders[1].setUniformsValues({ time: passedTime });
-
-        /*myTime += deltaTime;
-        if (myTime >= 0.5) {
-            myTime = 0;
-            xAux++;
-            if (xAux == 8) {
-                xAux = 0;
-                yAux++;
-                if (yAux == 8)
-                    yAux = 0;
-            }
-            this.testShaders[0].setUniformsValues({ selectedU: xAux });
-            this.testShaders[0].setUniformsValues({ selectedV: yAux });
-        }*/
     }
-
 }
