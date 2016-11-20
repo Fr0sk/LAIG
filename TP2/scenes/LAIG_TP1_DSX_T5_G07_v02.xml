@@ -80,7 +80,9 @@
         <texture id="t_cyberpunkSign" file="resources/cyberpunk.jpg" length_s="1" length_t="1" />
         <texture id="t_cyberCharacter" file="resources/cyberCharacter.jpg" length_s="5" length_t="5" />
         <texture id="t_zeppelin" file="resources/zeppelin.png" length_s="1" length_t="1" />
-        <texture id="t_zeppelinCabine" file="resources/zeppelinCabine.jpg" length_s="1" length_t="1" />
+        <texture id="t_cabine" file="resources/cabine.jpg" length_s="1" length_t="1" />
+        <texture id="t_cabineBottom" file="resources/cabineBottom.jpg" length_s="1" length_t="1" />
+        <texture id="t_cabineFront" file="resources/cabineFront.jpg" length_s="1" length_t="1" />
         <texture id="t_uv" file="resources/uv.jpg" length_s="1" length_t="1" />
         <texture id="t_wood" file="resources/wood.jpg" length_s="1" length_t="1" />
         <texture id="t_feupFlag" file="resources/logoFEUP.png" length_s="1" length_t="1" />        
@@ -236,7 +238,7 @@
             <controlpoint xx="50" yy="20" zz="0" />
         </animation>
 
-        <animation id="a_zeppelinRotate" span="15" type="circular" center="0 20 0"
+        <animation id="a_zeppelinRotate" span="60" type="circular" center="0 20 0"
             radius="50" starting="0" rotang="360" />
     </animations>
     <!-- Primitives set -->
@@ -266,9 +268,6 @@
         <primitive id="torus1">
             <torus inner="40" outer="45" slices="50" loops="50" />
         </primitive>
-        <primitive id="plane1">
-            <plane dimX="3" dimY="2" partsX="10" partsY="7" />
-        </primitive>
         <primitive id="patch1">
             <patch orderU="2" orderV="1" partsU="7" partsV="9">
                 <controlpoint x="-1.5" y="-1.5" z="0.0" />
@@ -277,50 +276,6 @@
                 <controlpoint x="0" y="1.5" z="0.0" />
                 <controlpoint x="1.5" y="-1.5" z="0.0" />
                 <controlpoint x="1.5" y="1.5" z="0.0" />
-            </patch>
-        </primitive>
-        <primitive id="patch2">
-            <patch orderU="2" orderV="3" partsU="7" partsV="20">
-                <controlpoint x="-2" y="-2" z="1" />
-                <controlpoint x="-2" y="-1" z="-2" />
-                <controlpoint x="-2" y="1" z="5" />
-                <controlpoint x="-2" y="2" z="1" />
-                <controlpoint x="0" y="-2" z="0" />
-                <controlpoint x="0" y="-1" z="-1" />
-                <controlpoint x="0" y="1" z="1.5" />
-                <controlpoint x="0" y="2" z="0" />
-                <controlpoint x="2" y="-2" z="-1" />
-                <controlpoint x="2" y="-1" z="2" />
-                <controlpoint x="2" y="1" z="-5" />
-                <controlpoint x="2" y="2" z="1" />
-            </patch>
-        </primitive>
-        <primitive id="zeppelinPatch">
-            <patch orderV="3" orderU="5" partsU="20" partsV="20">
-                <controlpoint x="-1.000" y="-1.000" z="-1.000" />
-                <controlpoint x="-1.500" y="-0.500" z="-1.000" />
-                <controlpoint x="-1.500" y="3.500" z="-1.000" />
-                <controlpoint x="-0.850" y="4.000" z="-1.000" />
-                <controlpoint x="-0.500" y="-1.500" z="-1.000" />
-                <controlpoint x="-0.500" y="-1.596" z="0.079" />
-                <controlpoint x="-0.500" y="3.743" z="0.785" />
-                <controlpoint x="-0.500" y="4.500" z="-1.000" />
-                <controlpoint x="-0.500" y="-1.500" z="-1.000" />
-                <controlpoint x="-0.500" y="-0.434" z="1.165" />
-                <controlpoint x="-0.500" y="3.226" z="0.322" />
-                <controlpoint x="-0.500" y="4.500" z="-1.000" />
-                <controlpoint x="0.500" y="-1.500" z="-1.000" />
-                <controlpoint x="0.500" y="-0.434" z="1.174" />
-                <controlpoint x="0.500" y="3.235" z="0.322" />
-                <controlpoint x="0.500" y="4.500" z="-1.000" />
-                <controlpoint x="0.500" y="-1.500" z="-1.000" />
-                <controlpoint x="0.500" y="-1.605" z="0.062" />
-                <controlpoint x="0.500" y="3.743" z="0.785" />
-                <controlpoint x="0.500" y="4.500" z="-1.000" />
-                <controlpoint x="1.000" y="-1.000" z="-1.000" />
-                <controlpoint x="1.500" y="-0.500" z="-1.000" />
-                <controlpoint x="1.500" y="3.500" z="-1.000" />
-                <controlpoint x="0.850" y="4.000" z="-1.000" />
             </patch>
         </primitive>
         <primitive id="chessboard">
@@ -484,21 +439,6 @@
             <texture id="none" />
             <children>
                 <primitiveref id="chessboard" />
-            </children>
-        </component>
-        <component id="zeppelin">
-            <transformation>
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="t_zeppelin" />
-            <animation>
-                <animationref id="a_zeppelin" />
-                <animationref id="a_zeppelinRotate" />
-            </animation>
-            <children>
-                <primitiveref id="p_zeppelin" />
             </children>
         </component>
         <component id="sign">
@@ -2913,6 +2853,131 @@
             <children>
                 <primitiveref id="rect" />
             </children>
-        </component>    
+        </component>
+        <component id="zeppelin">
+            <transformation>
+                <translate x="0" y="10" z="0" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="t_zeppelin" />
+            <animation>
+                <animationref id="a_zeppelin" />
+                <animationref id="a_zeppelinRotate" />
+            </animation>
+            <children>
+                <componentref id="vehicle" />
+                <componentref id="vehicleCabine" />
+            </children>
+        </component>
+
+        <component id="vehicle">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="p_zeppelin" />
+            </children>
+        </component>
+
+        <component id="vehicleCabine">
+            <transformation>
+                <translate x="2" y="0" z="0" />
+                <scale x="8" y="3" z="4" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="t_cabine" />
+            <children>
+                <componentref id="vehicleCabineTop" />
+                <componentref id="vehicleCabineBottom" />
+                <componentref id="vehicleCabineLeft" />
+                <componentref id="vehicleCabineRight" />
+                <componentref id="vehicleCabineFront" />
+                <componentref id="vehicleCabineBack" />
+            </children>
+        </component>
+        <component id="vehicleCabineTop">
+            <transformation>
+                <translate x="0" y="0.5" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="vehicleCabineBottom">
+            <transformation>
+                <rotate axis="x" angle="90" />
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="t_cabineBottom" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="vehicleCabineLeft">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="t_cabineFront" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="vehicleCabineRight">
+            <transformation>
+                <rotate axis="y" angle="90" />
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="t_cabineBottom" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="vehicleCabineFront">
+            <transformation>
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
+        <component id="vehicleCabineBack">
+            <transformation>
+                <rotate axis="y" angle="180" />
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="rect" />
+            </children>
+        </component>
     </components>
 </dsx>
