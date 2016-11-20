@@ -66,7 +66,7 @@ LinearAnimation.prototype.computeMatrix = function () {
     mat4.translate(mat, mat, [x, y, z]);
     var hypotenuse = Math.sqrt(Math.pow(opposite, 2) + Math.pow(adjacent, 2));
     var angle = Math.acos(adjacent / hypotenuse) + Math.PI / 2;
-    //if (opposite < 0) angle = -angle;
+    if (opposite < 0) angle += Math.PI;
     mat4.rotate(mat, mat, angle, [0, 1, 0]);
     return mat;
 }
