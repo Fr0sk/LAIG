@@ -6,12 +6,8 @@ uniform mat4 uMVMatrix;
 uniform mat4 uPMatrix;
 uniform mat4 uNMatrix;
 
-uniform float normScale;
 uniform float dimX;
 uniform float dimY;
-uniform float selectedU;
-uniform float selectedV;
-
 uniform float time;
 
 varying vec2 vTextureCoord;

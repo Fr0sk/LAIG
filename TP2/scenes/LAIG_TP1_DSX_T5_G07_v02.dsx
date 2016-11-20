@@ -62,7 +62,7 @@
     <!-- Textures set -->
     <!-- Must include at least one texture block -->
     <textures>
-        <texture id="t_sidewalk" file="resources/sidewalk.jpg" length_s="5" length_t="5" />
+        <texture id="t_sidewalk" file="resources/sidewalk.jpg" length_s="0.2" length_t="0.2" />
         <texture id="t_building" file="resources/building.jpg" length_s="1" length_t="1" />
         <texture id="t_topBuilding" file="resources/topBuilding.jpg" length_s="1" length_t="1" />
         <texture id="t_treeLeafes" file="resources/treeLeafes.png" length_s="1" length_t="1" />
@@ -77,7 +77,7 @@
         <texture id="t_sbBot" file="resources/sbBot.png" length_s="1" length_t="1" />
         <texture id="t_goalPost" file="resources/goalPost.png" length_s="1" length_t="1" />
         <texture id="t_football" file="resources/football.png" length_s="1" length_t="1" />
-        <texture id="t_cyberCharacter" file="resources/cyberCharacter.jpg" length_s="5" length_t="5" />
+        <texture id="t_cyberCharacter" file="resources/cyberCharacter.jpg" length_s="0.2" length_t="0.2" />
         <texture id="t_zeppelin" file="resources/zeppelin.png" length_s="1" length_t="1" />
         <texture id="t_cabine" file="resources/cabine.jpg" length_s="1" length_t="1" />
         <texture id="t_cabineBottom" file="resources/cabineBottom.jpg" length_s="1" length_t="1" />
@@ -268,6 +268,9 @@
         <primitive id="p_football">
             <sphere radius="1" slices="20" stacks="10" />
         </primitive>
+        <primitive id="p_floor">
+            <plane dimX="20" dimY="20" partsX="7" partsY="7" />
+        </primitive>
         <primitive id="p_flag">
             <patch orderU="2" orderV="1" partsU="7" partsV="9">
                 <controlpoint x="-1.5" y="-1.5" z="0.0" />
@@ -395,7 +398,7 @@
             <transformation>
                 <rotate axis="y" angle="90" />
                 <rotate axis="z" angle="60" />
-                <translate x="25" y="-8" z="0" />
+                <translate x="23.7" y="-10" z="0" />
             </transformation>
             <materials>
                 <material id="m_Default" />

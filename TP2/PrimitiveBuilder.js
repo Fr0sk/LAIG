@@ -48,9 +48,9 @@ PrimitiveBuilder.buildRect = function(scene, x1, y1, x2, y2, length_s, length_t)
 
         this.texCoords = [
             0, 0,
-            this.length_s, 0,
-            this.length_s, this.length_t,
-            0, this.length_t
+            1 / this.length_s, 0,
+            1 / this.length_s, 1 / this.length_t,
+            0, 1 / this.length_t
         ];
 
         // Takes the data in vertices, indices and normals and puts in buffers to be used by WebGl.
@@ -122,8 +122,8 @@ PrimitiveBuilder.buildTri = function(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3, 
 
         this.texCoords = [
             0.0, 0.0,
-            this.c / this.length_s, 0.0,
-            (this.c - this.a * Math.cos(this.beta)) / this.length_s, -(this.a * Math.sin(this.beta)) / this.length_t
+            this.c * this.length_s, 0.0,
+            (this.c - this.a * Math.cos(this.beta)) * this.length_s, -(this.a * Math.sin(this.beta)) * this.length_t
         ];
 
         // Takes the data in vertices, indices and normals and puts in buffers to be used by WebGl.
