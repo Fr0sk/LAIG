@@ -627,6 +627,11 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
             chessboard.csA = this.reader.getFloat(cs, 'a', true);
 
             this.primitives.push(chessboard);
+        } else if ((typeElem = primitives[i].getElementsByTagName('vehicle')[0]) != null) {
+            var vehicle = {};
+            vehicle.id = id;
+            vehicle.type = "vehicle";
+            this.primitives.push(vehicle);
         }
 
         if (err != null)
@@ -861,6 +866,7 @@ MySceneGraph.prototype.parseNode = function(componentsList, component, parentNod
 
             for (var j = 0; j < this.primitives.length; j++) {
                 if (primitiveId == this.primitives[j].id) {
+                    console.log(this.primitives[j]);
                     if (node.texture != null) {
                         node.setPrimitive(this.generatePrimitive(this.primitives[j], node.texture.length_s, node.texture.length_t));
                         if (this.primitives[j].type == "chessboard") {
@@ -970,9 +976,11 @@ MySceneGraph.prototype.generatePrimitive = function(primitiveInfo, length_s, len
         return new Plane(this.scene, primitiveInfo.id, primitiveInfo.dimX, primitiveInfo.dimY, primitiveInfo.partsX, primitiveInfo.partsY);
     else if (primitiveInfo.type == "patch")
         return PatchBuilder.buildPatch(this.scene, primitiveInfo.id, primitiveInfo.orderU, primitiveInfo.orderV, primitiveInfo.partsU, primitiveInfo.partsV, primitiveInfo.controlPoints);
-    else if (primitiveInfo.type == "chessboard") {
+    else if (primitiveInfo.type == "chessboard")
         return new Plane(this.scene, primitiveInfo.id, 1, 1, primitiveInfo.partsX, primitiveInfo.partsY);
-    }
+     else if (primitiveInfo.type == "vehicle") {
+        return PatchBuilder.buildVehicle(this.scene, primitiveInfo.id);}
+    
 };
 
 /**
