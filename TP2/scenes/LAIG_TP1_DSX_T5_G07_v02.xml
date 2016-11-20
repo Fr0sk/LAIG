@@ -330,6 +330,9 @@
                 <cs r="1" g="0" b="0" a="1" />
             </chessboard>
         </primitive>
+        <primitive id="p_zeppelin">
+            <vehicle />
+        </primitive>
     </primitives>
     <!-- Components set -->
     <components>
@@ -495,62 +498,7 @@
                 <animationref id="a_zeppelinRotate" />
             </animation>
             <children>
-                <componentref id="zeppelinPos" />
-            </children>
-        </component>
-        <component id="zeppelinPos">
-            <transformation>
-                <translate x="-8" y="0" z="-8" />
-                <rotate axis="y" angle="-90" />
-                <rotate axis="x" angle="90" />
-                <scale x="5" y="5" z="5" />
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="t_zeppelin" />
-            <children>
-                <componentref id="zeppelinUpper" />
-                <componentref id="zeppelinLower" />
-                <componentref id="zeppelinCabine" />
-            </children>
-        </component>
-         <component id="zeppelinUpper">
-            <transformation>
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="zeppelinPatch" />
-            </children>
-        </component>
-        <component id="zeppelinLower">
-            <transformation>
-                <translate x="0" y="0" z="-2" />
-                <rotate axis="y" angle="180" />
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="zeppelinPatch" />
-            </children>
-        </component>
-        <component id="zeppelinCabine">
-            <transformation>
-                <translate x="0" y="2" z="0" />
-                <rotate axis="y" angle="90" />
-                <scale x="1" y="2" z="1" />
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="t_zeppelinCabine" />
-            <children>
-                <componentref id="cube" />
+                <primitiveref id="p_zeppelin" />
             </children>
         </component>
         <component id="sign">

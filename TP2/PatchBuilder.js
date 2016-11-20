@@ -2,7 +2,7 @@ function PatchBuilder() {
 	// Empty block
 }
 
-PatchBuilder.buildVehicle = function(scene, id) {
+PatchBuilder.buildVehiclePatch = function(scene, id) {
 	var vert = [[-1.000, 0.000, -1.000, 1],
 				[-0.500, 0.000, -1.500, 1],
 				[3.500, 0.000, -1.500, 1],
@@ -27,8 +27,8 @@ PatchBuilder.buildVehicle = function(scene, id) {
 				[-0.500, 0.000, 1.500, 1],
 				[3.500, 0.000, 1.500, 1],
 				[4.000, 0.000, 0.850, 1]];
-	var vehicle = PatchBuilder.buildPatch(scene, id, 5, 3, 20, 20, vert);
-	return vehicle;
+	var patch = PatchBuilder.buildPatch(scene, id, 5, 3, 20, 20, vert);
+	return patch;
 }
 
 PatchBuilder.buildPatch = function (scene, id, degreeU, degreeV, partsU, partsV, controlVertexes) {
@@ -39,7 +39,6 @@ PatchBuilder.buildPatch = function (scene, id, degreeU, degreeV, partsU, partsV,
 			+ expectedNumVertexes + ", was " + controlVertexes.length);
 		return undefined;
 	}
-	console.log(id + ": " + controlVertexes);
 	var computedVertexes = computeVertexes(degreeU, degreeV, controlVertexes);
 
 	var knotsU = getKnotsVector(degreeU);
@@ -49,7 +48,6 @@ PatchBuilder.buildPatch = function (scene, id, degreeU, degreeV, partsU, partsV,
 	getSurfacePoint = function (u, v) {
 		return nurb.getPoint(u, v);
 	};
-
 	return new CGFnurbsObject(scene, getSurfacePoint, partsU, partsV);
 }
 

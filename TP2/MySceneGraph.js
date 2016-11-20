@@ -977,8 +977,8 @@ MySceneGraph.prototype.generatePrimitive = function(primitiveInfo, length_s, len
         return PatchBuilder.buildPatch(this.scene, primitiveInfo.id, primitiveInfo.orderU, primitiveInfo.orderV, primitiveInfo.partsU, primitiveInfo.partsV, primitiveInfo.controlPoints);
     else if (primitiveInfo.type == "chessboard")
         return new Plane(this.scene, primitiveInfo.id, 1, 1, primitiveInfo.partsX, primitiveInfo.partsY);
-     else if (primitiveInfo.type == "vehicle") {
-        return PatchBuilder.buildVehicle(this.scene, primitiveInfo.id);}
+     else if (primitiveInfo.type == "vehicle") 
+        return new Vehicle(this.scene, primitiveInfo.id);
     
 };
 
