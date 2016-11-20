@@ -2676,7 +2676,7 @@
             </materials>
                 <texture id="t_goalPost" />
             <children>
-                <componentref id="cubeTransform" />
+                <componentref id="cube" />
             </children>
         </component>
         <component id="fbGoalBackPost">
@@ -2805,7 +2805,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="t_topBuilding" />
+            <texture id="inherit" />
             <children>
                 <componentref id="topRect" />
             </children>
