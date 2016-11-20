@@ -77,7 +77,6 @@
         <texture id="t_sbBot" file="resources/sbBot.png" length_s="1" length_t="1" />
         <texture id="t_goalPost" file="resources/goalPost.png" length_s="1" length_t="1" />
         <texture id="t_football" file="resources/football.png" length_s="1" length_t="1" />
-        <texture id="t_cyberpunkSign" file="resources/cyberpunk.jpg" length_s="1" length_t="1" />
         <texture id="t_cyberCharacter" file="resources/cyberCharacter.jpg" length_s="5" length_t="5" />
         <texture id="t_zeppelin" file="resources/zeppelin.png" length_s="1" length_t="1" />
         <texture id="t_cabine" file="resources/cabine.jpg" length_s="1" length_t="1" />
@@ -86,7 +85,8 @@
         <texture id="t_uv" file="resources/uv.jpg" length_s="1" length_t="1" />
         <texture id="t_wood" file="resources/wood.jpg" length_s="1" length_t="1" />
         <texture id="t_feupFlag" file="resources/logoFEUP.png" length_s="1" length_t="1" />        
-        <texture id="t_isepFlag" file="resources/logoISEP.jpg" length_s="1" length_t="1" />        
+        <texture id="t_isepFlag" file="resources/logoISEP.jpg" length_s="1" length_t="1" />
+        <texture id="t_dirt" file="resources/dirt.jpg" length_s="1" length_t="1" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
@@ -133,7 +133,7 @@
             <specular r="0.01" g="0.01" b="0.01" a="1" />
             <shininess value="50" />
         </material>
-        <material id="m_metal">
+        <material id="m_Metal">
             <emission r="0" g="0" b="0.1" a="1" />
             <ambient r="1" g="1" b="1" a="1" />
             <diffuse r="0.6" g="0.6" b="0.6" a="1" />
@@ -244,31 +244,34 @@
     <!-- Primitives set -->
     <!-- Must include at least one primitive block -->
     <primitives>
-        <primitive id="rect">
+        <primitive id="p_rect">
             <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
         </primitive>
-        <primitive id="triangle">
+        <primitive id="p_sign">
             <triangle x1="0" y1="0" z1="0" x2="5" y2="0" z2="0" x3="2.5" y3="5" z3="0" />
         </primitive>
-        <primitive id="cylinder1">
+        <primitive id="p_treeBody">
             <cylinder base="0.5" top="0.8" height="5" slices="15" stacks="5" />
         </primitive>
-        <primitive id="cylinderNetPrim">
-            <cylinder base="0.5" top="0.5" height="1" slices="5" stacks="5" />
-        </primitive>
-        <primitive id="cylinderHolder">
-            <cylinder base="0.2" top="0.2" height="8" slices="15" stacks="5" />
-        </primitive>
-        <primitive id="sphere1">
+        <primitive id="p_treeLeafes">
             <sphere radius="2" slices="5" stacks="10" />
         </primitive>
-        <primitive id="sphere2">
+        <primitive id="p_treeBase">
+            <torus inner="1" outer="1.5" slices="10" loops="10" />
+        </primitive>
+        <primitive id="p_treeGround">
+            <cylinder base="1" top="1" height="0.2" slices="10" stacks="1" />
+        </primitive>
+        <primitive id="p_goalNet">
+            <cylinder base="0.5" top="0.5" height="1" slices="5" stacks="5" />
+        </primitive>
+        <primitive id="p_flagHolder">
+            <cylinder base="0.2" top="0.2" height="8" slices="15" stacks="5" />
+        </primitive>
+        <primitive id="p_football">
             <sphere radius="1" slices="20" stacks="10" />
         </primitive>
-        <primitive id="torus1">
-            <torus inner="40" outer="45" slices="50" loops="50" />
-        </primitive>
-        <primitive id="patch1">
+        <primitive id="p_flag">
             <patch orderU="2" orderV="1" partsU="7" partsV="9">
                 <controlpoint x="-1.5" y="-1.5" z="0.0" />
                 <controlpoint x="-1.5" y="1.5" z="0.0" />
@@ -278,7 +281,7 @@
                 <controlpoint x="1.5" y="1.5" z="0.0" />
             </patch>
         </primitive>
-        <primitive id="chessboard">
+        <primitive id="p_chessboard">
             <chessboard du="20" dv="20" textureref="t_whiteGrass" su="10" sv="10">
                 <c1 r="0.7" g="0.9" b="0" a="1" />
                 <c2 r="1" g="1" b="1" a="1" />
@@ -318,7 +321,6 @@
                 <componentref id="footballField" />
                 <componentref id="skybox" />
                 <componentref id="ball" />
-                <componentref id="surrondingTorus" />
                 <componentref id="sign" />
                 <componentref id="zeppelin" />
                 <componentref id="chessboards" />
@@ -374,7 +376,7 @@
             </materials>
             <texture id="t_football" />
             <children>
-                <primitiveref id="cylinderHolder" />
+                <primitiveref id="p_flagHolder" />
             </children>
         </component>
         <component id="flag1Position">
@@ -413,7 +415,7 @@
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="patch1" />
+                <primitiveref id="p_flag" />
             </children>
         </component>
         <component id="chessboards">
@@ -438,7 +440,7 @@
             </materials>
             <texture id="none" />
             <children>
-                <primitiveref id="chessboard" />
+                <primitiveref id="p_chessboard" />
             </children>
         </component>
         <component id="sign">
@@ -451,19 +453,7 @@
             </materials>
             <texture id="t_cyberCharacter" />
             <children>
-                <primitiveref id="triangle" />
-            </children>
-        </component>
-        <component id="surrondingTorus">
-            <transformation>
-                <transformationref id="rotateX90" />
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="t_cyberpunkSign" />
-            <children>
-                <primitiveref id="torus1" />
+                <primitiveref id="p_sign" />
             </children>
         </component>
         <component id="ball">
@@ -491,7 +481,7 @@
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="sphere2" />
+                <primitiveref id="p_football" />
             </children>
         </component>
         <component id="footballField">
@@ -534,7 +524,7 @@
             </materials>
             <texture id="t_sbSide1" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="sbSide2">
@@ -549,7 +539,7 @@
             </materials>
             <texture id="t_sbSide2" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="sbSide3">
@@ -564,7 +554,7 @@
             </materials>
             <texture id="t_sbSide3" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="sbSide4">
@@ -579,7 +569,7 @@
             </materials>
             <texture id="t_sbSide4" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="sbTop">
@@ -594,7 +584,7 @@
             </materials>
             <texture id="t_sbTop" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="sbBot">
@@ -609,7 +599,7 @@
             </materials>
             <texture id="t_sbBot" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         
@@ -651,6 +641,8 @@
             <children>
                 <componentref id="treeBody" />
                 <componentref id="treeLeafes" />
+                <componentref id="treeBase" />
+                <componentref id="treeGround" />
             </children>
         </component>
         <component id="treePosition2">
@@ -664,6 +656,8 @@
             <children>
                 <componentref id="treeBody" />
                 <componentref id="treeLeafes" />
+                <componentref id="treeBase" />
+                <componentref id="treeGround" />
             </children>
         </component>
         <component id="treePosition3">
@@ -677,6 +671,8 @@
             <children>
                 <componentref id="treeBody" />
                 <componentref id="treeLeafes" />
+                <componentref id="treeBase" />
+                <componentref id="treeGround" />
             </children>
         </component>
         <component id="treePosition4">
@@ -690,6 +686,8 @@
             <children>
                 <componentref id="treeBody" />
                 <componentref id="treeLeafes" />
+                <componentref id="treeBase" />
+                <componentref id="treeGround" />
             </children>
         </component>
         <component id="treePosition5">
@@ -703,6 +701,8 @@
             <children>
                 <componentref id="treeBody" />
                 <componentref id="treeLeafes" />
+                <componentref id="treeBase" />
+                <componentref id="treeGround" />
             </children>
         </component>
         <component id="treePosition6">
@@ -716,6 +716,8 @@
             <children>
                 <componentref id="treeBody" />
                 <componentref id="treeLeafes" />
+                <componentref id="treeBase" />
+                <componentref id="treeGround" />
             </children>
         </component>
         <component id="treePosition7">
@@ -729,6 +731,8 @@
             <children>
                 <componentref id="treeBody" />
                 <componentref id="treeLeafes" />
+                <componentref id="treeBase" />
+                <componentref id="treeGround" />
             </children>
         </component>
         <component id="treePosition8">
@@ -742,6 +746,8 @@
             <children>
                 <componentref id="treeBody" />
                 <componentref id="treeLeafes" />
+                <componentref id="treeBase" />
+                <componentref id="treeGround" />
             </children>
         </component>
         <component id="treePosition9">
@@ -755,6 +761,8 @@
             <children>
                 <componentref id="treeBody" />
                 <componentref id="treeLeafes" />
+                <componentref id="treeBase" />
+                <componentref id="treeGround" />
             </children>
         </component>
         <component id="treePosition10">
@@ -768,6 +776,8 @@
             <children>
                 <componentref id="treeBody" />
                 <componentref id="treeLeafes" />
+                <componentref id="treeBase" />
+                <componentref id="treeGround" />
             </children>
         </component>
         <component id="treePosition11">
@@ -781,6 +791,8 @@
             <children>
                 <componentref id="treeBody" />
                 <componentref id="treeLeafes" />
+                <componentref id="treeBase" />
+                <componentref id="treeGround" />
             </children>
         </component>
         <component id="treePosition12">
@@ -794,6 +806,8 @@
             <children>
                 <componentref id="treeBody" />
                 <componentref id="treeLeafes" />
+                <componentref id="treeBase" />
+                <componentref id="treeGround" />
             </children>
         </component>
         <component id="treePosition13">
@@ -807,6 +821,8 @@
             <children>
                 <componentref id="treeBody" />
                 <componentref id="treeLeafes" />
+                <componentref id="treeBase" />
+                <componentref id="treeGround" />
             </children>
         </component>
         <component id="treePosition14">
@@ -820,6 +836,8 @@
             <children>
                 <componentref id="treeBody" />
                 <componentref id="treeLeafes" />
+                <componentref id="treeBase" />
+                <componentref id="treeGround" />
             </children>
         </component>
         <component id="treePosition15">
@@ -833,6 +851,8 @@
             <children>
                 <componentref id="treeBody" />
                 <componentref id="treeLeafes" />
+                <componentref id="treeBase" />
+                <componentref id="treeGround" />
             </children>
         </component>
         <component id="treePosition16">
@@ -846,6 +866,8 @@
             <children>
                 <componentref id="treeBody" />
                 <componentref id="treeLeafes" />
+                <componentref id="treeBase" />
+                <componentref id="treeGround" />
             </children>
         </component>
 
@@ -853,9 +875,9 @@
             <transformation>
             </transformation>
             <materials>
+                <material id="m_Metal" />
                 <material id="m_Glow_Orange" />
                 <material id="m_Bluewish" />
-                <material id="m_metal" />
             </materials>
             <texture id="none" />
             <children>
@@ -869,12 +891,12 @@
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
-                <material id="m_Bluewish" />
                 <material id="m_Default" />
+                <material id="m_Bluewish" />
             </materials>
             <texture id="t_sidewalk" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="buildingPosition1">
@@ -969,7 +991,7 @@
             </materials>
             <texture id="t_treeWood" />
             <children>
-                <primitiveref id="cylinder1" />
+                <primitiveref id="p_treeBody" />
             </children>
         </component>
         <component id="treeLeafes">
@@ -981,7 +1003,32 @@
             </materials>
             <texture id="t_treeLeafes" />
             <children>
-                <primitiveref id="sphere1" />
+                <primitiveref id="p_treeLeafes" />
+            </children>
+        </component>
+        <component id="treeBase">
+            <transformation>
+                <transformationref id="rotateX-90" />
+            </transformation>
+            <materials>
+                <material id="m_Bluewish" />
+                <material id="m_Default" />
+            </materials>
+            <texture id="t_sidewalk" />
+            <children>
+                <primitiveref id="p_treeBase" />
+            </children>
+        </component>
+        <component id="treeGround">
+            <transformation>
+                <transformationref id="rotateX-90" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="t_dirt" />
+            <children>
+                <primitiveref id="p_treeGround" />
             </children>
         </component>
 
@@ -1118,7 +1165,7 @@
                 <translate x="16" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="m_metal" />
+                <material id="m_Metal" />
             </materials>
             <texture id="t_goalPost" />
             <children>
@@ -2575,7 +2622,7 @@
             </materials>
             <texture id="t_grass" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="fbGrass">
@@ -2588,7 +2635,7 @@
             </materials>
             <texture id="t_grass" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="fbMidLine">
@@ -2602,7 +2649,7 @@
             </materials>
             <texture id="t_whiteGrass" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="fbSideLine">
@@ -2616,7 +2663,7 @@
             </materials>
             <texture id="t_whiteGrass" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="fbGoalLine">
@@ -2630,7 +2677,7 @@
             </materials>
             <texture id="t_whiteGrass" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="fbGoalPost">
@@ -2639,7 +2686,7 @@
                 <scale x="0.1" y="3" z="0.1" />
             </transformation>
             <materials>
-                <material id="m_metal" />
+                <material id="m_Metal" />
             </materials>
                 <texture id="t_goalPost" />
             <children>
@@ -2651,7 +2698,7 @@
                 <translate x="1.4" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="m_metal" />
+                <material id="m_Metal" />
             </materials>
             <texture id="t_goalPost" />
             <children>
@@ -2664,7 +2711,7 @@
                 <scale x="0.1" y="0.1" z="6" />
             </transformation>
             <materials>
-                <material id="m_metal" />
+                <material id="m_Metal" />
             </materials>
                 <texture id="t_goalPost" />
             <children>
@@ -2677,7 +2724,7 @@
                 <scale x="1.5" y="0.1" z="0.1" />
             </transformation>
             <materials>
-                <material id="m_metal" />
+                <material id="m_Metal" />
             </materials>
                 <texture id="t_goalPost" />
             <children>
@@ -2732,7 +2779,7 @@
             </materials>
             <texture id="t_rope" />
             <children>
-                <primitiveref id="cylinderNetPrim" />
+                <primitiveref id="p_goalNet" />
             </children>
         </component>
 
@@ -2787,7 +2834,7 @@
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="bottomRect">
@@ -2800,7 +2847,7 @@
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="leftRect">
@@ -2813,7 +2860,7 @@
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="rightRect">
@@ -2826,7 +2873,7 @@
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="frontRect">
@@ -2838,7 +2885,7 @@
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="backRect">
@@ -2851,7 +2898,7 @@
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="zeppelin">
@@ -2912,7 +2959,7 @@
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="vehicleCabineBottom">
@@ -2925,7 +2972,7 @@
             </materials>
             <texture id="t_cabineBottom" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="vehicleCabineLeft">
@@ -2938,7 +2985,7 @@
             </materials>
             <texture id="t_cabineFront" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="vehicleCabineRight">
@@ -2951,7 +2998,7 @@
             </materials>
             <texture id="t_cabineBottom" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="vehicleCabineFront">
@@ -2963,7 +3010,7 @@
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
         <component id="vehicleCabineBack">
@@ -2976,7 +3023,7 @@
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="rect" />
+                <primitiveref id="p_rect" />
             </children>
         </component>
     </components>
