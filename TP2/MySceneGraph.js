@@ -27,7 +27,7 @@ MySceneGraph.prototype.onXMLReady = function() {
     var rootElement = this.reader.xmlDoc.documentElement;
 
     // Here should go the calls for different functions to parse the various blocks
-    //if (!this.validateOrder(rootElement)) return;
+    if (!this.validateOrder(rootElement)) return;
 
     var error = this.parseData(rootElement);
 
@@ -55,7 +55,7 @@ MySceneGraph.prototype.validateOrder = function(rootElement) {
         }
     }
 
-    if (types.length < 9) {
+    if (types.length < names.length) {
         // Missing nodes, checking which ones are missing
         var missingNodes = [];
         for (var name = 0; name < names.length; name++) {
@@ -76,7 +76,7 @@ MySceneGraph.prototype.validateOrder = function(rootElement) {
             errorText += "\t" + missingNodes[i] + ";\n";
         this.onXMLError(errorText + "Aborting!");
         return false;
-    } else if (types.length > 9)
+    } else if (types.length > names.length)
         console.warn("Unexpected number of nodes, trying to parse anyway");
 
 
