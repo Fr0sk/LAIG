@@ -231,7 +231,6 @@
             <controlpoint xx="-16.8" yy="0" zz="2.2" />
         </animation>
 
-
         <animation id="a_zeppelin" span="10" type="linear">
             <controlpoint xx="0" yy="5" zz="0" />
             <controlpoint xx="50" yy="20" zz="-25" />
@@ -268,8 +267,8 @@
         <primitive id="p_football">
             <sphere radius="1" slices="20" stacks="10" />
         </primitive>
-        <primitive id="p_floor">
-            <plane dimX="20" dimY="20" partsX="7" partsY="7" />
+        <primitive id="p_footballPlane">
+            <plane dimX="7.5" dimY="10" partsX="10" partsY="10" />
         </primitive>
         <primitive id="p_flag">
             <patch orderU="2" orderV="1" partsU="7" partsV="9">
@@ -2603,7 +2602,6 @@
         <component id="fbMainGrass">
             <transformation>
                 <translate x="8" y="0.01" z="0" />
-                <scale x="15" y="1" z="20" />
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
@@ -2611,7 +2609,7 @@
             </materials>
             <texture id="t_grass" />
             <children>
-                <primitiveref id="p_rect" />
+                <primitiveref id="p_footballPlane" />
             </children>
         </component>
         <component id="fbGrass">
