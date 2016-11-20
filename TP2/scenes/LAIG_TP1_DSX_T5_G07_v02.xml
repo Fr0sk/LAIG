@@ -230,15 +230,14 @@
         </animation>
 
 
-        <animation id="a_zeppelin" span="60" type="linear">
-            <controlpoint xx="50" yy="20" zz="-50" />
-            <controlpoint xx="50" yy="20" zz="50" />
-            <controlpoint xx="-50" yy="20" zz="50" />
-            <controlpoint xx="-50" yy="20" zz="-50" />
+        <animation id="a_zeppelin" span="10" type="linear">
+            <controlpoint xx="0" yy="5" zz="0" />
+            <controlpoint xx="50" yy="20" zz="-25" />
+            <controlpoint xx="50" yy="20" zz="0" />
         </animation>
 
-        <animation id="rotateCrazy" span="0.1" type="circular" center="0 0 0"
-            radius="10" starting="0" rotang="45" />
+        <animation id="a_zeppelinRotate" span="15" type="circular" center="0 20 0"
+            radius="50" starting="0" rotang="360" />
     </animations>
     <!-- Primitives set -->
     <!-- Must include at least one primitive block -->
@@ -493,6 +492,7 @@
             <texture id="t_zeppelin" />
             <animation>
                 <animationref id="a_zeppelin" />
+                <animationref id="a_zeppelinRotate" />
             </animation>
             <children>
                 <componentref id="zeppelinPos" />
@@ -500,7 +500,8 @@
         </component>
         <component id="zeppelinPos">
             <transformation>
-                <translate x="-8" y="20" z="-8" />
+                <translate x="-8" y="0" z="-8" />
+                <rotate axis="y" angle="-90" />
                 <rotate axis="x" angle="90" />
                 <scale x="5" y="5" z="5" />
             </transformation>
@@ -1007,9 +1008,6 @@
             <transformation>
                 <translate x="0" y="0" z="30" />
             </transformation>
-            <animation>
-                <animationref id="rotateCrazy" />
-            </animation>
             <materials>
                 <material id="inherit" />
             </materials>
