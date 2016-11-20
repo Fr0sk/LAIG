@@ -866,7 +866,6 @@ MySceneGraph.prototype.parseNode = function(componentsList, component, parentNod
 
             for (var j = 0; j < this.primitives.length; j++) {
                 if (primitiveId == this.primitives[j].id) {
-                    console.log(this.primitives[j]);
                     if (node.texture != null) {
                         node.setPrimitive(this.generatePrimitive(this.primitives[j], node.texture.length_s, node.texture.length_t));
                         if (this.primitives[j].type == "chessboard") {
