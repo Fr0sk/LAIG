@@ -103,30 +103,8 @@ print_header_line(_).
 
 % Require your Prolog Files here
 
-:- include('logic.pl');
+:- include('logic.pl').
 
-parse_input(handshake, handshake).
-parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(quit, goodbye).
-parse_input(sum(Val1, Val2), Res):- sum(Val1, Val2, Res).
-parse_input(testBoardAux(Board), Res):- testBoardAux(Board, Res).
-parse_input(testBoard(Board, UserShipToMove, Direction, NumOfCells), Res):- testBoard(Board, UserShipToMove, Direction, NumOfCells, Res).
-
-test(_,[],N) :- N =< 0.
-test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
-	
-sum(Val1, Val2, Res):-
-	NewRes is Val1 + Val2,
-    ResAux = 'O resultado e: ',
-    append([ResAux], [NewRes], Res).
-
-testBoard(Board, UserShipToMove, Direction, NumOfCells, Res):-
-	playerTurnLaig(Board, UserShipToMove, Direction, NumOfCells, Res).
-
-testBoardAux([X|Xs], X).
-
-% http://localhost:8081/testBoardAux([[[star2,free,[],none],[star2,free,[],none],[wormhole]],[[star1,free,[],none],[star2,free,[],none],[star2,free,[],none]],[[home,player1,[shipA,shipB,shipC,shipD],none],[blackhole],[emptyS,free,[],none]],[[star3,free,[],none],[nebula,free,[],none],[home,player2,[shipW,shipX,shipY,shipZ],none]],[[blackhole],[wormhole],[blackhole]],[[star3,free,[],none],[nebula,free,[],none],[star1,free,[],none]],[[star1,free,[],none],[star2,free,[],none],[star2,free,[],none]]])
-
-% http://localhost:8081/test_board([[[star2,free,[],none],[star2,free,[],none],[wormhole]],[[star1,free,[],none],[star2,free,[],none],[star2,free,[],none]],[[home,player1,[shipA,shipB,shipC,shipD],none],[blackhole],[emptyS,free,[],none]],[[star3,free,[],none],[nebula,free,[],none],[home,player2,[shipW,shipX,shipY,shipZ],none]],[[blackhole],[wormhole],[blackhole]],[[star3,free,[],none],[nebula,free,[],none],[star1,free,[],none]],[[star1,free,[],none],[star2,free,[],none],[star2,free,[],none]]],'a','n',2)
-
-playerTurnLaig(1,a,n,1,tr,R).
+parse_input(playerTurn(Player, UserShipToMove, Direction, NumOfCells, UserBuilding), Res):-
+	playerTurnLaig(Player, UserShipToMove, Direction, NumOfCells, UserBuilding, Res).
