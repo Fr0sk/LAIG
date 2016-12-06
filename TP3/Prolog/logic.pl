@@ -512,12 +512,9 @@ getTotalScoreOfPlayer(Player, Board, TotalScore):-
 
 % Checks if ship to move belongs to the player who is playing
 canPlayerMoveSelectedShip(1, Ship):-
-    (Ship == shipA; Ship == shipB; Ship == shipC; Ship == shipD),
-    write('Bom ship!'), nl.
+    (Ship == shipA; Ship == shipB; Ship == shipC; Ship == shipD).
 canPlayerMoveSelectedShip(2, Ship):-
-    (Ship == shipW; Ship == shipX; Ship == shipY; Ship == shipZ),
-    write('Bom ship!'), nl.
-
+    (Ship == shipW; Ship == shipX; Ship == shipY; Ship == shipZ).
 % Checks if the row inserted by the player is in the board
 checkRowLimits(Board, DestinationRow):-
     length(Board, NumOfRows),
@@ -909,7 +906,7 @@ playerTurnLaig(Player, UserShipToMove, Direction, NumOfCells, UserBuilding, Res)
 
     (
         Res == 'Error'; 
-        
+
         getBoardPieces(Board, PieceToMove),
         systemHasShip(ShipToMove, PieceToMove),
         getPiece(PieceToMoveRow, PieceToMoveColumn, Board, PieceToMove),
