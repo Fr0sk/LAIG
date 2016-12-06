@@ -512,15 +512,11 @@ getTotalScoreOfPlayer(Player, Board, TotalScore):-
 
 % Checks if ship to move belongs to the player who is playing
 canPlayerMoveSelectedShip(1, Ship):-
-    (Ship == shipA; Ship == shipB; Ship == shipC; Ship == shipD);
-    !,
-    write('***** You entered a ship that is not yours to command! *****'), nl,
-    fail.
+    (Ship == shipA; Ship == shipB; Ship == shipC; Ship == shipD),
+    write('Bom ship!'), nl.
 canPlayerMoveSelectedShip(2, Ship):-
-    (Ship == shipW; Ship == shipX; Ship == shipY; Ship == shipZ);
-    !,
-    write('***** You entered a ship that is not yours to command! *****'), nl,
-    fail.
+    (Ship == shipW; Ship == shipX; Ship == shipY; Ship == shipZ),
+    write('Bom ship!'), nl.
 
 % Checks if the row inserted by the player is in the board
 checkRowLimits(Board, DestinationRow):-
@@ -907,41 +903,45 @@ playerTurnLaig(Player, UserShipToMove, Direction, NumOfCells, UserBuilding, Res)
     display_board(Board),
 
     assignShip(UserShipToMove, ShipToMove),
-    write(ShipToMove),
-    canPlayerMoveSelectedShip(Player, ShipToMove),
+    (canPlayerMoveSelectedShip(Player, ShipToMove);
+    Res = 'Error'),
 
-    getBoardPieces(Board, PieceToMove),
-    systemHasShip(ShipToMove, PieceToMove),
-    getPiece(PieceToMoveRow, PieceToMoveColumn, Board, PieceToMove),
 
-    (moveNCellsInDirection(PieceToMoveColumn, PieceToMoveRow, Direction, NumOfCells, DestinationColumn, DestinationRow) ;
-    (write('Cannot move cell to the chosen destiny.'), nl, fail)),
+    (
+        Res == 'Error'; 
+        
+        getBoardPieces(Board, PieceToMove),
+        systemHasShip(ShipToMove, PieceToMove),
+        getPiece(PieceToMoveRow, PieceToMoveColumn, Board, PieceToMove),
 
-    (getPiece(DestinationRow, DestinationColumn, Board, DestinationPiece)
-    ;
-    (write('There is no cell in those coordinates.'), nl, fail)),
+        (moveNCellsInDirection(PieceToMoveColumn, PieceToMoveRow, Direction, NumOfCells, DestinationColumn, DestinationRow) ;
+        (write('Cannot move cell to the chosen destiny.'), nl, fail)),
 
-    % check if the destination cell is a valid one
-    (checkValidLandingCell(DestinationPiece)
-    ;
-    (((isBlackhole(DestinationPiece));
-    (isWormhole(DestinationPiece));
-    (isSystemOwned(DestinationPiece))),
-    fail)),
+        (getPiece(DestinationRow, DestinationColumn, Board, DestinationPiece)
+        ;
+        (write('There is no cell in those coordinates.'), nl, fail)),
 
-    % check if path is uninterrupted
-    (unobstructedPath(Board, MyPlayer, PieceToMoveColumn, PieceToMoveRow, Direction, NumOfCells)
-    ;
-    (write('This path you shall not take, for great dangers reside in it.'), nl, write(PieceToMoveColumn), nl, write(PieceToMoveRow), nl, write(Direction), nl, write(NumOfCells), nl, write(DestinationColumn), nl, write(DestinationRow), fail)),
+        % check if the destination cell is a valid one
+        (checkValidLandingCell(DestinationPiece)
+        ;
+        (((isBlackhole(DestinationPiece));
+        (isWormhole(DestinationPiece));
+        (isSystemOwned(DestinationPiece))),
+        fail)),
 
-    assignBuilding(UserBuilding, Building),
-    checkValidBuilding(Building),
+        % check if path is uninterrupted
+        (unobstructedPath(Board, MyPlayer, PieceToMoveColumn, PieceToMoveRow, Direction, NumOfCells)
+        ;
+        (write('This path you shall not take, for great dangers reside in it.'), nl, write(PieceToMoveColumn), nl, write(PieceToMoveRow), nl, write(Direction), nl, write(NumOfCells), nl, write(DestinationColumn), nl, write(DestinationRow), fail)),
 
-    setPieceToMove(PieceToMove, DestinationPiece, ShipToMove, Building, NewPiece, 0),
-    removeShipFromPiece(PieceToMove, ShipToMove, OldPiece),
+        assignBuilding(UserBuilding, Building),
+        checkValidBuilding(Building),
 
-    updateBoard(Board, OldPiece, NewPiece, PieceToMove, PieceToMoveRow, PieceToMoveColumn, DestinationPiece, DestinationRow, DestinationColumn, UpdatedBoard),
+        setPieceToMove(PieceToMove, DestinationPiece, ShipToMove, Building, NewPiece, 0),
+        removeShipFromPiece(PieceToMove, ShipToMove, OldPiece),
 
-    nl, nl,
-    display_board(UpdatedBoard),
-    Res = UpdatedBoard.
+        updateBoard(Board, OldPiece, NewPiece, PieceToMove, PieceToMoveRow, PieceToMoveColumn, DestinationPiece, DestinationRow, DestinationColumn, UpdatedBoard),
+
+        nl, nl,
+        display_board(UpdatedBoard),
+        Res = UpdatedBoard).
