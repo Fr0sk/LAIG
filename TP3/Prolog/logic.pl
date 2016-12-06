@@ -900,3 +900,33 @@ playerTurn(Board, WhoIsPlaying, UpdatedBoard):-
     updateBoard(Board, OldPiece, NewPiece, PieceToMove, PieceToMoveRow, PieceToMoveColumn, DestinationPiece, DestinationRow, DestinationColumn, UpdatedBoard))),
    
     clearScreen(60).
+
+playerTurnLaig(Board, UserShipToMove, Direction, NumOfCells, Res):-
+    assignShip(UserShipToMove, ShipToMove),
+    canPlayerMoveSelectedShip(player1, ShipToMove),
+
+    getBoardPieces(Board, PieceToMove),
+    systemHasShip(ShipToMove, PieceToMove),
+    getPiece(PieceToMoveRow, PieceToMoveColumn, Board, PieceToMove),
+
+    (moveNCellsInDirection(PieceToMoveColumn, PieceToMoveRow, Direction, NumOfCells, DestinationColumn, DestinationRow) ;
+    (write('Cannot move cell to the chosen destiny.'), nl, fail)),
+
+    (getPiece(DestinationRow, DestinationColumn, Board, DestinationPiece)
+    ;
+    (write('There is no cell in those coordinates.'), nl, fail)),
+
+    % check if the destination cell is a valid one
+    (checkValidLandingCell(DestinationPiece)
+    ;
+    (((isBlackhole(DestinationPiece));
+    (isWormhole(DestinationPiece));
+    (isSystemOwned(DestinationPiece))),
+    fail)),
+
+    % check if path is uninterrupted
+    (unobstructedPath(Board, MyPlayer, PieceToMoveColumn, PieceToMoveRow, Direction, NumOfCells)
+    ;
+    (write('This path you shall not take, for great dangers reside in it.'), nl, write(PieceToMoveColumn), nl, write(PieceToMoveRow), nl, write(Direction), nl, write(NumOfCells), nl, write(DestinationColumn), nl, write(DestinationRow), fail)),
+
+    Res = 'Passou certo!'.
