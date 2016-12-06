@@ -128,3 +128,5 @@ testBoardAux([X|Xs], X).
 % http://localhost:8081/testBoardAux([[[star2,free,[],none],[star2,free,[],none],[wormhole]],[[star1,free,[],none],[star2,free,[],none],[star2,free,[],none]],[[home,player1,[shipA,shipB,shipC,shipD],none],[blackhole],[emptyS,free,[],none]],[[star3,free,[],none],[nebula,free,[],none],[home,player2,[shipW,shipX,shipY,shipZ],none]],[[blackhole],[wormhole],[blackhole]],[[star3,free,[],none],[nebula,free,[],none],[star1,free,[],none]],[[star1,free,[],none],[star2,free,[],none],[star2,free,[],none]]])
 
 % http://localhost:8081/test_board([[[star2,free,[],none],[star2,free,[],none],[wormhole]],[[star1,free,[],none],[star2,free,[],none],[star2,free,[],none]],[[home,player1,[shipA,shipB,shipC,shipD],none],[blackhole],[emptyS,free,[],none]],[[star3,free,[],none],[nebula,free,[],none],[home,player2,[shipW,shipX,shipY,shipZ],none]],[[blackhole],[wormhole],[blackhole]],[[star3,free,[],none],[nebula,free,[],none],[star1,free,[],none]],[[star1,free,[],none],[star2,free,[],none],[star2,free,[],none]]],'a','n',2)
+
+playerTurnLaig(1,a,n,1,tr,R).
