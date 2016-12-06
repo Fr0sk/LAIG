@@ -62,12 +62,8 @@
     <!-- Textures set -->
     <!-- Must include at least one texture block -->
     <textures>
-        <texture id="t_cyberpunkSign" file="resources/cyberpunk.jpg" length_s="1" length_t="1" />
-        <texture id="t_cyberCharacter" file="resources/cyberCharacter.jpg" length_s="1" length_t="1" />
         <texture id="t_topBuilding" file="resources/topBuilding.jpg" length_s="1" length_t="1" />
-        <texture id="t_treeWood" file="resources/treeWood.jpg" length_s="1" length_t="1" />
-        <texture id="t_grass" file="resources/grass.png" length_s="1" length_t="1" />
-        <texture id="t_wood" file="resources/wood.jpg" length_s="1" length_t="1" />       
+        <texture id="t_treeWood" file="resources/treeWood.jpg" length_s="1" length_t="1" />       
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
@@ -140,7 +136,7 @@
     <!-- Must include at least one primitive block -->
     <primitives>
         <primitive id="chessboard1">
-            <chessboard du="2" dv="2" textureref="t_wood" su="1" sv="0">
+            <chessboard du="2" dv="2" textureref="t_treeWood" su="1" sv="0">
                 <c1 r="0.7" g="0.9" b="0" a="1" />
                 <c2 r="1" g="1" b="1" a="1" />
                 <cs r="1" g="0" b="0" a="1" />
@@ -175,7 +171,7 @@
             </chessboard>
         </primitive>
         <primitive id="chessboard6">
-            <chessboard du="20" dv="20" textureref="t_wood" su="-1" sv="-1">
+            <chessboard du="20" dv="20" textureref="t_treeWood" su="-1" sv="-1">
                 <c1 r="0.7" g="0.2" b="0.5" a="1" />
                 <c2 r="0.1" g="0.7" b="0.6" a="1" />
                 <cs r="0.5" g="0.8" b="0.8" a="1" />

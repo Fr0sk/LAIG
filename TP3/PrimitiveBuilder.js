@@ -307,11 +307,6 @@ PrimitiveBuilder.buildTorus = function(scene, inner, outer, slices, loops) {
         this.normals = [];
         this.texCoords = [];
 
-        var vertexPositionData = [];
-        var normalData = [];
-        var textureCoordData = [];
-        var indexData = [];
-
         for (var latNumber = 0; latNumber <= this.slices; latNumber++) {
             var theta = latNumber * 2 * Math.PI / this.slices;
             var sinTheta = Math.sin(theta);
