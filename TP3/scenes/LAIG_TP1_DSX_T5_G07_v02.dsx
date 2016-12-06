@@ -82,7 +82,6 @@
         <texture id="t_cabine" file="resources/cabine.jpg" length_s="1" length_t="1" />
         <texture id="t_cabineBottom" file="resources/cabineBottom.jpg" length_s="1" length_t="1" />
         <texture id="t_cabineFront" file="resources/cabineFront.jpg" length_s="1" length_t="1" />
-        <texture id="t_wood" file="resources/wood.jpg" length_s="1" length_t="1" />
         <texture id="t_feupFlag" file="resources/logoFEUP.png" length_s="1" length_t="1" />        
         <texture id="t_isepFlag" file="resources/logoISEP.jpg" length_s="1" length_t="1" />
         <texture id="t_dirt" file="resources/dirt.jpg" length_s="1" length_t="1" />

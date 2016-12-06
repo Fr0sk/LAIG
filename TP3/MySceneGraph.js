@@ -871,8 +871,10 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
                         if (this.primitives[j].type == "chessboard") {
                             node.activeShader = 0;
                             node.primitiveWithShaderInfo = this.primitives[j];
-                            this.scene.testShaders[0].setUniformsValues({ normScale: 0.2 });
-                            this.scene.testShaders[0].setUniformsValues({ uSampler: 0 });
+                            if (this.scene.testShaders[0]) {
+                                this.scene.testShaders[0].setUniformsValues({ normScale: 0.2 });
+                                this.scene.testShaders[0].setUniformsValues({ uSampler: 0 });
+                            }
                             for (var k = 0; k < this.textures.length; k++)
                                 if (this.primitives[j].textureRef == this.textures[k].id) {
                                     node.setTexture(this.textures[k]);
@@ -880,9 +882,11 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
                                 }
                         } else if (this.primitives[j].id == "p_flag") {
                             node.activeShader = 1;
-                            this.scene.testShaders[1].setUniformsValues({ uSampler: 1 });
-                            this.scene.testShaders[1].setUniformsValues({ dimX: this.primitives[j].partsU });
-                            this.scene.testShaders[1].setUniformsValues({ dimY: this.primitives[j].partsV });
+                            if (this.scene.testShaders[1]) {
+                                this.scene.testShaders[1].setUniformsValues({ uSampler: 1 });
+                                this.scene.testShaders[1].setUniformsValues({ dimX: this.primitives[j].partsU });
+                                this.scene.testShaders[1].setUniformsValues({ dimY: this.primitives[j].partsV });
+                            }
                         }
                     } else {
                         node.setPrimitive(this.generatePrimitive(this.primitives[j], 1, 1));

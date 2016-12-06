@@ -29,10 +29,14 @@ XMLscene.prototype.init = function (application) {
     this.enableTextures(true);
 
     this.testShaders = [
-        new CGFshader(this.gl, "shaders/chessboard.vert", "shaders/chessboard.frag"),
+        //new CGFshader(this.gl, "shaders/chessboard.vert", "shaders/chessboard.frag"),
         new CGFshader(this.gl, "shaders/progressive.vert", "shaders/progressive.frag")
     ];
 
+    this.testTexture = "./resources/sbSide1.png";
+    this.testMaterial = new CGFappearance(this);
+    this.testMaterial.loadTexture(this.testTexture);
+    this.testobj = new Board(this, 1, 7, 3);
     this.callRequest('sum(1000,2)', this.handleReply);
 };
 
@@ -110,7 +114,8 @@ XMLscene.prototype.display = function () {
     this.axis.display();
 
     this.setDefaultAppearance();
-
+    this.testMaterial.apply();
+    this.testobj.display();
     // ---- END Background, camera and axis setup
 
     // it is important that things depending on the proper loading of the graph
@@ -120,7 +125,7 @@ XMLscene.prototype.display = function () {
         this.updateLightsStatus();
 
         //Starts going through the graph
-        this.runGraph(this.graph.rootNode);
+        //this.runGraph(this.graph.rootNode);
     };
 };
 
@@ -271,6 +276,6 @@ XMLscene.prototype.update = function (curTime) {
         }
 
         passedTime += deltaTime;
-        this.testShaders[1].setUniformsValues({ time: passedTime });
+        //this.testShaders[1].setUniformsValues({ time: passedTime });
     }
 }
