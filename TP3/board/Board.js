@@ -41,6 +41,7 @@ function Board(scene, id, rows, columns) {
     this.scene = scene;
     this.rows = rows;
     this.columns = columns
+    
     this.radius = Math.sin(Math.PI/3);
     this.distance = 3;
     this.piece = new Hexagon(scene);
@@ -55,6 +56,7 @@ Board.prototype.display = function() {
             var offset = row % 2 ? this.distance/2 : 0;
             this.scene.translate(offset, 0, this.radius * row);
             for (var col = 0; col < this.columns; col++) {
+                this.scene.registerForPick(col + row * this.columns + 1, this);
                 this.piece.display();
                 this.scene.translate(this.distance, 0, 0);
             }

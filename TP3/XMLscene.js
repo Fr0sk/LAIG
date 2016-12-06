@@ -33,6 +33,9 @@ XMLscene.prototype.init = function (application) {
         new CGFshader(this.gl, "shaders/progressive.vert", "shaders/progressive.frag")
     ];
 
+    // Enables picking
+    this.setPickEnabled(true);
+
     this.testTexture = "./resources/sbSide1.png";
     this.testMaterial = new CGFappearance(this);
     this.testMaterial.loadTexture(this.testTexture);
@@ -97,6 +100,8 @@ XMLscene.prototype.onGraphLoaded = function () {
 };
 
 XMLscene.prototype.display = function () {
+    this.doPicking();
+	this.clearPickRegistration();
     // ---- BEGIN Background, camera and axis setup
 
     // Clear image and depth buffer everytime we update the scene
@@ -278,4 +283,21 @@ XMLscene.prototype.update = function (curTime) {
         passedTime += deltaTime;
         //this.testShaders[1].setUniformsValues({ time: passedTime });
     }
+}
+
+XMLscene.prototype.doPicking = function ()
+{
+	if (this.pickMode == false) {
+		if (this.pickResults != null && this.pickResults.length > 0) {
+			for (var i=0; i< this.pickResults.length; i++) {
+				var obj = this.pickResults[i][0];
+				if (obj)
+				{
+					var customId = this.pickResults[i][1];				
+					console.log("Picked object: " + obj + ", with pick id " + customId);
+				}
+			}
+			this.pickResults.splice(0,this.pickResults.length);
+		}		
+	}
 }

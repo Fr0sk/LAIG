@@ -1,6 +1,7 @@
-function Hexagon(scene) {
+function Hexagon(scene, height, sideAppearance) {
     this.scene = scene;
-    this.height = 0.2;
+    this.sideAppearance = sideAppearance;
+    this.height = height ? height : 0.2;
     
     this.side = new HexagonSide(this.scene, this.height);
 
@@ -40,7 +41,10 @@ Hexagon.prototype.initBuffers = function() {
 
 Hexagon.prototype.display = function() {
     CGFobject.prototype.display.call(this);
-    this.side.display();
+    if (!this.scene.pickMode) {
+        if (this.sideAppearance) this.sideAppearance.apply();
+        this.side.display();
+    }
 }
 
 function HexagonSide(scene, height) {
@@ -49,7 +53,6 @@ function HexagonSide(scene, height) {
     
     var side =  Math.cos(this.angle);
     this.rect = PrimitiveBuilder.buildRect(scene, -side, 0, side, height, 1, 4);
-    //this.appearance = appearance;
 }
 
 HexagonSide.prototype = Object.create(CGFobject.prototype);
