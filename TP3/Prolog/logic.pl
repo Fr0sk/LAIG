@@ -401,7 +401,7 @@ assignShip(y, shipY).
 assignShip(z, shipZ).
 
 % Assigns building based on user input
-assignBuilding(t, trade).
+assignBuilding(tr, trade).
 assignBuilding(c, colony).
 
 % Writes N newlines
@@ -901,9 +901,14 @@ playerTurn(Board, WhoIsPlaying, UpdatedBoard):-
    
     clearScreen(60).
 
-playerTurnLaig(Board, UserShipToMove, Direction, NumOfCells, Res):-
+% playerTurnLaig(Board, UserShipToMove, Direction, NumOfCells, Res):-
+playerTurnLaig(Player, UserShipToMove, Direction, NumOfCells, UserBuilding, Res):-
+    initial_logic_board(Board),
+    display_board(Board),
+
     assignShip(UserShipToMove, ShipToMove),
-    canPlayerMoveSelectedShip(player1, ShipToMove),
+    write(ShipToMove),
+    canPlayerMoveSelectedShip(Player, ShipToMove),
 
     getBoardPieces(Board, PieceToMove),
     systemHasShip(ShipToMove, PieceToMove),
@@ -929,4 +934,14 @@ playerTurnLaig(Board, UserShipToMove, Direction, NumOfCells, Res):-
     ;
     (write('This path you shall not take, for great dangers reside in it.'), nl, write(PieceToMoveColumn), nl, write(PieceToMoveRow), nl, write(Direction), nl, write(NumOfCells), nl, write(DestinationColumn), nl, write(DestinationRow), fail)),
 
-    Res = 'Passou certo!'.
+    assignBuilding(UserBuilding, Building),
+    checkValidBuilding(Building),
+
+    setPieceToMove(PieceToMove, DestinationPiece, ShipToMove, Building, NewPiece, 0),
+    removeShipFromPiece(PieceToMove, ShipToMove, OldPiece),
+
+    updateBoard(Board, OldPiece, NewPiece, PieceToMove, PieceToMoveRow, PieceToMoveColumn, DestinationPiece, DestinationRow, DestinationColumn, UpdatedBoard),
+
+    nl, nl,
+    display_board(UpdatedBoard),
+    Res = UpdatedBoard.
