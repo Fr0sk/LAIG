@@ -39,7 +39,7 @@ XMLscene.prototype.init = function (application) {
     this.testTexture = "./resources/sbSide1.png";
     this.testMaterial = new CGFappearance(this);
     this.testMaterial.loadTexture(this.testTexture);
-    this.testobj = new Board(this, 1, 7, 3);
+    this.testobj = new Board(this, 1);
     this.callRequest('sum(1000,2)', this.handleReply);
 };
 

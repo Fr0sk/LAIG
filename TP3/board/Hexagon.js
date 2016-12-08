@@ -1,4 +1,4 @@
-function Hexagon(scene, height, sideAppearance) {
+function Hexagon(scene, height, frontAppearance, sideAppearance) {
     this.scene = scene;
     this.sideAppearance = sideAppearance;
     this.height = height ? height : 0.2;
@@ -50,7 +50,7 @@ Hexagon.prototype.display = function() {
 function HexagonSide(scene, height) {
     this.scene = scene;
     this.angle = Math.PI/3;
-    
+    this.translateZ = Math.sin(this.angle);
     var side =  Math.cos(this.angle);
     this.rect = PrimitiveBuilder.buildRect(scene, -side, 0, side, height, 1, 4);
 }
@@ -62,7 +62,7 @@ HexagonSide.prototype.display = function() {
     for(var i = 0; i < 6; i++) {
         this.scene.pushMatrix();
             this.scene.rotate(this.angle * i, 0, 1, 0);
-            this.scene.translate(0, 0, Math.sin(this.angle));
+            this.scene.translate(0, 0, this.translateZ);
             this.rect.display();
         this.scene.popMatrix();
     }

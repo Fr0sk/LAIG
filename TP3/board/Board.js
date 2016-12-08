@@ -1,65 +1,57 @@
-/*
- *   Prolog board specification and initialization
- *
- *   initial_logic_board([
- *   [[star2, free, [], none], [star2, free, [], none], [wormhole]],
- *   [[star1, free, [], none], [star2, free, [], none], [star2, free, [], none]],
- *   [[home, player1, [shipA, shipB, shipC, shipD], none], [blackhole], [emptyS, free, [], none]],
- *   [[star3, free, [], none], [nebula, free, [], none], [home, player2, [shipW, shipX, shipY, shipZ], none]],
- *   [[blackhole], [wormhole], [blackhole]],
- *   [[star3, free, [], none], [nebula, free, [], none], [star1, free, [], none]],
- *   [[star1, free, [], none], [star2, free, [], none], [star2, free, [], none]]
- *   ]
- *   ).
- * 
- *   translate(home, 'h').
- *   translate(emptyS, '0').
- *   translate(star1, '1').
- *   translate(star2, '2').
- *   translate(star3, '3').
- *   translate(nebula, 'n').
- *
- *   translate(player1, 'P1').
- *   translate(player2, 'P2').
- *   translate(free, '  ').
- *
- *   translate(shipA, 'a').
- *   translate(shipB, 'b').
- *   translate(shipC, 'c').
- *   translate(shipD, 'd').
- *   translate(shipW, 'w').
- *   translate(shipX, 'x').
- *   translate(shipY, 'y').
- *   translate(shipZ, 'z').
- *
- *   translate(colony, '(C)').
- *   translate(trade, '[T]').
- *   translate(none, '___').
-*/
-
-function Board(scene, id, rows, columns) {
+function Board(scene, id, board) {
     this.scene = scene;
-    this.rows = rows;
-    this.columns = columns
-    
-    this.radius = Math.sin(Math.PI/3);
-    this.distance = 3;
-    this.piece = new Hexagon(scene);
+    this.board = board ? board : initialBoard();
+    this.height = 0.2;
+
+    this.ship = new Vehicle(scene, 'a');
+
+    this.initBoard();
 }
 
 Board.prototype = Object.create(CGFobject.prototype);
 Board.prototype.constructor = Board;
 
-Board.prototype.display = function() {
-    for (var row = 0; row < this.rows; row++) {
-        this.scene.pushMatrix();
-            var offset = row % 2 ? this.distance/2 : 0;
-            this.scene.translate(offset, 0, this.radius * row);
-            for (var col = 0; col < this.columns; col++) {
-                this.scene.registerForPick(col + row * this.columns + 1, this);
-                this.piece.display();
-                this.scene.translate(this.distance, 0, 0);
-            }
-        this.scene.popMatrix();
+Board.prototype.initBoard = function(){
+    this.cells = [];
+    var pickingId = 1;
+    var shipCount = 0;
+
+    for (var row = 0; row < this.board.length; row++) {
+        for (var col = 0; col < this.board[row].length; col++) {
+            var c = this.board[row][col];
+            shipCount += c[2] ? c[2].length : 0; 
+            var cell = new Cell(this, row, col, pickingId++, c[0], c[1], c[2], c[3])
+            this.cells.push(cell);
+        }
     }
+
+    var shipIds = [];
+    var shipPickingIds = [];
+    for (var s = pickingId; s < pickingId + shipCount; s++) {
+        shipIds.push(shipPickingIds.length);
+        shipPickingIds.push(s);
+    }
+
+    for (var c = 0; c < this.cells.length; c++) {
+        this.cells[c].init(shipIds, shipPickingIds);
+    }
+}
+
+Board.prototype.display = function() {
+    for (var c = 0; c < this.cells.length; c++) {
+        this.cells[c].display();
+    }
+}
+
+initialBoard = function() {
+    var board = [
+    [['star2', 'free', [], 'none'], ['star2', 'free', [], 'none'], ['wormhole']],
+    [['star1', 'free', [], 'none'], ['star2', 'free', [], 'none'], ['star2', 'free', [], 'none']],
+    [['home', 'player1', ['shipA', 'shipB', 'shipC', 'shipD'], 'none'], ['blackhole'], ['emptyS', 'free', [], 'none']],
+    [['star3', 'free', [], 'none'], ['nebula', 'free', [], 'none'], ['home', 'player2', ['shipW', 'shipX', 'shipY', 'shipZ'], 'none']],
+    [['blackhole'], ['wormhole'], ['blackhole']],
+    [['star3', 'free', [], 'none'], ['nebula', 'free', [], 'none'], ['star1', 'free', [], 'none']],
+    [['star1', 'free', [], 'none'], ['star2', 'free', [], 'none'], ['star2', 'free', [], 'none']]
+    ];
+    return board;
 }
