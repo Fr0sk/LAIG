@@ -40,7 +40,7 @@ XMLscene.prototype.init = function (application) {
     this.testMaterial = new CGFappearance(this);
     this.testMaterial.loadTexture(this.testTexture);
     this.testobj = new Board(this, 1);
-    this.callRequest('sum(1000,2)', this.handleReply);
+    this.callRequest('playerTurn(1,a,n,4,tr)', this.handleReply);
 };
 
 XMLscene.prototype.callRequest = function(requestString, onSuccess, onError, port) {
