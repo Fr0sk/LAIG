@@ -39,7 +39,8 @@ XMLscene.prototype.init = function (application) {
     this.testTexture = "./resources/sbSide1.png";
     this.testMaterial = new CGFappearance(this);
     this.testMaterial.loadTexture(this.testTexture);
-    this.testobj = new Board(this, 1);
+    this.game = new Game(this);
+    this.game.startGame();
     this.callRequest('playerTurn(1,a,n,4,tr)', this.handleReply);
 };
 
@@ -120,7 +121,7 @@ XMLscene.prototype.display = function () {
 
     this.setDefaultAppearance();
     this.testMaterial.apply();
-    this.testobj.display();
+    this.game.display();
     // ---- END Background, camera and axis setup
 
     // it is important that things depending on the proper loading of the graph
@@ -289,14 +290,8 @@ XMLscene.prototype.doPicking = function ()
 {
 	if (this.pickMode == false) {
 		if (this.pickResults != null && this.pickResults.length > 0) {
-			for (var i=0; i< this.pickResults.length; i++) {
-				var obj = this.pickResults[i][0];
-				if (obj)
-				{
-					var customId = this.pickResults[i][1];				
-					console.log("Picked object: " + obj + ", with pick id " + customId);
-				}
-			}
+			for (var i=0; i< this.pickResults.length; i++) 
+				if (this.pickResults[i][0]) this.game.picking(this.pickResults[i][0], this.pickResults[i][1]);
 			this.pickResults.splice(0,this.pickResults.length);
 		}		
 	}

@@ -1,9 +1,7 @@
-function Board(scene, id, board) {
+function Board(scene, game, id, board) {
     this.scene = scene;
-    this.board = board ? board : initialBoard();
-    this.height = 0.2;
-
-    this.ship = new Vehicle(scene, 'a');
+    this.game = game;
+    this.board = board ? board : sampleBoard();
 
     this.initBoard();
 }
@@ -27,13 +25,15 @@ Board.prototype.initBoard = function(){
 
     var shipIds = [];
     var shipPickingIds = [];
+    var player = [];
     for (var s = pickingId; s < pickingId + shipCount; s++) {
         shipIds.push(shipPickingIds.length);
         shipPickingIds.push(s);
+        player.push(shipIds.length <= shipCount /2 ? 1 : 2);
     }
 
     for (var c = 0; c < this.cells.length; c++) {
-        this.cells[c].init(shipIds, shipPickingIds);
+        this.cells[c].init(player, shipIds, shipPickingIds);
     }
 }
 
@@ -43,7 +43,7 @@ Board.prototype.display = function() {
     }
 }
 
-initialBoard = function() {
+sampleBoard = function() {
     var board = [
     [['star2', 'free', [], 'none'], ['star2', 'free', [], 'none'], ['wormhole']],
     [['star1', 'free', [], 'none'], ['star2', 'free', [], 'none'], ['star2', 'free', [], 'none']],
