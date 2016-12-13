@@ -58,6 +58,9 @@ Cell.prototype.initShip = function(owners, shipIds, shipPickingIds) {
                 z: s%3 == 0  ? 0.25 : -0.25
             }
 
+            t = this.hexagon.translate;
+            mat4.translate(ship.mat, ship.mat, [t.x, t.y, t.z]);
+
             ships.push(ship);
             this.board.game.ships.push(ship);
         }
@@ -66,7 +69,19 @@ Cell.prototype.initShip = function(owners, shipIds, shipPickingIds) {
     }
 }
 
-Cell.prototype.moveShip = function(ship) {
+Cell.prototype.moveShip = function(ship, animated) {
+    if (animated) {
+        fromVec = ship.cell.hexagon.translate;
+        toVec = this.hexagon.translate;
+        var cp = [];
+
+        cp.push({x: 0, y: 0, z: 0});
+        cp.push({x: toVec.x - fromVec.x, y: 0, z:toVec.z - fromVec.z});
+
+        var anim = new LinearAnimation(ship, 2, cp, true);
+        ship.pushAnimation(anim);
+    }
+    
     if (ship.cell == this)
         return;
     ship.cell.removeShip(ship);
@@ -90,14 +105,16 @@ Cell.prototype.display = function() {
         this.scene.translate(this.hexagon.translate.x, this.hexagon.translate.y, this.hexagon.translate.z);
         this.scene.registerForPick(this.pickingId, this);
         this.hexagon.display();
-        for (var i = 0; i < this.ships.length; i++) {
-            var ship = this.ships[i];
-            this.scene.pushMatrix();
-                this.scene.translate(ship.translate.x, ship.translate.y, ship.translate.z);
-                this.scene.scale(ship.scale.x, ship.scale.y, ship.scale.z);
-                this.scene.registerForPick(ship.pickingId, ship);
-                ship.display();
-            this.scene.popMatrix();
-        }
     this.scene.popMatrix();
+
+    for (var i = 0; i < this.ships.length; i++) {
+        var ship = this.ships[i];
+        this.scene.pushMatrix();
+            this.scene.multMatrix(ship.mat);
+            this.scene.translate(ship.translate.x, ship.translate.y, ship.translate.z);
+            this.scene.scale(ship.scale.x, ship.scale.y, ship.scale.z);
+            this.scene.registerForPick(ship.pickingId, ship);
+            ship.display();
+        this.scene.popMatrix();
+    }
 }

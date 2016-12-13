@@ -26,11 +26,8 @@ Game.prototype.picking = function(obj, id) {
         }
     } else {
         for (var c = 0; c < this.board.cells.length; c++) {
-            if (obj == this.board.cells[c]) {
-                if (obj != this.selectedShip.cell) {
-                    obj.moveShip(this.selectedShip);
-                    this.nextPlayer();
-                }
+            if (obj == this.board.cells[c] && obj != this.selectedShip.cell) {
+                this.doMove(obj);
             }
         }
 
@@ -39,11 +36,24 @@ Game.prototype.picking = function(obj, id) {
     }
 }
 
+Game.prototype.doMove = function(toCell) {
+    var fromCell = this.selectedShip.cell;
+    toCell.moveShip(this.selectedShip, true);
+    this.moveStack.push({ from: fromCell, to: toCell });
+    this.nextPlayer();
+}
+
 Game.prototype.nextPlayer = function() {
     this.player = this.player == 1 ? 2 : 1;
+    console.log("Player " + this.player + ", it's your turn!");
+}
+
+Game.prototype.update = function(deltaTime) {
+    if (this.ships)
+        for (var s  = 0; s < this.ships.length; s++) 
+            this.ships[s].update(deltaTime);
 }
 
 Game.prototype.display = function() {
     this.board.display();
-    console.log(this.player);
 }

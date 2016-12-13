@@ -281,6 +281,8 @@ XMLscene.prototype.update = function (curTime) {
                 node.animations[node.activeAnimation].animate(deltaTime);
         }
 
+        this.game.update(deltaTime);
+
         passedTime += deltaTime;
         //this.testShaders[1].setUniformsValues({ time: passedTime });
     }

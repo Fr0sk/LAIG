@@ -4,18 +4,20 @@
 
 var a = true;
 
-var LinearAnimation = function (node, animTime, controlPoints) {
+var LinearAnimation = function (node, animTime, controlPoints, relative) {
     Animation.apply(this, arguments);
 
     //LinearAnimation initialization
     this.node = node;
     this.animTime = animTime;
     this.controlPoints = controlPoints;
+    this.relative = relative;
 
     this.currAnimTime = 0;
     this.totalAnimTime = 0;
     this.currControlPoint = 1;
     this.type = "linear"; // WHY IS THIS?
+    this.beginMat = node.mat.slice();
 
     this.length = 0;
     this.pointsLength = [0];
@@ -56,7 +58,12 @@ LinearAnimation.prototype.computeMatrix = function () {
     var y = this.controlPointsLength[this.currControlPoint].y * delta + this.controlPoints[this.currControlPoint - 1].y;
     var z = adjacent * delta + this.controlPoints[this.currControlPoint - 1].z;
     
-    var mat = [
+    var mat = []; 
+
+    if (this.relative)
+        mat = this.beginMat.slice();
+    else
+        mat = [
         1.0, 0.0, 0.0, 0.0,
         0.0, 1.0, 0.0, 0.0,
         0.0, 0.0, 1.0, 0.0,
@@ -75,6 +82,7 @@ LinearAnimation.prototype.animate = function (deltaTime) {
     this.currAnimTime += deltaTime;
     this.totalAnimTime += deltaTime;
     if (this.totalAnimTime >= this.animTime || this.currControlPoint == this.controlPoints.length) {
+        this.ended = true;
         console.info("End of animation, animation took '" + this.currAnimTime + "' seconds!");
         this.node.activeAnimation++;
         return;
