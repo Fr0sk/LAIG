@@ -1,7 +1,7 @@
-function Board(scene, game, id, board) {
+function Board(scene, game, id) {
     this.scene = scene;
     this.game = game;
-    this.board = board ? board : sampleBoard();
+    this.board = sampleBoard();
     this.rowLength;
 
     this.initBoard();
@@ -44,6 +44,10 @@ Board.prototype.display = function() {
     }
 }
 
+Board.prototype.setBoard = function(newBoard) {
+    this.board = newBoard;
+}
+
 Board.prototype.toString = function boardToString() {
     var string;
     string = '[';
@@ -82,9 +86,9 @@ Board.prototype.toString = function boardToString() {
 
 sampleBoard = function() {
     var board = [
-    [['star2', 'free', [], 'none'], ['star2', 'free', [], 'none'], ['wormhole']],
+    [['star2', 'free', [], 'none'], ['star2', 'free', ['shipD'], 'none'], ['wormhole']],
     [['star1', 'free', [], 'none'], ['star2', 'free', [], 'none'], ['star2', 'free', [], 'none']],
-    [['home', 'player1', ['shipA', 'shipB', 'shipC', 'shipD'], 'none'], ['blackhole'], ['emptyS', 'free', [], 'none']],
+    [['home', 'player1', ['shipA', 'shipB', 'shipC'], 'none'], ['blackhole'], ['emptyS', 'free', [], 'none']],
     [['star3', 'free', [], 'none'], ['nebula', 'free', [], 'none'], ['home', 'player2', ['shipW', 'shipX', 'shipY', 'shipZ'], 'none']],
     [['blackhole'], ['wormhole'], ['blackhole']],
     [['star3', 'free', [], 'none'], ['nebula', 'free', [], 'none'], ['star1', 'free', [], 'none']],

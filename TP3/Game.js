@@ -1,7 +1,8 @@
+var prologBoard = 0;
+
 function Game(scene) {
     this.scene = scene;
     this.board;
-    this.prologBoard;
 }
 
 Game.prototype = Object.create(CGFobject.prototype);
@@ -12,7 +13,7 @@ Game.prototype.startGame = function() {
     this.board = new Board(this.scene, this, "idBoard");
     this.player = 1;
     this.moveStack = [];
-    this.prologBoard = this.board.toString();
+    prologBoard = this.board.toString();
 }
 
 Game.prototype.picking = function(obj, id) {
@@ -29,11 +30,9 @@ Game.prototype.picking = function(obj, id) {
     } else {
         for (var c = 0; c < this.board.cells.length; c++) {
             if (obj == this.board.cells[c] && obj != this.selectedShip.cell) {
-                //prolog here
-
                 this.getMovementDirection(this.selectedShip.cell.pickingId, this.board.cells[c].pickingId, this.direction, this.numCells);
 
-                var prologRequest = 'playerTurn(' + this.prologBoard + ',' + this.player + ',' + this.selectedShip.id + ',' + this.direction + ',' + this.numCells + ',tr)';
+                var prologRequest = 'playerTurn(' + prologBoard + ',' + this.player + ',' + this.selectedShip.id + ',' + this.direction + ',' + this.numCells + ',tr)';
                 console.warn("Request = " + prologRequest); 
                 this.callRequest(prologRequest, this.handleReply);
 
@@ -170,7 +169,5 @@ Game.prototype.callRequest = function(requestString, onSuccess, onError, port) {
 
 Game.prototype.handleReply = function(data) {
     console.info("Response: " + data.target.response);
-    /*if(data.target.response == "Error")
-        return;*/
-    this.prologBoard = data.target.response;
+    prologBoard = data.target.response;
 }

@@ -894,7 +894,6 @@ playerTurn(Board, WhoIsPlaying, UpdatedBoard):-
    
     clearScreen(60).
 
-% playerTurnLaig(Board, UserShipToMove, Direction, NumOfCells, Res):-
 playerTurnLaig(Board, Player, ShipToMove, Direction, NumOfCells, UserBuilding, Res):-
     display_board(Board),
 
