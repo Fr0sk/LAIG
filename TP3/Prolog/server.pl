@@ -108,3 +108,5 @@ print_header_line(_).
 parse_input(quit, goodbye).
 parse_input(playerTurn(Board, Player, UserShipToMove, Direction, NumOfCells, UserBuilding), Res):-
 	playerTurnLaig(Board, Player, UserShipToMove, Direction, NumOfCells, UserBuilding, Res).
+parse_input(aITurn(Board), Res):-
+	aiTurnLaig(Board, Res).

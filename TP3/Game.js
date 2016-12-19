@@ -33,8 +33,10 @@ Game.prototype.picking = function(obj, id) {
                 this.getMovementDirection(this.selectedShip.cell.pickingId, this.board.cells[c].pickingId, this.direction, this.numCells);
 
                 var prologRequest = 'playerTurn(' + prologBoard + ',' + this.player + ',' + this.selectedShip.id + ',' + this.direction + ',' + this.numCells + ',tr)';
-                console.warn("Request = " + prologRequest); 
-                this.callRequest(prologRequest, this.handleReply);
+                var prologRequestAI = 'aiTurn(' + prologBoard + ')';
+                
+                console.warn("Request = " + prologRequestAI); 
+                this.callRequest(prologRequestAI, this.handleReply);
 
                 this.doMove(obj);
             }

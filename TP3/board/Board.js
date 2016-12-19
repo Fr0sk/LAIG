@@ -80,7 +80,6 @@ Board.prototype.toString = function boardToString() {
     }
 
     string += ']';
-    //console.warn(string);
     return string;
 }
 
