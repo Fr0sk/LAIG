@@ -939,8 +939,7 @@ playerTurnLaig(Board, Player, ShipToMove, Direction, NumOfCells, UserBuilding, R
         Res = UpdatedBoard
     ).
 
-aiTurnLaig(Res):-
-    initial_logic_board(Board),
+aiTurnLaig(Board, Res):-
     display_board(Board),
 
     findall(X, getAIShips(Board, X, Y), PiecesWithShipPositionX),

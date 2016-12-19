@@ -85,9 +85,9 @@ Board.prototype.toString = function boardToString() {
 
 sampleBoard = function() {
     var board = [
-    [['star2', 'free', [], 'none'], ['star2', 'free', ['shipD'], 'none'], ['wormhole']],
+    [['star2', 'free', [], 'none'], ['star2', 'free', [], 'none'], ['wormhole']],
     [['star1', 'free', [], 'none'], ['star2', 'free', [], 'none'], ['star2', 'free', [], 'none']],
-    [['home', 'player1', ['shipA', 'shipB', 'shipC'], 'none'], ['blackhole'], ['emptyS', 'free', [], 'none']],
+    [['home', 'player1', ['shipA', 'shipB', 'shipC', 'shipD'], 'none'], ['blackhole'], ['emptyS', 'free', [], 'none']],
     [['star3', 'free', [], 'none'], ['nebula', 'free', [], 'none'], ['home', 'player2', ['shipW', 'shipX', 'shipY', 'shipZ'], 'none']],
     [['blackhole'], ['wormhole'], ['blackhole']],
     [['star3', 'free', [], 'none'], ['nebula', 'free', [], 'none'], ['star1', 'free', [], 'none']],

@@ -16,7 +16,7 @@ Game.prototype.startGame = function() {
     prologBoard = this.board.toString();
 }
 
-Game.prototype.picking = function(obj, id) {
+Game.prototype.picking = async function(obj, id) {
     var selected = false;
     if (!this.selectedShip) {
         for (var s = 0; s < this.ships.length; s++) {
@@ -32,11 +32,14 @@ Game.prototype.picking = function(obj, id) {
             if (obj == this.board.cells[c] && obj != this.selectedShip.cell) {
                 this.getMovementDirection(this.selectedShip.cell.pickingId, this.board.cells[c].pickingId, this.direction, this.numCells);
 
-                var prologRequest = 'playerTurn(' + prologBoard + ',' + this.player + ',' + this.selectedShip.id + ',' + this.direction + ',' + this.numCells + ',tr)';
+                var prologRequestUser = 'playerTurn(' + prologBoard + ',' + this.player + ',' + this.selectedShip.id + ',' + this.direction + ',' + this.numCells + ',tr)';
+                //console.warn("Request = " + prologRequestAI); 
+                this.callRequest(prologRequestUser, this.handleReply);
+                await sleep(2000);
+
                 var prologRequestAI = 'aiTurn(' + prologBoard + ')';
-                
-                console.warn("Request = " + prologRequestAI); 
                 this.callRequest(prologRequestAI, this.handleReply);
+                await sleep(2000);
 
                 this.doMove(obj);
             }
@@ -45,6 +48,10 @@ Game.prototype.picking = function(obj, id) {
         this.selectedShip.translate.y -= 0.25;
         this.selectedShip = undefined;
     }
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 Game.prototype.doMove = function(toCell) {
