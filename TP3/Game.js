@@ -16,7 +16,7 @@ Game.prototype.startGame = function() {
 Game.prototype.picking = function(obj, id) {
     var selected = false;
     if (!this.selectedShip) {
-        for (var s  = 0; s < this.ships.length; s++) {
+        for (var s = 0; s < this.ships.length; s++) {
             if (obj == this.ships[s] && obj.owner == this.player) {
                 selected = true;
                 this.selectedShip = obj;

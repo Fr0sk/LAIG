@@ -32,9 +32,8 @@ Board.prototype.initBoard = function(){
         player.push(shipIds.length <= shipCount /2 ? 1 : 2);
     }
 
-    for (var c = 0; c < this.cells.length; c++) {
+    for (var c = 0; c < this.cells.length; c++)
         this.cells[c].init(player, shipIds, shipPickingIds);
-    }
 }
 
 Board.prototype.display = function() {

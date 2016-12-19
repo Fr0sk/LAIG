@@ -41,6 +41,7 @@ XMLscene.prototype.init = function (application) {
     this.testMaterial.loadTexture(this.testTexture);
     this.game = new Game(this);
     this.game.startGame();
+
     this.callRequest('playerTurn(1,a,n,4,tr)', this.handleReply);
 };
 
@@ -260,7 +261,7 @@ XMLscene.prototype.updateLightsStatus = function () {
  * Update function
  */
 var lastCurTime = -1;
-var passedTime = 0;
+//var passedTime = 0;
 XMLscene.prototype.update = function (curTime) {
     var deltaTime;
     if (lastCurTime < 0) {
@@ -283,7 +284,7 @@ XMLscene.prototype.update = function (curTime) {
 
         this.game.update(deltaTime);
 
-        passedTime += deltaTime;
+        //passedTime += deltaTime;
         //this.testShaders[1].setUniformsValues({ time: passedTime });
     }
 }
