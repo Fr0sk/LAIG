@@ -65,12 +65,16 @@ Board.prototype.toString = function boardToString() {
 
             if(column != this.board[row].length - 1)
                 string += ',';
-            else if(row != this.board.length - 1)
-                string += '],';
         }
+
+        if(row != this.board.length - 1)
+            string += '],';
+        else
+            string += ']';
     }
 
     string += ']';
+    console.warn(string);
     return string;
 }
 

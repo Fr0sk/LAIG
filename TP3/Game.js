@@ -28,8 +28,9 @@ Game.prototype.picking = function(obj, id) {
         for (var c = 0; c < this.board.cells.length; c++) {
             if (obj == this.board.cells[c] && obj != this.selectedShip.cell) {
                 //prolog here
-                console.warn(this.board.toString());
-                //this.callRequest('playerTurn(1,a,n,1,tr)', this.handleReply);
+                //var prologRequest = 'playerTurn(' + this.player + ',' + id + ',' + 
+                var testRequest = 'playerTurn(' + this.board.toString() + ',1,a,n,1,tr)';
+                this.callRequest(testRequest, this.handleReply);
 
                 /*
                 if(everything correct)
@@ -78,5 +79,7 @@ Game.prototype.callRequest = function(requestString, onSuccess, onError, port) {
 }
 
 Game.prototype.handleReply = function(data) {
-    console.info("Resposta: " + data.target.response);
+    //console.info("Resposta: " + data.target.response);
+    this.updatedBoard = data.target.response;
+    console.info("Updated Board = " + this.updatedBoard);
 }

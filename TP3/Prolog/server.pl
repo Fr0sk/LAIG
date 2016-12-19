@@ -106,5 +106,5 @@ print_header_line(_).
 :- include('logic.pl').
 
 parse_input(quit, goodbye).
-parse_input(playerTurn(Player, UserShipToMove, Direction, NumOfCells, UserBuilding), Res):-
-	playerTurnLaig(Player, UserShipToMove, Direction, NumOfCells, UserBuilding, Res).
+parse_input(playerTurn(Board, Player, UserShipToMove, Direction, NumOfCells, UserBuilding), Res):-
+	playerTurnLaig(Board, Player, UserShipToMove, Direction, NumOfCells, UserBuilding, Res).
