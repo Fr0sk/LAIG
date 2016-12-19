@@ -782,27 +782,29 @@ getBestCellToMoveTo(Board):-
     restrictValidCells(Board, NumOfRows, AdjacentListY, AdjacentListX, [], [], ValidListY, ValidListX).
 
 % Returns the X and Y of the cell that gives more score to the AI
-searchMaxScore(Board, [], [], _, Building, CellToPlayX, CellToPlayY, OriginCellX, OriginCellY, UpdatedBoard, Res):-        
+searchMaxScore(Board, [], [], _, Building, CellToPlayX, CellToPlayY, OriginCellX, OriginCellY, Res):-        
     getPiece(OriginCellY, OriginCellX, Board, PieceToMove),
     getPiece(CellToPlayY, CellToPlayX, Board, DestinationPiece),
 
     getShip(PieceToMove, Ships),
     getShipAux(Ships, IndividualShip),
+            write('3'), nl,
+
 
     setPieceToMove(PieceToMove, DestinationPiece, IndividualShip, Building, NewPiece, 0),
     removeShipFromPiece(PieceToMove, IndividualShip, OldPiece),
 
-    updateBoard(Board, OldPiece, NewPiece, PieceToMove, OriginCellY, OriginCellX, DestinationPiece, CellToPlayY, CellToPlayX, UpdatedBoard),
-    Res = UpdatedBoard.
-    
-searchMaxScore(Board, [X|Xs], [Y|Ys], CurrentMaxScore, Building, CellToPlayX, CellToPlayY, OriginCellX, OriginCellY, UpdatedBoard, Res):-
+    updateBoard(Board, OldPiece, NewPiece, PieceToMove, OriginCellY, OriginCellX, DestinationPiece, CellToPlayY, CellToPlayX, Res).
+
+searchMaxScore(Board, [X|Xs], [Y|Ys], CurrentMaxScore, Building, CellToPlayX, CellToPlayY, OriginCellX, OriginCellY, Res):-
+        %write('2'), nl,
     getScoreFromAdjacentsToCell(player2, Board, X, Y, AdjacentScore),
     getPiece(Y, X, Board, Piece),
     getScoreFromStarSystemPiece(Piece, CellScore),
     TotalScore is AdjacentScore + CellScore,
     TotalScore > CurrentMaxScore,
-        searchMaxScore(Board, Xs, Ys, TotalScore, trade, X, Y, OriginCellX, OriginCellY, UpdatedBoard, Res);
-    searchMaxScore(Board, Xs, Ys, CurrentMaxScore, Building, CellToPlayX, CellToPlayY, OriginCellX, OriginCellY, UpdatedBoard, Res).
+        searchMaxScore(Board, Xs, Ys, TotalScore, trade, X, Y, OriginCellX, OriginCellY, Res);
+    searchMaxScore(Board, Xs, Ys, CurrentMaxScore, Building, CellToPlayX, CellToPlayY, OriginCellX, OriginCellY, Res).
 
 getAIShips(Board, X, Y):-
     player2Ship(Ship),
@@ -939,25 +941,38 @@ playerTurnLaig(Board, Player, ShipToMove, Direction, NumOfCells, UserBuilding, R
         Res = UpdatedBoard
     ).
 
-aiTurnLaig(Board, Res):-
+getPieceGivenShip(Board, Ship, Row, Column):-
+    (
+        getPiece(Row, Column, Board, [_,_,[Ship,_,_,_],_]);
+        getPiece(Row, Column, Board, [_,_,[_,Ship,_,_],_]);
+        getPiece(Row, Column, Board, [_,_,[_,_,Ship,_],_]);
+        getPiece(Row, Column, Board, [_,_,[_,_,_,Ship],_]);
+        getPiece(Row, Column, Board, [_,_,[Ship],_])
+    ).
+
+aiTurnLaig(Board, ShipToMove, Res):-
     display_board(Board),
 
     findall(X, getAIShips(Board, X, Y), PiecesWithShipPositionX),
     findall(Y, getAIShips(Board, X, Y), PiecesWithShipPositionY),
-
-    !,
-    repeat,
    
-    random(0, 4, PieceDecider),
-    chooseShipToMove(PieceDecider, PiecesWithShipPositionX, PiecesWithShipPositionY, OriginCellX, OriginCellY),
-
+    getPieceGivenShip(Board, A, OriginCellY, OriginCellX),
     getAllPossibleCellsToMove(player1, Board, OriginCellX, OriginCellY, ListX, ListY),
 
     length(ListX, NumOfCellsCanMove),
     NumOfCellsCanMove > 0,
-        first(FirstX, ListX),
-        first(FirstY, ListY),
-        searchMaxScore(Board, ListX, ListY, 0, colony, FirstX, FirstY, OriginCellX, OriginCellY, UpdatedBoard, Res),
-        display_board(Res);
-    write('Failed, trying again'), nl,
-    fail.
+    first(FirstX, ListX),
+    first(FirstY, ListY),
+
+    searchMaxScore(Board, ListX, ListY, 0, colony, FirstX, FirstY, OriginCellX, OriginCellY, Res),
+    display_board(Res).
+
+
+selectShip(0, [X|Xs], X).
+selectShip(Index, [X|Xs], ShipToUse):-
+    NewIndex is Index - 1,
+    selectShip(NewIndex, Xs, ShipToUse).
+
+aiTurnLaigShipDecider(Res):-
+    random(0, 4, PieceDecider),
+    selectShip(PieceDecider, [shipW, shipX, shipY, shipZ], Res).

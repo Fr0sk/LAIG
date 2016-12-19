@@ -1,4 +1,7 @@
+var serverResponse = 0;
 var prologBoard = 0;
+var updatedPrologBoard = 0;
+var aiShip = 0;
 
 function Game(scene) {
     this.scene = scene;
@@ -34,14 +37,34 @@ Game.prototype.picking = async function(obj, id) {
 
                 var prologRequestUser = 'playerTurn(' + prologBoard + ',' + this.player + ',' + this.selectedShip.id + ',' + this.direction + ',' + this.numCells + ',tr)';
                 //console.warn("Request = " + prologRequestAI); 
-                this.callRequest(prologRequestUser, this.handleReply);
-                await sleep(2000);
+                this.callRequest(prologRequestUser, this.handleReplyBoard);
+                await sleep(1000);
+                updatedPrologBoard = serverResponse;
+                if(updatedPrologBoard.substring(0, 3) !=  '[[[') {
+                    console.error("Prolog Error!");
+                    return;
+                }
 
-                var prologRequestAI = 'aiTurn(' + prologBoard + ')';
-                this.callRequest(prologRequestAI, this.handleReply);
-                await sleep(2000);
+                console.warn("HI");
+
+                this.callRequest('aiTurnShipDecider', this.handleReplyShip);
+                await sleep(1000);
+                console.warn("HI");
+
+                var prologRequestAI = 'aiTurn(' + updatedPrologBoard + ',' + aiShip + ')';
+                this.callRequest(prologRequestAI, this.handleReplyBoard);
+                await sleep(1000);
+                prologBoard = serverResponse;
+                console.warn("HI");
 
                 this.doMove(obj);
+
+                //ver a diff em ]],
+
+                /*
+                pedido prolog que retorna a info a mudar
+                outro pedido a mudar com o playerTurn
+                 */
             }
         }
 
@@ -176,7 +199,12 @@ Game.prototype.callRequest = function(requestString, onSuccess, onError, port) {
     request.send();
 }
 
-Game.prototype.handleReply = function(data) {
+Game.prototype.handleReplyBoard = function(data) {
     console.info("Response: " + data.target.response);
-    prologBoard = data.target.response;
+    serverResponse = data.target.response;
+}
+
+Game.prototype.handleReplyShip = function(data) {
+    console.info("Response: " + data.target.response);
+    aiShip = data.target.response;
 }
