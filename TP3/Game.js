@@ -31,9 +31,9 @@ Game.prototype.picking = function(obj, id) {
             if (obj == this.board.cells[c] && obj != this.selectedShip.cell) {
                 //prolog here
 
-                var direction = this.getMovementDirection(this.selectedShip.cell.pickingId, this.board.cells[c].pickingId);
+                this.getMovementDirection(this.selectedShip.cell.pickingId, this.board.cells[c].pickingId, this.direction, this.numCells);
 
-                var prologRequest = 'playerTurn(' + this.player + ',' + this.selectedShip.id + ',' + direction;
+                var prologRequest = 'playerTurn(' + this.player + ',' + this.selectedShip.id + ',' + this.direction + ',' + this.numCells + ',tr)';
                 console.warn("Request = " + prologRequest); 
 
 
@@ -72,6 +72,7 @@ Game.prototype.getMovementDirection = function(fromCellId, toCellId) {
     var fromCellRow = this.getRow(fromCellId, this.board.rowLength, this.board.board.length * this.board.rowLength);
     var toCellRow = this.getRow(toCellId, this.board.rowLength, this.board.board.length * this.board.rowLength);
     var rowsDifference = Math.abs(fromCellRow - toCellRow);
+    this.numCells = rowsDifference;
 
     //testar com a mesma row (E ou O)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -130,17 +131,14 @@ Game.prototype.getMovementDirection = function(fromCellId, toCellId) {
     id += this.board.rowLength * rowsDifference;
     var resultS = id;
 
-    console.info("FromCellId = " + fromCellId + ", toCellId = " + toCellId + ", fromCellRow = " + fromCellRow
-    + ", toCellRow = " + toCellRow + ", SE = " + resultSE);
-
     switch(toCellId) {
-        case resultSE: console.warn("Direccao com id = " + resultSE); return 'se'; break;
-        case resultSW: console.warn("Direccao com id = " + resultSW); return 'sw'; break;
-        case resultNE: console.warn("Direccao com id = " + resultNE); return 'ne'; break;
-        case resultNW: console.warn("Direccao com id = " + resultNW); return 'nw'; break;
-        case resultN: console.warn("Direccao com id = " + resultN); return 'n'; break;
-        case resultS: console.warn("Direccao com id = " + resultS); return 's'; break;
-        default: return 'se foda'; break;
+        case resultSE: this.direction = 'se'; break;
+        case resultSW: this.direction = 'sw'; break;
+        case resultNE: this.direction = 'ne'; break;
+        case resultNW: this.direction = 'nw'; break;
+        case resultN: this.direction = 'n'; this.numCells /= 2; break;
+        case resultS: this.direction = 's'; this.numCells /= 2; break;
+        default: direction = null; break;
     }
 }
 
