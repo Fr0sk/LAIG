@@ -39,7 +39,21 @@ Cell.prototype.initShip = function(owners, shipIds, shipPickingIds) {
         var ships = [];
 
         for (var s = 0; s < this.ships.length; s++) {
-            var ship = new Ship(this.scene, 'ship' + shipIds.shift(), owners.shift());
+            var shipNum = shipIds.shift();
+            var shipLetter;
+            switch(shipNum) {
+                case 0: shipLetter = 'A'; break;
+                case 1: shipLetter = 'B'; break;
+                case 2: shipLetter = 'C'; break;
+                case 3: shipLetter = 'D'; break;
+                case 4: shipLetter = 'W'; break;
+                case 5: shipLetter = 'X'; break;
+                case 6: shipLetter = 'Y'; break;
+                case 7: shipLetter = 'Z'; break;
+                default: break;
+            }
+
+            var ship = new Ship(this.scene, 'ship' + shipLetter, owners.shift());
             ship.pickingId = shipPickingIds.shift();
             ship.cell = this;
             if (s%4 == 0) height++;

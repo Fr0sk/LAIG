@@ -2,6 +2,7 @@ function Board(scene, game, id, board) {
     this.scene = scene;
     this.game = game;
     this.board = board ? board : sampleBoard();
+    this.rowLength;
 
     this.initBoard();
 }
@@ -13,7 +14,8 @@ Board.prototype.initBoard = function(){
     this.cells = [];
     var pickingId = 1;
     var shipCount = 0;
-
+    this.rowLength = this.board[0].length;
+    
     for (var row = 0; row < this.board.length; row++) {
         for (var col = 0; col < this.board[row].length; col++) {
             var c = this.board[row][col];
@@ -74,7 +76,7 @@ Board.prototype.toString = function boardToString() {
     }
 
     string += ']';
-    console.warn(string);
+    //console.warn(string);
     return string;
 }
 

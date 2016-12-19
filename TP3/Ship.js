@@ -3,6 +3,7 @@ function Ship(scene, id, owner) {
     this.scene = scene;
     this.patch = PatchBuilder.buildVehiclePatch(scene, id);
     this.owner = owner;
+    this.id = id;
     this.mat = [
         1.0, 0.0, 0.0, 0.0,
         0.0, 1.0, 0.0, 0.0,
