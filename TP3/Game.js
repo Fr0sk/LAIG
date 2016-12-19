@@ -85,6 +85,7 @@ Game.prototype.getMovementDirection = function(fromCellId, toCellId) {
             id += this.board.rowLength;
         else
             id += this.board.rowLength + 1;
+        idRow++;
     }
     var resultSE = id;
 
@@ -95,6 +96,7 @@ Game.prototype.getMovementDirection = function(fromCellId, toCellId) {
             id += this.board.rowLength - 1;
         else
             id += this.board.rowLength;
+        idRow++;
     }
     var resultSW = id;
 
@@ -105,6 +107,7 @@ Game.prototype.getMovementDirection = function(fromCellId, toCellId) {
             id -= this.board.rowLength;
         else
             id -= this.board.rowLength - 1;
+        idRow++;
     }
     var resultNE = id;
 
@@ -115,6 +118,7 @@ Game.prototype.getMovementDirection = function(fromCellId, toCellId) {
             id -= this.board.rowLength + 1;
         else
             id -= this.board.rowLength;
+        idRow++;
     }
     var resultNW = id;
 
@@ -126,16 +130,17 @@ Game.prototype.getMovementDirection = function(fromCellId, toCellId) {
     id += this.board.rowLength * rowsDifference;
     var resultS = id;
 
-    console.info(resultN, resultS, resultNW, resultSW);
+    console.info("FromCellId = " + fromCellId + ", toCellId = " + toCellId + ", fromCellRow = " + fromCellRow
+    + ", toCellRow = " + toCellRow + ", SE = " + resultSE);
 
     switch(toCellId) {
-        case resultSE: return 'se'; break;
-        case resultSW: return 'sw'; break;
-        case resultNE: return 'ne'; break;
-        case resultNW: return 'nw'; break;
-        case resultN: return 'n'; break;
-        case resultS: return 's'; break;
-        default: return null; break;
+        case resultSE: console.warn("Direccao com id = " + resultSE); return 'se'; break;
+        case resultSW: console.warn("Direccao com id = " + resultSW); return 'sw'; break;
+        case resultNE: console.warn("Direccao com id = " + resultNE); return 'ne'; break;
+        case resultNW: console.warn("Direccao com id = " + resultNW); return 'nw'; break;
+        case resultN: console.warn("Direccao com id = " + resultN); return 'n'; break;
+        case resultS: console.warn("Direccao com id = " + resultS); return 's'; break;
+        default: return 'se foda'; break;
     }
 }
 
