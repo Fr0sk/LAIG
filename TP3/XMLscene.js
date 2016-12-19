@@ -41,25 +41,7 @@ XMLscene.prototype.init = function (application) {
     this.testMaterial.loadTexture(this.testTexture);
     this.game = new Game(this);
     this.game.startGame();
-
-    this.callRequest('playerTurn(1,a,n,4,tr)', this.handleReply);
 };
-
-XMLscene.prototype.callRequest = function(requestString, onSuccess, onError, port) {
-    var requestPort = port || 8081;
-    var request = new XMLHttpRequest();
-    request.open('GET', 'http://localhost:' + requestPort + '/' + requestString, true);
-
-    request.onload = onSuccess || function(data){console.log("Request successful.");};
-    request.onerror = onError || function(){console.log("Error waiting for response");};
-
-    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    request.send();
-}
-
-XMLscene.prototype.handleReply = function(data) {
-    console.info("Resposta: " + data.target.response);
-}
 
 XMLscene.prototype.initLights = function () {
     this.lights[0].setPosition(2, 3, 3, 1);

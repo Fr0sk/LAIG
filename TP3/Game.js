@@ -27,6 +27,13 @@ Game.prototype.picking = function(obj, id) {
     } else {
         for (var c = 0; c < this.board.cells.length; c++) {
             if (obj == this.board.cells[c] && obj != this.selectedShip.cell) {
+                //prolog here
+                console.warn(this.board.toString());
+                //this.callRequest('playerTurn(1,a,n,1,tr)', this.handleReply);
+
+                /*
+                if(everything correct)
+                */
                 this.doMove(obj);
             }
         }
@@ -56,4 +63,20 @@ Game.prototype.update = function(deltaTime) {
 
 Game.prototype.display = function() {
     this.board.display();
+}
+
+Game.prototype.callRequest = function(requestString, onSuccess, onError, port) {
+    var requestPort = port || 8081;
+    var request = new XMLHttpRequest();
+    request.open('GET', 'http://localhost:' + requestPort + '/' + requestString, true);
+
+    request.onload = onSuccess || function(data){console.log("Request successful.");};
+    request.onerror = onError || function(){console.log("Error waiting for response");};
+
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    request.send();
+}
+
+Game.prototype.handleReply = function(data) {
+    console.info("Resposta: " + data.target.response);
 }

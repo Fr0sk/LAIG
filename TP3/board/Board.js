@@ -42,6 +42,38 @@ Board.prototype.display = function() {
     }
 }
 
+Board.prototype.toString = function boardToString() {
+    var string;
+    string = '[';
+
+    for(var row = 0; row < this.board.length; row++) {
+        string += '[';
+
+        for(var column = 0; column < this.board[row].length; column++) {
+            //wormhole or blackhole
+            if(this.board[row][column].length == 1)
+                string += '[' + this.board[row][column][0] + ']';
+            else {
+                string += '[' + this.board[row][column][0] + ',' + this.board[row][column][1] + ',' + '[';
+                for(var shipIndex = 0; shipIndex < this.board[row][column][2].length; shipIndex++) {
+                    string += this.board[row][column][2][shipIndex];
+                    if(shipIndex != this.board[row][column][2].length - 1)
+                        string += ',';
+                }
+                string += '],' + this.board[row][column][3] + ']';
+            }
+
+            if(column != this.board[row].length - 1)
+                string += ',';
+            else if(row != this.board.length - 1)
+                string += '],';
+        }
+    }
+
+    string += ']';
+    return string;
+}
+
 sampleBoard = function() {
     var board = [
     [['star2', 'free', [], 'none'], ['star2', 'free', [], 'none'], ['wormhole']],

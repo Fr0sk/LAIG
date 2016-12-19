@@ -903,7 +903,6 @@ playerTurnLaig(Player, UserShipToMove, Direction, NumOfCells, UserBuilding, Res)
     (canPlayerMoveSelectedShip(Player, ShipToMove);
     Res = 'Error'),
 
-
     (
         Res == 'Error'; 
 
@@ -941,4 +940,5 @@ playerTurnLaig(Player, UserShipToMove, Direction, NumOfCells, UserBuilding, Res)
 
         nl, nl,
         display_board(UpdatedBoard),
-        Res = UpdatedBoard).
+        Res = UpdatedBoard
+    ).
