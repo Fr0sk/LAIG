@@ -35,10 +35,10 @@ Game.prototype.picking = async function (obj, id) {
     } else {
         for (var c = 0; c < this.board.cells.length; c++) {
             if (obj == this.board.cells[c] && obj != this.selectedShip.cell) {
-                this.getMovementDirection(this.selectedShip.cell.pickingId, this.board.cells[c].pickingId, this.direction, this.numCells);
+                this.getMovementDirection(this.selectedShip.cell.pickingId, this.board.cells[c].pickingId);
 
                 var prologRequestUser = 'playerTurn(' + prologBoard + ',' + this.player + ',' + this.selectedShip.id + ',' + this.direction + ',' + this.numCells + ',tr)';
-                console.warn(prologRequestUser);
+                //console.warn(prologRequestUser);
                 this.callRequest(prologRequestUser, this.handleReplyBoard);
                 await sleep(1000);
                 updatedPrologBoard = serverResponse;
@@ -168,16 +168,15 @@ Game.prototype.getMovementDirection = function (fromCellId, toCellId) {
 
     //testar com a mesma row (E ou O)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    var id;
     var idRow;
 
     var resultSE = fromCellId;
     idRow = fromCellRow;
     for (var i = 0; i < rowsDifference; i++) {
         if (idRow % 2 == 0)
-            resultSE += this.board.rowLength + 1;
+            resultSE = resultSE + this.board.rowLength + 1;
         else
-            resultSE += this.board.rowLength;
+            resultSE = resultSE + this.board.rowLength;
         idRow++;
     }
 
@@ -185,9 +184,9 @@ Game.prototype.getMovementDirection = function (fromCellId, toCellId) {
     idRow = fromCellRow;
     for (var i = 0; i < rowsDifference; i++) {
         if (idRow % 2 == 0)
-            resultSW += this.board.rowLength;
+            resultSW = resultSW + this.board.rowLength;
         else
-            resultSW += this.board.rowLength - 1;
+            resultSW = resultSW + this.board.rowLength - 1;
         idRow++;
     }
 
@@ -195,9 +194,9 @@ Game.prototype.getMovementDirection = function (fromCellId, toCellId) {
     idRow = fromCellRow;
     for (var i = 0; i < rowsDifference; i++) {
         if (idRow % 2 == 0)
-            resultNE -= this.board.rowLength + 1;
+            resultNE = resultNE - this.board.rowLength + 1;
         else
-            resultNE -= this.board.rowLength;
+            resultNE = resultNE - this.board.rowLength;        
         idRow++;
     }
 
@@ -205,9 +204,9 @@ Game.prototype.getMovementDirection = function (fromCellId, toCellId) {
     idRow = fromCellRow;
     for (var i = 0; i < rowsDifference; i++) {
         if (idRow % 2 == 0)
-            resultNW -= this.board.rowLength;
+            resultNW = resultNW - this.board.rowLength;
         else
-            resultNW -= this.board.rowLength - 1;
+            resultNW = resultNW - this.board.rowLength - 1;
         idRow++;
     }
 
@@ -224,10 +223,10 @@ Game.prototype.getMovementDirection = function (fromCellId, toCellId) {
         case resultNW: this.direction = 'nw'; break;
         case resultN: this.direction = 'n'; this.numCells /= 2; break;
         case resultS: this.direction = 's'; this.numCells /= 2; break;
-        default: direction = 'no direction'; break;
+        default: this.direction = 'no direction'; break;
     }
 
-    console.info("fromCellId = " + fromCellId + ", toCellId = " + toCellId + ", fromCellRow = " + fromCellRow + ", rowsDifference = " + rowsDifference + ", rowLength = " + this.board.rowLength + ", se = " + resultSE + ", sw = " + resultSW + ", ne = " + resultNE + ", nw = " + resultNW + ", n = " + resultN + ", s = " + resultS);
+    //console.info("fromCellId = " + fromCellId + ", toCellId = " + toCellId + ", fromCellRow = " + fromCellRow + ", rowsDifference = " + rowsDifference + ", rowLength = " + this.board.rowLength + ", se = " + resultSE + ", sw = " + resultSW + ", ne = " + resultNE + ", nw = " + resultNW + ", n = " + resultN + ", s = " + resultS);
 }
 
 Game.prototype.getRow = function (id, rowLength, totalNumIds) {
