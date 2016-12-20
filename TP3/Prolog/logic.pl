@@ -914,6 +914,12 @@ playerTurnLaig2(Player, Ship, Direction, NumOfCells, UserBuilding, Res):-
     ).
 
 
+
+
+
+
+
+
 playerTurnLaig(Board, Player, ShipToMove, Direction, NumOfCells, UserBuilding, Res):-
     write('************************Initial board************************'), nl,   
     display_board(Board),
@@ -1036,9 +1042,6 @@ aiTurnLaigShipDecider(Res):-
     selectShip(PieceDecider, [shipW, shipX, shipY, shipZ], Res).
 
 endGameLaig(Board, Res):-
-    write('endGame request!!!!!!!!!!!!!!!!!!!!!!!'), nl,
-    display_board(Board),
-    
     % verify player 1 ships
     \+((((player1Ship(Ship1),
     getBoardPieces(Board, PieceWithShip1),
@@ -1071,8 +1074,8 @@ endGameLaig(Board, Res):-
         (numOfBuildings(player1, Building1, N1), N1 > 0) ;
         (numOfBuildings(player2, Building2, N2), N2 > 0)
     ))),
-    Res = 'Sucess'.
-
+    Res = 'Sucess';
+    Res = 'Failure'.
 
 
 endGameLaig2:-
@@ -1107,8 +1110,8 @@ endGameLaig2:-
     % verify counters of buildings of both players 
 )).
 
-endGameLogic:-
-    end_game_board(Board),
+endGameLogic(Res):-
+    initial_logic_board(Board),
 
     % verify player 1 ships
     \+((((player1Ship(Ship1),
@@ -1141,7 +1144,9 @@ endGameLogic:-
     (
         (numOfBuildings(player1, Building1, N1), N1 > 0) ;
         (numOfBuildings(player2, Building2, N2), N2 > 0)
-    ))).
+    ))),
+    Res = 'Sucess';
+    Res = 'Failure'.
 
 
 

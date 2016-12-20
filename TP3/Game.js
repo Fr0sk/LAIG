@@ -79,7 +79,7 @@ Game.prototype.picking = async function (obj, id) {
                 this.callRequest(endGameRequest, this.handleReplyBoard);
                 await sleep(2000);
                 if(serverResponse == 'Sucess') {
-                    //end the game
+                    console.error("END OF THE GAME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 }
             }
         }
