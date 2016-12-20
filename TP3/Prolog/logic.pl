@@ -788,16 +788,15 @@ searchMaxScore(Board, [], [], _, Building, CellToPlayX, CellToPlayY, OriginCellX
 
     getShip(PieceToMove, Ships),
     getShipAux(Ships, IndividualShip),
-            write('3'), nl,
-
-
+        %nuca chega aqui
+        write('3'), nl,
     setPieceToMove(PieceToMove, DestinationPiece, IndividualShip, Building, NewPiece, 0),
     removeShipFromPiece(PieceToMove, IndividualShip, OldPiece),
 
     updateBoard(Board, OldPiece, NewPiece, PieceToMove, OriginCellY, OriginCellX, DestinationPiece, CellToPlayY, CellToPlayX, Res).
 
 searchMaxScore(Board, [X|Xs], [Y|Ys], CurrentMaxScore, Building, CellToPlayX, CellToPlayY, OriginCellX, OriginCellY, Res):-
-        %write('2'), nl,
+        write('2'), nl,
     getScoreFromAdjacentsToCell(player2, Board, X, Y, AdjacentScore),
     getPiece(Y, X, Board, Piece),
     getScoreFromStarSystemPiece(Piece, CellScore),
@@ -949,8 +948,6 @@ playerTurnLaig2(Player, Ship, Direction, NumOfCells, UserBuilding, Res):-
 
 
 playerTurnLaig(Board, Player, ShipToMove, Direction, NumOfCells, UserBuilding, Res):-
-    display_board(Board),
-
     (canPlayerMoveSelectedShip(Player, ShipToMove);
     Res = 'Error'),
 
@@ -990,24 +987,29 @@ playerTurnLaig(Board, Player, ShipToMove, Direction, NumOfCells, UserBuilding, R
         updateBoard(Board, OldPiece, NewPiece, PieceToMove, PieceToMoveRow, PieceToMoveColumn, DestinationPiece, DestinationRow, DestinationColumn, UpdatedBoard),
 
         nl, nl,
-        display_board(UpdatedBoard),
-        Res = UpdatedBoard
+        Res = UpdatedBoard,
+        write('************************Updated board************************'), nl,
+        display_board(Res)
     ).
 
 getPieceGivenShip(Board, Ship, Row, Column):-
     (
         getPiece(Row, Column, Board, [_,_,[Ship,_,_,_],_]);
-        getPiece(Row, Column, Board, [_,_,[_,Ship,_,_],_]);
+        getPiece(Row, Column, Board, [_,_,[Ship,_,_],_]);
+        getPiece(Row, Column, Board, [_,_,[Ship,_],_]);
+        getPiece(Row, Column, Board, [_,_,[_,Ship,_],_]);
+        getPiece(Row, Column, Board, [_,_,[_,Ship],_]);
         getPiece(Row, Column, Board, [_,_,[_,_,Ship,_],_]);
+        getPiece(Row, Column, Board, [_,_,[_,_,Ship],_]);
         getPiece(Row, Column, Board, [_,_,[_,_,_,Ship],_]);
         getPiece(Row, Column, Board, [_,_,[Ship],_])
     ).
 
 aiTurnLaig(Board, ShipToMove, Res):-
-    display_board(Board),
+    format('Ship = ~w~n', [ShipToMove]),
 
-    findall(X, getAIShips(Board, X, Y), PiecesWithShipPositionX),
-    findall(Y, getAIShips(Board, X, Y), PiecesWithShipPositionY),
+    write('************************Initial AI board************************'), nl,
+    display_board(Board),
    
     getPieceGivenShip(Board, ShipToMove, OriginCellY, OriginCellX),
     getAllPossibleCellsToMove(player1, Board, OriginCellX, OriginCellY, ListX, ListY),
@@ -1018,8 +1020,41 @@ aiTurnLaig(Board, ShipToMove, Res):-
     first(FirstY, ListY),
 
     searchMaxScore(Board, ListX, ListY, 0, colony, FirstX, FirstY, OriginCellX, OriginCellY, Res),
+    write('************************Updated AI board************************'), nl,
     display_board(Res).
 
+teste(Ship):-
+    initial_logic_board(Board),
+    aiTurnLaig2('a', Board, UpdatedBoard),
+    aiTurnLaig2('b', UpdatedBoard, UpdatedBoard2),
+    aiTurnLaig2('a', UpdatedBoard2, UpdatedBoard3).
+
+aiTurnLaig2(Ship, Board, UpdatedBoard):-
+    assignShip(Ship, ShipToMove),
+
+    write('************************Initial AI board************************'), nl,
+    display_board(Board),
+   
+    write('Para 1'), nl,
+    write(Ship), nl,
+    write(ShipToMove), nl,
+    getPieceGivenShip(Board, ShipToMove, OriginCellY, OriginCellX),
+        write('Para 2'), nl,
+    getAllPossibleCellsToMove(player1, Board, OriginCellX, OriginCellY, ListX, ListY),
+        write('Para 3'), nl,
+
+    length(ListX, NumOfCellsCanMove),
+        write('Para 4'), nl,
+    NumOfCellsCanMove > 0,    write('Para 5'), nl,
+
+    first(FirstX, ListX),    write('Para 6'), nl,
+
+    first(FirstY, ListY),    write('Para 7'), nl,
+
+
+    searchMaxScore(Board, ListX, ListY, 0, colony, FirstX, FirstY, OriginCellX, OriginCellY, UpdatedBoard),
+    write('************************Updated AI board************************'), nl,
+    display_board(UpdatedBoard).
 
 selectShip(0, [X|Xs], X).
 selectShip(Index, [X|Xs], ShipToUse):-

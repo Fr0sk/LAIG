@@ -3,6 +3,7 @@ var prologBoard = 0;
 var updatedPrologBoard = 0;
 var aiShip = 0;
 var connectionBoolean = false;
+var tes = 0;
 
 function Game(scene) {
     this.scene = scene;
@@ -37,7 +38,6 @@ Game.prototype.picking = async function (obj, id) {
                 this.getMovementDirection(this.selectedShip.cell.pickingId, this.board.cells[c].pickingId, this.direction, this.numCells);
 
                 var prologRequestUser = 'playerTurn(' + prologBoard + ',' + this.player + ',' + this.selectedShip.id + ',' + this.direction + ',' + this.numCells + ',tr)';
-                console.warn(prologRequestUser);
                 this.callRequest(prologRequestUser, this.handleReplyBoard);
                 await sleep(1000);
                 updatedPrologBoard = serverResponse;
@@ -49,7 +49,17 @@ Game.prototype.picking = async function (obj, id) {
                 this.callRequest('aiTurnShipDecider', this.handleReplyShip);
                 await sleep(1000);
 
+                if (tes == 0) {
+                    aiShip = 'shipW';
+                    tes++;
+                } else if (tes == 1) {
+                    aiShip = 'shipX';
+                    tes++;
+                }
+
                 var prologRequestAI = 'aiTurn(' + updatedPrologBoard + ',' + aiShip + ')';
+
+                //console.warn(prologRequestAI);
                 this.callRequest(prologRequestAI, this.handleReplyBoard);
                 await sleep(1000);
                 prologBoard = serverResponse;
@@ -129,6 +139,8 @@ Game.prototype.moveShipAI = function () {
         }
     }
 
+    console.warn(originCell);
+    console.warn(destinationCell);
     console.warn(ship);
     destinationCell.moveShip(ship, true);
     //this.moveStack.push({ from: originCell, to: destinationCell });
@@ -220,7 +232,7 @@ Game.prototype.getMovementDirection = function (fromCellId, toCellId) {
         default: direction = 'no direction'; break;
     }
 
-    console.info("fromCellId = " + fromCellId + ", toCellId = " + toCellId + ", fromCellRow = " + fromCellRow + ", rowsDifference = " + rowsDifference + ",rowLength = " + this.board.rowLength + ", se = " + resultSE + ", sw = " + resultSW + ", ne = " + resultNE + ", nw = " + resultNW + ", n = " + resultN + ", s = " + resultS);
+    //console.info("fromCellId = " + fromCellId + ", toCellId = " + toCellId + ", fromCellRow = " + fromCellRow + ", rowsDifference = " + rowsDifference + ",rowLength = " + this.board.rowLength + ", se = " + resultSE + ", sw = " + resultSW + ", ne = " + resultNE + ", nw = " + resultNW + ", n = " + resultN + ", s = " + resultS);
 }
 
 Game.prototype.getRow = function (id, rowLength, totalNumIds) {
