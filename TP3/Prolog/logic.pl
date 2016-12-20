@@ -5,6 +5,8 @@
 :- include('board.pl').
 :- include('utils.pl').
 
+:- dynamic numOfBuildings/3.
+
 /*** LOGICAL ARRAY KEYWORDS ***/
 
 /*** TYPES OF SYSTEMS 
@@ -64,8 +66,13 @@ test_board([
     [[blackhole], [wormhole], [blackhole]],
     [[star3, free, [], none], [nebula, free, [], none], [star1, free, [], none]],
     [[star1, free, [], none], [star2, free, [], none], [star2, free, [], none]]
-    
     ]).
+
+end_game_board([
+    [[star1, player1, [shipA], colony], [star2, player2, [shipW], colony], [star2, player1, [shipB], colony]],
+    [[home, player1, [], none], [star1, player1, [shipC], colony], [emptyS, player2, [shipX], colony]],
+    [[star3, player2, [shipY], colony], [nebula, player1, [shipD], colony], [home, player2, [shipZ], none]]
+]).
 
 /*** GET INFORMATION FROM CELLS ***/
 
@@ -623,46 +630,6 @@ unobstructedPath(Board, Player, Xi, Yi, Direction, NumberOfCells):-
     unobstructedPath(Board, Player, Xi, Yi, Direction, N).
 
 
-
-/**** VERIFY END OF THE GAME ****/
-
-endGame(Board):-
-    
-    % verify player 1 ships
-    \+((((player1Ship(Ship1),
-    getBoardPieces(Board, PieceWithShip1),
-    systemHasShip(Ship1, PieceWithShip1),
-    getPiece(Y1, X1, Board, PieceWithShip1),
-
-    % if he can fly over adjacent houses
-    unobstructedPath(Board, player1, X1, Y1, Direction1, 2),
-    moveNCellsInDirection(X1, Y1, Direction1, 2, Xf1, Yf1),
-    getPiece(Yf1, Xf1, Board, AdjPiece1),
-    checkValidLandingCell(AdjPiece1))
-    
-  ;
-    
-    % verify player 2 ships
-    (player2Ship(Ship2), 
-    getBoardPieces(Board, PieceWithShip2),
-    systemHasShip(Ship2, PieceWithShip2),
-    getPiece(Y2, X2, Board, PieceWithShip2),
-
-    unobstructedPath(Board, player2, X2, Y2, Direction2, 2),
-    moveNCellsInDirection(X2, Y2, Direction2, 2, Xf2, Yf2),
-    getPiece(Yf2, Xf2, Board, AdjPiece2),
-    checkValidLandingCell(AdjPiece2)))
-    
-    ,!,
-    
-    % verify counters of buildings of both players 
-    (
-        (numOfBuildings(player1, Building1, N1), N1 > 0) ;
-        (numOfBuildings(player2, Building2, N2), N2 > 0)
-    ))).
-
-
-
 /**** USE THIS FUNCTION TO VERIFY THE MOVEMENT OF A SHIP ****/
 verifyValidGeometricDirection(Xi, Yi, Xf, Yf):-
     ((Xi =:= Xf), (mod(Yi, 2) =:= mod(Yf,2)), Yf \= Yi);
@@ -1067,3 +1034,113 @@ selectShip(Index, [X|Xs], ShipToUse):-
 aiTurnLaigShipDecider(Res):-
     random(0, 4, PieceDecider),
     selectShip(PieceDecider, [shipW, shipX, shipY, shipZ], Res).
+
+endGameLaig(Board, Res):-
+    write('endGame request!!!!!!!!!!!!!!!!!!!!!!!'), nl,
+    display_board(Board),
+    
+    % verify player 1 ships
+    \+((((player1Ship(Ship1),
+    getBoardPieces(Board, PieceWithShip1),
+    systemHasShip(Ship1, PieceWithShip1),
+    getPiece(Y1, X1, Board, PieceWithShip1),
+
+    % if he can fly over adjacent houses
+    unobstructedPath(Board, player1, X1, Y1, Direction1, 2),
+    moveNCellsInDirection(X1, Y1, Direction1, 2, Xf1, Yf1),
+    getPiece(Yf1, Xf1, Board, AdjPiece1),
+    checkValidLandingCell(AdjPiece1))
+    
+  ;
+    
+    % verify player 2 ships
+    (player2Ship(Ship2), 
+    getBoardPieces(Board, PieceWithShip2),
+    systemHasShip(Ship2, PieceWithShip2),
+    getPiece(Y2, X2, Board, PieceWithShip2),
+
+    unobstructedPath(Board, player2, X2, Y2, Direction2, 2),
+    moveNCellsInDirection(X2, Y2, Direction2, 2, Xf2, Yf2),
+    getPiece(Yf2, Xf2, Board, AdjPiece2),
+    checkValidLandingCell(AdjPiece2)))
+    
+    ,!,
+    
+    % verify counters of buildings of both players 
+    (
+        (numOfBuildings(player1, Building1, N1), N1 > 0) ;
+        (numOfBuildings(player2, Building2, N2), N2 > 0)
+    ))),
+    Res = 'Sucess'.
+
+
+
+endGameLaig2(Res):-
+    initial_logic_board(Board),
+    write('endGame request!!!!!!!!!!!!!!!!!!!!!!!'), nl,
+    display_board(Board),
+    
+    write('1'), nl,
+
+    % verify player 1 ships
+    \+((((player1Ship(Ship1),
+    write('2'), nl,
+    getBoardPieces(Board, PieceWithShip1),
+    write('3'), nl,
+    systemHasShip(Ship1, PieceWithShip1),
+    write('4'), nl,
+    getPiece(Y1, X1, Board, PieceWithShip1),
+    write('5'), nl,
+
+    % if he can fly over adjacent houses
+    unobstructedPath(Board, player1, X1, Y1, Direction1, 2),
+    write('6'), nl,
+    moveNCellsInDirection(X1, Y1, Direction1, 2, Xf1, Yf1),
+    write('7'), nl,
+    getPiece(Yf1, Xf1, Board, AdjPiece1),
+    write('8'), nl,
+    checkValidLandingCell(AdjPiece1)),
+    write('9'), nl
+    
+  ;
+    
+    % verify player 2 ships
+    (player2Ship(Ship2), 
+    write('10'), nl,
+    getBoardPieces(Board, PieceWithShip2),
+    write('11'), nl,
+    systemHasShip(Ship2, PieceWithShip2),
+    write('12'), nl,
+    getPiece(Y2, X2, Board, PieceWithShip2),
+    write('13'), nl,
+
+    unobstructedPath(Board, player2, X2, Y2, Direction2, 2),
+    write('14'), nl,
+    moveNCellsInDirection(X2, Y2, Direction2, 2, Xf2, Yf2),
+    write('15'), nl,
+    getPiece(Yf2, Xf2, Board, AdjPiece2),
+    write('16'), nl,
+    checkValidLandingCell(AdjPiece2))),
+    write('17'), nl
+    
+    ,!,
+    write('18'), nl,
+    
+    % verify counters of buildings of both players 
+    (
+        (numOfBuildings(player1, Building1, N1), N1 > 0) ;
+        (numOfBuildings(player2, Building2, N2), N2 > 0)
+    ))),
+    write('19'), nl,
+    Res = 'Sucess'.
+
+
+
+
+
+
+numOfBuildings(player1, trade, 20).
+numOfBuildings(player2, trade, 20).
+
+numOfBuildings(player1, colony, 20).
+numOfBuildings(player2, colony, 20).

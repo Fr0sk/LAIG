@@ -35,7 +35,7 @@ main=function()
     var scene1 = "LAIG_TP1_DSX_T5_G07_v02";
     var scene2 = "ChessboardsScene";
 
-	var filename=getUrlVars()['file'] || scene2 + ".dsx";
+	var filename=getUrlVars()['file'] || scene1 + ".dsx";
 
 	// create and load graph, and associate it to scene. 
 	// Check console for loading errors

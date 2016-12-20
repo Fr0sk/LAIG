@@ -3,7 +3,7 @@ var prologBoard = 0;
 var updatedPrologBoard = 0;
 var aiShip = 0;
 var connectionBoolean = false;
-var tes = 0;
+var playAllShips = 0;
 
 function Game(scene) {
     this.scene = scene;
@@ -50,17 +50,18 @@ Game.prototype.picking = async function (obj, id) {
                 this.callRequest('aiTurnShipDecider', this.handleReplyShip);
                 await sleep(1000);
 
-                if (tes == 0) {
+                if (playAllShips == 0) {
                     aiShip = 'shipW';
-                    tes++;
-                } else if (tes == 1) {
+                    playAllShips++;
+                } else if (playAllShips == 1) {
                     aiShip = 'shipX';
-                    tes++;
-                } else if(tes == 2) {
+                    playAllShips++;
+                } else if(playAllShips == 2) {
                     aiShip = 'shipY';
-                    tes++;
-                } else {
+                    playAllShips++;
+                } else if(playAllShips == 3){
                     aiShip = 'shipZ';
+                    playAllShips++;
                 }
 
                 var prologRequestAI = 'aiTurn(' + updatedPrologBoard + ',' + aiShip + ')';
@@ -73,6 +74,13 @@ Game.prototype.picking = async function (obj, id) {
 
                 this.doMove(obj);
                 this.moveShipAI();
+
+                /*var endGameRequest = 'endGame(' + prologBoard + ')';
+                this.callRequest(endGameRequest, this.handleReplyBoard);
+                await sleep(2000);
+                if(serverResponse == 'Sucess') {
+                    //end the game
+                }*/
             }
         }
 
