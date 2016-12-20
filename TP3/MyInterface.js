@@ -60,7 +60,8 @@ MyInterface.prototype.processKeyDown = function (event) {
 		case 82:
 		case 114:
 			console.log("'R' was pressed --> Back to free camera...");
-			this.scene.resetCamera();
+			//this.scene.resetCamera();
+			this.scene.game.undo();
 			break;
 		case 77:
 		case 109:

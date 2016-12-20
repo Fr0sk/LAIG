@@ -94,7 +94,7 @@ Game.prototype.picking = async function (obj, id) {
                         await sleep(2000);
                         this.player2Score = serverResponse;
 
-                        console.info("Player1 score = " + this.player1Score + ", player 2 score = " + this.player2Score);
+                        console.info(this.player1Score, this.player2Score);
                     }
                 }
             }
@@ -103,6 +103,19 @@ Game.prototype.picking = async function (obj, id) {
             this.selectedShip = undefined;
         }
     }
+}
+
+Game.prototype.undo = function() {
+    //if there was played at least 1 turn
+    if(this.moveStack.length >= 2) {
+        this.moveShipWithUndo(this.moveStack.pop());
+        this.moveShipWithUndo(this.moveStack.pop());
+    }
+}
+
+Game.prototype.moveShipWithUndo = function(move) {
+    console.info(move);
+    move.from.moveShip(move.shipToMove, true);
 }
 
 Game.prototype.setOriginCellId = function (userBoard) {
@@ -152,7 +165,7 @@ function sleep(ms) {
 Game.prototype.doMove = function (toCell) {
     var fromCell = this.selectedShip.cell;
     toCell.moveShip(this.selectedShip, true);
-    this.moveStack.push({ from: fromCell, to: toCell });
+    this.moveStack.push({ from: fromCell, to: toCell , shipToMove: this.selectedShip});
     this.nextPlayer();
 }
 
@@ -170,11 +183,8 @@ Game.prototype.moveShipAI = function () {
         }
     }
 
-    console.warn(originCell);
-    console.warn(destinationCell);
-    console.warn(ship);
     destinationCell.moveShip(ship, true);
-    //this.moveStack.push({ from: originCell, to: destinationCell });
+    this.moveStack.push({ from: originCell, to: destinationCell, shipToMove: ship });
     this.nextPlayer();
 }
 
