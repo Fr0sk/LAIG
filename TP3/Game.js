@@ -37,6 +37,7 @@ Game.prototype.picking = async function (obj, id) {
                 this.getMovementDirection(this.selectedShip.cell.pickingId, this.board.cells[c].pickingId, this.direction, this.numCells);
 
                 var prologRequestUser = 'playerTurn(' + prologBoard + ',' + this.player + ',' + this.selectedShip.id + ',' + this.direction + ',' + this.numCells + ',tr)';
+                console.warn(prologRequestUser);
                 this.callRequest(prologRequestUser, this.handleReplyBoard);
                 await sleep(1000);
                 updatedPrologBoard = serverResponse;
@@ -54,7 +55,6 @@ Game.prototype.picking = async function (obj, id) {
                 prologBoard = serverResponse;
 
                 this.doMove(obj);
-                console.warn(this.ships);
                 this.moveShipAI();
             }
         }
@@ -115,15 +115,15 @@ Game.prototype.doMove = function (toCell) {
     this.nextPlayer();
 }
 
-Game.prototype.moveShipAI = function() {
+Game.prototype.moveShipAI = function () {
     var originCellId = this.setOriginCellId(updatedPrologBoard);
     var destinationCellId = this.setDestinationCellId(updatedPrologBoard, prologBoard);
     var originCell = this.board.getCellWithId(originCellId);
     var destinationCell = this.board.getCellWithId(destinationCellId);
 
     var ship;
-    for(var i = 0; i < this.ships.length; i++) {
-        if(this.ships[i].id == aiShip) {
+    for (var i = 0; i < this.ships.length; i++) {
+        if (this.ships[i].id == aiShip) {
             ship = this.ships[i];
             break;
         }
@@ -131,7 +131,7 @@ Game.prototype.moveShipAI = function() {
 
     console.warn(ship);
     destinationCell.moveShip(ship, true);
-    this.moveStack.push({ from: originCell, to: destinationCell });
+    //this.moveStack.push({ from: originCell, to: destinationCell });
     this.nextPlayer();
 }
 
@@ -162,9 +162,9 @@ Game.prototype.getMovementDirection = function (fromCellId, toCellId) {
     idRow = fromCellRow;
     for (var i = 0; i < rowsDifference; i++) {
         if (idRow % 2 == 0)
-            id += this.board.rowLength;
-        else
             id += this.board.rowLength + 1;
+        else
+            id += this.board.rowLength;
         idRow++;
     }
     var resultSE = id;
@@ -173,9 +173,9 @@ Game.prototype.getMovementDirection = function (fromCellId, toCellId) {
     idRow = fromCellRow;
     for (var i = 0; i < rowsDifference; i++) {
         if (idRow % 2 == 0)
-            id += this.board.rowLength - 1;
-        else
             id += this.board.rowLength;
+        else
+            id += this.board.rowLength - 1;
         idRow++;
     }
     var resultSW = id;
@@ -184,20 +184,20 @@ Game.prototype.getMovementDirection = function (fromCellId, toCellId) {
     idRow = fromCellRow;
     for (var i = 0; i < rowsDifference; i++) {
         if (idRow % 2 == 0)
-            id -= this.board.rowLength;
+            id -= this.board.rowLength + 1;
         else
-            id -= this.board.rowLength - 1;
+            id -= this.board.rowLength;
         idRow++;
     }
-    var resultNE = id;
+    var resultNE = 5;
 
     id = fromCellId;
     idRow = fromCellRow;
     for (var i = 0; i < rowsDifference; i++) {
         if (idRow % 2 == 0)
-            id -= this.board.rowLength + 1;
-        else
             id -= this.board.rowLength;
+        else
+            id -= this.board.rowLength - 1;
         idRow++;
     }
     var resultNW = id;
@@ -217,8 +217,10 @@ Game.prototype.getMovementDirection = function (fromCellId, toCellId) {
         case resultNW: this.direction = 'nw'; break;
         case resultN: this.direction = 'n'; this.numCells /= 2; break;
         case resultS: this.direction = 's'; this.numCells /= 2; break;
-        default: direction = null; break;
+        default: direction = 'no direction'; break;
     }
+
+    console.info("fromCellId = " + fromCellId + ", toCellId = " + toCellId + ", fromCellRow = " + fromCellRow + ", rowsDifference = " + rowsDifference + ",rowLength = " + this.board.rowLength + ", se = " + resultSE + ", sw = " + resultSW + ", ne = " + resultNE + ", nw = " + resultNW + ", n = " + resultN + ", s = " + resultS);
 }
 
 Game.prototype.getRow = function (id, rowLength, totalNumIds) {

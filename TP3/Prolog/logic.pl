@@ -895,6 +895,59 @@ playerTurn(Board, WhoIsPlaying, UpdatedBoard):-
    
     clearScreen(60).
 
+
+
+
+
+playerTurnLaig2(Player, Ship, Direction, NumOfCells, UserBuilding, Res):-
+    initial_logic_board(Board),
+    display_board(Board),
+
+    assignShip(Ship, ShipToMove),
+    (canPlayerMoveSelectedShip(Player, ShipToMove);
+    Res = 'Error'),
+
+    (
+        Res == 'Error'; 
+
+        getBoardPieces(Board, PieceToMove),
+        systemHasShip(ShipToMove, PieceToMove),
+        getPiece(PieceToMoveRow, PieceToMoveColumn, Board, PieceToMove),
+
+        (moveNCellsInDirection(PieceToMoveColumn, PieceToMoveRow, Direction, NumOfCells, DestinationColumn, DestinationRow) ;
+        (write('Cannot move cell to the chosen destiny.'), nl, fail)),
+
+        (getPiece(DestinationRow, DestinationColumn, Board, DestinationPiece)
+        ;
+        (write('There is no cell in those coordinates.'), nl, fail)),
+
+        % check if the destination cell is a valid one
+        (checkValidLandingCell(DestinationPiece)
+        ;
+        (((isBlackhole(DestinationPiece));
+        (isWormhole(DestinationPiece));
+        (isSystemOwned(DestinationPiece))),
+        fail)),
+
+        % check if path is uninterrupted
+        (unobstructedPath(Board, MyPlayer, PieceToMoveColumn, PieceToMoveRow, Direction, NumOfCells)
+        ;
+        (write('This path you shall not take, for great dangers reside in it.'), nl, write(PieceToMoveColumn), nl, write(PieceToMoveRow), nl, write(Direction), nl, write(NumOfCells), nl, write(DestinationColumn), nl, write(DestinationRow), fail)),
+
+        assignBuilding(UserBuilding, Building),
+        checkValidBuilding(Building),
+
+        setPieceToMove(PieceToMove, DestinationPiece, ShipToMove, Building, NewPiece, 0),
+        removeShipFromPiece(PieceToMove, ShipToMove, OldPiece),
+
+        updateBoard(Board, OldPiece, NewPiece, PieceToMove, PieceToMoveRow, PieceToMoveColumn, DestinationPiece, DestinationRow, DestinationColumn, UpdatedBoard),
+
+        nl, nl,
+        display_board(UpdatedBoard),
+        Res = UpdatedBoard
+    ).
+
+
 playerTurnLaig(Board, Player, ShipToMove, Direction, NumOfCells, UserBuilding, Res):-
     display_board(Board),
 
