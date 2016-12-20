@@ -112,3 +112,5 @@ parse_input(aiTurn(Board, ShipToMove), Res):-
 	aiTurnLaig(Board, ShipToMove, Res).
 parse_input(aiTurnShipDecider, Res):-
 	aiTurnLaigShipDecider(Res).
+parse_input(endGame(Board), Res):-
+	endGameLaig(Board, Res).

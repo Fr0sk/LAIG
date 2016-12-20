@@ -3,9 +3,9 @@
     <scene root="root" axis_length="0" />
     <!-- Cameras definition -->
     <!-- Pressing v/V changes between cameras -->
-    <views default="awayField">
-        <perspective id="above" near="0.1" far="500" angle="1.5">
-            <from x="10" y="60" z="35" />
+    <views default="player1Cam">
+        <perspective id="player1Cam" near="0.1" far="500" angle="1.5">
+            <from x="3" y="10" z="5" />
             <to x="0" y="0" z="0" />
         </perspective>
         <perspective id="nearField" near="0.1" far="500" angle="0.4">
