@@ -999,39 +999,6 @@ aiTurnLaig(Board, ShipToMove, Res):-
     write('************************Updated AI board************************'), nl,
     display_board(Res).
 
-teste(Ship):-
-    initial_logic_board(Board),
-    aiTurnLaig2('a', Board, UpdatedBoard),
-    aiTurnLaig2('b', UpdatedBoard, UpdatedBoard2),
-    aiTurnLaig2('a', UpdatedBoard2, UpdatedBoard3).
-
-aiTurnLaig2(Ship, Board, UpdatedBoard):-
-    assignShip(Ship, ShipToMove),
-
-    write('************************Initial AI board************************'), nl,
-    display_board(Board),
-   
-    write('Para 1'), nl,
-    write(Ship), nl,
-    write(ShipToMove), nl,
-    getPieceGivenShip(Board, ShipToMove, OriginCellY, OriginCellX),
-        write('Para 2'), nl,
-    getAllPossibleCellsToMove(player1, Board, OriginCellX, OriginCellY, ListX, ListY),
-        write('Para 3'), nl,
-
-    length(ListX, NumOfCellsCanMove),
-        write('Para 4'), nl,
-    NumOfCellsCanMove > 0,    write('Para 5'), nl,
-
-    first(FirstX, ListX),    write('Para 6'), nl,
-
-    first(FirstY, ListY),    write('Para 7'), nl,
-
-
-    searchMaxScore(Board, ListX, ListY, 0, colony, FirstX, FirstY, OriginCellX, OriginCellY, UpdatedBoard),
-    write('************************Updated AI board************************'), nl,
-    display_board(UpdatedBoard).
-
 selectShip(0, [X|Xs], X).
 selectShip(Index, [X|Xs], ShipToUse):-
     NewIndex is Index - 1,
@@ -1077,81 +1044,23 @@ endGameLaig(Board, Res):-
     Res = 'Sucess';
     Res = 'Failure'.
 
+getTotalScoreOfPlayer(Player, Board, TotalScore):-
+    %star systems
+    findall(Score, getScoreOfPlayerStarSystemPiece(Player, Board, Piece, Score), StarSystemList), 
 
-endGameLaig2:-
-    test_board(Board),
-    display_board(Board),
+    ((length(StarSystemList, 0), TotalStarSystemsScore is 0)
+    ;
+    list_sum(StarSystemList, TotalStarSystemsScore)),
     
-    % verify player 1 ships
-    \+((((player1Ship(Ship1),
-    getBoardPieces(Board, PieceWithShip1),
-    systemHasShip(Ship1, PieceWithShip1),
-    getPiece(Y1, X1, Board, PieceWithShip1),
-
-    % if he can fly over adjacent houses
-    unobstructedPath(Board, player1, X1, Y1, Direction1, 2),
-    moveNCellsInDirection(X1, Y1, Direction1, 2, Xf1, Yf1),
-    getPiece(Yf1, Xf1, Board, AdjPiece1),
-    checkValidLandingCell(AdjPiece1))
+    %nebulas systems
+    getNumOfOwnedNebulas(Player, Board, NumOfOwnedNebulas),
+    getPlayerNebulaScore(Player, NumOfOwnedNebulas, NebulaScore),
     
-  ;
-    
-    % verify player 2 ships
-    (player2Ship(Ship2), 
-    getBoardPieces(Board, PieceWithShip2),
-    systemHasShip(Ship2, PieceWithShip2),
-    getPiece(Y2, X2, Board, PieceWithShip2),
+    %adjacent systems
+    getScoreFromAdjacentsToTradeStations(Player, Board, ScoreFromAdjacents),
 
-    unobstructedPath(Board, player2, X2, Y2, Direction2, 2),
-    moveNCellsInDirection(X2, Y2, Direction2, 2, Xf2, Yf2),
-    getPiece(Yf2, Xf2, Board, AdjPiece2),
-    checkValidLandingCell(AdjPiece2)))
-    
-    % verify counters of buildings of both players 
-)).
-
-endGameLogic(Res):-
-    initial_logic_board(Board),
-
-    % verify player 1 ships
-    \+((((player1Ship(Ship1),
-    getBoardPieces(Board, PieceWithShip1),
-    systemHasShip(Ship1, PieceWithShip1),
-    getPiece(Y1, X1, Board, PieceWithShip1),
-
-    % if he can fly over adjacent houses
-    unobstructedPath(Board, player1, X1, Y1, Direction1, 2),
-    moveNCellsInDirection(X1, Y1, Direction1, 2, Xf1, Yf1),
-    getPiece(Yf1, Xf1, Board, AdjPiece1),
-    checkValidLandingCell(AdjPiece1))
-    
-  ;
-    
-    % verify player 2 ships
-    (player2Ship(Ship2), 
-    getBoardPieces(Board, PieceWithShip2),
-    systemHasShip(Ship2, PieceWithShip2),
-    getPiece(Y2, X2, Board, PieceWithShip2),
-
-    unobstructedPath(Board, player2, X2, Y2, Direction2, 2),
-    moveNCellsInDirection(X2, Y2, Direction2, 2, Xf2, Yf2),
-    getPiece(Yf2, Xf2, Board, AdjPiece2),
-    checkValidLandingCell(AdjPiece2)))
-    
-    ,!,
-    
-    % verify counters of buildings of both players 
-    (
-        (numOfBuildings(player1, Building1, N1), N1 > 0) ;
-        (numOfBuildings(player2, Building2, N2), N2 > 0)
-    ))),
-    Res = 'Sucess';
-    Res = 'Failure'.
-
-
-
-
-
+    %total 
+    TotalScore is (TotalStarSystemsScore+NebulaScore+ScoreFromAdjacents).
 
 numOfBuildings(player1, trade, 20).
 numOfBuildings(player2, trade, 20).

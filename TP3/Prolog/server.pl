@@ -114,3 +114,5 @@ parse_input(aiTurnShipDecider, Res):-
 	aiTurnLaigShipDecider(Res).
 parse_input(endGame(Board), Res):-
 	endGameLaig(Board, Res).
+parse_input(calculateScore(Player, Board), Res):-
+	getTotalScoreOfPlayer(Player, Board, Res).
