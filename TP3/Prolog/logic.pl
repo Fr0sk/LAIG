@@ -948,6 +948,9 @@ playerTurnLaig2(Player, Ship, Direction, NumOfCells, UserBuilding, Res):-
 
 
 playerTurnLaig(Board, Player, ShipToMove, Direction, NumOfCells, UserBuilding, Res):-
+    write('************************Initial board************************'), nl,   
+    display_board(Board),
+    
     (canPlayerMoveSelectedShip(Player, ShipToMove);
     Res = 'Error'),
 
