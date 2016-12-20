@@ -40,7 +40,7 @@ Game.prototype.picking = async function (obj, id) {
                 var prologRequestUser = 'playerTurn(' + prologBoard + ',' + this.player + ',' + this.selectedShip.id + ',' + this.direction + ',' + this.numCells + ',tr)';
                 //console.warn(prologRequestUser);
                 this.callRequest(prologRequestUser, this.handleReplyBoard);
-                await sleep(1000);
+                await sleep(2000);
                 updatedPrologBoard = serverResponse;
                 if (updatedPrologBoard.substring(0, 3) != '[[[') {
                     console.error("Prolog Error!");
@@ -56,14 +56,20 @@ Game.prototype.picking = async function (obj, id) {
                 } else if (tes == 1) {
                     aiShip = 'shipX';
                     tes++;
+                } else if(tes == 2) {
+                    aiShip = 'shipY';
+                    tes++;
+                } else {
+                    aiShip = 'shipZ';
                 }
 
                 var prologRequestAI = 'aiTurn(' + updatedPrologBoard + ',' + aiShip + ')';
-
                 //console.warn(prologRequestAI);
                 this.callRequest(prologRequestAI, this.handleReplyBoard);
-                await sleep(1000);
+                await sleep(2000);
                 prologBoard = serverResponse;
+
+                console.warn(prologBoard);
 
                 this.doMove(obj);
                 this.moveShipAI();
@@ -140,9 +146,9 @@ Game.prototype.moveShipAI = function () {
         }
     }
 
-    /*console.warn(originCell);
+    console.warn(originCell);
     console.warn(destinationCell);
-    console.warn(ship);*/
+    console.warn(ship);
     destinationCell.moveShip(ship, true);
     //this.moveStack.push({ from: originCell, to: destinationCell });
     this.nextPlayer();
@@ -196,7 +202,7 @@ Game.prototype.getMovementDirection = function (fromCellId, toCellId) {
         if (idRow % 2 == 0)
             resultNE = resultNE - this.board.rowLength + 1;
         else
-            resultNE = resultNE - this.board.rowLength;        
+            resultNE = resultNE - this.board.rowLength;
         idRow++;
     }
 
