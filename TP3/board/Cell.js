@@ -72,7 +72,7 @@ Cell.prototype.initShip = function(owners, shipIds, shipPickingIds) {
                 z: s%3 == 0  ? 0.25 : -0.25
             }
 
-            t = this.hexagon.translate;
+            var t = this.hexagon.translate;
             mat4.translate(ship.mat, ship.mat, [t.x, t.y, t.z]);
 
             ships.push(ship);
@@ -85,7 +85,7 @@ Cell.prototype.initShip = function(owners, shipIds, shipPickingIds) {
 
 Cell.prototype.moveShip = function(ship, animated) {
     if (animated) {
-        fromVec = ship.cell.hexagon.translate;
+        /*fromVec = ship.cell.hexagon.translate;
         toVec = this.hexagon.translate;
         var cp = [];
 
@@ -93,8 +93,13 @@ Cell.prototype.moveShip = function(ship, animated) {
         cp.push({x: toVec.x - fromVec.x, y: 0, z:toVec.z - fromVec.z});
 
         var anim = new LinearAnimation(ship, 2, cp, true);
-        ship.pushAnimation(anim);
-    }
+        ship.pushAnimation(anim);*/
+    } 
+        var t = this.hexagon.translate;
+        var matIdent = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+        mat4.translate(matIdent, matIdent, [t.x, t.y, t.z]);
+        ship.mat = matIdent;
+    
     
     if (ship.cell == this)
         return;
