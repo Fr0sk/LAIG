@@ -75,12 +75,12 @@ Game.prototype.picking = async function (obj, id) {
                 this.doMove(obj);
                 this.moveShipAI();
 
-                /*var endGameRequest = 'endGame(' + prologBoard + ')';
+                var endGameRequest = 'endGame(' + prologBoard + ')';
                 this.callRequest(endGameRequest, this.handleReplyBoard);
                 await sleep(2000);
                 if(serverResponse == 'Sucess') {
                     //end the game
-                }*/
+                }
             }
         }
 
