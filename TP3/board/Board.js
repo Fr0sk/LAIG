@@ -48,6 +48,15 @@ Board.prototype.setBoard = function(newBoard) {
     this.board = newBoard;
 }
 
+Board.prototype.getCellWithId = function(cellId) {
+    for(var i = 0; i < this.cells.length; i++) {
+        if(this.cells[i].pickingId == cellId)
+            return this.cells[i];
+    }
+
+    return false;
+}
+
 Board.prototype.toString = function boardToString() {
     var string;
     string = '[';

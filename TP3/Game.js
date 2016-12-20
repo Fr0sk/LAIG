@@ -53,11 +53,8 @@ Game.prototype.picking = async function (obj, id) {
                 await sleep(1000);
                 prologBoard = serverResponse;
 
-                this.setOriginCellId(updatedPrologBoard);
-                this.setDestinationCellId(updatedPrologBoard, prologBoard);
-                console.warn(this.originCellId, this.destinationCellId);
-
                 this.doMove(obj);
+                //this.moveShipAI();
             }
         }
 
@@ -74,7 +71,7 @@ Game.prototype.setOriginCellId = function (userBoard) {
             userSplitRow = userSplit[row].split('],[');
             for (var column = 0; column < userSplitRow.length; column++) {
                 if (userSplitRow[column].indexOf(aiShip) != -1) {
-                    this.originCellId = row * userSplitRow.length + column + 1;
+                    return row * userSplitRow.length + column + 1;
                     break;
                 }
             }
@@ -82,7 +79,7 @@ Game.prototype.setOriginCellId = function (userBoard) {
         }
     }
 
-    return true;
+    return false;
 }
 
 Game.prototype.setDestinationCellId = function (userBoard, aiBoard) {
@@ -95,7 +92,7 @@ Game.prototype.setDestinationCellId = function (userBoard, aiBoard) {
             aiSplitRow = aiSplit[row].split('],[');
             for (var column = 0; column < aiSplitRow.length; column++) {
                 if (aiSplitRow[column].indexOf(aiShip) != -1) {
-                    this.destinationCellId = row * aiSplitRow.length + column + 1;
+                    return row * aiSplitRow.length + column + 1;
                     break;
                 }
             }
@@ -103,7 +100,7 @@ Game.prototype.setDestinationCellId = function (userBoard, aiBoard) {
         }
     }
 
-    return true;
+    return false;
 }
 
 function sleep(ms) {
@@ -115,6 +112,19 @@ Game.prototype.doMove = function (toCell) {
     toCell.moveShip(this.selectedShip, true);
     this.moveStack.push({ from: fromCell, to: toCell });
     this.nextPlayer();
+}
+
+Game.prototype.moveShipAI = function() {
+    var originCellId = this.setOriginCellId(updatedPrologBoard);
+    var destinationCellId = this.setDestinationCellId(updatedPrologBoard, prologBoard);
+
+    var originCell = this.board.getCellWithId(originCellId);
+    var destinationCell = this.board.getCellWithId(destinationCellId);
+
+
+
+    console.warn(originCell, destinationCell);
+    destinationCell.moveShip();
 }
 
 Game.prototype.nextPlayer = function () {
