@@ -20,7 +20,7 @@ Cell.prototype.init = function(owners, shipIds, shipPickingIds) {
 
 Cell.prototype.initHex = function() {
     var radius = 1;                                    // Hexagon radius
-    var offset = this.row % 2 ? radius + radius/2 : 0; // Offset for odd rows
+    var offset = this.row % 2 ? 0 : radius + radius/2; // Offset for even rows
     var distance = Math.sin(Math.PI/3);                // Distance between hexagons
     this.hexagon = new Hexagon(this.scene, this.board.height);
     
