@@ -956,7 +956,7 @@ aiTurnLaig(Board, ShipToMove, Res):-
     findall(X, getAIShips(Board, X, Y), PiecesWithShipPositionX),
     findall(Y, getAIShips(Board, X, Y), PiecesWithShipPositionY),
    
-    getPieceGivenShip(Board, A, OriginCellY, OriginCellX),
+    getPieceGivenShip(Board, ShipToMove, OriginCellY, OriginCellX),
     getAllPossibleCellsToMove(player1, Board, OriginCellX, OriginCellY, ListX, ListY),
 
     length(ListX, NumOfCellsCanMove),

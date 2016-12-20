@@ -2,6 +2,7 @@ var serverResponse = 0;
 var prologBoard = 0;
 var updatedPrologBoard = 0;
 var aiShip = 0;
+var connectionBoolean = false;
 
 function Game(scene) {
     this.scene = scene;
@@ -36,7 +37,6 @@ Game.prototype.picking = async function(obj, id) {
                 this.getMovementDirection(this.selectedShip.cell.pickingId, this.board.cells[c].pickingId, this.direction, this.numCells);
 
                 var prologRequestUser = 'playerTurn(' + prologBoard + ',' + this.player + ',' + this.selectedShip.id + ',' + this.direction + ',' + this.numCells + ',tr)';
-                //console.warn("Request = " + prologRequestAI); 
                 this.callRequest(prologRequestUser, this.handleReplyBoard);
                 await sleep(1000);
                 updatedPrologBoard = serverResponse;
@@ -45,26 +45,35 @@ Game.prototype.picking = async function(obj, id) {
                     return;
                 }
 
-                console.warn("HI");
-
                 this.callRequest('aiTurnShipDecider', this.handleReplyShip);
                 await sleep(1000);
-                console.warn("HI");
 
                 var prologRequestAI = 'aiTurn(' + updatedPrologBoard + ',' + aiShip + ')';
                 this.callRequest(prologRequestAI, this.handleReplyBoard);
                 await sleep(1000);
                 prologBoard = serverResponse;
-                console.warn("HI");
+
+                var userSplit = updatedPrologBoard.split(']],');
+                var aiSplit = prologBoard.split(']],');
+
+                var index;
+                var shipPosX;
+                var shipPosY;
+                for(var row = 0; row < userSplit.length; row++) {
+                    if(aiSplit[row].indexOf(aiShip) != -1) {
+                        aiSplitRow = aiSplit[row].split('],[');
+                        for(var column = 0; column < aiSplitRow.length; column++) {
+                            if(aiSplitRow[column].indexOf(aiShip) != -1) {
+                                shipPosX = column;
+                                shipPosY = row;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
 
                 this.doMove(obj);
-
-                //ver a diff em ]],
-
-                /*
-                pedido prolog que retorna a info a mudar
-                outro pedido a mudar com o playerTurn
-                 */
             }
         }
 
@@ -202,9 +211,11 @@ Game.prototype.callRequest = function(requestString, onSuccess, onError, port) {
 Game.prototype.handleReplyBoard = function(data) {
     console.info("Response: " + data.target.response);
     serverResponse = data.target.response;
+    connectionBoolean = true;
 }
 
 Game.prototype.handleReplyShip = function(data) {
     console.info("Response: " + data.target.response);
     aiShip = data.target.response;
+    connectionBoolean = true;
 }
