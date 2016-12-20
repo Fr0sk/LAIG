@@ -54,7 +54,8 @@ Game.prototype.picking = async function (obj, id) {
                 prologBoard = serverResponse;
 
                 this.doMove(obj);
-                //this.moveShipAI();
+                console.warn(this.ships);
+                this.moveShipAI();
             }
         }
 
@@ -117,14 +118,21 @@ Game.prototype.doMove = function (toCell) {
 Game.prototype.moveShipAI = function() {
     var originCellId = this.setOriginCellId(updatedPrologBoard);
     var destinationCellId = this.setDestinationCellId(updatedPrologBoard, prologBoard);
-
     var originCell = this.board.getCellWithId(originCellId);
     var destinationCell = this.board.getCellWithId(destinationCellId);
 
+    var ship;
+    for(var i = 0; i < this.ships.length; i++) {
+        if(this.ships[i].id == aiShip) {
+            ship = this.ships[i];
+            break;
+        }
+    }
 
-
-    console.warn(originCell, destinationCell);
-    destinationCell.moveShip();
+    console.warn(ship);
+    destinationCell.moveShip(ship, true);
+    this.moveStack.push({ from: originCell, to: destinationCell });
+    this.nextPlayer();
 }
 
 Game.prototype.nextPlayer = function () {
