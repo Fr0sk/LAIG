@@ -8,6 +8,7 @@ function Cell(board, row, col, pickingId, type, occupation, ships, structure, he
     this.occupation = occupation;
     this.ships = ships ? ships : [];
     this.structure = structure;
+    this.building;
 }
 
 Cell.prototype = Object.create(CGFobject.prototype);
@@ -105,6 +106,8 @@ Cell.prototype.moveShip = function(ship, animated) {
         return;
     ship.cell.removeShip(ship);
     this.addShip(ship);
+
+    //ADICIONAR O BUILDING CORRESPONDENTE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }
 
 Cell.prototype.removeShip = function(ship) {

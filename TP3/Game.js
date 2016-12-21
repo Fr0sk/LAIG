@@ -6,9 +6,16 @@ var connectionBoolean = false;
 var playAllShips = 0;
 var state = 'selecMovementState';
 
-function Game(scene) {
+/* Game Modes:
+0 --> H/H
+1 --> H/M
+2 --> M/M
+*/
+
+function Game(scene, gameMode) {
     this.scene = scene;
     this.board;
+    this.gameMode = gameMode;
 }
 
 Game.prototype = Object.create(CGFobject.prototype);
@@ -23,7 +30,7 @@ Game.prototype.startGame = function () {
 }
 
 Game.prototype.picking = function (obj, id) {
-    if (state == 'selecMovementState') {
+    if (state == 'selecMovementState' && (this.gameMode == 0 || this.gameMode == 1)) {
         if (!this.selectedShip) {
             for (var s = 0; s < this.ships.length; s++) {
                 if (obj == this.ships[s] && obj.owner == this.player) {
@@ -34,28 +41,35 @@ Game.prototype.picking = function (obj, id) {
             }
         } else {
             for (var c = 0; c < this.board.cells.length; c++)
-                if (obj == this.board.cells[c] && obj != this.selectedShip.cell) {
+                if (obj == this.board.cells[c] && this.obj != this.selectedShip.cell) {
                     this.obj = obj;
-                    this.getMovementDirection(this.selectedShip.cell.pickingId, this.board.cells[c].pickingId);
-                    this.prologRequestUser = 'playerTurn(' + prologBoard + ',' + this.player + ',' + this.selectedShip.id + ',' + this.direction + ',' + this.numCells + ',';
-                    state = 'selectBuildingState';
-                    console.info('\'t\' -> trade station, \'c\' -> colony');
+                    this.play();
                 }
         }
     }
 }
 
-Game.prototype.setBuilding = function (userBuilding) {
-    if (state == 'selectBuildingState') {
-        if (userBuilding == 0)
-            this.prologRequestUser += 'tr' + ')';
-        else
-            this.prologRequestUser += 'c' + ')';
-        this.play();
+Game.prototype.play = async function () {
+    if (this.gameMode == 1 && state == 'selecMovementState')
+        this.startUserPlay();
+    else if (this.gameMode == 1 && state == 'selectBuildingState') {
+        this.endUserPlay();
+        await sleep(2000);
+        this.aiPlay();
+        await sleep(3000);
+        this.checkEndGame();
+        await sleep(4000);
     }
 }
 
-Game.prototype.play = async function () {
+Game.prototype.startUserPlay = function () {
+    this.getMovementDirection(this.selectedShip.cell.pickingId, this.obj.pickingId);
+    this.prologRequestUser = 'playerTurn(' + prologBoard + ',' + this.player + ',' + this.selectedShip.id + ',' + this.direction + ',' + this.numCells + ',';
+    state = 'selectBuildingState';
+    console.info('\'t\' -> trade station, \'c\' -> colony');
+}
+
+Game.prototype.endUserPlay = async function () {
     //console.warn(this.prologRequestUser);
     this.callRequest(this.prologRequestUser, this.handleReplyBoard);
     await sleep(2000);
@@ -64,7 +78,10 @@ Game.prototype.play = async function () {
         console.error("Prolog Error!");
         return;
     }
+    this.doMove(this.obj);
+}
 
+Game.prototype.aiPlay = async function () {
     this.callRequest('aiTurnShipDecider', this.handleReplyShip);
     await sleep(1000);
 
@@ -88,10 +105,11 @@ Game.prototype.play = async function () {
     await sleep(2000);
 
     console.warn(prologBoard);
-
-    this.doMove(this.obj);
     prologBoard = serverResponse;
     this.moveShipAI();
+}
+
+Game.prototype.checkEndGame = async function () {
     state = 'selecMovementState';
 
     var endGameRequest = 'endGame(' + prologBoard + ')';
@@ -116,6 +134,16 @@ Game.prototype.play = async function () {
 
     this.selectedShip.translate.y -= 0.25;
     this.selectedShip = undefined;
+}
+
+Game.prototype.setBuilding = function (userBuilding) {
+    if (state == 'selectBuildingState') {
+        if (userBuilding == 0)
+            this.prologRequestUser += 'tr)';
+        else
+            this.prologRequestUser += 'c)';
+        this.play();
+    }
 }
 
 Game.prototype.resetCurrentMove = function () {
@@ -189,7 +217,7 @@ function sleep(ms) {
 Game.prototype.doMove = function (toCell) {
     var fromCell = this.selectedShip.cell;
     toCell.moveShip(this.selectedShip, true);
-    this.moveStack.push({ from: fromCell, to: toCell, shipToMove: this.selectedShip, board: prologBoard });
+    this.moveStack.push({ from: fromCell, to: toCell, shipToMove: this.selectedShip, board: updatedPrologBoard });
     this.nextPlayer();
 }
 
