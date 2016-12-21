@@ -70,6 +70,8 @@ XMLscene.prototype.onGraphLoaded = function () {
     // Updates lights
     this.setLightsFromXML();
 
+    this.interface.addGameInfo();
+
     // Draws axis
     this.axis = this.graph.axis;
 

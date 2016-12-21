@@ -4,10 +4,10 @@ var updatedPrologBoard = 0;
 var aiShip = 0;
 var connectionBoolean = false;
 var playAllShips = 0;
-var state = 'selecMovementState';
+var state = 'selectMovementState';
 var turnTime = 10;
 var currTime = turnTime;
-var moveTime = true;
+var moveTime = false;//true;
 
 /* Game Modes:
 0 --> H/H
@@ -19,6 +19,8 @@ function Game(scene, gameMode) {
     this.scene = scene;
     this.board;
     this.gameMode = gameMode;
+    this.gameInfo = [];
+    this.gameInfo.push(currTime);
 }
 
 Game.prototype = Object.create(CGFobject.prototype);
@@ -33,7 +35,7 @@ Game.prototype.startGame = function () {
 }
 
 Game.prototype.picking = function (obj, id) {
-    if (state == 'selecMovementState' && (this.gameMode == 0 || this.gameMode == 1)) {
+    if (state == 'selectMovementState' && (this.gameMode == 0 || this.gameMode == 1)) {
         if (!this.selectedShip) {
             for (var s = 0; s < this.ships.length; s++) {
                 if (obj == this.ships[s] && obj.owner == this.player) {
@@ -53,7 +55,7 @@ Game.prototype.picking = function (obj, id) {
 }
 
 Game.prototype.play = async function () {
-    if (this.gameMode == 0 && state == 'selecMovementState')
+    if (this.gameMode == 0 && state == 'selectMovementState')
         this.startUserPlay();
     else if (this.gameMode == 0 && state == 'selectBuildingState') {
         this.endUserPlay()
@@ -64,7 +66,7 @@ Game.prototype.play = async function () {
         await sleep(4000);
         moveTime = true;
         currTime = turnTime;
-    } else if (this.gameMode == 1 && state == 'selecMovementState')
+    } else if (this.gameMode == 1 && state == 'selectMovementState')
         this.startUserPlay();
     else if (this.gameMode == 1 && state == 'selectBuildingState') {
         this.endUserPlay();
@@ -128,7 +130,7 @@ Game.prototype.aiPlay = async function () {
 }
 
 Game.prototype.checkEndGame = async function () {
-    state = 'selecMovementState';
+    state = 'selectMovementState';
 
     var endGameRequest = 'endGame(' + prologBoard + ')';
     this.callRequest(endGameRequest, this.handleReplyBoard);
@@ -170,7 +172,7 @@ Game.prototype.setBuilding = function (userBuilding) {
 
 Game.prototype.resetCurrentMove = function () {
     console.info('Reseting current move. You may start again!');
-    state = 'selecMovementState';
+    state = 'selectMovementState';
     this.selectedShip.translate.y -= 0.25;
     this.selectedShip = undefined;
 }
@@ -276,6 +278,9 @@ Game.prototype.update = function (deltaTime) {
         console.error('Player \'' + this.player + '\' lost the game due to time!');
     } else if (moveTime) {
         currTime -= deltaTime;
+        this.gameInfo[0] = currTime;
+        /*this.scene.interface.addGameInfo();
+        this.scene.interface.removeGameInfo();*/
         console.info(currTime);
     }
 }
