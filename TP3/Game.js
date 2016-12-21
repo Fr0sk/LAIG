@@ -50,7 +50,15 @@ Game.prototype.picking = function (obj, id) {
 }
 
 Game.prototype.play = async function () {
-    if (this.gameMode == 1 && state == 'selecMovementState')
+    if (this.gameMode == 0 && state == 'selecMovementState')
+        this.startUserPlay();
+    else if (this.gameMode == 0 && state == 'selectBuildingState') {
+        this.endUserPlay();
+        await sleep(2000);
+        prologBoard = updatedPrologBoard;
+        this.checkEndGame();
+        await sleep(4000);
+    } else if (this.gameMode == 1 && state == 'selecMovementState')
         this.startUserPlay();
     else if (this.gameMode == 1 && state == 'selectBuildingState') {
         this.endUserPlay();

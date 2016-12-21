@@ -39,7 +39,7 @@ XMLscene.prototype.init = function (application) {
     this.testTexture = "./resources/sbSide1.png";
     this.testMaterial = new CGFappearance(this);
     this.testMaterial.loadTexture(this.testTexture);
-    this.game = new Game(this, 1);
+    this.game = new Game(this, 0);
     this.game.startGame();
 };
 
