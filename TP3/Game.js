@@ -70,11 +70,11 @@ Game.prototype.picking = async function (obj, id) {
                     //console.warn(prologRequestAI);
                     this.callRequest(prologRequestAI, this.handleReplyBoard);
                     await sleep(2000);
-                    prologBoard = serverResponse;
 
                     console.warn(prologBoard);
 
                     this.doMove(obj);
+                    prologBoard = serverResponse;
                     this.moveShipAI();
 
                     var endGameRequest = 'endGame(' + prologBoard + ')';
@@ -105,17 +105,21 @@ Game.prototype.picking = async function (obj, id) {
     }
 }
 
-Game.prototype.undo = function() {
+Game.prototype.undo = function () {
     //if there was played at least 1 turn
-    if(this.moveStack.length >= 2) {
+    if (this.moveStack.length >= 2) {
         this.moveShipWithUndo(this.moveStack.pop());
         this.moveShipWithUndo(this.moveStack.pop());
+        if (playAllShips <= 3)
+            playAllShips--;
     }
 }
 
-Game.prototype.moveShipWithUndo = function(move) {
+Game.prototype.moveShipWithUndo = function (move) {
     console.info(move);
     move.from.moveShip(move.shipToMove, true);
+    prologBoard = move.board;
+    console.info(move);
 }
 
 Game.prototype.setOriginCellId = function (userBoard) {
@@ -165,7 +169,7 @@ function sleep(ms) {
 Game.prototype.doMove = function (toCell) {
     var fromCell = this.selectedShip.cell;
     toCell.moveShip(this.selectedShip, true);
-    this.moveStack.push({ from: fromCell, to: toCell , shipToMove: this.selectedShip});
+    this.moveStack.push({ from: fromCell, to: toCell, shipToMove: this.selectedShip, board: prologBoard });
     this.nextPlayer();
 }
 
@@ -184,7 +188,7 @@ Game.prototype.moveShipAI = function () {
     }
 
     destinationCell.moveShip(ship, true);
-    this.moveStack.push({ from: originCell, to: destinationCell, shipToMove: ship });
+    this.moveStack.push({ from: originCell, to: destinationCell, shipToMove: ship, board: prologBoard });
     this.nextPlayer();
 }
 
