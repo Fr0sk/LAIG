@@ -96,4 +96,6 @@ MyInterface.prototype.addSpotLight = function (lightNum, lightName) {
 
 MyInterface.prototype.addGameInfo = function () {
 	this.gameInfoGroup.add(this.scene.game.gameInfo, 0).name('Turn Time');
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 1).name('Player 1 Score');
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 2).name('Player 2 Score');
 };

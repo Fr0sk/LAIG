@@ -19,8 +19,9 @@ function Game(scene, gameMode) {
     this.scene = scene;
     this.board;
     this.gameMode = gameMode;
-    this.gameInfo = [];
-    this.gameInfo.push(currTime);
+    this.currPlayer1Score = 0;
+    this.currPlayer2Score = 0;
+    this.gameInfo = [currTime, this.currPlayer1Score, this.currPlayer2Score];
 }
 
 Game.prototype = Object.create(CGFobject.prototype);
@@ -63,7 +64,7 @@ Game.prototype.play = async function () {
         await sleep(2000);
         console.warn(prologBoard);
         this.checkEndGame();
-        await sleep(4000);
+        await sleep(4000);      //meter 6!!!
         moveTime = true;
         currTime = turnTime;
     } else if (this.gameMode == 1 && state == 'selectMovementState')
@@ -75,6 +76,8 @@ Game.prototype.play = async function () {
         this.aiPlay();
         await sleep(3000);
         this.checkEndGame();
+        await sleep(2000);
+        this.getPlayersScores();
         await sleep(4000);
         moveTime = true;
         currTime = turnTime;
@@ -129,6 +132,20 @@ Game.prototype.aiPlay = async function () {
     this.moveShipAI();
 }
 
+Game.prototype.getPlayersScores = async function () {
+    var player1ScoreRequest = 'calculateScore(player1,' + prologBoard + ')';
+    this.callRequest(player1ScoreRequest, this.handleReplyBoard);
+    await sleep(2000);
+    this.currPlayer1Score = serverResponse;
+
+    var player2ScoreRequest = 'calculateScore(player2,' + prologBoard + ')';
+    this.callRequest(player2ScoreRequest, this.handleReplyBoard);
+    await sleep(2000);
+    this.currPlayer2Score = serverResponse;
+
+    console.info(this.currPlayer1Score, this.currPlayer2Score);
+}
+
 Game.prototype.checkEndGame = async function () {
     state = 'selectMovementState';
 
@@ -138,18 +155,6 @@ Game.prototype.checkEndGame = async function () {
     if (serverResponse == 'Sucess') {
         console.error("END OF THE GAME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         state = "gameEnded";
-
-        var player1ScoreRequest = 'calculateScore(player1,' + prologBoard + ')';
-        this.callRequest(player1ScoreRequest, this.handleReplyBoard);
-        await sleep(2000);
-        this.player1Score = serverResponse;
-
-        var player2ScoreRequest = 'calculateScore(player2,' + prologBoard + ')';
-        this.callRequest(player2ScoreRequest, this.handleReplyBoard);
-        await sleep(2000);
-        this.player2Score = serverResponse;
-
-        console.info(this.player1Score, this.player2Score);
     }
 
     this.selectedShip.translate.y -= 0.25;
