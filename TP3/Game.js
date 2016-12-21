@@ -5,6 +5,9 @@ var aiShip = 0;
 var connectionBoolean = false;
 var playAllShips = 0;
 var state = 'selecMovementState';
+var turnTime = 10;
+var currTime = turnTime;
+var moveTime = true;
 
 /* Game Modes:
 0 --> H/H
@@ -54,19 +57,25 @@ Game.prototype.play = async function () {
         this.startUserPlay();
     else if (this.gameMode == 0 && state == 'selectBuildingState') {
         this.endUserPlay()
+        moveTime = false;
         await sleep(2000);
         console.warn(prologBoard);
         this.checkEndGame();
         await sleep(4000);
+        moveTime = true;
+        currTime = turnTime;
     } else if (this.gameMode == 1 && state == 'selecMovementState')
         this.startUserPlay();
     else if (this.gameMode == 1 && state == 'selectBuildingState') {
         this.endUserPlay();
+        moveTime = false;
         await sleep(2000);
         this.aiPlay();
         await sleep(3000);
         this.checkEndGame();
         await sleep(4000);
+        moveTime = true;
+        currTime = turnTime;
     }
 }
 
@@ -143,6 +152,10 @@ Game.prototype.checkEndGame = async function () {
 
     this.selectedShip.translate.y -= 0.25;
     this.selectedShip = undefined;
+}
+
+Game.prototype.endGame = function () {
+    console.log();
 }
 
 Game.prototype.setBuilding = function (userBuilding) {
@@ -258,6 +271,13 @@ Game.prototype.update = function (deltaTime) {
     if (this.ships)
         for (var s = 0; s < this.ships.length; s++)
             this.ships[s].update(deltaTime);
+
+    if (currTime <= 0) {
+        console.error('Player \'' + this.player + '\' lost the game due to time!');
+    } else if (moveTime) {
+        currTime -= deltaTime;
+        console.info(currTime);
+    }
 }
 
 Game.prototype.getMovementDirection = function (fromCellId, toCellId) {
