@@ -68,6 +68,19 @@ MyInterface.prototype.processKeyDown = function (event) {
 			console.log("'M' was pressed --> Changing materials...");
 			this.scene.changeMaterials();
 			break;
+		//T/t
+		case 84:
+		case 116:
+			this.scene.game.setBuilding(0);
+			break;
+		//C/c
+		case 67:
+		case 99:
+			this.scene.game.setBuilding(1);
+			break;
+		//Esc
+		case 27:
+			this.scene.game.resetCurrentMove();
 		default: break;
 	};
 };

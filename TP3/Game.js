@@ -4,7 +4,7 @@ var updatedPrologBoard = 0;
 var aiShip = 0;
 var connectionBoolean = false;
 var playAllShips = 0;
-var state = 'playingGame';
+var state = 'selecMovementState';
 
 function Game(scene) {
     this.scene = scene;
@@ -22,87 +22,107 @@ Game.prototype.startGame = function () {
     prologBoard = this.board.toString();
 }
 
-Game.prototype.picking = async function (obj, id) {
-    if (state == "playingGame") {
-        var selected = false;
+Game.prototype.picking = function (obj, id) {
+    if (state == 'selecMovementState') {
         if (!this.selectedShip) {
             for (var s = 0; s < this.ships.length; s++) {
                 if (obj == this.ships[s] && obj.owner == this.player) {
-                    selected = true;
                     this.selectedShip = obj;
                     this.selectedShip.translate.y += 0.25;
                     break;
                 }
             }
         } else {
-            for (var c = 0; c < this.board.cells.length; c++) {
+            for (var c = 0; c < this.board.cells.length; c++)
                 if (obj == this.board.cells[c] && obj != this.selectedShip.cell) {
+                    this.obj = obj;
                     this.getMovementDirection(this.selectedShip.cell.pickingId, this.board.cells[c].pickingId);
-
-                    var prologRequestUser = 'playerTurn(' + prologBoard + ',' + this.player + ',' + this.selectedShip.id + ',' + this.direction + ',' + this.numCells + ',tr)';
-                    //console.warn(prologRequestUser);
-                    this.callRequest(prologRequestUser, this.handleReplyBoard);
-                    await sleep(2000);
-                    updatedPrologBoard = serverResponse;
-                    if (updatedPrologBoard.substring(0, 3) != '[[[') {
-                        console.error("Prolog Error!");
-                        return;
-                    }
-
-                    this.callRequest('aiTurnShipDecider', this.handleReplyShip);
-                    await sleep(1000);
-
-                    if (playAllShips == 0) {
-                        aiShip = 'shipW';
-                        playAllShips++;
-                    } else if (playAllShips == 1) {
-                        aiShip = 'shipX';
-                        playAllShips++;
-                    } else if (playAllShips == 2) {
-                        aiShip = 'shipY';
-                        playAllShips++;
-                    } else if (playAllShips == 3) {
-                        aiShip = 'shipZ';
-                        playAllShips++;
-                    }
-
-                    var prologRequestAI = 'aiTurn(' + updatedPrologBoard + ',' + aiShip + ')';
-                    //console.warn(prologRequestAI);
-                    this.callRequest(prologRequestAI, this.handleReplyBoard);
-                    await sleep(2000);
-
-                    console.warn(prologBoard);
-
-                    this.doMove(obj);
-                    prologBoard = serverResponse;
-                    this.moveShipAI();
-
-                    var endGameRequest = 'endGame(' + prologBoard + ')';
-                    this.callRequest(endGameRequest, this.handleReplyBoard);
-                    await sleep(2000);
-                    if (serverResponse == 'Sucess') {
-                        console.error("END OF THE GAME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        state = "gameEnded";
-
-                        var player1ScoreRequest = 'calculateScore(player1,' + prologBoard + ')';
-                        this.callRequest(player1ScoreRequest, this.handleReplyBoard);
-                        await sleep(2000);
-                        this.player1Score = serverResponse;
-
-                        var player2ScoreRequest = 'calculateScore(player2,' + prologBoard + ')';
-                        this.callRequest(player2ScoreRequest, this.handleReplyBoard);
-                        await sleep(2000);
-                        this.player2Score = serverResponse;
-
-                        console.info(this.player1Score, this.player2Score);
-                    }
+                    this.prologRequestUser = 'playerTurn(' + prologBoard + ',' + this.player + ',' + this.selectedShip.id + ',' + this.direction + ',' + this.numCells + ',';
+                    state = 'selectBuildingState';
+                    console.info('\'t\' -> trade station, \'c\' -> colony');
                 }
-            }
-
-            this.selectedShip.translate.y -= 0.25;
-            this.selectedShip = undefined;
         }
     }
+}
+
+Game.prototype.setBuilding = function (userBuilding) {
+    if (state == 'selectBuildingState') {
+        if (userBuilding == 0)
+            this.prologRequestUser += 'tr' + ')';
+        else
+            this.prologRequestUser += 'c' + ')';
+        this.play();
+    }
+}
+
+Game.prototype.play = async function () {
+    //console.warn(this.prologRequestUser);
+    this.callRequest(this.prologRequestUser, this.handleReplyBoard);
+    await sleep(2000);
+    updatedPrologBoard = serverResponse;
+    if (updatedPrologBoard.substring(0, 3) != '[[[') {
+        console.error("Prolog Error!");
+        return;
+    }
+
+    this.callRequest('aiTurnShipDecider', this.handleReplyShip);
+    await sleep(1000);
+
+    if (playAllShips == 0) {
+        aiShip = 'shipW';
+        playAllShips++;
+    } else if (playAllShips == 1) {
+        aiShip = 'shipX';
+        playAllShips++;
+    } else if (playAllShips == 2) {
+        aiShip = 'shipY';
+        playAllShips++;
+    } else if (playAllShips == 3) {
+        aiShip = 'shipZ';
+        playAllShips++;
+    }
+
+    var prologRequestAI = 'aiTurn(' + updatedPrologBoard + ',' + aiShip + ')';
+    //console.warn(prologRequestAI);
+    this.callRequest(prologRequestAI, this.handleReplyBoard);
+    await sleep(2000);
+
+    console.warn(prologBoard);
+
+    this.doMove(this.obj);
+    prologBoard = serverResponse;
+    this.moveShipAI();
+    state = 'selecMovementState';
+
+    var endGameRequest = 'endGame(' + prologBoard + ')';
+    this.callRequest(endGameRequest, this.handleReplyBoard);
+    await sleep(2000);
+    if (serverResponse == 'Sucess') {
+        console.error("END OF THE GAME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        state = "gameEnded";
+
+        var player1ScoreRequest = 'calculateScore(player1,' + prologBoard + ')';
+        this.callRequest(player1ScoreRequest, this.handleReplyBoard);
+        await sleep(2000);
+        this.player1Score = serverResponse;
+
+        var player2ScoreRequest = 'calculateScore(player2,' + prologBoard + ')';
+        this.callRequest(player2ScoreRequest, this.handleReplyBoard);
+        await sleep(2000);
+        this.player2Score = serverResponse;
+
+        console.info(this.player1Score, this.player2Score);
+    }
+
+    this.selectedShip.translate.y -= 0.25;
+    this.selectedShip = undefined;
+}
+
+Game.prototype.resetCurrentMove = function () {
+    console.info('Reseting current move. You may start again!');
+    state = 'selecMovementState';
+    this.selectedShip.translate.y -= 0.25;
+    this.selectedShip = undefined;
 }
 
 Game.prototype.undo = function () {
@@ -116,10 +136,10 @@ Game.prototype.undo = function () {
 }
 
 Game.prototype.moveShipWithUndo = function (move) {
-    console.info(move);
+    //console.info(move);
     move.from.moveShip(move.shipToMove, true);
     prologBoard = move.board;
-    console.info(move);
+    //console.info(move);
 }
 
 Game.prototype.setOriginCellId = function (userBoard) {
