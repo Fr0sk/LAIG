@@ -116,7 +116,7 @@ XMLscene.prototype.display = function () {
         this.updateLightsStatus();
 
         //Starts going through the graph
-        //this.runGraph(this.graph.rootNode);
+        this.runGraph(this.graph.rootNode);
     };
 };
 
