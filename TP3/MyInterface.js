@@ -36,6 +36,7 @@ MyInterface.prototype.init = function (application) {
 	this.gameInfoGroup = this.gui.addFolder("Game Info");
 
 	// add a group of controls (and open/expand by defult)
+	this.gameInfoGroup.open();
 
 	// add two check boxes to the group. The identifiers must be members variables of the scene initialized in scene.init as boolean
 	// e.g. this.option1=true; this.option2=false;
@@ -98,4 +99,6 @@ MyInterface.prototype.addGameInfo = function () {
 	this.gameInfoGroup.add(this.scene.game.gameInfo, 0).name('Turn Time');
 	this.gameInfoGroup.add(this.scene.game.gameInfo, 1).name('Player 1 Score');
 	this.gameInfoGroup.add(this.scene.game.gameInfo, 2).name('Player 2 Score');
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 3).name('Player 1 Win Rounds');
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 4).name('Player 2 Win Rounds');
 };

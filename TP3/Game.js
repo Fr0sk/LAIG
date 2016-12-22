@@ -21,7 +21,7 @@ function Game(scene, gameMode) {
     this.gameMode = gameMode;
     this.currPlayer1Score = 0;
     this.currPlayer2Score = 0;
-    this.gameInfo = [currTime, this.currPlayer1Score, this.currPlayer2Score];
+    this.gameInfo = [currTime, this.currPlayer1Score, this.currPlayer2Score, this.scene.player1WinRounds, this.scene.player2WinRounds];
 }
 
 Game.prototype = Object.create(CGFobject.prototype);
@@ -64,7 +64,7 @@ Game.prototype.play = async function () {
         await sleep(2000);
         console.warn(prologBoard);
         this.checkEndGame();
-        await sleep(4000);      //meter 6!!!
+        await sleep(2000);
         moveTime = true;
         currTime = turnTime;
     } else if (this.gameMode == 1 && state == 'selectMovementState')
@@ -127,7 +127,7 @@ Game.prototype.aiPlay = async function () {
     this.callRequest(prologRequestAI, this.handleReplyBoard);
     await sleep(2000);
 
-    console.warn(prologBoard);
+    //console.warn(prologBoard);
     prologBoard = serverResponse;
     this.moveShipAI();
 }
@@ -155,14 +155,19 @@ Game.prototype.checkEndGame = async function () {
     if (serverResponse == 'Sucess') {
         console.error("END OF THE GAME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         state = "gameEnded";
+
+        if (this.currPlayer1Score > this.currPlayer2Score)
+            this.scene.player1WinRounds++;
+        else if (this.currPlayer1Score < this.currPlayer2Score)
+            this.scene.player2WinRounds++;
+        else {
+            this.scene.player1WinRounds++;
+            this.scene.player2WinRounds++;
+        }
     }
 
     this.selectedShip.translate.y -= 0.25;
     this.selectedShip = undefined;
-}
-
-Game.prototype.endGame = function () {
-    console.log();
 }
 
 Game.prototype.setBuilding = function (userBuilding) {
@@ -284,8 +289,6 @@ Game.prototype.update = function (deltaTime) {
     } else if (moveTime) {
         currTime -= deltaTime;
         this.gameInfo[0] = currTime;
-        /*this.scene.interface.addGameInfo();
-        this.scene.interface.removeGameInfo();*/
         console.info(currTime);
     }
 }
