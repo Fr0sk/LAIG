@@ -23,6 +23,9 @@ function Game(scene, gameMode, gameDifficulty) {
     this.currPlayer1Score = 0;
     this.currPlayer2Score = 0;
 
+    this.ships = []; // Gets initialized with board
+    this.board = new Board(this.scene, this, "idBoard");
+
     //Interface related
     var mode;
     var difficulty;
@@ -46,9 +49,14 @@ function Game(scene, gameMode, gameDifficulty) {
 Game.prototype = Object.create(CGFobject.prototype);
 Game.prototype.constructor = Game;
 
+Game.prototype.startInterface = function () {
+    this.interface.setPlayer1Score(0);
+    this.interface.setPlayer2Score(0);
+    this.scene.interface.setGameMode(this.matchInfo[0]);
+    this.scene.interface.setGameMode(this.matchInfo[1]);
+}
+
 Game.prototype.startGame = function () {
-    this.ships = []; // Gets initialized with board
-    this.board = new Board(this.scene, this, "idBoard");
     this.player = 1;
     this.moveStack = [];
     prologBoard = this.board.toString();

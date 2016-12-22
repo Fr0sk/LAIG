@@ -3,10 +3,10 @@
  * @constructor
  */
 
-
 function MyInterface() {
 	//call CGFinterface constructor 
 	CGFinterface.call(this);
+	this.alreadyAdded = false;
 };
 
 MyInterface.prototype = Object.create(CGFinterface.prototype);
@@ -85,6 +85,16 @@ MyInterface.prototype.processKeyDown = function (event) {
 		//Esc
 		case 27:
 			this.scene.game.resetCurrentMove();
+			break;
+		//G/g
+		case 71:
+		case 103:
+			console.info("********** Starting a new match! **********");
+			this.scene.matchUndergoing = false;
+			this.scene.game = undefined;
+			if(!this.alreadyAdded)
+				this.scene.startNewMatch();
+			break; 
 		default: break;
 	};
 };
@@ -98,8 +108,25 @@ MyInterface.prototype.addSpotLight = function (lightNum, lightName) {
 };
 
 MyInterface.prototype.addMatchInfo = function () {
+	this.alreadyAdded = true;
 	this.matchInfoGroup.add(this.scene.game.matchInfo, 0).name('Game Mode').listen();
 	this.matchInfoGroup.add(this.scene.game.matchInfo, 1).name('Difficulty').listen();
+};
+
+MyInterface.prototype.setGameMode = function (gameMode) {
+	this.scene.game.matchInfo[0] = gameMode;
+
+	for (var i in this.gui.__controllers) {
+		this.gui.__controllers[i].updateDisplay();
+	}
+};
+
+MyInterface.prototype.setGameDifficulty = function (difficulty) {
+	this.scene.game.matchInfo[1] = difficulty;
+
+	for (var i in this.gui.__controllers) {
+		this.gui.__controllers[i].updateDisplay();
+	}
 };
 
 MyInterface.prototype.addGameInfo = function () {

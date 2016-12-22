@@ -1,4 +1,5 @@
 var freeCam;
+var matchUndergoing = false;
 
 function XMLscene(interface) {
     CGFscene.call(this);
@@ -35,13 +36,24 @@ XMLscene.prototype.init = function (application) {
 
     // Enables picking
     this.setPickEnabled(true);
-    
+
     this.player1WinRounds = 0;
     this.player2WinRounds = 0;
-
-    this.game = new Game(this, 2);
-    this.game.startGame();
 };
+
+XMLscene.prototype.startNewMatch = function () {
+    this.game = new Game(this, 1, 1);
+
+    if (!this.interface.alreadyAdded) {
+        console.error("Adicionando interface again");
+        this.interface.addMatchInfo();
+        this.interface.addGameInfo();
+    } else
+        this.game.startInterface();
+
+    this.game.startGame();
+    matchUndergoing = true;
+}
 
 XMLscene.prototype.initLights = function () {
     this.lights[0].setPosition(2, 3, 3, 1);
@@ -70,9 +82,6 @@ XMLscene.prototype.onGraphLoaded = function () {
     // Updates lights
     this.setLightsFromXML();
 
-    this.interface.addMatchInfo();
-    this.interface.addGameInfo();
-
     // Draws axis
     this.axis = this.graph.axis;
 
@@ -88,7 +97,7 @@ XMLscene.prototype.onGraphLoaded = function () {
 
 XMLscene.prototype.display = function () {
     this.doPicking();
-	this.clearPickRegistration();
+    this.clearPickRegistration();
     // ---- BEGIN Background, camera and axis setup
 
     // Clear image and depth buffer everytime we update the scene
@@ -107,16 +116,15 @@ XMLscene.prototype.display = function () {
 
     // ---- END Background, camera and axis setup
 
-    this.game.display();
-
     // it is important that things depending on the proper loading of the graph
     // only get executed after the graph has loaded correctly.
     // This is one possible way to do it
-    if (this.graph.loadedOk) {
+    if (this.graph.loadedOk && matchUndergoing && this.game.board != undefined) {
         this.updateLightsStatus();
 
         //Starts going through the graph
         this.runGraph(this.graph.rootNode);
+        this.game.display();
     };
 };
 
@@ -266,20 +274,20 @@ XMLscene.prototype.update = function (curTime) {
                 node.animations[node.activeAnimation].animate(deltaTime);
         }
 
-        this.game.update(deltaTime);
+        if (matchUndergoing)
+            this.game.update(deltaTime);
 
         //passedTime += deltaTime;
         //this.testShaders[1].setUniformsValues({ time: passedTime });
     }
 }
 
-XMLscene.prototype.doPicking = function ()
-{
-	if (this.pickMode == false) {
-		if (this.pickResults != null && this.pickResults.length > 0) {
-			for (var i=0; i< this.pickResults.length; i++) 
-				if (this.pickResults[i][0]) this.game.picking(this.pickResults[i][0], this.pickResults[i][1]);
-			this.pickResults.splice(0,this.pickResults.length);
-		}		
-	}
+XMLscene.prototype.doPicking = function () {
+    if (this.pickMode == false) {
+        if (this.pickResults != null && this.pickResults.length > 0) {
+            for (var i = 0; i < this.pickResults.length; i++)
+                if (this.pickResults[i][0]) this.game.picking(this.pickResults[i][0], this.pickResults[i][1]);
+            this.pickResults.splice(0, this.pickResults.length);
+        }
+    }
 }
