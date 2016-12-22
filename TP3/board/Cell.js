@@ -44,9 +44,6 @@ Cell.prototype.initHex = function() {
         case 'star_3': this.material.setTexture(this.board.textures[6]); break;
         default: this.material.setTexture(this.board.textures[3]); break;
     }
-
-    console.warn(this.material);
-    console.warn(this.type);
 }
 
 Cell.prototype.initShip = function(owners, shipIds, shipPickingIds) {

@@ -4,7 +4,8 @@ var updatedPrologBoard = 0;
 var aiShip = 0;
 var connectionBoolean = false;
 var playAllShips = 0;
-var state = 'selectMovementState';
+var playAllShips2 = 0;
+var state;
 var turnTime = 10;
 var currTime = turnTime;
 var moveTime = false;//true;
@@ -33,6 +34,13 @@ Game.prototype.startGame = function () {
     this.player = 1;
     this.moveStack = [];
     prologBoard = this.board.toString();
+
+    if (this.gameMode == 2) {
+        state = 'aiVSai';
+        updatedPrologBoard = prologBoard;
+        this.play();
+    } else
+        state = 'selectMovementState';
 }
 
 Game.prototype.picking = function (obj, id) {
@@ -62,7 +70,6 @@ Game.prototype.play = async function () {
         this.endUserPlay()
         moveTime = false;
         await sleep(2000);
-        console.warn(prologBoard);
         this.checkEndGame();
         await sleep(2000);
         moveTime = true;
@@ -81,6 +88,15 @@ Game.prototype.play = async function () {
         await sleep(4000);
         moveTime = true;
         currTime = turnTime;
+    } else if (this.gameMode == 2) {
+        do {
+            this.aiPlay();
+            await sleep(3000);
+            this.checkEndGame();
+            await sleep(2000);
+            this.getPlayersScores();
+            await sleep(4000);
+        } while (state != 'gameEnded')
     }
 }
 
@@ -105,25 +121,54 @@ Game.prototype.endUserPlay = async function () {
 }
 
 Game.prototype.aiPlay = async function () {
+    console.error("Request ship");
     this.callRequest('aiTurnShipDecider', this.handleReplyShip);
     await sleep(1000);
 
-    if (playAllShips == 0) {
-        aiShip = 'shipW';
-        playAllShips++;
-    } else if (playAllShips == 1) {
-        aiShip = 'shipX';
-        playAllShips++;
-    } else if (playAllShips == 2) {
-        aiShip = 'shipY';
-        playAllShips++;
-    } else if (playAllShips == 3) {
-        aiShip = 'shipZ';
-        playAllShips++;
+    if (this.gameMode == 2 && this.player == 1) {
+        if (playAllShips2 == 0) {
+            aiShip = 'shipA';
+            playAllShips2++;
+        } else if (playAllShips2 == 1) {
+            aiShip = 'shipB';
+            playAllShips2++;
+        } else if (playAllShips2 == 2) {
+            aiShip = 'shipC';
+            playAllShips2++;
+        } else if (playAllShips2 == 3) {
+            aiShip = 'shipD';
+            playAllShips2++;
+        }
+    } else {
+        if (playAllShips == 0) {
+            aiShip = 'shipW';
+            playAllShips++;
+        } else if (playAllShips == 1) {
+            aiShip = 'shipX';
+            playAllShips++;
+        } else if (playAllShips == 2) {
+            aiShip = 'shipY';
+            playAllShips++;
+        } else if (playAllShips == 3) {
+            aiShip = 'shipZ';
+            playAllShips++;
+        }
     }
 
-    var prologRequestAI = 'aiTurn(' + updatedPrologBoard + ',' + aiShip + ')';
-    //console.warn(prologRequestAI);
+    //console.error(aiShip);
+
+    var prologRequestAI;
+
+    if (this.gameMode == 2) {
+        var oppositePlayer;
+        if (this.player == 1)
+            oppositePlayer = 2;
+        else
+            oppositePlayer = 1;
+        prologRequestAI = 'aiTurn(' + prologBoard + ',' + aiShip + ',' + oppositePlayer + ')';
+    } else
+        prologRequestAI = 'aiTurn(' + updatedPrologBoard + ',' + aiShip + ',' + this.player + ')';
+    console.error(prologRequestAI);
     this.callRequest(prologRequestAI, this.handleReplyBoard);
     await sleep(2000);
 
@@ -134,16 +179,18 @@ Game.prototype.aiPlay = async function () {
 
 Game.prototype.getPlayersScores = async function () {
     var player1ScoreRequest = 'calculateScore(player1,' + prologBoard + ')';
+    console.error(player1ScoreRequest);
     this.callRequest(player1ScoreRequest, this.handleReplyBoard);
     await sleep(2000);
     this.currPlayer1Score = serverResponse;
 
     var player2ScoreRequest = 'calculateScore(player2,' + prologBoard + ')';
+    console.error(player2ScoreRequest);
     this.callRequest(player2ScoreRequest, this.handleReplyBoard);
     await sleep(2000);
     this.currPlayer2Score = serverResponse;
 
-    console.info(this.currPlayer1Score, this.currPlayer2Score);
+    //console.info(this.currPlayer1Score, this.currPlayer2Score);
 }
 
 Game.prototype.checkEndGame = async function () {

@@ -35,15 +35,11 @@ XMLscene.prototype.init = function (application) {
 
     // Enables picking
     this.setPickEnabled(true);
-
-    this.testTexture = "./resources/sbSide1.png";
-    this.testMaterial = new CGFappearance(this);
-    this.testMaterial.loadTexture(this.testTexture);
     
     this.player1WinRounds = 0;
     this.player2WinRounds = 0;
 
-    this.game = new Game(this, 1);
+    this.game = new Game(this, 2);
     this.game.startGame();
 };
 

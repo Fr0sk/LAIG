@@ -981,14 +981,14 @@ getPieceGivenShip(Board, Ship, Row, Column):-
         getPiece(Row, Column, Board, [_,_,[Ship],_])
     ).
 
-aiTurnLaig(Board, ShipToMove, Res):-
+aiTurnLaig(Board, ShipToMove, OppositePlayer, Res):-
     format('Ship = ~w~n', [ShipToMove]),
 
     write('************************Initial AI board************************'), nl,
     display_board(Board),
    
     getPieceGivenShip(Board, ShipToMove, OriginCellY, OriginCellX),
-    getAllPossibleCellsToMove(player1, Board, OriginCellX, OriginCellY, ListX, ListY),
+    getAllPossibleCellsToMove(OppositePlayer, Board, OriginCellX, OriginCellY, ListX, ListY),
 
     length(ListX, NumOfCellsCanMove),
     NumOfCellsCanMove > 0,
