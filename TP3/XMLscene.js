@@ -108,10 +108,9 @@ XMLscene.prototype.display = function () {
     // Draw axis
     this.axis.display();
 
-    this.setDefaultAppearance();
-    this.testMaterial.apply();
-    this.game.display();
     // ---- END Background, camera and axis setup
+
+    this.game.display();
 
     // it is important that things depending on the proper loading of the graph
     // only get executed after the graph has loaded correctly.
