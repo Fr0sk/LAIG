@@ -106,12 +106,20 @@ MyInterface.prototype.addGameInfo = function () {
 	this.gameInfoGroup.add(this.scene.game.gameInfo, 4).name('Player 2 Win Rounds').listen();
 };
 
-MyInterface.prototype.update = function () {
-	if(myBool)
+MyInterface.prototype.addOneToScore = function() {
+	this.scene.game.gameInfo[1]++;
+
+	for (var i in this.gui.__controllers) {
+		this.gui.__controllers[i].updateDisplay();
+	}
+}
+
+/*MyInterface.prototype.update = function () {
+	/*if(myBool)
 		this.scene.game.gameInfo[1]++;
 
 	// Iterate over all controllers
 	for (var i in this.gui.__controllers) {
 		this.gui.__controllers[i].updateDisplay();
 	}
-}
+}*/

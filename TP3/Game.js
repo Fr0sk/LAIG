@@ -23,7 +23,7 @@ function Game(scene, gameMode) {
     this.gameMode = gameMode;
     this.currPlayer1Score = 0;
     this.currPlayer2Score = 0;
-    this.gameInfo = [currTime, currTime, this.currPlayer2Score, this.scene.player1WinRounds, this.scene.player2WinRounds];
+    this.gameInfo = [currTime, score, this.currPlayer2Score, this.scene.player1WinRounds, this.scene.player2WinRounds];
 }
 
 Game.prototype = Object.create(CGFobject.prototype);
@@ -77,6 +77,7 @@ Game.prototype.play = async function () {
         await sleep(4000);
         moveTime = true;
         currTime = turnTime;
+        this.scene.interface.addOneToScore();
     } else if (this.gameMode == 1 && state == 'selectMovementState')
         this.startUserPlay();
     else if (this.gameMode == 1 && state == 'selectBuildingState') {
@@ -340,9 +341,9 @@ Game.prototype.update = function (deltaTime) {
         this.gameInfo[0] = currTime;
     }
 
-    this.currPlayer1Score++;
+    /*this.currPlayer1Score++;
     score++;
-    console.info(this.currPlayer1Score, score);
+    console.info(this.currPlayer1Score, score);*/
 }
 
 Game.prototype.getMovementDirection = function (fromCellId, toCellId) {
