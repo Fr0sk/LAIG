@@ -8,7 +8,8 @@ var playAllShips2 = 0;
 var state;
 var turnTime = 10;
 var currTime = turnTime;
-var moveTime = false;//true;
+var score = 0;
+var moveTime = true;
 
 /* Game Modes:
 0 --> H/H
@@ -22,7 +23,7 @@ function Game(scene, gameMode) {
     this.gameMode = gameMode;
     this.currPlayer1Score = 0;
     this.currPlayer2Score = 0;
-    this.gameInfo = [currTime, this.currPlayer1Score, this.currPlayer2Score, this.scene.player1WinRounds, this.scene.player2WinRounds];
+    this.gameInfo = [currTime, score, this.currPlayer2Score, this.scene.player1WinRounds, this.scene.player2WinRounds];
 }
 
 Game.prototype = Object.create(CGFobject.prototype);
@@ -72,6 +73,8 @@ Game.prototype.play = async function () {
         await sleep(2000);
         this.checkEndGame();
         await sleep(2000);
+        this.getPlayersScores();
+        await sleep(4000);
         moveTime = true;
         currTime = turnTime;
     } else if (this.gameMode == 1 && state == 'selectMovementState')
@@ -121,7 +124,7 @@ Game.prototype.endUserPlay = async function () {
 }
 
 Game.prototype.aiPlay = async function () {
-    console.error("Request ship");
+    //console.error("Request ship");
     this.callRequest('aiTurnShipDecider', this.handleReplyShip);
     await sleep(1000);
 
@@ -158,7 +161,6 @@ Game.prototype.aiPlay = async function () {
     //console.error(aiShip);
 
     var prologRequestAI;
-
     if (this.gameMode == 2) {
         var oppositePlayer;
         if (this.player == 1)
@@ -179,18 +181,18 @@ Game.prototype.aiPlay = async function () {
 
 Game.prototype.getPlayersScores = async function () {
     var player1ScoreRequest = 'calculateScore(player1,' + prologBoard + ')';
-    console.error(player1ScoreRequest);
+    //console.error(player1ScoreRequest);
     this.callRequest(player1ScoreRequest, this.handleReplyBoard);
     await sleep(2000);
     this.currPlayer1Score = serverResponse;
 
     var player2ScoreRequest = 'calculateScore(player2,' + prologBoard + ')';
-    console.error(player2ScoreRequest);
+    //console.error(player2ScoreRequest);
     this.callRequest(player2ScoreRequest, this.handleReplyBoard);
     await sleep(2000);
     this.currPlayer2Score = serverResponse;
 
-    //console.info(this.currPlayer1Score, this.currPlayer2Score);
+    console.info("Estes sao os scores: " + this.currPlayer1Score + " e " + this.currPlayer2Score);
 }
 
 Game.prototype.checkEndGame = async function () {
@@ -336,8 +338,11 @@ Game.prototype.update = function (deltaTime) {
     } else if (moveTime) {
         currTime -= deltaTime;
         this.gameInfo[0] = currTime;
-        console.info(currTime);
     }
+
+    this.currPlayer1Score++;
+    score++;
+    console.info(this.currPlayer1Score, score);
 }
 
 Game.prototype.getMovementDirection = function (fromCellId, toCellId) {

@@ -37,16 +37,16 @@
             <diffuse r="1" g="0.1" b="0" a="1" />
             <specular r="1" g="0.5" b="1" a="1" />
         </omni>
-        <spot id="fieldLight" enabled="0" angle="30" exponent="0.5">
-            <target x="0" y="0" z="0" />
-            <location x="0" y="5" z="0" />
+        <spot id="boardTopLeftCorner" enabled="1" angle="150" exponent="1">
+            <target x="-5" y="0" z="-5" />
+            <location x="0" y="7" z="0" />
             <ambient r="0" g="0" b="0" a="1" />
             <diffuse r="1" g="1" b="1" a="1" />
             <specular r="0" g="0.5" b="0.5" a="1" />
         </spot>
-        <spot id="goalLight" enabled="0" angle="30" exponent="1">
-            <target x="15" y="0" z="0" />
-            <location x="12" y="3" z="0" />
+        <spot id="boardTopRightCorner" enabled="0" angle="150" exponent="1">
+            <target x="0" y="0" z="15" />
+            <location x="0" y="7" z="25" />
             <ambient r="0" g="0" b="0" a="1" />
             <diffuse r="1" g="1" b="1" a="1" />
             <specular r="1" g="1" b="1" a="1" />

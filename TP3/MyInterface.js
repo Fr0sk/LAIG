@@ -96,9 +96,13 @@ MyInterface.prototype.addSpotLight = function (lightNum, lightName) {
 };
 
 MyInterface.prototype.addGameInfo = function () {
-	this.gameInfoGroup.add(this.scene.game.gameInfo, 0).name('Turn Time');
-	this.gameInfoGroup.add(this.scene.game.gameInfo, 1).name('Player 1 Score');
-	this.gameInfoGroup.add(this.scene.game.gameInfo, 2).name('Player 2 Score');
-	this.gameInfoGroup.add(this.scene.game.gameInfo, 3).name('Player 1 Win Rounds');
-	this.gameInfoGroup.add(this.scene.game.gameInfo, 4).name('Player 2 Win Rounds');
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 0).name('Turn Time').listen();
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 1).name('Player 1 Score').listen();
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 2).name('Player 2 Score').listen();
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 3).name('Player 1 Win Rounds').listen();
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 4).name('Player 2 Win Rounds').listen();
 };
+
+MyInterface.prototype.update = function() {
+	//this.gameInfoGroup.player1Score++;
+}
