@@ -33,9 +33,11 @@ MyInterface.prototype.init = function (application) {
 	//this.gui.add(this.scene, 'doSomething');	
 	this.omniGroup = this.gui.addFolder("Omni Lights");
 	this.spotGroup = this.gui.addFolder("Spot Lights");
+	this.matchInfoGroup = this.gui.addFolder("Match Info");
 	this.gameInfoGroup = this.gui.addFolder("Game Info");
 
 	// add a group of controls (and open/expand by defult)
+	this.matchInfoGroup.open();
 	this.gameInfoGroup.open();
 
 	// add two check boxes to the group. The identifiers must be members variables of the scene initialized in scene.init as boolean
@@ -95,10 +97,12 @@ MyInterface.prototype.addSpotLight = function (lightNum, lightName) {
 	this.spotGroup.add(this.scene.lightStatus, lightNum).name(lightName);
 };
 
-myBool = false;
+MyInterface.prototype.addMatchInfo = function () {
+	this.matchInfoGroup.add(this.scene.game.matchInfo, 0).name('Game Mode').listen();
+	this.matchInfoGroup.add(this.scene.game.matchInfo, 1).name('Difficulty').listen();
+};
 
 MyInterface.prototype.addGameInfo = function () {
-	myBool = true;
 	this.gameInfoGroup.add(this.scene.game.gameInfo, 0).name('Turn Time').listen();
 	this.gameInfoGroup.add(this.scene.game.gameInfo, 1).name('Player 1 Score').listen();
 	this.gameInfoGroup.add(this.scene.game.gameInfo, 2).name('Player 2 Score').listen();

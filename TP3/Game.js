@@ -16,12 +16,30 @@ var moveTime = true;
 2 --> M/M
 */
 
-function Game(scene, gameMode) {
+function Game(scene, gameMode, gameDifficulty) {
     this.scene = scene;
     this.board;
     this.gameMode = gameMode;
     this.currPlayer1Score = 0;
     this.currPlayer2Score = 0;
+
+    //Interface related
+    var mode;
+    var difficulty;
+    switch (gameMode) {
+        case 0: mode = 'Player VS Player'; break;
+        case 1: mode = 'Player VS AI'; break;
+        case 2: mode = 'AI VS AI'; break;
+        default: mode = 'Player VS AI'; break;
+    }
+    switch (gameDifficulty) {
+        case 0: difficulty = 'Easy'; break;
+        case 1: difficulty = 'Medium'; break;
+        case 2: difficulty = 'Hard'; break;
+        default: difficulty = 'Medium'; break;
+    }
+
+    this.matchInfo = [mode, difficulty];
     this.gameInfo = [currTime, this.currPlayer1Score, this.currPlayer2Score, this.scene.player1WinRounds, this.scene.player2WinRounds];
 }
 
@@ -38,6 +56,7 @@ Game.prototype.startGame = function () {
     if (this.gameMode == 2) {
         state = 'aiVSai';
         updatedPrologBoard = prologBoard;
+        moveTime = false;
         this.play();
     } else
         state = 'selectMovementState';
