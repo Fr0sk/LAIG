@@ -23,7 +23,7 @@ function Game(scene, gameMode) {
     this.gameMode = gameMode;
     this.currPlayer1Score = 0;
     this.currPlayer2Score = 0;
-    this.gameInfo = [currTime, score, this.currPlayer2Score, this.scene.player1WinRounds, this.scene.player2WinRounds];
+    this.gameInfo = [currTime, currTime, this.currPlayer2Score, this.scene.player1WinRounds, this.scene.player2WinRounds];
 }
 
 Game.prototype = Object.create(CGFobject.prototype);

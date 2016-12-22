@@ -95,7 +95,10 @@ MyInterface.prototype.addSpotLight = function (lightNum, lightName) {
 	this.spotGroup.add(this.scene.lightStatus, lightNum).name(lightName);
 };
 
+myBool = false;
+
 MyInterface.prototype.addGameInfo = function () {
+	myBool = true;
 	this.gameInfoGroup.add(this.scene.game.gameInfo, 0).name('Turn Time').listen();
 	this.gameInfoGroup.add(this.scene.game.gameInfo, 1).name('Player 1 Score').listen();
 	this.gameInfoGroup.add(this.scene.game.gameInfo, 2).name('Player 2 Score').listen();
@@ -103,6 +106,12 @@ MyInterface.prototype.addGameInfo = function () {
 	this.gameInfoGroup.add(this.scene.game.gameInfo, 4).name('Player 2 Win Rounds').listen();
 };
 
-MyInterface.prototype.update = function() {
-	//this.gameInfoGroup.player1Score++;
+MyInterface.prototype.update = function () {
+	if(myBool)
+		this.scene.game.gameInfo[1]++;
+
+	// Iterate over all controllers
+	for (var i in this.gui.__controllers) {
+		this.gui.__controllers[i].updateDisplay();
+	}
 }
