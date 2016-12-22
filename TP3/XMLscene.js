@@ -39,7 +39,7 @@ XMLscene.prototype.init = function (application) {
     this.player1WinRounds = 0;
     this.player2WinRounds = 0;
 
-    this.game = new Game(this, 2);
+    this.game = new Game(this, 0);
     this.game.startGame();
 };
 

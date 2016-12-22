@@ -63,6 +63,8 @@
     <!-- Must include at least one texture block -->
     <textures>
         <texture id="t_mainMenu" file="resources/main_menu.png" length_s="1" length_t="1" />
+        <texture id="t_earth" file="resources/earth.jpg" length_s="1" length_t="1" />
+        <texture id="t_mars" file="resources/mars.jpg" length_s="1" length_t="1" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
@@ -162,6 +164,9 @@
         <primitive id="p_canvas">
             <plane dimX="15" dimY="8" partsX="10" partsY="10" />
         </primitive>
+        <primitive id="p_planet">
+            <sphere radius="5" slices="15" stacks="15" />
+        </primitive>
     </primitives>
     <!-- Components set -->
     <components>
@@ -187,8 +192,59 @@
             <texture id="none" />
             <children>
                 <componentref id="canvasPosition" />
+                <componentref id="planets" />
             </children>
         </component>
+
+        <component id="planets">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="earthPosition" />
+                <componentref id="marsPosition" />
+            </children>
+        </component>
+        <component id="earthPosition">
+            <transformation>
+                <translate x="-20" y="2" z="3" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="t_earth" />
+            <children>
+                <componentref id="planet" />
+            </children>
+        </component>
+        <component id="marsPosition">
+            <transformation>
+                <translate x="15" y="-10" z="-4" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="t_mars" />
+            <children>
+                <componentref id="planet" />
+            </children>
+        </component>
+        <component id="planet">
+            <transformation>
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="m_Default" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="p_planet" />
+            </children>
+        </component>
+
         <component id="canvasPosition">
             <transformation>
             </transformation>
