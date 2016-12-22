@@ -106,20 +106,34 @@ MyInterface.prototype.addGameInfo = function () {
 	this.gameInfoGroup.add(this.scene.game.gameInfo, 4).name('Player 2 Win Rounds').listen();
 };
 
-MyInterface.prototype.addOneToScore = function() {
-	this.scene.game.gameInfo[1]++;
+MyInterface.prototype.setPlayer1Score = function(score) {
+	this.scene.game.gameInfo[1] = score;
 
 	for (var i in this.gui.__controllers) {
 		this.gui.__controllers[i].updateDisplay();
 	}
-}
+};
 
-/*MyInterface.prototype.update = function () {
-	/*if(myBool)
-		this.scene.game.gameInfo[1]++;
+MyInterface.prototype.setPlayer2Score = function(score) {
+	this.scene.game.gameInfo[2] = score;
 
-	// Iterate over all controllers
 	for (var i in this.gui.__controllers) {
 		this.gui.__controllers[i].updateDisplay();
 	}
-}*/
+};
+
+MyInterface.prototype.setPlayer1WinRounds = function(winRounds) {
+	this.scene.game.gameInfo[3] = winRounds;
+
+	for (var i in this.gui.__controllers) {
+		this.gui.__controllers[i].updateDisplay();
+	}
+};
+
+MyInterface.prototype.setPlayer1WinRounds = function(winRounds) {
+	this.scene.game.gameInfo[4] = winRounds;
+
+	for (var i in this.gui.__controllers) {
+		this.gui.__controllers[i].updateDisplay();
+	}
+};

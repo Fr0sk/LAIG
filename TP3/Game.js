@@ -8,7 +8,6 @@ var playAllShips2 = 0;
 var state;
 var turnTime = 10;
 var currTime = turnTime;
-var score = 0;
 var moveTime = true;
 
 /* Game Modes:
@@ -23,7 +22,7 @@ function Game(scene, gameMode) {
     this.gameMode = gameMode;
     this.currPlayer1Score = 0;
     this.currPlayer2Score = 0;
-    this.gameInfo = [currTime, score, this.currPlayer2Score, this.scene.player1WinRounds, this.scene.player2WinRounds];
+    this.gameInfo = [currTime, this.currPlayer1Score, this.currPlayer2Score, this.scene.player1WinRounds, this.scene.player2WinRounds];
 }
 
 Game.prototype = Object.create(CGFobject.prototype);
@@ -77,7 +76,6 @@ Game.prototype.play = async function () {
         await sleep(4000);
         moveTime = true;
         currTime = turnTime;
-        this.scene.interface.addOneToScore();
     } else if (this.gameMode == 1 && state == 'selectMovementState')
         this.startUserPlay();
     else if (this.gameMode == 1 && state == 'selectBuildingState') {
@@ -186,14 +184,15 @@ Game.prototype.getPlayersScores = async function () {
     this.callRequest(player1ScoreRequest, this.handleReplyBoard);
     await sleep(2000);
     this.currPlayer1Score = serverResponse;
+    this.scene.interface.setPlayer1Score(this.currPlayer1Score);
 
     var player2ScoreRequest = 'calculateScore(player2,' + prologBoard + ')';
     //console.error(player2ScoreRequest);
     this.callRequest(player2ScoreRequest, this.handleReplyBoard);
     await sleep(2000);
     this.currPlayer2Score = serverResponse;
-
-    console.info("Estes sao os scores: " + this.currPlayer1Score + " e " + this.currPlayer2Score);
+    this.scene.interface.setPlayer2Score(this.currPlayer2Score);
+    //console.info("Estes sao os scores: " + this.currPlayer1Score + " e " + this.currPlayer2Score);
 }
 
 Game.prototype.checkEndGame = async function () {
@@ -214,6 +213,9 @@ Game.prototype.checkEndGame = async function () {
             this.scene.player1WinRounds++;
             this.scene.player2WinRounds++;
         }
+
+        this.scene.interface.setPlayer1WinRounds(this.scene.player1WinRounds);
+        this.scene.interface.setPlayer2WinRounds(this.scene.player2WinRounds);
     }
 
     this.selectedShip.translate.y -= 0.25;
