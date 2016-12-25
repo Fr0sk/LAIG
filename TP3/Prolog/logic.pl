@@ -914,6 +914,12 @@ playerTurnLaig2(Player, Ship, Direction, NumOfCells, UserBuilding, Res):-
     ).
 
 
+
+
+
+
+
+
 playerTurnLaig(Board, Player, ShipToMove, Direction, NumOfCells, UserBuilding, Res):-
     write('************************Initial board************************'), nl,   
     display_board(Board),
@@ -975,14 +981,14 @@ getPieceGivenShip(Board, Ship, Row, Column):-
         getPiece(Row, Column, Board, [_,_,[Ship],_])
     ).
 
-aiTurnLaig(Board, ShipToMove, Res):-
+aiTurnLaig(Board, ShipToMove, OppositePlayer, Res):-
     format('Ship = ~w~n', [ShipToMove]),
 
     write('************************Initial AI board************************'), nl,
     display_board(Board),
    
     getPieceGivenShip(Board, ShipToMove, OriginCellY, OriginCellX),
-    getAllPossibleCellsToMove(player1, Board, OriginCellX, OriginCellY, ListX, ListY),
+    getAllPossibleCellsToMove(OppositePlayer, Board, OriginCellX, OriginCellY, ListX, ListY),
 
     length(ListX, NumOfCellsCanMove),
     NumOfCellsCanMove > 0,
@@ -992,39 +998,6 @@ aiTurnLaig(Board, ShipToMove, Res):-
     searchMaxScore(Board, ListX, ListY, 0, colony, FirstX, FirstY, OriginCellX, OriginCellY, Res),
     write('************************Updated AI board************************'), nl,
     display_board(Res).
-
-teste(Ship):-
-    initial_logic_board(Board),
-    aiTurnLaig2('a', Board, UpdatedBoard),
-    aiTurnLaig2('b', UpdatedBoard, UpdatedBoard2),
-    aiTurnLaig2('a', UpdatedBoard2, UpdatedBoard3).
-
-aiTurnLaig2(Ship, Board, UpdatedBoard):-
-    assignShip(Ship, ShipToMove),
-
-    write('************************Initial AI board************************'), nl,
-    display_board(Board),
-   
-    write('Para 1'), nl,
-    write(Ship), nl,
-    write(ShipToMove), nl,
-    getPieceGivenShip(Board, ShipToMove, OriginCellY, OriginCellX),
-        write('Para 2'), nl,
-    getAllPossibleCellsToMove(player1, Board, OriginCellX, OriginCellY, ListX, ListY),
-        write('Para 3'), nl,
-
-    length(ListX, NumOfCellsCanMove),
-        write('Para 4'), nl,
-    NumOfCellsCanMove > 0,    write('Para 5'), nl,
-
-    first(FirstX, ListX),    write('Para 6'), nl,
-
-    first(FirstY, ListY),    write('Para 7'), nl,
-
-
-    searchMaxScore(Board, ListX, ListY, 0, colony, FirstX, FirstY, OriginCellX, OriginCellY, UpdatedBoard),
-    write('************************Updated AI board************************'), nl,
-    display_board(UpdatedBoard).
 
 selectShip(0, [X|Xs], X).
 selectShip(Index, [X|Xs], ShipToUse):-
@@ -1036,9 +1009,6 @@ aiTurnLaigShipDecider(Res):-
     selectShip(PieceDecider, [shipW, shipX, shipY, shipZ], Res).
 
 endGameLaig(Board, Res):-
-    write('endGame request!!!!!!!!!!!!!!!!!!!!!!!'), nl,
-    display_board(Board),
-    
     % verify player 1 ships
     \+((((player1Ship(Ship1),
     getBoardPieces(Board, PieceWithShip1),
@@ -1071,73 +1041,26 @@ endGameLaig(Board, Res):-
         (numOfBuildings(player1, Building1, N1), N1 > 0) ;
         (numOfBuildings(player2, Building2, N2), N2 > 0)
     ))),
-    Res = 'Sucess'.
+    Res = 'Sucess';
+    Res = 'Failure'.
 
+getTotalScoreOfPlayer(Player, Board, TotalScore):-
+    %star systems
+    findall(Score, getScoreOfPlayerStarSystemPiece(Player, Board, Piece, Score), StarSystemList), 
 
-
-endGameLaig2(Res):-
-    initial_logic_board(Board),
-    write('endGame request!!!!!!!!!!!!!!!!!!!!!!!'), nl,
-    display_board(Board),
+    ((length(StarSystemList, 0), TotalStarSystemsScore is 0)
+    ;
+    list_sum(StarSystemList, TotalStarSystemsScore)),
     
-    write('1'), nl,
-
-    % verify player 1 ships
-    \+((((player1Ship(Ship1),
-    write('2'), nl,
-    getBoardPieces(Board, PieceWithShip1),
-    write('3'), nl,
-    systemHasShip(Ship1, PieceWithShip1),
-    write('4'), nl,
-    getPiece(Y1, X1, Board, PieceWithShip1),
-    write('5'), nl,
-
-    % if he can fly over adjacent houses
-    unobstructedPath(Board, player1, X1, Y1, Direction1, 2),
-    write('6'), nl,
-    moveNCellsInDirection(X1, Y1, Direction1, 2, Xf1, Yf1),
-    write('7'), nl,
-    getPiece(Yf1, Xf1, Board, AdjPiece1),
-    write('8'), nl,
-    checkValidLandingCell(AdjPiece1)),
-    write('9'), nl
+    %nebulas systems
+    getNumOfOwnedNebulas(Player, Board, NumOfOwnedNebulas),
+    getPlayerNebulaScore(Player, NumOfOwnedNebulas, NebulaScore),
     
-  ;
-    
-    % verify player 2 ships
-    (player2Ship(Ship2), 
-    write('10'), nl,
-    getBoardPieces(Board, PieceWithShip2),
-    write('11'), nl,
-    systemHasShip(Ship2, PieceWithShip2),
-    write('12'), nl,
-    getPiece(Y2, X2, Board, PieceWithShip2),
-    write('13'), nl,
+    %adjacent systems
+    getScoreFromAdjacentsToTradeStations(Player, Board, ScoreFromAdjacents),
 
-    unobstructedPath(Board, player2, X2, Y2, Direction2, 2),
-    write('14'), nl,
-    moveNCellsInDirection(X2, Y2, Direction2, 2, Xf2, Yf2),
-    write('15'), nl,
-    getPiece(Yf2, Xf2, Board, AdjPiece2),
-    write('16'), nl,
-    checkValidLandingCell(AdjPiece2))),
-    write('17'), nl
-    
-    ,!,
-    write('18'), nl,
-    
-    % verify counters of buildings of both players 
-    (
-        (numOfBuildings(player1, Building1, N1), N1 > 0) ;
-        (numOfBuildings(player2, Building2, N2), N2 > 0)
-    ))),
-    write('19'), nl,
-    Res = 'Sucess'.
-
-
-
-
-
+    %total 
+    TotalScore is (TotalStarSystemsScore+NebulaScore+ScoreFromAdjacents).
 
 numOfBuildings(player1, trade, 20).
 numOfBuildings(player2, trade, 20).

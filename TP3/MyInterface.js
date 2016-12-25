@@ -3,10 +3,10 @@
  * @constructor
  */
 
-
 function MyInterface() {
 	//call CGFinterface constructor 
 	CGFinterface.call(this);
+	this.alreadyAdded = false;
 };
 
 MyInterface.prototype = Object.create(CGFinterface.prototype);
@@ -33,8 +33,12 @@ MyInterface.prototype.init = function (application) {
 	//this.gui.add(this.scene, 'doSomething');	
 	this.omniGroup = this.gui.addFolder("Omni Lights");
 	this.spotGroup = this.gui.addFolder("Spot Lights");
+	this.matchInfoGroup = this.gui.addFolder("Match Info");
+	this.gameInfoGroup = this.gui.addFolder("Game Info");
 
 	// add a group of controls (and open/expand by defult)
+	this.matchInfoGroup.open();
+	this.gameInfoGroup.open();
 
 	// add two check boxes to the group. The identifiers must be members variables of the scene initialized in scene.init as boolean
 	// e.g. this.option1=true; this.option2=false;
@@ -60,21 +64,107 @@ MyInterface.prototype.processKeyDown = function (event) {
 		case 82:
 		case 114:
 			console.log("'R' was pressed --> Back to free camera...");
-			this.scene.resetCamera();
+			//this.scene.resetCamera();
+			this.scene.game.undo();
 			break;
 		case 77:
 		case 109:
 			console.log("'M' was pressed --> Changing materials...");
 			this.scene.changeMaterials();
 			break;
+		//T/t
+		case 84:
+		case 116:
+			this.scene.game.setBuilding(0);
+			break;
+		//C/c
+		case 67:
+		case 99:
+			this.scene.game.setBuilding(1);
+			break;
+		//Esc
+		case 27:
+			this.scene.game.resetCurrentMove();
+			break;
+		//G/g
+		case 71:
+		case 103:
+			console.info("********** Starting a new match! **********");
+			this.scene.matchUndergoing = false;
+			this.scene.game = undefined;
+			if(!this.alreadyAdded)
+				this.scene.startNewMatch();
+			break; 
 		default: break;
 	};
 };
 
-MyInterface.prototype.addOmniLight = function(lightNum, lightName) {
+MyInterface.prototype.addOmniLight = function (lightNum, lightName) {
 	this.omniGroup.add(this.scene.lightStatus, lightNum).name(lightName);
 };
 
-MyInterface.prototype.addSpotLight = function(lightNum, lightName) {
+MyInterface.prototype.addSpotLight = function (lightNum, lightName) {
 	this.spotGroup.add(this.scene.lightStatus, lightNum).name(lightName);
+};
+
+MyInterface.prototype.addMatchInfo = function () {
+	this.alreadyAdded = true;
+	this.matchInfoGroup.add(this.scene.game.matchInfo, 0).name('Game Mode').listen();
+	this.matchInfoGroup.add(this.scene.game.matchInfo, 1).name('Difficulty').listen();
+};
+
+MyInterface.prototype.setGameMode = function (gameMode) {
+	this.scene.game.matchInfo[0] = gameMode;
+
+	for (var i in this.gui.__controllers) {
+		this.gui.__controllers[i].updateDisplay();
+	}
+};
+
+MyInterface.prototype.setGameDifficulty = function (difficulty) {
+	this.scene.game.matchInfo[1] = difficulty;
+
+	for (var i in this.gui.__controllers) {
+		this.gui.__controllers[i].updateDisplay();
+	}
+};
+
+MyInterface.prototype.addGameInfo = function () {
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 0).name('Turn Time').listen();
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 1).name('Player 1 Score').listen();
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 2).name('Player 2 Score').listen();
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 3).name('Player 1 Win Rounds').listen();
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 4).name('Player 2 Win Rounds').listen();
+};
+
+MyInterface.prototype.setPlayer1Score = function(score) {
+	this.scene.game.gameInfo[1] = score;
+
+	for (var i in this.gui.__controllers) {
+		this.gui.__controllers[i].updateDisplay();
+	}
+};
+
+MyInterface.prototype.setPlayer2Score = function(score) {
+	this.scene.game.gameInfo[2] = score;
+
+	for (var i in this.gui.__controllers) {
+		this.gui.__controllers[i].updateDisplay();
+	}
+};
+
+MyInterface.prototype.setPlayer1WinRounds = function(winRounds) {
+	this.scene.game.gameInfo[3] = winRounds;
+
+	for (var i in this.gui.__controllers) {
+		this.gui.__controllers[i].updateDisplay();
+	}
+};
+
+MyInterface.prototype.setPlayer1WinRounds = function(winRounds) {
+	this.scene.game.gameInfo[4] = winRounds;
+
+	for (var i in this.gui.__controllers) {
+		this.gui.__controllers[i].updateDisplay();
+	}
 };

@@ -8,6 +8,9 @@ function Cell(board, row, col, pickingId, type, occupation, ships, structure, he
     this.occupation = occupation;
     this.ships = ships ? ships : [];
     this.structure = structure;
+    
+    this.building;
+    this.material;
 }
 
 Cell.prototype = Object.create(CGFobject.prototype);
@@ -28,6 +31,18 @@ Cell.prototype.initHex = function() {
         x: offset + 3 * radius * this.col,
         y: 0,
         z: distance * this.row
+    }
+
+    this.material = new CGFappearance(this.scene);
+    switch(this.type) {
+        case 'blackhole': this.material.setTexture(this.board.textures[0]); break;
+        case 'wormhole': this.material.setTexture(this.board.textures[1]); break;
+        case 'nebula': this.material.setTexture(this.board.textures[2]); break;
+        case 'empty': this.material.setTexture(this.board.textures[3]); break;
+        case 'star_1': this.material.setTexture(this.board.textures[4]); break;
+        case 'star_2': this.material.setTexture(this.board.textures[5]); break;
+        case 'star_3': this.material.setTexture(this.board.textures[6]); break;
+        default: this.material.setTexture(this.board.textures[3]); break;
     }
 }
 
@@ -111,6 +126,8 @@ Cell.prototype.moveShip = function(ship, animated) {
         return;
     ship.cell.removeShip(ship);
     this.addShip(ship);
+
+    //ADICIONAR O BUILDING CORRESPONDENTE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }
 
 Cell.prototype.removeShip = function(ship) {
@@ -129,6 +146,7 @@ Cell.prototype.display = function() {
     this.scene.pushMatrix();
         this.scene.translate(this.hexagon.translate.x, this.hexagon.translate.y, this.hexagon.translate.z);
         this.scene.registerForPick(this.pickingId, this);
+        this.material.apply();
         this.hexagon.display();
     this.scene.popMatrix();
 
