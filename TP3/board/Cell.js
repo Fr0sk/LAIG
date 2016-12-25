@@ -85,6 +85,12 @@ Cell.prototype.initShip = function(owners, shipIds, shipPickingIds) {
 
 Cell.prototype.moveShip = function(ship, animated) {
     if (animated) {
+        var kf0 = new Keyframe();
+        var kf1 = new Keyframe();
+        kf0.setTranslation(0, 0, 0);
+        kf1.setTranslation(1, 1, 1);
+        var kfanimation = new KeyframeAnimation(ship, [kf0, kf1]);
+        ship.pushAnimation(kfanimation);
         /*fromVec = ship.cell.hexagon.translate;
         toVec = this.hexagon.translate;
         var cp = [];

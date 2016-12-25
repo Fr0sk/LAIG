@@ -11,9 +11,9 @@ function getUrlVars() {
     return vars;
 }	 
 
-serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'Node.js', 'PrimitiveBuilder.js', 'MyInterface.js',
-                'Animation.js', 'LinearAnimation.js', 'CircularAnimation.js', 'PatchBuilder.js', 'Plane.js', 'Vehicle.js',
-                'board/Board.js', 'board/Hexagon.js', 'board/Cell.js', 'Ship.js', 'Game.js',
+serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'Node.js', 'PrimitiveBuilder.js', 'MyInterface.js', 'animations/Keyframe',
+                'animations/Animation.js', 'animations/LinearAnimation.js', 'animations/CircularAnimation.js', 'animations/KeyframeAnimation.js',
+                 'PatchBuilder.js', 'Plane.js', 'Vehicle.js', 'board/Board.js', 'board/Hexagon.js', 'board/Cell.js', 'Ship.js', 'Game.js',
 
 main=function()
 {
