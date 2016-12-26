@@ -70,6 +70,8 @@ Game.prototype.startGame = function () {
     this.startInterface();
     this.player = 1;
     this.moveStack = [];
+    this.auxBoard1 = new AuxBoard(this.scene, 1, 5, 10);
+    this.auxBoard2 = new AuxBoard(this.scene, 2, 5, 10);
     prologBoard = this.board.toString();
 
     if (this.gameMode == 2) {
@@ -489,6 +491,8 @@ Game.prototype.display = function () {
             new MySceneGraph(this.levels[this.Level], this.scene);
 
         }
+        this.auxBoard1.display();
+        this.auxBoard2.display();
         this.board.display();
     }
 }
