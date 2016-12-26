@@ -61,10 +61,13 @@ MyInterface.prototype.processKeyDown = function (event) {
 			console.log("'V' was pressed --> Changed active camera...");
 			this.scene.changeCamera();
 			break;
+		case 90:
+		case 122:
+			console.log("'Z' was pressed --> Back to free camera...");
+			this.scene.resetCamera();
 		case 82:
 		case 114:
-			console.log("'R' was pressed --> Back to free camera...");
-			//this.scene.resetCamera();
+			console.log("'R' was pressed --> Undo last move...");
 			this.scene.game.undo();
 			break;
 		case 77:
