@@ -65,6 +65,7 @@ MyInterface.prototype.processKeyDown = function (event) {
 		case 122:
 			console.log("'Z' was pressed --> Back to free camera...");
 			this.scene.resetCamera();
+			break;
 		case 82:
 		case 114:
 			console.log("'R' was pressed --> Undo last move...");
