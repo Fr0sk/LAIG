@@ -1,29 +1,44 @@
-var Keyframe = function(translation, rotation, scale, time) {
-    this.translation = translation ? translation : {x:0,y:0,z:0};
-    this.rotation = rotation;
-    this.scale = scale;
+var Keyframe = function(time) {
     this.time = time ? time : 1; //Time from previous to this
+    this.elapsedTime = 0;
+    //this.setDefaults();
 }
-
-Keyframe.prototype.getToDifference = function(keyframe) {
-    var t = {
-        x: keyframe.translation.x - this.translation.x,
-        y: keyframe.translation.z - this.translation.z,
-        z: keyframe.translation.z - this.translation.z
-    }
-};
 
 Keyframe.prototype = Object.create(CGFobject.prototype);
 Keyframe.prototype.constructor = Keyframe;
 
 Keyframe.prototype.setTranslation = function(x, y, z) {
-    var t = {
+    this.translation = {
         x: x,
         y: y,
         z: z
     }
 }
 
+Keyframe.prototype.setRotation = function(x, y, z) {
+    this.rotation = {
+        x: x,
+        y: y,
+        z: z
+    };
+}
+
+Keyframe.prototype.setScale = function(x, y, z) {
+    this.scale = {
+        x: x,
+        y: y,
+        z: z
+    };
+}
+
 Keyframe.prototype.setTime = function(time) {
     this.time = time;
+}
+
+Keyframe.prototype.setDefaults = function() {
+    this.setTranslation(0, 0, 0);
+    this.setRotation(0, 0, 0);
+    this.setScale(0, 0, 0);
+    this.setTime(1);
+    this.elapsedTime = 0;
 }
