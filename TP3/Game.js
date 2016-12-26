@@ -23,6 +23,7 @@ function Game(scene, gameMode, gameDifficulty) {
     this.currPlayer1Score = 0;
     this.currPlayer2Score = 0;
     this.onGame = false;
+    this.animatedCam = undefined;
 
     this.ships = []; // Gets initialized with board
     this.board = new Board(this.scene, this, "idBoard");
@@ -367,6 +368,10 @@ Game.prototype.moveShipAI = function () {
 
 Game.prototype.nextPlayer = function () {
     this.player = this.player == 1 ? 2 : 1;
+
+    // Triggers the camera animation
+    animatedCamTime = 0;
+    this.animatingCam = true;
     console.log("Player " + this.player + ", it's your turn!");
 }
 
@@ -381,6 +386,8 @@ Game.prototype.update = function (deltaTime) {
         currTime -= deltaTime;
         this.gameInfo[0] = currTime;
     }
+
+    this.camAnimation(deltaTime);
 
     /*this.currPlayer1Score++;
     score++;
@@ -496,4 +503,42 @@ Game.prototype.handleReplyShip = function (data) {
     console.info("Response: " + data.target.response);
     aiShip = data.target.response;
     connectionBoolean = true;
+}
+
+var animatedCamTime = 0;
+Game.prototype.camAnimation = function(deltaTime) {
+    var sleep = 3; // Waits for movement animations to end
+    var length = 2; // Number of seconds the animation lasts
+
+    var p1 = [-20, 25, 2.5];
+    var p2 = [20, 25, 2.5];
+    var target = [5, 0, 2.5];
+
+    if (this.animatingCam) {
+        animatedCamTime += deltaTime;
+        if (animatedCamTime > sleep) {
+            delta = Math.min((animatedCamTime-sleep)/length, 1);
+            if (this.player == 1) {
+                var px = p2[0] + (p1[0]-p2[0]) * delta;
+                var py = p2[1] + (p1[1]-p2[1]) * delta;
+                var pz = p2[2] + (p1[2]-p2[2]) * delta;
+                this.animatedCam.setPosition([px, py, pz]);
+                this.animatedCam.setTarget(target);
+            } else if (this.player == 2) {
+                var px = p1[0] + (p2[0]-p1[0]) * delta;
+                var py = p1[1] + (p2[1]-p1[1]) * delta;
+                var pz = p1[2] + (p2[2]-p1[2]) * delta;
+                this.animatedCam.setPosition([px, py, pz]);
+                this.animatedCam.setTarget(target);
+            }
+
+            if (animatedCamTime > sleep+length) {
+                // Stops animation
+                this.animatingCam = false 
+                animatedCamTime = 0;
+                if (this.player == 1) this.animatedCam.setPosition(p1);
+                else if (this.player == 2) this.animatedCam.setPosition(p2);
+            }
+        }
+    }
 }

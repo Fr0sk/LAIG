@@ -75,7 +75,8 @@ XMLscene.prototype.onGraphLoaded = function () {
     this.axis = this.graph.axis;
 
     // Inits camera
-    this.camera = this.graph.perspCams[this.graph.cameraIndex];//freeCam
+    this.camera = this.graph.perspCams[this.graph.cameraIndex]; //freeCam
+    if (this.game.animatedCam) this.game.animatedCam.setPosition([-20, 25, 2.5]); // Game animated cam
 
     // Enables animations
     this.setUpdatePeriod(5);

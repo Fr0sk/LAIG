@@ -199,12 +199,17 @@ MySceneGraph.prototype.parseViews = function (rootElement) {
             var near = this.reader.getFloat(perspCams[i], 'near', true);
             var far = this.reader.getFloat(perspCams[i], 'far', true);
             var fov = this.reader.getFloat(perspCams[i], 'angle', true);
+            var animated = this.reader.getBoolean(perspCams[i], 'animated', false);
             var fromElem = perspCams[i].getElementsByTagName('from')[0];
             var toElem = perspCams[i].getElementsByTagName('to')[0];
             var position = this.getXYZ(fromElem, true);
             var target = this.getXYZ(toElem, true);
             var cam = new CGFcamera(fov, near, far, position, target);
             cam.id = id;
+            cam.animated = animated;
+            if (animated) {
+                this.scene.game.animatedCam = cam;
+            }
             this.perspCams.push(cam);
 
             err = this.checkDoubleId(this.perspCams, "perspective cameras");
