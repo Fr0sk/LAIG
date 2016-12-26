@@ -526,7 +526,7 @@ Game.prototype.camAnimation = function(deltaTime) {
     var p2 = [20, 25, 2.5];
     var target = [5, 0, 2.5];
 
-    if (this.animatingCam) {
+    if (this.animatingCam && this.gameMode != 1) {
         animatedCamTime += deltaTime;
         if (animatedCamTime > sleep) {
             delta = Math.min((animatedCamTime-sleep)/length, 1);
