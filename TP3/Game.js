@@ -77,7 +77,7 @@ Game.prototype.startGame = function () {
         state = 'selectMovementState';
 
     this.onGame = true;
-    var gameScene = "LAIG_TP1_DSX_T5_G07_v02.dsx"; // Define game scene
+    var gameScene = "SpaceScene.dsx"; // Define game scene
     new MySceneGraph(gameScene, this.scene);
 }
 
