@@ -5,7 +5,7 @@
     <!-- Pressing v/V changes between cameras -->
     <views default="player1Cam">
         <perspective id="player1Cam" near="0.1" far="500" angle="1.5">
-            <from x="0" y="0" z="25" />
+            <from x="0" y="0" z="15" />
             <to x="0" y="0" z="0" />
         </perspective>
     </views>
