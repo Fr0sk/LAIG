@@ -1,6 +1,6 @@
 <dsx>
     <!-- Scene root definition and axis length -->
-    <scene root="root" axis_length="20" />
+    <scene root="root" axis_length="0" />
     <!-- Cameras definition -->
     <!-- Pressing v/V changes between cameras -->
     <views default="animatedCam">
@@ -80,17 +80,6 @@
         <texture id="t_sbTop" file="resources/sbTop.png" length_s="1" length_t="1" />
         <texture id="t_sbBot" file="resources/sbBot.png" length_s="1" length_t="1" />
         <texture id="t_goalPost" file="resources/goalPost.png" length_s="1" length_t="1" />
-        <texture id="t_football" file="resources/football.png" length_s="1" length_t="1" />
-        <texture id="t_cyberCharacter" file="resources/cyberCharacter.jpg" length_s="0.2" length_t="0.2" />
-        <texture id="t_zeppelin" file="resources/zeppelin.png" length_s="1" length_t="1" />
-        <texture id="t_cabine" file="resources/cabine.jpg" length_s="1" length_t="1" />
-        <texture id="t_cabineBottom" file="resources/cabineBottom.jpg" length_s="1" length_t="1" />
-        <texture id="t_cabineFront" file="resources/cabineFront.jpg" length_s="1" length_t="1" />
-        <texture id="t_uv" file="resources/uv.jpg" length_s="1" length_t="1" />
-        <texture id="t_wood" file="resources/wood.jpg" length_s="1" length_t="1" />
-        <texture id="t_feupFlag" file="resources/logoFEUP.png" length_s="1" length_t="1" />        
-        <texture id="t_isepFlag" file="resources/logoISEP.jpg" length_s="1" length_t="1" />
-        <texture id="t_dirt" file="resources/dirt.jpg" length_s="1" length_t="1" />
     </textures>
     <!-- Materials set -->
     <!-- Must include at least one material block -->
@@ -222,27 +211,6 @@
             <controlpoint xx="0" yy="0" zz="-12" />
             <controlpoint xx="0" yy="0" zz="6" />
         </animation>
-
-        <animation id="a_ball" span="2" type="linear">
-            <controlpoint xx="0" yy="0" zz="0" />
-            <controlpoint xx="-16.8" yy="2" zz="1" />
-            <controlpoint xx="-16.8" yy="0" zz="1.2" />
-            <controlpoint xx="-16.8" yy="1.5" zz="1.4" />
-            <controlpoint xx="-16.8" yy="0" zz="1.6" />
-            <controlpoint xx="-16.8" yy="0.1" zz="1.8" />
-            <controlpoint xx="-16.8" yy="0" zz="2" />
-            <controlpoint xx="-16.8" yy="0.5" zz="2.1" />
-            <controlpoint xx="-16.8" yy="0" zz="2.2" />
-        </animation>
-
-        <animation id="a_zeppelin" span="10" type="linear">
-            <controlpoint xx="0" yy="5" zz="0" />
-            <controlpoint xx="50" yy="20" zz="-25" />
-            <controlpoint xx="50" yy="20" zz="0" />
-        </animation>
-
-        <animation id="a_zeppelinRotate" span="60" type="circular" center="0 20 0"
-            radius="50" starting="0" rotang="360" />
     </animations>
     <!-- Primitives set -->
     <!-- Must include at least one primitive block -->
@@ -265,37 +233,11 @@
         <primitive id="p_goalNet">
             <cylinder base="0.5" top="0.5" height="1" slices="5" stacks="5" />
         </primitive>
-        <primitive id="p_flagHolder">
-            <cylinder base="0.2" top="0.2" height="8" slices="15" stacks="5" />
-        </primitive>
         <primitive id="p_football">
             <sphere radius="1" slices="20" stacks="10" />
         </primitive>
         <primitive id="p_footballPlane">
             <plane dimX="7.5" dimY="10" partsX="10" partsY="10" />
-        </primitive>
-        <primitive id="p_flag">
-            <patch orderU="2" orderV="1" partsU="7" partsV="9">
-                <controlpoint x="-1.5" y="-1.5" z="0.0" />
-                <controlpoint x="-1.5" y="1.5" z="0.0" />
-                <controlpoint x="0" y="-1.5" z="0.0" />
-                <controlpoint x="0" y="1.5" z="0.0" />
-                <controlpoint x="1.5" y="-1.5" z="0.0" />
-                <controlpoint x="1.5" y="1.5" z="0.0" />
-            </patch>
-        </primitive>
-        <primitive id="p_chessboard">
-            <chessboard du="20" dv="20" textureref="t_whiteGrass" su="10" sv="10">
-                <c1 r="0.7" g="0.9" b="0" a="1" />
-                <c2 r="1" g="1" b="1" a="1" />
-                <cs r="1" g="0" b="0" a="1" />
-            </chessboard>
-        </primitive>
-        <primitive id="p_zeppelin">
-            <vehicle />
-        </primitive>
-        <primitive id="p_vehicleWing">
-            <triangle x1="0" y1="0" z1="0" x2="5" y2="0" z2="0" x3="2.5" y3="5" z3="0" />
         </primitive>
     </primitives>
     <!-- Components set -->
@@ -303,6 +245,7 @@
         <component id="root">
             <!-- Declaration needs to he here, even if there's no applied transformation' -->
             <transformation>
+                <translate x="0" y="0" z="2.5" />
                 <!-- Do a reference to one of the transformations -->
                 <!-- ex: transformationref id="transformation1" -->
                 <!-- or leave blank -->
@@ -326,154 +269,6 @@
                 <componentref id="trees" />
                 <componentref id="footballField" />
                 <componentref id="skybox" />
-                <componentref id="ball" />
-                <componentref id="zeppelin" />
-                <componentref id="chessboards" />
-                <componentref id="flags" />
-            </children>
-        </component>
-        <component id="flags">
-            <transformation>
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <componentref id="flag1Position" />
-                <componentref id="flag2Position" />
-                <componentref id="flag1Holder" />
-                <componentref id="flag2Holder" />
-            </children>
-        </component>
-        <component id="flag1Holder">
-            <transformation>
-                <rotate axis="x" angle="-90" />
-                <translate x="0" y="-23" z="10" />
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="t_football" />
-            <children>
-                <componentref id="holderPrimitive" />
-            </children>
-        </component>
-        <component id="flag2Holder">
-            <transformation>
-                <rotate axis="x" angle="-25" />
-                <translate x="0" y="21" z="-18" />
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <componentref id="holderPrimitive" />
-            </children>
-        </component>
-        <component id="holderPrimitive">
-            <transformation>
-                <rotate axis="x" angle="-30" />
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="t_football" />
-            <children>
-                <primitiveref id="p_flagHolder" />
-            </children>
-        </component>
-        <component id="flag1Position">
-            <transformation>
-                <rotate axis="y" angle="90" />
-                <translate x="-18.8" y="14" z="0" />
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="t_feupFlag" />
-            <children>
-                <componentref id="flag" />
-            </children>
-        </component>
-        <component id="flag2Position">
-            <transformation>
-                <rotate axis="y" angle="90" />
-                <rotate axis="z" angle="60" />
-                <translate x="23.7" y="-10" z="0" />
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="t_isepFlag" />
-            <children>
-                <componentref id="flag" />
-            </children>
-        </component>
-        <component id="flag">
-            <transformation>
-                <rotate axis="z" angle="-30" />
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="p_flag" />
-            </children>
-        </component>
-        <component id="chessboards">
-            <transformation>
-                <scale x="2" y="2" z="2" />
-                <rotate axis="x" angle="-90" />
-                <translate x="0" y="15" z="28.3" />            
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <componentref id="chessboard1Primitive" />
-            </children>
-        </component>
-        <component id="chessboard1Primitive">
-            <transformation>
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <primitiveref id="p_chessboard" />
-            </children>
-        </component>
-        <component id="ball">
-            <transformation>
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="t_football" />
-            <animation>
-                <animationref id="a_ball" />
-            </animation>
-            <children>
-                <componentref id="ballPos" />
-            </children>
-        </component>
-        <component id="ballPos">
-            <transformation>
-                <rotate axis="x" angle="90" />
-                <scale x="0.5" y="0.5" z="0.5" />
-                <translate x="0" y="0" z="-1" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="p_football" />
             </children>
         </component>
         <component id="footballField">
@@ -2890,169 +2685,6 @@
             <texture id="inherit" />
             <children>
                 <primitiveref id="p_rect" />
-            </children>
-        </component>
-        <component id="zeppelin">
-            <transformation>
-                <translate x="0" y="10" z="0" />
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="t_zeppelin" />
-            <animation>
-                <animationref id="a_zeppelin" />
-                <animationref id="a_zeppelinRotate" />
-            </animation>
-            <children>
-                <componentref id="vehicle" />
-                <componentref id="vehicleCabine" />
-                <componentref id="vehicleWing" />
-            </children>
-        </component>
-
-        <component id="vehicle">
-            <transformation>
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="p_zeppelin" />
-            </children>
-        </component>
-
-        <component id="vehicleCabine">
-            <transformation>
-                <translate x="2" y="0" z="0" />
-                <scale x="8" y="3" z="4" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="t_cabine" />
-            <children>
-                <componentref id="vehicleCabineTop" />
-                <componentref id="vehicleCabineBottom" />
-                <componentref id="vehicleCabineLeft" />
-                <componentref id="vehicleCabineRight" />
-                <componentref id="vehicleCabineFront" />
-                <componentref id="vehicleCabineBack" />
-            </children>
-        </component>
-        <component id="vehicleCabineTop">
-            <transformation>
-                <translate x="0" y="0.5" z="0" />
-                <rotate axis="x" angle="-90" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="p_rect" />
-            </children>
-        </component>
-        <component id="vehicleCabineBottom">
-            <transformation>
-                <rotate axis="x" angle="90" />
-                <translate x="0" y="0" z="0.5" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="t_cabineBottom" />
-            <children>
-                <primitiveref id="p_rect" />
-            </children>
-        </component>
-        <component id="vehicleCabineLeft">
-            <transformation>
-                <rotate axis="y" angle="-90" />
-                <translate x="0" y="0" z="0.5" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="t_cabineFront" />
-            <children>
-                <primitiveref id="p_rect" />
-            </children>
-        </component>
-        <component id="vehicleCabineRight">
-            <transformation>
-                <rotate axis="y" angle="90" />
-                <translate x="0" y="0" z="0.5" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="t_cabineBottom" />
-            <children>
-                <primitiveref id="p_rect" />
-            </children>
-        </component>
-        <component id="vehicleCabineFront">
-            <transformation>
-                <translate x="0" y="0" z="0.5" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="p_rect" />
-            </children>
-        </component>
-        <component id="vehicleCabineBack">
-            <transformation>
-                <rotate axis="y" angle="180" />
-                <translate x="0" y="0" z="0.5" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="p_rect" />
-            </children>
-        </component>
-        <component id="vehicleWing">
-            <transformation>
-                <translate x="12" y="8" z="0" />
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="t_cyberCharacter" />
-            <children>
-                <componentref id="vehicleWingSide1" />
-                <componentref id="vehicleWingSide2" />
-            </children>
-        </component>
-        <component id="vehicleWingSide1">
-            <transformation>
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="p_vehicleWing" />
-            </children>
-        </component>
-        <component id="vehicleWingSide2">
-            <transformation>
-                <translate x="5" y="0" z="0" />
-                <rotate axis="y" angle="180" />
-            </transformation>
-            <materials>
-                <material id="m_Default" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="p_vehicleWing" />
             </children>
         </component>
     </components>

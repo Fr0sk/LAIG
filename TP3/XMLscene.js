@@ -30,7 +30,7 @@ XMLscene.prototype.init = function (application) {
 
     this.testShaders = [
         //new CGFshader(this.gl, "shaders/chessboard.vert", "shaders/chessboard.frag"),
-        new CGFshader(this.gl, "shaders/progressive.vert", "shaders/progressive.frag")
+        //new CGFshader(this.gl, "shaders/progressive.vert", "shaders/progressive.frag")
     ];
 
     // Enables picking
