@@ -75,9 +75,9 @@ Cell.prototype.initShip = function(owners, shipIds, shipPickingIds) {
 
             // Setting up ship scale
             ship.scale = {
-                x: 0.025,
-                y: 0.025,
-                z: 0.025
+                x: 0.1,
+                y: 0.1,
+                z: 0.1
             }
             
             // Setting up ship translation
@@ -88,7 +88,9 @@ Cell.prototype.initShip = function(owners, shipIds, shipPickingIds) {
             }
 
             var t = this.hexagon.translate;
-            mat4.translate(ship.mat, ship.mat, [t.x, t.y, t.z]);
+            ship.translate.x += t.x;
+            ship.translate.y += t.y;
+            ship.translate.z += t.z;
 
             ships.push(ship);
             this.board.game.ships.push(ship);
@@ -98,29 +100,27 @@ Cell.prototype.initShip = function(owners, shipIds, shipPickingIds) {
     }
 }
 
-Cell.prototype.moveShip = function(ship, animated) {
+Cell.prototype.moveShip = function(ship, animated, offset) {
     if (animated) {
         var kf0 = new Keyframe();
         var kf1 = new Keyframe();
-        kf0.setTranslation(0, 0, 0);
-        kf1.setTranslation(1, 1, 1);
-        var kfanimation = new KeyframeAnimation(ship, [kf0, kf1]);
+        var kf2 = new Keyframe();
+        var kf3 = new Keyframe();
+
+        var fromT = ship.translate;
+        var toT = this.hexagon.translate;
+        kf0.setTranslation(fromT.x, fromT.y, fromT.z);
+        
+        kf1.setTranslation(fromT.x, fromT.y+0.5, fromT.z);
+
+        kf2.setTranslation(toT.x, fromT.y+0.5, toT.z);
+        kf2.setRotation(0, 0, Math.PI*2);
+
+        kf3.setTranslation(toT.x, fromT.y-(offset?offset:0), toT.z);
+
+        var kfanimation = new KeyframeAnimation(ship, [kf0, kf1, kf2, kf3]);
         ship.pushAnimation(kfanimation);
-        /*fromVec = ship.cell.hexagon.translate;
-        toVec = this.hexagon.translate;
-        var cp = [];
-
-        cp.push({x: 0, y: 0, z: 0});
-        cp.push({x: toVec.x - fromVec.x, y: 0, z:toVec.z - fromVec.z});
-
-        var anim = new LinearAnimation(ship, 2, cp, true);
-        ship.pushAnimation(anim);*/
     } 
-        var t = this.hexagon.translate;
-        var matIdent = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
-        mat4.translate(matIdent, matIdent, [t.x, t.y, t.z]);
-        ship.mat = matIdent;
-    
     
     if (ship.cell == this)
         return;
@@ -138,8 +138,6 @@ Cell.prototype.removeShip = function(ship) {
 Cell.prototype.addShip = function(ship) {
     this.ships.push(ship);
     ship.cell = this;
-    ship.translate.x = 0;
-    ship.translate.z = 0;
 }
 
 Cell.prototype.display = function() {
@@ -153,9 +151,6 @@ Cell.prototype.display = function() {
     for (var i = 0; i < this.ships.length; i++) {
         var ship = this.ships[i];
         this.scene.pushMatrix();
-            this.scene.multMatrix(ship.mat);
-            this.scene.translate(ship.translate.x, ship.translate.y, ship.translate.z);
-            this.scene.scale(ship.scale.x, ship.scale.y, ship.scale.z);
             this.scene.registerForPick(ship.pickingId, ship);
             ship.display();
         this.scene.popMatrix();

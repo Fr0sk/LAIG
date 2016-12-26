@@ -256,7 +256,7 @@ Game.prototype.checkEndGame = async function () {
         this.scene.interface.setPlayer2WinRounds(this.scene.player2WinRounds);
     }
 
-    this.selectedShip.translate.y -= 0.25;
+    //this.selectedShip.translate.y -= 0.25;
     this.selectedShip = undefined;
 }
 
@@ -340,7 +340,7 @@ function sleep(ms) {
 
 Game.prototype.doMove = function (toCell) {
     var fromCell = this.selectedShip.cell;
-    toCell.moveShip(this.selectedShip, true);
+    toCell.moveShip(this.selectedShip, true, 0.25);
     this.moveStack.push({ from: fromCell, to: toCell, shipToMove: this.selectedShip, board: updatedPrologBoard });
     this.nextPlayer();
 }
