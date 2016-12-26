@@ -353,3 +353,31 @@ PrimitiveBuilder.buildTorus = function(scene, inner, outer, slices, loops) {
     var torus = new Torus(scene, inner, outer, slices, loops);
     return torus;
 }
+
+PrimitiveBuilder.buildTradingStation = function(scene) {
+    function TradingStation(scene) {
+        this.scene = scene;
+        this.cyl1 = PrimitiveBuilder.buildCylinder(scene, 1, 1, 0.1, 32, 1);
+        this.cyl2 = PrimitiveBuilder.buildCylinder(scene, 0.1, 0.1, 0.8, 10, 4);
+        this.appearance = new CGFappearance(scene);
+        this.appearance.setAmbient(1, 1, 1, 1);
+        this.appearance.loadTexture('./resources/space_metal.jpg');
+        CGFobject.call(this, scene);
+    };
+
+    TradingStation.prototype = Object.create(CGFobject.prototype);
+    TradingStation.prototype.constructor = TradingStation;
+
+    TradingStation.prototype.display = function() {
+        this.scene.pushMatrix();
+            this.appearance.apply();
+            this.scene.rotate(Math.PI/2, -1, 0, 0);
+            this.cyl1.display();
+            this.scene.translate(0, 0, -0.3);
+            this.cyl2.display();
+        this.scene.popMatrix();
+    };
+
+    var tradingStation = new TradingStation(scene);
+    return tradingStation;
+}
