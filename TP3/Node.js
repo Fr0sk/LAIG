@@ -18,6 +18,9 @@ function Node(id) {
         0.0, 0.0, 1.0, 0.0,
         0.0, 0.0, 0.0, 1.0
     ];
+    this.translate = {x: 0, y:0, z:0};
+    this.rotate = {x: 0, y:0, z:0};
+    this.scale = {x: 1, y:1, z:1};
 };
 
 Node.prototype.pushMaterial = function(material) {
@@ -92,8 +95,8 @@ Node.prototype.display = function(scene) {
 
     if(this.primitive) {
         if (this.translate) mat4.translate(mat, mat, [this.translate.x, this.translate.y, this.translate.z]);
+        if (this.rotate) { mat4.rotateX(mat, mat, this.rotate.x); mat4.rotateY(mat, mat, this.rotate.y); mat4.rotateZ(mat, mat, this.rotate.z); }
         if (this.scale) mat4.scale(mat, mat, [this.scale.x, this.scale.y, this.scale.z]);
-
         if(scene.pickMode && this.pickingId > -1) {
             scene.registerForPick(this.pickingId, this.getPrimitive());
             this.primitive.display();
