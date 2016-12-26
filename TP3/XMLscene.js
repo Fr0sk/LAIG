@@ -113,7 +113,6 @@ XMLscene.prototype.display = function () {
         this.runGraph(this.graph.rootNode);
         this.updateLightsStatus();
     }
-        console.log(this.game.onGame);
     if (this.game.onGame && this.game.board != undefined) {
         this.game.display();
     }
@@ -130,20 +129,12 @@ XMLscene.prototype.runGraph = function (node) {
     //Apply material
     node.materials[node.indexActiveMaterial].apply();
 
-    //Apply transformation matrix
-    this.multMatrix(node.mat);
+    node.display(this);
 
     //Draws primitive (if it has one)
     if (node.primitive != null) {
         if (node.activeShader != null)
             node.setupShaders(this);
-
-        if(this.pickMode && node.pickingId > -1) {
-            this.registerForPick(node.pickingId, node.getPrimitive());
-            node.primitive.display();
-            this.clearPickRegistration();
-        } else if (!this.pickMode && !node.hidden)
-            node.primitive.display();
 
         if (node.activeShader != null) 
             this.setActiveShader(this.defaultShader);

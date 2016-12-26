@@ -3,7 +3,6 @@ function Node(id) {
     this.indexActiveMaterial = 0;
     this.materials = [];
     this.texture = null;
-    this.mat = null;        //transformation matrix
     this.children = [];
     this.primitive = null;
     this.animations = [];
@@ -12,6 +11,13 @@ function Node(id) {
     this.primitiveWithShaderInfo = null;
     this.hidden = false;
     this.pickingId = -1;
+
+    this.mat = [
+        1.0, 0.0, 0.0, 0.0,
+        0.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0,
+        0.0, 0.0, 0.0, 1.0
+    ];
 };
 
 Node.prototype.pushMaterial = function(material) {
@@ -78,3 +84,21 @@ Node.prototype.setupShaders = function(scene) {
         scene.testShaders[0].setUniformsValues({ csA: this.primitiveWithShaderInfo.csA });
     }
 };
+
+Node.prototype.display = function(scene) {
+    var mat = this.mat.slice();
+    //Apply transformation matrix
+    scene.multMatrix(mat)
+
+    if(this.primitive) {
+        if (this.translate) mat4.translate(mat, mat, [this.translate.x, this.translate.y, this.translate.z]);
+        if (this.scale) mat4.scale(mat, mat, [this.scale.x, this.scale.y, this.scale.z]);
+
+        if(scene.pickMode && this.pickingId > -1) {
+            scene.registerForPick(this.pickingId, this.getPrimitive());
+            this.primitive.display();
+            scene.clearPickRegistration();
+        } else if (!scene.pickMode && !this.hidden)
+            this.primitive.display();
+    }
+}
