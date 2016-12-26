@@ -24,6 +24,9 @@ function Game(scene, gameMode, gameDifficulty) {
     this.currPlayer2Score = 0;
     this.onGame = false;
     this.animatedCam = undefined;
+    this.levels = ["SpaceScene.dsx", "CityScene.dsx"];
+    this.Level = 0;
+    this.lastLvl = -1;
 
     this.ships = []; // Gets initialized with board
     this.board = new Board(this.scene, this, "idBoard");
@@ -79,7 +82,6 @@ Game.prototype.startGame = function () {
 
     this.onGame = true;
     var gameScene = "SpaceScene.dsx"; // Define game scene
-    new MySceneGraph(gameScene, this.scene);
 }
 
 Game.prototype.picking = function (obj, id) {
@@ -478,7 +480,14 @@ Game.prototype.getRow = function (id, rowLength, totalNumIds) {
 }
 
 Game.prototype.display = function () {
-    this.board.display();
+    if (this.onGame) {
+        if (this.lastLvl != this.Level) {
+            this.lastLvl = this.Level;
+            new MySceneGraph(this.levels[this.Level], this.scene);
+
+        }
+        this.board.display();
+    }
 }
 
 Game.prototype.callRequest = function (requestString, onSuccess, onError, port) {

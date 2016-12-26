@@ -115,6 +115,7 @@ MyInterface.prototype.addMatchInfo = function () {
 	this.alreadyAdded = true;
 	this.matchInfoGroup.add(this.scene.game.matchInfo, 0).name('Game Mode').listen();
 	this.matchInfoGroup.add(this.scene.game.matchInfo, 1).name('Difficulty').listen();
+	this.matchInfoGroup.add(this.scene.game, 'Level', { Space: 0, City: 1} );
 };
 
 MyInterface.prototype.setGameMode = function (gameMode) {
