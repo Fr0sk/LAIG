@@ -91,12 +91,12 @@ Node.prototype.setupShaders = function(scene) {
 Node.prototype.display = function(scene) {
     var mat = this.mat.slice();
     //Apply transformation matrix
+    if (this.translate) mat4.translate(mat, mat, [this.translate.x, this.translate.y, this.translate.z]);
+    if (this.rotate) { mat4.rotateX(mat, mat, this.rotate.x); mat4.rotateY(mat, mat, this.rotate.y); mat4.rotateZ(mat, mat, this.rotate.z); }
+    if (this.scale) mat4.scale(mat, mat, [this.scale.x, this.scale.y, this.scale.z]);
     scene.multMatrix(mat)
 
     if(this.primitive) {
-        if (this.translate) mat4.translate(mat, mat, [this.translate.x, this.translate.y, this.translate.z]);
-        if (this.rotate) { mat4.rotateX(mat, mat, this.rotate.x); mat4.rotateY(mat, mat, this.rotate.y); mat4.rotateZ(mat, mat, this.rotate.z); }
-        if (this.scale) mat4.scale(mat, mat, [this.scale.x, this.scale.y, this.scale.z]);
         if(scene.pickMode && this.pickingId > -1) {
             scene.registerForPick(this.pickingId, this.getPrimitive());
             this.primitive.display();
