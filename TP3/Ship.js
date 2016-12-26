@@ -12,15 +12,6 @@ function Ship(scene, id, owner) {
 Ship.prototype = Object.create(Node.prototype);
 Ship.prototype.constructor = Ship;
 
-Ship.prototype.update = function(deltaTime) {
-    if (this.animations.length > 0) {
-        if (this.animations[0].ended) 
-            this.animations.pop(); 
-        else
-            this.animations[0].animate(deltaTime);
-    }
-}
-
 Ship.prototype.display = function() {
     var mat = this.mat.slice();
     if (this.translate) mat4.translate(mat, mat, [this.translate.x, this.translate.y, this.translate.z]);

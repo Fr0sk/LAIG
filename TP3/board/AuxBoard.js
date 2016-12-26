@@ -38,10 +38,24 @@ AuxBoard.prototype.init = function() {
     this.board = PrimitiveBuilder.buildRect(this.scene, 0, 0, 6, 2, 1, 1);
 }
 
+AuxBoard.prototype.getAvailableBuilding = function(code) {
+    // Trading station
+    if (code == 0) 
+        for(var i = 0; i < this.trading.length; i++)
+            if (!this.trading[i].used)
+                return this.trading[i];
+    if (code == 1)
+        for(var i = 0; i < this.colony.length; i++)
+            if (!this.colony[i].used)
+                return this.colony[i];
+
+}
+
 AuxBoard.prototype.update = function(deltaTime) {
-    for(var i = 0; i < this.trading.length; i++) {
-        //if (this.trading[i].animations)
-    }
+    for(var i = 0; i < this.trading.length; i++)
+        this.trading[i].update(deltaTime);
+    for(var i = 0; i < this.colony.length; i++)
+        this.colony[i].update(deltaTime);
 }
 
 AuxBoard.prototype.display = function() {

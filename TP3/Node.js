@@ -88,6 +88,15 @@ Node.prototype.setupShaders = function(scene) {
     }
 };
 
+Node.prototype.update = function(deltaTime) {
+    if (this.animations.length > 0) {
+        if (this.animations[0].ended) 
+            this.animations.pop(); 
+        else
+            this.animations[0].animate(deltaTime);
+    }
+}
+
 Node.prototype.display = function(scene) {
     var mat = this.mat.slice();
     //Apply transformation matrix

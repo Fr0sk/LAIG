@@ -395,6 +395,8 @@ Game.prototype.update = function (deltaTime) {
     }
 
     this.camAnimation(deltaTime);
+    this.auxBoard1.update(deltaTime);
+    this.auxBoard2.update(deltaTime);
 
     /*this.currPlayer1Score++;
     score++;

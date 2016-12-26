@@ -140,10 +140,37 @@ Cell.prototype.addShip = function(ship) {
 }
 
 Cell.prototype.addBuilding = function(code) {
-    if (code == 0) 
-        this.structure = PrimitiveBuilder.buildTradingStation(this.scene, this.ships[0].owner);
+    var owner = this.ships[0].owner;
+    if (owner == 1) var auxBoard = this.scene.game.auxBoard1;
+    else var auxBoard = this.scene.game.auxBoard2;
+    
+    var building = auxBoard.getAvailableBuilding(code);
+    if (building) {
+        var kf0 = new Keyframe();
+        var kf1 = new Keyframe();
+        var kf2 = new Keyframe();
+        var kf3 = new Keyframe();
+
+        var fromT = building.translate;
+        var toT = this.hexagon.translate;
+        kf0.setTranslation(fromT.x, fromT.y, fromT.z);
+        
+        kf1.setTranslation(fromT.x, fromT.y+0.5, fromT.z);
+
+        kf2.setTranslation(toT.x, fromT.y+0.5, toT.z);
+        //kf2.setRotation(0, 0, Math.PI*2);
+
+        kf3.setTranslation(toT.x, fromT.y, toT.z);
+
+        var kfanimation = new KeyframeAnimation(building, [kf0, kf1, kf2, kf3]);
+        building.pushAnimation(kfanimation);
+        building.used = true;
+        this.structure = building;
+    }
+    /*if (code == 0) 
+        this.structure = PrimitiveBuilder.buildTradingStation(this.scene, owner);
     else if (code == 1) 
-        this.structure = PrimitiveBuilder.buildColony(this.scene, this.ships[0].owner);
+        this.structure = PrimitiveBuilder.buildColony(this.scene, owner);*/
 }
 
 Cell.prototype.display = function() {
@@ -152,9 +179,9 @@ Cell.prototype.display = function() {
         this.scene.registerForPick(this.pickingId, this);
         this.material.apply();
         this.hexagon.display();
-        if (this.structure && this.structure != "none") {
+        /*if (this.structure && this.structure != "none") {
             this.structure.display();
-        }
+        }*/
     this.scene.popMatrix();
 
     for (var i = 0; i < this.ships.length; i++) {
