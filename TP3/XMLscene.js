@@ -1,5 +1,4 @@
 var freeCam;
-var matchUndergoing = false;
 
 function XMLscene(interface) {
     CGFscene.call(this);
@@ -37,23 +36,13 @@ XMLscene.prototype.init = function (application) {
     // Enables picking
     this.setPickEnabled(true);
 
+
     this.player1WinRounds = 0;
     this.player2WinRounds = 0;
-};
 
-XMLscene.prototype.startNewMatch = function () {
+    this.mainMenu = new MainMenu(this);
     this.game = new Game(this, 1, 1);
-
-    if (!this.interface.alreadyAdded) {
-        console.error("Adicionando interface again");
-        this.interface.addMatchInfo();
-        this.interface.addGameInfo();
-    } else
-        this.game.startInterface();
-
-    this.game.startGame();
-    matchUndergoing = true;
-}
+};
 
 XMLscene.prototype.initLights = function () {
     this.lights[0].setPosition(2, 3, 3, 1);
@@ -119,13 +108,17 @@ XMLscene.prototype.display = function () {
     // it is important that things depending on the proper loading of the graph
     // only get executed after the graph has loaded correctly.
     // This is one possible way to do it
-    if (this.graph.loadedOk && matchUndergoing && this.game.board != undefined) {
-        this.updateLightsStatus();
-
+    if (this.graph.loadedOk) {
         //Starts going through the graph
         this.runGraph(this.graph.rootNode);
+        this.updateLightsStatus();
+    }
+        console.log(this.game.onGame);
+    if (this.game.onGame && this.game.board != undefined) {
         this.game.display();
-    };
+    }
+    if (this.mainMenu.onMainMenu)
+        this.mainMenu.display();
 };
 
 /**
@@ -145,9 +138,14 @@ XMLscene.prototype.runGraph = function (node) {
         if (node.activeShader != null)
             node.setupShaders(this);
 
-        node.primitive.display();
+        if(this.pickMode && node.pickingId > -1) {
+            this.registerForPick(node.pickingId, node.getPrimitive());
+            node.primitive.display();
+            this.clearPickRegistration();
+        } else if (!this.pickMode && !node.hidden)
+            node.primitive.display();
 
-        if (node.activeShader != null)
+        if (node.activeShader != null) 
             this.setActiveShader(this.defaultShader);
     }
 
@@ -274,7 +272,7 @@ XMLscene.prototype.update = function (curTime) {
                 node.animations[node.activeAnimation].animate(deltaTime);
         }
 
-        if (matchUndergoing)
+        if (this.game.onGame)
             this.game.update(deltaTime);
 
         //passedTime += deltaTime;
@@ -285,8 +283,11 @@ XMLscene.prototype.update = function (curTime) {
 XMLscene.prototype.doPicking = function () {
     if (this.pickMode == false) {
         if (this.pickResults != null && this.pickResults.length > 0) {
-            for (var i = 0; i < this.pickResults.length; i++)
-                if (this.pickResults[i][0]) this.game.picking(this.pickResults[i][0], this.pickResults[i][1]);
+            for (var i = 0; i < this.pickResults.length; i++) {
+                if (this.pickResults[i][0])
+                if (this.game.onGame && this.pickResults[i][0]) this.game.picking(this.pickResults[i][0], this.pickResults[i][1]);
+                else if (this.mainMenu.onMainMenu && this.pickResults[i][0]) this.mainMenu.picking(this.pickResults[i][0], this.pickResults[i][1]);
+            }
             this.pickResults.splice(0, this.pickResults.length);
         }
     }

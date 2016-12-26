@@ -842,6 +842,18 @@ MySceneGraph.prototype.parseNode = function (componentsList, component, parentNo
             }
     }
 
+    // Picking
+    var pickingElem = component.getElementsByTagName('picking');
+    if (pickingElem.length > 0) {
+        pickingElem = pickingElem[0];
+        var hidden = this.reader.getBoolean(pickingElem, 'hidden', false);
+        var pickingId = this.reader.getInteger(pickingElem, 'id', false);
+        if (hidden)
+            node.hidden = true;
+        if (pickingId)
+            node.pickingId = pickingId;
+    }
+
     //Children
     {
         var childrenElem = component.getElementsByTagName('children')[0];

@@ -10,6 +10,8 @@ function Node(id) {
     this.activeAnimation = 0;
     this.activeShader = null;       //null to avoid shaders, int to select shader
     this.primitiveWithShaderInfo = null;
+    this.hidden = false;
+    this.pickingId = -1;
 };
 
 Node.prototype.pushMaterial = function(material) {

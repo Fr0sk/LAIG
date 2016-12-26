@@ -22,6 +22,7 @@ function Game(scene, gameMode, gameDifficulty) {
     this.gameMode = gameMode;
     this.currPlayer1Score = 0;
     this.currPlayer2Score = 0;
+    this.onGame = false;
 
     this.ships = []; // Gets initialized with board
     this.board = new Board(this.scene, this, "idBoard");
@@ -50,13 +51,19 @@ Game.prototype = Object.create(CGFobject.prototype);
 Game.prototype.constructor = Game;
 
 Game.prototype.startInterface = function () {
-    this.interface.setPlayer1Score(0);
-    this.interface.setPlayer2Score(0);
-    this.scene.interface.setGameMode(this.matchInfo[0]);
-    this.scene.interface.setGameMode(this.matchInfo[1]);
+    if (!this.scene.interface.alreadyAdded) {
+        this.scene.interface.addMatchInfo();
+        this.scene.interface.addGameInfo();
+    } else {
+        this.interface.setPlayer1Score(0);
+        this.interface.setPlayer2Score(0);
+        this.scene.interface.setGameMode(this.matchInfo[0]);
+        this.scene.interface.setGameMode(this.matchInfo[1]);
+    }
 }
 
-Game.prototype.startGame = function () {
+Game.prototype.startGame = function () {    
+    this.startInterface();
     this.player = 1;
     this.moveStack = [];
     prologBoard = this.board.toString();
@@ -68,6 +75,10 @@ Game.prototype.startGame = function () {
         this.play();
     } else
         state = 'selectMovementState';
+
+    this.onGame = true;
+    var gameScene = "LAIG_TP1_DSX_T5_G07_v02.dsx"; // Define game scene
+    new MySceneGraph(gameScene, this.scene);
 }
 
 Game.prototype.picking = function (obj, id) {
