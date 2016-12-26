@@ -354,14 +354,14 @@ PrimitiveBuilder.buildTorus = function(scene, inner, outer, slices, loops) {
     return torus;
 }
 
-PrimitiveBuilder.buildTradingStation = function(scene) {
-    function TradingStation(scene) {
+PrimitiveBuilder.buildTradingStation = function(scene, owner) {
+    function TradingStation(scene, owner) {
         this.scene = scene;
         this.cyl1 = PrimitiveBuilder.buildCylinder(scene, 1, 1, 0.1, 32, 1);
         this.cyl2 = PrimitiveBuilder.buildCylinder(scene, 0.1, 0.1, 0.8, 10, 4);
         this.appearance = new CGFappearance(scene);
         this.appearance.setAmbient(1, 1, 1, 1);
-        this.appearance.loadTexture('./resources/space_metal.jpg');
+        this.appearance.loadTexture('./resources/space_metal' + owner + '.jpg');
         CGFobject.call(this, scene);
     };
 
@@ -380,18 +380,18 @@ PrimitiveBuilder.buildTradingStation = function(scene) {
         this.scene.popMatrix();
     };
 
-    var tradingStation = new TradingStation(scene);
+    var tradingStation = new TradingStation(scene, owner);
     return tradingStation;
 }
 
-PrimitiveBuilder.buildColony = function(scene) {
-    function Colony(scene) {
+PrimitiveBuilder.buildColony = function(scene, owner) {
+    function Colony(scene, owner) {
         this.scene = scene;
         this.tor1 = PrimitiveBuilder.buildTorus(scene, 1, 1.2, 32, 10);
         this.tor2 = PrimitiveBuilder.buildTorus(scene, 0.5, 0.4, 16, 5);
         this.appearance = new CGFappearance(scene);
         this.appearance.setAmbient(1, 1, 1, 1);
-        this.appearance.loadTexture('./resources/space_metal.jpg');
+        this.appearance.loadTexture('./resources/space_metal' + owner + '.jpg');
         CGFobject.call(this, scene);
     };
 
@@ -409,6 +409,6 @@ PrimitiveBuilder.buildColony = function(scene) {
         this.scene.popMatrix();
     };
 
-    var colony = new Colony(scene);
+    var colony = new Colony(scene, owner);
     return colony;
 }

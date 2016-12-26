@@ -143,9 +143,9 @@ Cell.prototype.addShip = function(ship) {
 
 Cell.prototype.addBuilding = function(code) {
     if (code == 0) 
-        this.structure = PrimitiveBuilder.buildTradingStation(this.scene);
+        this.structure = PrimitiveBuilder.buildTradingStation(this.scene, this.ships[0].owner);
     else if (code == 1) 
-        this.structure = PrimitiveBuilder.buildColony(this.scene);
+        this.structure = PrimitiveBuilder.buildColony(this.scene, this.ships[0].owner);
 }
 
 Cell.prototype.display = function() {
