@@ -142,9 +142,10 @@ Cell.prototype.addShip = function(ship) {
 }
 
 Cell.prototype.addBuilding = function(code) {
-    if (code == 0) {
+    if (code == 0) 
         this.structure = PrimitiveBuilder.buildTradingStation(this.scene);
-    }
+    else if (code == 1) 
+        this.structure = PrimitiveBuilder.buildColony(this.scene);
 }
 
 Cell.prototype.display = function() {
