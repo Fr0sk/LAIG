@@ -371,7 +371,9 @@ PrimitiveBuilder.buildTradingStation = function(scene) {
     TradingStation.prototype.display = function() {
         this.scene.pushMatrix();
             this.appearance.apply();
+            this.scene.translate(0, 0.5, 0.6);
             this.scene.rotate(Math.PI/2, -1, 0, 0);
+            this.scene.scale(0.40, 0.40, 0.40);
             this.cyl1.display();
             this.scene.translate(0, 0, -0.3);
             this.cyl2.display();

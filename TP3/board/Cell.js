@@ -126,6 +126,7 @@ Cell.prototype.moveShip = function(ship, animated, offset) {
         return;
     ship.cell.removeShip(ship);
     this.addShip(ship);
+    this.addBuilding(this.board.game.userBuilding); // TODO Maybe refactor
 
     //ADICIONAR O BUILDING CORRESPONDENTE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }
@@ -140,12 +141,21 @@ Cell.prototype.addShip = function(ship) {
     ship.cell = this;
 }
 
+Cell.prototype.addBuilding = function(code) {
+    if (code == 0) {
+        this.structure = PrimitiveBuilder.buildTradingStation(this.scene);
+    }
+}
+
 Cell.prototype.display = function() {
     this.scene.pushMatrix();
         this.scene.translate(this.hexagon.translate.x, this.hexagon.translate.y, this.hexagon.translate.z);
         this.scene.registerForPick(this.pickingId, this);
         this.material.apply();
         this.hexagon.display();
+        if (this.structure && this.structure != "none") {
+            this.structure.display();
+        }
     this.scene.popMatrix();
 
     for (var i = 0; i < this.ships.length; i++) {
@@ -155,4 +165,6 @@ Cell.prototype.display = function() {
             ship.display();
         this.scene.popMatrix();
     }
+
+    
 }

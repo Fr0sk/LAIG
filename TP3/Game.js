@@ -266,6 +266,7 @@ Game.prototype.setBuilding = function (userBuilding) {
             this.prologRequestUser += 'tr)';
         else
             this.prologRequestUser += 'c)';
+        this.userBuilding = userBuilding;
         this.play();
     }
 }
