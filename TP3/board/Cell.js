@@ -126,9 +126,7 @@ Cell.prototype.moveShip = function(ship, animated, offset) {
         return;
     ship.cell.removeShip(ship);
     this.addShip(ship);
-    this.addBuilding(this.board.game.userBuilding); // TODO Maybe refactor
-
-    //ADICIONAR O BUILDING CORRESPONDENTE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    this.addBuilding(this.board.game.userBuilding);
 }
 
 Cell.prototype.removeShip = function(ship) {

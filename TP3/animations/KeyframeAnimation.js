@@ -6,7 +6,6 @@ var KeyframeAnimation = function (node, keyframes) {
 
     if (keyframes)
         this.addKeyframes(keyframes);
-    console.log(keyframes);
 }
 
 KeyframeAnimation.prototype = Object.create(Animation.prototype);

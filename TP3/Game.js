@@ -327,6 +327,9 @@ Game.prototype.setDestinationCellId = function (userBoard, aiBoard) {
             aiSplitRow = aiSplit[row].split('],[');
             for (var column = 0; column < aiSplitRow.length; column++) {
                 if (aiSplitRow[column].indexOf(aiShip) != -1) {
+                    console.log("----------------------------------------------");
+                    console.log(aiSplitRow[column]);
+                    this.userBuilding = (aiSplitRow[column].indexOf('trade') != -1) ? 0 : 1;
                     return row * aiSplitRow.length + column + 1;
                     break;
                 }
