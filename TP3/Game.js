@@ -165,10 +165,8 @@ Game.prototype.endUserPlay = async function () {
     updatedPrologBoard = serverResponse;
     if (updatedPrologBoard.substring(0, 3) != '[[[')
         console.error("Prolog Error!");
-    else {
-        prologBoard = updatedPrologBoard;
+    else
         this.doMove(this.obj);
-    }
 }
 
 Game.prototype.aiPlay = async function () {
@@ -316,6 +314,8 @@ Game.prototype.undo = function () {
         this.moveShipWithUndo(this.moveStack.pop());
         if (playAllShips <= 3)
             playAllShips--;
+        console.error("Este e o antigo bosrd: ");
+        console.info(prologBoard);
     }
 }
 
@@ -323,7 +323,7 @@ Game.prototype.moveShipWithUndo = function (move) {
     //console.info(move);
     move.from.moveShip(move.shipToMove, true);
     prologBoard = move.board;
-    //console.info(move);
+    console.info(move);
 }
 
 Game.prototype.setOriginCellId = function (userBoard) {
@@ -374,7 +374,10 @@ function sleep(ms) {
 Game.prototype.doMove = function (toCell) {
     var fromCell = this.selectedShip.cell;
     toCell.moveShip(this.selectedShip, true, 0.25);
-    this.moveStack.push({ from: fromCell, to: toCell, shipToMove: this.selectedShip, board: updatedPrologBoard, userBuilding: this.userBuilding });
+    console.error("pROLOG BOARD INICIAL: ");
+    console.error(prologBoard);
+    this.moveStack.push({ from: fromCell, to: toCell, shipToMove: this.selectedShip, board: prologBoard, userBuilding: this.userBuilding });
+    prologBoard = updatedPrologBoard;
     this.nextPlayer();
 }
 
@@ -393,7 +396,7 @@ Game.prototype.moveShipAI = function () {
     }
 
     destinationCell.moveShip(ship, true);
-    this.moveStack.push({ from: fromCell, to: toCell, shipToMove: this.selectedShip, board: updatedPrologBoard, userBuilding: this.userBuilding });
+    this.moveStack.push({ from: originCell, to: destinationCell, shipToMove: ship, board: prologBoard, userBuilding: this.userBuilding });
     this.nextPlayer();
 }
 
