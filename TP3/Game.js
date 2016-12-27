@@ -520,6 +520,7 @@ Game.prototype.display = function () {
         this.auxBoard1.display();
         this.auxBoard2.display();
         this.board.display();
+        console.log("Display GAME");
     }
 }
 
@@ -606,7 +607,6 @@ Game.prototype.showMovie = async function (stack) {
         }
 
         await sleep(15000);
-
         this.onMovie = false;
     }
 }

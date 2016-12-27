@@ -39,11 +39,13 @@ Cell.prototype.initHex = function() {
         case 'wormhole': this.material.setTexture(this.board.textures[1]); break;
         case 'nebula': this.material.setTexture(this.board.textures[2]); break;
         case 'empty': this.material.setTexture(this.board.textures[3]); break;
-        case 'star_1': this.material.setTexture(this.board.textures[4]); break;
-        case 'star_2': this.material.setTexture(this.board.textures[5]); break;
-        case 'star_3': this.material.setTexture(this.board.textures[6]); break;
+        case 'star1': this.material.setTexture(this.board.textures[4]); break;
+        case 'star2': this.material.setTexture(this.board.textures[5]); break;
+        case 'star3': this.material.setTexture(this.board.textures[6]); break;
         default: this.material.setTexture(this.board.textures[3]); break;
     }
+
+    console.info(this.type);
 }
 
 Cell.prototype.initShip = function(owners, shipIds, shipPickingIds) {

@@ -116,6 +116,7 @@ XMLscene.prototype.display = function () {
     }
     if ((this.game.onGame || this.game.onMovie) && this.game.board != undefined) {
         this.game.display();
+        console.log("Display XMLscene");
     }
     if (this.mainMenu.onMainMenu)
         this.mainMenu.display();
@@ -137,7 +138,7 @@ XMLscene.prototype.runGraph = function (node) {
         if (node.activeShader != null)
             node.setupShaders(this);
 
-        if (node.activeShader != null) 
+        if (node.activeShader != null)
             this.setActiveShader(this.defaultShader);
     }
 
@@ -277,8 +278,8 @@ XMLscene.prototype.doPicking = function () {
         if (this.pickResults != null && this.pickResults.length > 0) {
             for (var i = 0; i < this.pickResults.length; i++) {
                 if (this.pickResults[i][0])
-                if (this.game.onGame && this.pickResults[i][0]) this.game.picking(this.pickResults[i][0], this.pickResults[i][1]);
-                else if (this.mainMenu.onMainMenu && this.pickResults[i][0]) this.mainMenu.picking(this.pickResults[i][0], this.pickResults[i][1]);
+                    if (this.game.onGame && this.pickResults[i][0]) this.game.picking(this.pickResults[i][0], this.pickResults[i][1]);
+                    else if (this.mainMenu.onMainMenu && this.pickResults[i][0]) this.mainMenu.picking(this.pickResults[i][0], this.pickResults[i][1]);
             }
             this.pickResults.splice(0, this.pickResults.length);
         }
