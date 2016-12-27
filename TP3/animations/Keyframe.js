@@ -4,7 +4,7 @@ var Keyframe = function(time) {
     //this.setDefaults();
 }
 
-Keyframe.prototype = Object.create(CGFobject.prototype);
+Keyframe.prototype = Object.create(Keyframe.prototype);
 Keyframe.prototype.constructor = Keyframe;
 
 Keyframe.prototype.setTranslation = function(x, y, z) {
@@ -12,7 +12,7 @@ Keyframe.prototype.setTranslation = function(x, y, z) {
         x: x,
         y: y,
         z: z
-    }
+    };
 }
 
 Keyframe.prototype.setRotation = function(x, y, z) {

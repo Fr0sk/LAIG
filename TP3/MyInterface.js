@@ -81,7 +81,9 @@ MyInterface.prototype.processKeyDown = function (event) {
 			console.log("'F' was pressed --> Showing film...");
 			if (this.scene.mainMenu && this.scene.mainMenu.onMainMenu) {
 				if (this.scene.moveStack) {
-					this.scene.game = new Game(this.scene, this.mode-4, this.difficulty-1);~
+					console.error("Stack na interface = ");
+					console.info(this.scene.moveStack);
+					this.scene.game = new Game(this.scene, this.mode - 4, this.difficulty - 1);
 					this.scene.game.startGame(1, 1);
 					this.scene.game.showMovie(this.scene.moveStack);
 				}
@@ -107,9 +109,9 @@ MyInterface.prototype.processKeyDown = function (event) {
 			console.info("********** Starting a new match! **********");
 			this.scene.matchUndergoing = false;
 			this.scene.game = undefined;
-			if(!this.alreadyAdded)
+			if (!this.alreadyAdded)
 				this.scene.startNewMatch();
-			break; 
+			break;
 		default: break;
 	};
 };
@@ -126,7 +128,7 @@ MyInterface.prototype.addMatchInfo = function () {
 	this.alreadyAdded = true;
 	this.matchInfoGroup.add(this.scene.game.matchInfo, 0).name('Game Mode').listen();
 	this.matchInfoGroup.add(this.scene.game.matchInfo, 1).name('Difficulty').listen();
-	this.matchInfoGroup.add(this.scene.game, 'Level', { Space: 0, City: 1} );
+	this.matchInfoGroup.add(this.scene.game, 'Level', { Space: 0, City: 1 });
 };
 
 MyInterface.prototype.setGameMode = function (gameMode) {
@@ -152,14 +154,15 @@ MyInterface.prototype.updateControllers = function () {
 }
 
 MyInterface.prototype.addGameInfo = function () {
-	this.gameInfoGroup.add(this.scene.game.gameInfo, 0).name('Turn Time').listen();
-	this.gameInfoGroup.add(this.scene.game.gameInfo, 1).name('Player 1 Score').listen();
-	this.gameInfoGroup.add(this.scene.game.gameInfo, 2).name('Player 2 Score').listen();
-	this.gameInfoGroup.add(this.scene.game.gameInfo, 3).name('Player 1 Win Rounds').listen();
-	this.gameInfoGroup.add(this.scene.game.gameInfo, 4).name('Player 2 Win Rounds').listen();
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 0).name('Game Total Time').listen();
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 1).name('Turn Time').listen();
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 2).name('Player 1 Score').listen();
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 3).name('Player 2 Score').listen();
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 4).name('Player 1 Win Rounds').listen();
+	this.gameInfoGroup.add(this.scene.game.gameInfo, 5).name('Player 2 Win Rounds').listen();
 };
 
-MyInterface.prototype.setPlayer1Score = function(score) {
+MyInterface.prototype.setPlayer1Score = function (score) {
 	this.scene.game.gameInfo[1] = score;
 
 	for (var i in this.gui.__controllers) {
@@ -167,7 +170,7 @@ MyInterface.prototype.setPlayer1Score = function(score) {
 	}
 };
 
-MyInterface.prototype.setPlayer2Score = function(score) {
+MyInterface.prototype.setPlayer2Score = function (score) {
 	this.scene.game.gameInfo[2] = score;
 
 	for (var i in this.gui.__controllers) {
@@ -175,7 +178,7 @@ MyInterface.prototype.setPlayer2Score = function(score) {
 	}
 };
 
-MyInterface.prototype.setPlayer1WinRounds = function(winRounds) {
+MyInterface.prototype.setPlayer1WinRounds = function (winRounds) {
 	this.scene.game.gameInfo[3] = winRounds;
 
 	for (var i in this.gui.__controllers) {
@@ -183,7 +186,7 @@ MyInterface.prototype.setPlayer1WinRounds = function(winRounds) {
 	}
 };
 
-MyInterface.prototype.setPlayer2WinRounds = function(winRounds) {
+MyInterface.prototype.setPlayer2WinRounds = function (winRounds) {
 	this.scene.game.gameInfo[4] = winRounds;
 
 	for (var i in this.gui.__controllers) {

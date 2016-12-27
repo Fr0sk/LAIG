@@ -8,6 +8,7 @@ var playAllShips2 = 0;
 var state;
 var turnTime = 10;
 var currTime = turnTime;
+var totalTime = 0;
 var moveTime = true;
 
 /* Game Modes:
@@ -48,7 +49,7 @@ function Game(scene, gameMode, gameDifficulty) {
     }
 
     this.matchInfo = [mode, difficulty];
-    this.gameInfo = [currTime, this.currPlayer1Score, this.currPlayer2Score, this.scene.player1WinRounds, this.scene.player2WinRounds];
+    this.gameInfo = [totalTime, currTime, this.currPlayer1Score, this.currPlayer2Score, this.scene.player1WinRounds, this.scene.player2WinRounds];
 }
 
 Game.prototype = Object.create(CGFobject.prototype);
@@ -66,10 +67,14 @@ Game.prototype.startInterface = function () {
     }
 }
 
-Game.prototype.startGame = function () {    
+Game.prototype.startGame = function () {
     this.startInterface();
     this.player = 1;
+    console.error("Stack antes do [] = ");
+    console.info(this.scene.moveStack);
     this.moveStack = [];
+    console.error("Stack depois do [] = ");
+    console.info(this.scene.moveStack);
     this.auxBoard1 = new AuxBoard(this.scene, 1, 5, 10);
     this.auxBoard2 = new AuxBoard(this.scene, 2, 5, 10);
     prologBoard = this.board.toString();
@@ -158,9 +163,9 @@ Game.prototype.endUserPlay = async function () {
     this.callRequest(this.prologRequestUser, this.handleReplyBoard);
     await sleep(2000);
     updatedPrologBoard = serverResponse;
-    if (updatedPrologBoard.substring(0, 3) != '[[[') {
+    if (updatedPrologBoard.substring(0, 3) != '[[[')
         console.error("Prolog Error!");
-    } else {
+    else {
         prologBoard = updatedPrologBoard;
         this.doMove(this.obj);
     }
@@ -246,32 +251,40 @@ Game.prototype.checkEndGame = async function () {
     this.callRequest(endGameRequest, this.handleReplyBoard);
     await sleep(2000);
     if (serverResponse == 'Sucess') {
-        console.error("END OF THE GAME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        console.error("END OF THE GAME!");
         state = "gameEnded";
 
         if (this.currPlayer1Score > this.currPlayer2Score)
             this.gameEnded(1);
-        else if (this.currPlayer1Score < this.currPlayer2Score) 
+        else if (this.currPlayer1Score < this.currPlayer2Score)
             this.gameEnded(2);
-        else 
+        else
             this.gameEnded(0);
     }
 
     this.selectedShip = undefined;
 }
 
-Game.prototype.gameEnded = function(player) {
-    console.log ("Game ended:" + player);
+Game.prototype.gameEnded = function (player) {
+    console.log("Game ended:" + player);
     if (player == 1)
         this.scene.player1WinRounds++;
     else if (player == 2)
         this.scene.player2WinRounds++;
     else {
         this.scene.player1WinRounds++;
-            this.scene.player2WinRounds++;
+        this.scene.player2WinRounds++;
     }
 
-    this.scene.moveStack = this.moveStack.slice();
+
+    console.error("Stack no game.gameEnded antes do sliced e que pertence a class = ");
+    console.info(this.moveStack);
+    console.error("Stack no game.gameEnded antes do sliced = ");
+    console.info(this.scene.moveStack);
+    this.scene.moveStack = this.moveStack;//.slice();
+    console.error("Stack no game.gameEnded depois do sliced = ");
+    console.info(this.scene.moveStack);
+
     this.scene.interface.setPlayer1WinRounds(this.scene.player1WinRounds);
     this.scene.interface.setPlayer2WinRounds(this.scene.player2WinRounds);
     this.onGame = false;
@@ -361,7 +374,7 @@ function sleep(ms) {
 Game.prototype.doMove = function (toCell) {
     var fromCell = this.selectedShip.cell;
     toCell.moveShip(this.selectedShip, true, 0.25);
-    this.moveStack.push({ from: fromCell, to: toCell, shipToMove: this.selectedShip, board: updatedPrologBoard, userBuilding:this.userBuilding });
+    this.moveStack.push({ from: fromCell, to: toCell, shipToMove: this.selectedShip, board: updatedPrologBoard, userBuilding: this.userBuilding });
     this.nextPlayer();
 }
 
@@ -380,7 +393,7 @@ Game.prototype.moveShipAI = function () {
     }
 
     destinationCell.moveShip(ship, true);
-    this.moveStack.push({ from: fromCell, to: toCell, shipToMove: this.selectedShip, board: updatedPrologBoard, userBuilding:this.userBuilding });
+    this.moveStack.push({ from: fromCell, to: toCell, shipToMove: this.selectedShip, board: updatedPrologBoard, userBuilding: this.userBuilding });
     this.nextPlayer();
 }
 
@@ -401,20 +414,19 @@ Game.prototype.update = function (deltaTime) {
             else this.gameEnded(1);
         } else if (moveTime) {
             currTime -= deltaTime;
-            this.gameInfo[0] = currTime;
+            totalTime += deltaTime;
+            this.gameInfo[0] = totalTime;
+            this.gameInfo[1] = currTime;
         }
 
     }
     if (this.ships)
         for (var s = 0; s < this.ships.length; s++)
             this.ships[s].update(deltaTime);
+
     this.camAnimation(deltaTime);
     this.auxBoard1.update(deltaTime);
     this.auxBoard2.update(deltaTime);
-
-    /*this.currPlayer1Score++;
-    score++;
-    console.info(this.currPlayer1Score, score);*/
 }
 
 Game.prototype.getMovementDirection = function (fromCellId, toCellId) {
@@ -423,8 +435,6 @@ Game.prototype.getMovementDirection = function (fromCellId, toCellId) {
     var toCellRow = this.getRow(toCellId, this.board.rowLength, this.board.board.length * this.board.rowLength);
     var rowsDifference = Math.abs(fromCellRow - toCellRow);
     this.numCells = rowsDifference;
-
-    //testar com a mesma row (E ou O)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     var idRow;
 
@@ -537,7 +547,7 @@ Game.prototype.handleReplyShip = function (data) {
 }
 
 var animatedCamTime = 0;
-Game.prototype.camAnimation = function(deltaTime) {
+Game.prototype.camAnimation = function (deltaTime) {
     var sleep = 3; // Waits for movement animations to end
     var length = 2; // Number of seconds the animation lasts
 
@@ -548,24 +558,24 @@ Game.prototype.camAnimation = function(deltaTime) {
     if (this.animatingCam && this.gameMode != 1) {
         animatedCamTime += deltaTime;
         if (animatedCamTime > sleep) {
-            delta = Math.min((animatedCamTime-sleep)/length, 1);
+            delta = Math.min((animatedCamTime - sleep) / length, 1);
             if (this.player == 1) {
-                var px = p2[0] + (p1[0]-p2[0]) * delta;
-                var py = p2[1] + (p1[1]-p2[1]) * delta;
-                var pz = p2[2] + (p1[2]-p2[2]) * delta;
+                var px = p2[0] + (p1[0] - p2[0]) * delta;
+                var py = p2[1] + (p1[1] - p2[1]) * delta;
+                var pz = p2[2] + (p1[2] - p2[2]) * delta;
                 this.animatedCam.setPosition([px, py, pz]);
                 this.animatedCam.setTarget(target);
             } else if (this.player == 2) {
-                var px = p1[0] + (p2[0]-p1[0]) * delta;
-                var py = p1[1] + (p2[1]-p1[1]) * delta;
-                var pz = p1[2] + (p2[2]-p1[2]) * delta;
+                var px = p1[0] + (p2[0] - p1[0]) * delta;
+                var py = p1[1] + (p2[1] - p1[1]) * delta;
+                var pz = p1[2] + (p2[2] - p1[2]) * delta;
                 this.animatedCam.setPosition([px, py, pz]);
                 this.animatedCam.setTarget(target);
             }
 
-            if (animatedCamTime > sleep+length) {
+            if (animatedCamTime > sleep + length) {
                 // Stops animation
-                this.animatingCam = false 
+                this.animatingCam = false
                 animatedCamTime = 0;
                 if (this.player == 1) this.animatedCam.setPosition(p1);
                 else if (this.player == 2) this.animatedCam.setPosition(p2);
@@ -574,7 +584,7 @@ Game.prototype.camAnimation = function(deltaTime) {
     }
 }
 
-Game.prototype.showMovie = async function(stack) {
+Game.prototype.showMovie = async function (stack) {
     if (stack && stack.length > 0) {
         this.scene.mainMenu.close();
         this.auxBoard1 = new AuxBoard(this.scene, 1, 5, 10);
@@ -583,13 +593,18 @@ Game.prototype.showMovie = async function(stack) {
         this.onGame = false;
         this.onMovie = true;
 
+        console.error("Stack no game.showMovie");
+        console.info(stack);
+
         for (var i = 0; i < stack.length; i++) {
             var move = stack.shift();
             this.userBuilding = move.userBuilding;
-            move.to.moveShip(move.shipToMove, true); 
+            move.to.moveShip(move.shipToMove, true);
+            console.info("Moved ship with move = ");
             console.log(move);
-            await sleep(6000);
         }
+
+        await sleep(15000);
 
         this.onMovie = false;
     }
