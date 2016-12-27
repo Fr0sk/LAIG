@@ -245,6 +245,7 @@
         <component id="root">
             <!-- Declaration needs to he here, even if there's no applied transformation' -->
             <transformation>
+                <scale x="0.6" y="0.6" z="0.6" />
                 <translate x="0" y="0" z="2.5" />
                 <!-- Do a reference to one of the transformations -->
                 <!-- ex: transformationref id="transformation1" -->
