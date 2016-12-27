@@ -6,7 +6,7 @@ var connectionBoolean = false;
 var playAllShips = 0;
 var playAllShips2 = 0;
 var state;
-var turnTime = 10;
+var turnTime = 20;
 var currTime = turnTime;
 var totalTime = 0;
 var moveTime = true;
