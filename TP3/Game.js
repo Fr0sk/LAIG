@@ -374,8 +374,6 @@ function sleep(ms) {
 Game.prototype.doMove = function (toCell) {
     var fromCell = this.selectedShip.cell;
     toCell.moveShip(this.selectedShip, true, 0.25);
-    console.error("pROLOG BOARD INICIAL: ");
-    console.error(prologBoard);
     this.moveStack.push({ from: fromCell, to: toCell, shipToMove: this.selectedShip, board: prologBoard, userBuilding: this.userBuilding });
     prologBoard = updatedPrologBoard;
     this.nextPlayer();
@@ -600,7 +598,7 @@ Game.prototype.showMovie = async function (stack) {
         console.info(stack);
 
         for (var i = 0; i < stack.length; i++) {
-            var move = stack.shift();
+            var move = stack[i];
             this.userBuilding = move.userBuilding;
             move.to.moveShip(move.shipToMove, true);
             console.info("Moved ship with move = ");
