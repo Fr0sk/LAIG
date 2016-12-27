@@ -19,7 +19,6 @@ AuxBoard.prototype.initBuildings = function(trading, colony) {
         if (this.owner == 1) this.trading[i].translate = {x:0.5+6/trading*i, y:-0.3, z:-2}
         else this.trading[i].translate = {x:3.5+6/trading*i, y:-0.3, z:6.3}
     }
-    console.log(this.trading);
 
     for(var i = 0; i < colony; i++) {
         this.colony.push(new Node("c" + this.owner + "-" + i));

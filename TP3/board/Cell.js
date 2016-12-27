@@ -100,7 +100,7 @@ Cell.prototype.initShip = function(owners, shipIds, shipPickingIds) {
     }
 }
 
-Cell.prototype.moveShip = function(ship, animated, offset) {
+Cell.prototype.moveShip = function(ship, animated, offset, building) {
     if (animated) {
         var kf0 = new Keyframe();
         var kf1 = new Keyframe();
@@ -126,7 +126,10 @@ Cell.prototype.moveShip = function(ship, animated, offset) {
         return;
     ship.cell.removeShip(ship);
     this.addShip(ship);
-    this.addBuilding(this.board.game.userBuilding);
+    if (building)
+    this.addBuilding(building);
+    else
+        this.addBuilding(this.board.game.userBuilding);
 }
 
 Cell.prototype.removeShip = function(ship) {

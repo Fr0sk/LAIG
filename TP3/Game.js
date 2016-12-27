@@ -59,8 +59,8 @@ Game.prototype.startInterface = function () {
         this.scene.interface.addMatchInfo();
         this.scene.interface.addGameInfo();
     } else {
-        this.interface.setPlayer1Score(0);
-        this.interface.setPlayer2Score(0);
+        this.scene.interface.setPlayer1Score(0);
+        this.scene.interface.setPlayer2Score(0);
         this.scene.interface.setGameMode(this.matchInfo[0]);
         this.scene.interface.setGameMode(this.matchInfo[1]);
     }
@@ -73,6 +73,7 @@ Game.prototype.startGame = function () {
     this.auxBoard1 = new AuxBoard(this.scene, 1, 5, 10);
     this.auxBoard2 = new AuxBoard(this.scene, 2, 5, 10);
     prologBoard = this.board.toString();
+    currTime = turnTime;
 
     if (this.gameMode == 2) {
         state = 'aiVSai';
@@ -249,20 +250,32 @@ Game.prototype.checkEndGame = async function () {
         state = "gameEnded";
 
         if (this.currPlayer1Score > this.currPlayer2Score)
-            this.scene.player1WinRounds++;
-        else if (this.currPlayer1Score < this.currPlayer2Score)
-            this.scene.player2WinRounds++;
-        else {
-            this.scene.player1WinRounds++;
-            this.scene.player2WinRounds++;
-        }
-
-        this.scene.interface.setPlayer1WinRounds(this.scene.player1WinRounds);
-        this.scene.interface.setPlayer2WinRounds(this.scene.player2WinRounds);
+            this.gameEnded(1);
+        else if (this.currPlayer1Score < this.currPlayer2Score) 
+            this.gameEnded(2);
+        else 
+            this.gameEnded(0);
     }
 
-    //this.selectedShip.translate.y -= 0.25;
     this.selectedShip = undefined;
+}
+
+Game.prototype.gameEnded = function(player) {
+    console.log ("Game ended:" + player);
+    if (player == 1)
+        this.scene.player1WinRounds++;
+    else if (player == 2)
+        this.scene.player2WinRounds++;
+    else {
+        this.scene.player1WinRounds++;
+            this.scene.player2WinRounds++;
+    }
+
+    this.scene.moveStack = this.moveStack.slice();
+    this.scene.interface.setPlayer1WinRounds(this.scene.player1WinRounds);
+    this.scene.interface.setPlayer2WinRounds(this.scene.player2WinRounds);
+    this.onGame = false;
+    this.scene.mainMenu = new MainMenu(this.scene);
 }
 
 Game.prototype.setBuilding = function (userBuilding) {
@@ -329,8 +342,6 @@ Game.prototype.setDestinationCellId = function (userBoard, aiBoard) {
             aiSplitRow = aiSplit[row].split('],[');
             for (var column = 0; column < aiSplitRow.length; column++) {
                 if (aiSplitRow[column].indexOf(aiShip) != -1) {
-                    console.log("----------------------------------------------");
-                    console.log(aiSplitRow[column]);
                     this.userBuilding = (aiSplitRow[column].indexOf('trade') != -1) ? 0 : 1;
                     return row * aiSplitRow.length + column + 1;
                     break;
@@ -350,7 +361,7 @@ function sleep(ms) {
 Game.prototype.doMove = function (toCell) {
     var fromCell = this.selectedShip.cell;
     toCell.moveShip(this.selectedShip, true, 0.25);
-    this.moveStack.push({ from: fromCell, to: toCell, shipToMove: this.selectedShip, board: updatedPrologBoard });
+    this.moveStack.push({ from: fromCell, to: toCell, shipToMove: this.selectedShip, board: updatedPrologBoard, userBuilding:this.userBuilding });
     this.nextPlayer();
 }
 
@@ -369,7 +380,7 @@ Game.prototype.moveShipAI = function () {
     }
 
     destinationCell.moveShip(ship, true);
-    this.moveStack.push({ from: originCell, to: destinationCell, shipToMove: ship, board: prologBoard });
+    this.moveStack.push({ from: fromCell, to: toCell, shipToMove: this.selectedShip, board: updatedPrologBoard, userBuilding:this.userBuilding });
     this.nextPlayer();
 }
 
@@ -383,17 +394,20 @@ Game.prototype.nextPlayer = function () {
 }
 
 Game.prototype.update = function (deltaTime) {
+    if (this.onGame) {
+        if (currTime <= 0) {
+            console.error('Player \'' + this.player + '\' lost the game due to time!');
+            if (this.player == 1) this.gameEnded(2);
+            else this.gameEnded(1);
+        } else if (moveTime) {
+            currTime -= deltaTime;
+            this.gameInfo[0] = currTime;
+        }
+
+    }
     if (this.ships)
         for (var s = 0; s < this.ships.length; s++)
             this.ships[s].update(deltaTime);
-
-    if (currTime <= 0) {
-        console.error('Player \'' + this.player + '\' lost the game due to time!');
-    } else if (moveTime) {
-        currTime -= deltaTime;
-        this.gameInfo[0] = currTime;
-    }
-
     this.camAnimation(deltaTime);
     this.auxBoard1.update(deltaTime);
     this.auxBoard2.update(deltaTime);
@@ -487,11 +501,10 @@ Game.prototype.getRow = function (id, rowLength, totalNumIds) {
 }
 
 Game.prototype.display = function () {
-    if (this.onGame) {
+    if (this.onGame || this.onMovie) {
         if (this.lastLvl != this.Level) {
             this.lastLvl = this.Level;
             new MySceneGraph(this.levels[this.Level], this.scene);
-
         }
         this.auxBoard1.display();
         this.auxBoard2.display();
@@ -558,5 +571,26 @@ Game.prototype.camAnimation = function(deltaTime) {
                 else if (this.player == 2) this.animatedCam.setPosition(p2);
             }
         }
+    }
+}
+
+Game.prototype.showMovie = async function(stack) {
+    if (stack && stack.length > 0) {
+        this.scene.mainMenu.close();
+        this.auxBoard1 = new AuxBoard(this.scene, 1, 5, 10);
+        this.auxBoard2 = new AuxBoard(this.scene, 2, 5, 10);
+        prologBoard = this.board.toString();
+        this.onGame = false;
+        this.onMovie = true;
+
+        for (var i = 0; i < stack.length; i++) {
+            var move = stack.shift();
+            this.userBuilding = move.userBuilding;
+            move.to.moveShip(move.shipToMove, true); 
+            console.log(move);
+            await sleep(6000);
+        }
+
+        this.onMovie = false;
     }
 }

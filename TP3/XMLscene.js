@@ -114,7 +114,7 @@ XMLscene.prototype.display = function () {
         this.runGraph(this.graph.rootNode);
         this.updateLightsStatus();
     }
-    if (this.game.onGame && this.game.board != undefined) {
+    if ((this.game.onGame || this.game.onMovie) && this.game.board != undefined) {
         this.game.display();
     }
     if (this.mainMenu.onMainMenu)
@@ -264,7 +264,7 @@ XMLscene.prototype.update = function (curTime) {
                 node.animations[node.activeAnimation].animate(deltaTime);
         }
 
-        if (this.game.onGame)
+        if ((this.game.onGame || this.game.onMovie))
             this.game.update(deltaTime);
 
         //passedTime += deltaTime;

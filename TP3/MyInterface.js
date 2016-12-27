@@ -76,6 +76,17 @@ MyInterface.prototype.processKeyDown = function (event) {
 			console.log("'M' was pressed --> Changing materials...");
 			this.scene.changeMaterials();
 			break;
+		case 70:
+		case 102:
+			console.log("'F' was pressed --> Showing film...");
+			if (this.scene.mainMenu && this.scene.mainMenu.onMainMenu) {
+				if (this.scene.moveStack) {
+					this.scene.game = new Game(this.scene, this.mode-4, this.difficulty-1);~
+					this.scene.game.startGame(1, 1);
+					this.scene.game.showMovie(this.scene.moveStack);
+				}
+			}
+			break;
 		//T/t
 		case 84:
 		case 116:
@@ -134,6 +145,12 @@ MyInterface.prototype.setGameDifficulty = function (difficulty) {
 	}
 };
 
+MyInterface.prototype.updateControllers = function () {
+	for (var i in this.gui.__controllers) {
+		this.gui.__controllers[i].updateDisplay();
+	}
+}
+
 MyInterface.prototype.addGameInfo = function () {
 	this.gameInfoGroup.add(this.scene.game.gameInfo, 0).name('Turn Time').listen();
 	this.gameInfoGroup.add(this.scene.game.gameInfo, 1).name('Player 1 Score').listen();
@@ -166,7 +183,7 @@ MyInterface.prototype.setPlayer1WinRounds = function(winRounds) {
 	}
 };
 
-MyInterface.prototype.setPlayer1WinRounds = function(winRounds) {
+MyInterface.prototype.setPlayer2WinRounds = function(winRounds) {
 	this.scene.game.gameInfo[4] = winRounds;
 
 	for (var i in this.gui.__controllers) {
