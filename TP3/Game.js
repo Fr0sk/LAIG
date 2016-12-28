@@ -70,11 +70,11 @@ Game.prototype.startInterface = function () {
 Game.prototype.startGame = function () {
     this.startInterface();
     this.player = 1;
-    console.error("Stack antes do [] = ");
-    console.info(this.scene.moveStack);
+    //console.error("Stack antes do [] = ");
+    //console.info(this.scene.moveStack);
     this.moveStack = [];
-    console.error("Stack depois do [] = ");
-    console.info(this.scene.moveStack);
+    //console.error("Stack depois do [] = ");
+    //console.info(this.scene.moveStack);
     this.auxBoard1 = new AuxBoard(this.scene, 1, 5, 10);
     this.auxBoard2 = new AuxBoard(this.scene, 2, 5, 10);
     prologBoard = this.board.toString();
@@ -314,14 +314,15 @@ Game.prototype.undo = function () {
         this.moveShipWithUndo(this.moveStack.pop());
         if (playAllShips <= 3)
             playAllShips--;
-        console.error("Este e o antigo bosrd: ");
-        console.info(prologBoard);
+        /*console.error("Este e o antigo bosrd: ");
+        console.info(prologBoard);*/
     }
 }
 
 Game.prototype.moveShipWithUndo = function (move) {
     //console.info(move);
-    move.from.moveShip(move.shipToMove, true);
+    move.from.undoShip(move.shipToMove, true);
+    move.to.removeBuilding(move.shipToMove.owner);
     prologBoard = move.board;
     console.info(move);
 }
@@ -520,7 +521,7 @@ Game.prototype.display = function () {
         this.auxBoard1.display();
         this.auxBoard2.display();
         this.board.display();
-        console.log("Display GAME");
+        //console.log("Display GAME");
     }
 }
 

@@ -116,7 +116,7 @@ XMLscene.prototype.display = function () {
     }
     if ((this.game.onGame || this.game.onMovie) && this.game.board != undefined) {
         this.game.display();
-        console.log("Display XMLscene");
+        //console.log("Display XMLscene");
     }
     if (this.mainMenu.onMainMenu)
         this.mainMenu.display();

@@ -134,6 +134,39 @@ Cell.prototype.moveShip = function(ship, animated, offset, building) {
         this.addBuilding(this.board.game.userBuilding);
 }
 
+Cell.prototype.undoShip = function(ship, animated, offset, building) {
+    if (animated) {
+        var kf0 = new Keyframe();
+        var kf1 = new Keyframe();
+        var kf2 = new Keyframe();
+        var kf3 = new Keyframe();
+
+        var fromT = ship.translate;
+        var toT = this.hexagon.translate;
+        kf0.setTranslation(fromT.x, fromT.y, fromT.z);
+        
+        kf1.setTranslation(fromT.x, fromT.y+0.5, fromT.z);
+
+        kf2.setTranslation(toT.x, fromT.y+0.5, toT.z);
+        kf2.setRotation(0, 0, Math.PI*2);
+
+        kf3.setTranslation(toT.x, fromT.y-(offset?offset:0), toT.z);
+
+        var kfanimation = new KeyframeAnimation(ship, [kf0, kf1, kf2, kf3]);
+        ship.pushAnimation(kfanimation);
+    } 
+    
+    if (ship.cell == this)
+        return;
+    ship.cell.removeShip(ship);
+    this.addShip(ship);
+    
+    /*if (building)
+    this.addBuilding(building);
+    else
+        this.addBuilding(this.board.game.userBuilding);*/
+}
+
 Cell.prototype.removeShip = function(ship) {
     var index = this.ships.indexOf(ship);
     if (index > -1) this.ships.splice(index, 1);
@@ -171,6 +204,39 @@ Cell.prototype.addBuilding = function(code) {
         building.pushAnimation(kfanimation);
         building.used = true;
         this.structure = building;
+    }
+    /*if (code == 0) 
+        this.structure = PrimitiveBuilder.buildTradingStation(this.scene, owner);
+    else if (code == 1) 
+        this.structure = PrimitiveBuilder.buildColony(this.scene, owner);*/
+}
+
+Cell.prototype.removeBuilding = function(owner) {
+    if (owner == 1) var auxBoard = this.scene.game.auxBoard1;
+    else var auxBoard = this.scene.game.auxBoard2;
+    
+    var building = this.structure;
+    if (building) {
+        var kf0 = new Keyframe();
+        var kf1 = new Keyframe();
+        var kf2 = new Keyframe();
+        var kf3 = new Keyframe();
+
+        var fromT = this.hexagon.translate;
+        var toT = building.originalTranslate;
+        kf0.setTranslation(fromT.x, fromT.y, fromT.z);
+        
+        kf1.setTranslation(fromT.x, fromT.y+0.5, fromT.z);
+
+        kf2.setTranslation(toT.x, fromT.y+0.5, toT.z);
+        //kf2.setRotation(0, 0, Math.PI*2);
+
+        kf3.setTranslation(toT.x, fromT.y, toT.z);
+
+        var kfanimation = new KeyframeAnimation(building, [kf0, kf1, kf2, kf3]);
+        building.pushAnimation(kfanimation);
+        building.used = false;
+        this.structure = 'none';
     }
     /*if (code == 0) 
         this.structure = PrimitiveBuilder.buildTradingStation(this.scene, owner);

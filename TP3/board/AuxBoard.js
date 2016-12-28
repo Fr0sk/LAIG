@@ -16,16 +16,29 @@ AuxBoard.prototype.initBuildings = function(trading, colony) {
         this.trading.push(new Node("ts" + this.owner + "-" + i));
         this.trading[i].used = false;
         this.trading[i].setPrimitive(PrimitiveBuilder.buildTradingStation(this.scene, this.owner));
-        if (this.owner == 1) this.trading[i].translate = {x:0.5+6/trading*i, y:-0.3, z:-2}
-        else this.trading[i].translate = {x:3.5+6/trading*i, y:-0.3, z:6.3}
+        if (this.owner == 1) {
+            this.trading[i].translate = {x:0.5+6/trading*i, y:-0.3, z:-2}
+            this.trading[i].originalTranslate = {x:0.5+6/trading*i, y:-0.3, z:-2}
+        }
+        else {
+            this.trading[i].translate = {x:3.5+6/trading*i, y:-0.3, z:6.3}
+            this.trading[i].originalTranslate = {x:3.5+6/trading*i, y:-0.3, z:6.3}
+        }
     }
 
     for(var i = 0; i < colony; i++) {
         this.colony.push(new Node("c" + this.owner + "-" + i));
         this.colony[i].used = false;
         this.colony[i].setPrimitive(PrimitiveBuilder.buildColony(this.scene, this.owner));
-        if (this.owner == 1) this.colony[i].translate = {x:0.2+6/colony*i, y:0, z:-2}
-        else this.colony[i].translate = {x:3.2+6/colony*i, y:0, z:8.7}
+        if (this.owner == 1) {
+            this.colony[i].translate = {x:0.2+6/colony*i, y:0, z:-2}
+            this.colony[i].originalTranslate = {x:0.2+6/colony*i, y:0, z:-2}
+        }
+        else {
+            this.colony[i].translate = {x:3.2+6/colony*i, y:0, z:8.7}
+            this.colony[i].originalTranslate = {x:3.2+6/colony*i, y:0, z:8.7}
+        }
+        
     }
 }
 
